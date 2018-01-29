@@ -1,3 +1,4 @@
+#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -20,31 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-TOP_DIR = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-BUILD_DIR = $(TOP_DIR)/build
-TEST_DIR = $(TOP_DIR)/test
+sudo apt-get update
+sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
 
-CROSS_COMPILE = aarch64-linux-gnu-
-CXX = $(CROSS_COMPILE)g++
-CXX_FLAGS = -c -std=c++14 -O3 -I$(TOP_DIR)/include
-
-PYTHON = python3
-
-all:
-
-test: python_test
-
-test_all: python_test cxx_test
-
-python_test:
-	coverage3 run --source=. -m unittest discover -p 'test_*.py'
-
-coverage: python_test
-	coverage3 report -m
-
-cxx_test:
-	mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXX_FLAGS) -c $(TEST_DIR)/cpp/test_regs.cpp -o $(BUILD_DIR)/test_regs.o
-	$(CXX) $(BUILD_DIR)/test_regs.o -o $(BUILD_DIR)/test
-
-.PHONY: test python_test cxx_test coverage all
+sudo pip3 install colorama coverage

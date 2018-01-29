@@ -115,6 +115,7 @@ class TestShoulderConfig(unittest.TestCase):
             sc = ShoulderConfig()
             sc.help()
             c = Configuration("test_name", "test_val")
+            sc.add_configuration(c)
             sc.help()
             sys.stdout = stdout
             sys.stderr = stderr

@@ -22,7 +22,9 @@
 
 import unittest
 import os
+import sys
 import logging
+import importlib
 
 from shoulder.logger import ShoulderLogger
 from shoulder.logger import logger
@@ -34,6 +36,19 @@ class TestLogger(unittest.TestCase):
         self.assertIsNotNone(ShoulderLogger())
         self.assertIsNotNone(ShoulderLogger(color=True))
         self.assertIsNotNone(ShoulderLogger(level="debug"))
+
+    def test_init_no_colorama(self):
+        try:
+            old_colorama = sys.modules['colorama']
+            sys.modules['colorama'] = None
+            importlib.reload(sys.modules['shoulder.logger'])
+
+            self.assertIsNotNone(logger)
+
+            sys.modules['colorama'] = old_colorama
+            importlib.reload(sys.modules['shoulder.logger'])
+        except KeyError:
+            pass
 
     def test__get_logger(self):
         self.assertIsNotNone(logger._get_logger())

@@ -87,7 +87,7 @@ class ShoulderConfig:
     def help(self):
         string = "Available Configurations:\n\n"
         for key, value in sorted(self._configurations.items()):
-            string += value.help() + "\n\n"
+            value.help()
         return string
 
     def add_configuration(self, configuration):
