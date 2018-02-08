@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+import abc
 
-sudo pip3 install lxml colorama coverage
+class AbstractParser(abc.ABC):
+    @property
+    @abc.abstractmethod
+    def aarch_version_major(self):
+        """ Major version of the ARM architecture specification """
+        """ supported by this parser """
+        pass
+
+    @property
+    @abc.abstractmethod
+    def aarch_version_minor(self):
+        """ Minor version of the ARM architecture specification """
+        """ supported by this parser """
+        pass
+
+    @abc.abstractmethod
+    def parse_registers(self, path):
+        """ Parse the given file to a register object(s) """
+        return
+
+    @abc.abstractmethod
+    def parse_instructions(self, path):
+        """ Parse the given file to an instruction object(s) """
+        return

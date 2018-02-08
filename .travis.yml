@@ -39,7 +39,7 @@ before_script:
         fi
 
 install:
-    - pip install colorama coverage codecov
+    - pip install lxml colorama codecov
 
 script:
     - make test

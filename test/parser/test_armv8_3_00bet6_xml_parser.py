@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+from shoulder.parser.armv8_3_00bet6_xml_parser import ArmV8_3_00bet6_XmlParser
+from test.parser.test_armv8_xml_parser import TestArmV8XmlParser
+from shoulder.logger import logger
+from shoulder.config import config
 
-sudo pip3 install lxml colorama coverage
+class TestArmV8_3_00bet6_XmlParser(TestArmV8XmlParser):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.parser = ArmV8_3_00bet6_XmlParser()
+        logger.set_log_level("silent")
+
+    @classmethod
+    def tearDownClass(cls):
+        logger.set_log_level(config.log_level)
+
+    def test_parser_init(self):
+        self.assertIsNotNone(self.parser)
+
+    def test_parser_properties(self):
+        self.assertEqual(self.parser.aarch_version_major, 8)
+        self.assertEqual(self.parser.aarch_version_minor, 3)
