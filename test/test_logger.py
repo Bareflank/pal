@@ -28,8 +28,17 @@ import importlib
 
 from shoulder.logger import ShoulderLogger
 from shoulder.logger import logger
+from shoulder.config import config
 
 class TestLogger(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        logger.set_log_level("silent")
+
+    @classmethod
+    def tearDownClass(cls):
+        logger.set_log_level(config.log_level)
 
     def test_init_logger(self):
         self.assertIsNotNone(logger)
@@ -80,17 +89,17 @@ class TestLogger(unittest.TestCase):
         self.assertIsNotNone(logger._log_level("info"))
         self.assertIsNotNone(logger._log_level("warn"))
         self.assertIsNotNone(logger._log_level("error"))
+        self.assertIsNotNone(logger._log_level("silent"))
         self.assertRaises(ValueError, logger.set_log_level, "invalid_level")
         self.assertRaises(ValueError, logger.set_log_level, None)
         self.assertRaises(ValueError, logger.set_log_level, 42)
         self.assertRaises(ValueError, logger.set_log_level, True)
 
     def test_set_log_level(self):
-        logger.set_log_level("debug")
+        logger.set_log_level("silent")
         self.assertRaises(ValueError, logger.set_log_level, "invalid_level")
 
     def test_debug(self):
-        logger.set_log_level("debug")
         logger.debug("test debug message")
 
     def test_info(self):
