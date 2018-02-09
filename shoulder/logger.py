@@ -35,7 +35,8 @@ class ShoulderLogger:
             'debug': logging.DEBUG,
             'info': logging.INFO,
             'warn': logging.WARNING,
-            'error': logging.ERROR
+            'error': logging.ERROR,
+            'silent': logging.CRITICAL
         }
         self.logger = self._get_logger()
         self.set_log_level(level)

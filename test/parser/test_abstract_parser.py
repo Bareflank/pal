@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+import unittest
 
-sudo pip3 install lxml colorama coverage
+from shoulder.parser.abstract_parser import AbstractParser
+
+class TestAbstractParser(unittest.TestCase):
+
+    def test_parser_properties(self):
+        a = AbstractParser
+        a.__abstractmethods__ = frozenset()
+        abstract = a()
+        val = abstract.aarch_version_major
+        val = abstract.aarch_version_minor
+
+    def test_parser_interface(self):
+        AbstractParser.parse_registers(AbstractParser, "")
+        AbstractParser.parse_instructions(AbstractParser, "")

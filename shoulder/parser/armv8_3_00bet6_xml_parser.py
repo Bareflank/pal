@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
 
-sudo pip3 install lxml colorama coverage
+class ArmV8_3_00bet6_XmlParser(ArmV8XmlParser):
+    @property
+    def aarch_version_minor(self):
+        return 3

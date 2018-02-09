@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+from collections import namedtuple
 
-sudo pip3 install lxml colorama coverage
+# Tuple for representing bit positions of a named bit field
+Field = namedtuple('Field', 'name msb lsb')
+
+class Fieldset(object):
+    """ Models a collection of named fields that apply to a register either """
+    """ always or under a particular condition """
+    def __init__(self, size):
+        self.name = None
+        self.size = int(size)
+        self.condition = None
+        self.fields = []
+
+    def add_field(self, name, msb, lsb):
+        self.fields.append(Field(str(name), int(msb), int(lsb)))
+
+    def is_valid(self):
+        for f in self.fields:
+            if f.msb < f.lsb: return False
+            if f.lsb < 0: return False
+            if f.msb > self.size: return False
+        return True

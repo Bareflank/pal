@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+class ShoulderParserException(Exception):
+        """ An error occurred while parsing a Shoulder input file """
 
-sudo pip3 install lxml colorama coverage
+class ShoulderGeneratorException(Exception):
+        """ An error occurred while generating a Shoulder output file """

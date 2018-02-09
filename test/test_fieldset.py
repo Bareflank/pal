@@ -1,4 +1,3 @@
-#!/bin/bash -e
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,8 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-sudo apt-get update
-sudo apt-get install -y git python3 python3-pip gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu qemu-system-arm qemu-efi
+import unittest
 
-sudo pip3 install lxml colorama coverage
+from shoulder.fieldset import *
+from shoulder.logger import logger
+
+class TestRegister(unittest.TestCase):
+
+    def test_register_init(self):
+        self.assertIsNotNone(Fieldset(1))
+        self.assertIsNotNone(Fieldset("1"))
+        self.assertRaises(ValueError, Fieldset, "invalid")
+
+    def test_register_add_field(self):
+        fs = Fieldset(32)
+        fs.add_field("valid", 31, 0)
+        self.assertRaises(ValueError, fs.add_field, "invalid1", "string", 0)
+        self.assertRaises(ValueError, fs.add_field, "invalid1", 0, "string")
+        self.assertRaises(ValueError, fs.add_field, "invalid1", "string", "string")
