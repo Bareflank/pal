@@ -52,8 +52,23 @@ class Fieldset(object):
         self.fields.append(Field(str(name), int(msb), int(lsb)))
 
     def is_valid(self):
-        for f in self.fields:
-            if f.msb < f.lsb: return False
-            if f.lsb < 0: return False
-            if f.msb > self.size: return False
+        expected_total_set = set(range(0, self.size))
+        total_set = set()
+
+        for f_idx, f in enumerate(self.fields):
+            # Check individual field ranges
+            if not (0 <= f.lsb <= f.msb < self.size): return False
+
+            # Check for intersections with other fields in this fieldset
+            f_set = set(range(f.lsb, f.msb + 1))
+            total_set = total_set.union(f_set)
+            for x_idx, x in enumerate(self.fields):
+                if f_idx == x_idx: continue
+                x_set = set(range(x.lsb, x.msb + 1))
+                intersect = f_set.intersection(x_set)
+                if len(intersect) > 0: return False
+
+
+        # Check all bits accounted for in this fieldset
+        if total_set != expected_total_set: return False
         return True
