@@ -29,10 +29,24 @@ class Fieldset(object):
     """ Models a collection of named fields that apply to a register either """
     """ always or under a particular condition """
     def __init__(self, size):
-        self.name = None
         self.size = int(size)
         self.condition = None
         self.fields = []
+
+    def __str__(self):
+        if self.condition is not None:
+            msg = "Fieldset when {condition}: ".format(condition=self.condition)
+        else:
+            msg = "Fieldset: "
+
+        for field in self.fields:
+            msg += "{name}=({msb}:{lsb}) ".format(
+                name = field.name,
+                msb = field.msb,
+                lsb = field.lsb
+            )
+
+        return msg
 
     def add_field(self, name, msb, lsb):
         self.fields.append(Field(str(name), int(msb), int(lsb)))

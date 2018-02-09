@@ -93,7 +93,7 @@ class ArmV8XmlParser(AbstractParser):
         if len(purpose_text_nodes) == 1:
             purpose_node = reg_node.find("./reg_purpose/purpose_text/para")
             if purpose_node is not None:
-                ET.strip_tags(purpose_node, "arm-defined-word")
+                ET.strip_tags(purpose_node, "arm-defined-word", "register_link")
                 reg.purpose = purpose_node.text
         elif len(purpose_text_nodes) > 1:
             text = "See the ARMv" + str(self.aarch_version_major)
@@ -127,6 +127,9 @@ class ArmV8XmlParser(AbstractParser):
             fieldset_condition_node = fields_node.find("./fields_condition")
             field_node_list = fields_node.findall("./field")
             dbg_msg = "fieldset: "
+
+            if fieldset_condition_node is not None:
+                fieldset.condition = fieldset_condition_node.text
 
             for field_node in field_node_list:
                 name_node = field_node.find("./field_name")

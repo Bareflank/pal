@@ -31,23 +31,12 @@ class Register(object):
         self.fieldsets = []
 
     def __str__(self):
-        msg = str(self.name) + " (" + str(self.long_name) + ")"
-        if self.purpose:
-            msg += ": " + str(self.purpose)
-        msg += "\nSize: " + str(self.size)
-        msg += ", System Register: " + str(self.is_sysreg)
+        msg = "{name} ({long_name})\nPurpose: {purpose}\nSize: {size}"
+        msg += "\nSystem Register: {is_sysreg}"
+        msg = msg.format(**self.__dict__)
 
-        if len(self.fieldsets) > 1:
-            for fieldset in self.fieldsets:
-                msg += "\nFields when " + str(fieldset.condition) + ": "
-                for field in fieldset.fields:
-                    msg += field.name
-                    msg += " (" + str(field.msb) + ":" + str(field.lsb) + ") "
-        elif len(self.fieldsets) == 1:
-            msg += "\nFields: "
-            for field in self.fieldsets[0].fields:
-                msg += field.name
-                msg += " (" + str(field.msb) + ":" + str(field.lsb) + ") "
+        for fieldset in self.fieldsets:
+            msg += "\n" + str(fieldset)
 
         return msg
 
