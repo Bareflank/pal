@@ -35,6 +35,7 @@ SOFTWARE.
       </reg_purpose>
       <reg_fieldsets>
         <fields length="64">
+          <fields_condition>the condition under which this fieldset is used</fields_condition>
           <field id="0_63_63">
             <field_name>msb</field_name>
             <field_msb>63</field_msb>
@@ -61,8 +62,9 @@ SOFTWARE.
           </field>
         </fields>
         <fields length="64">
+          <fields_condition>the condition under which this other fieldset is used</fields_condition>
           <field id="0_63_63">
-            <field_name>top_half</field_name>
+            <field_name>upper_half</field_name>
             <field_msb>63</field_msb>
             <field_lsb>22</field_lsb>
             <field_description>

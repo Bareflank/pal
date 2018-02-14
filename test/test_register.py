@@ -49,26 +49,25 @@ class TestRegister(unittest.TestCase):
 
     def test_register_is_valid(self):
         r = Register()
-        self.assertEqual(r.is_valid(), False)
+        self.assertFalse(r.is_valid())
 
         r.name = "name"
-        self.assertEqual(r.is_valid(), False)
+        self.assertFalse(r.is_valid())
 
         r.long_name = "long name"
-        self.assertEqual(r.is_valid(), False)
+        self.assertFalse(r.is_valid())
 
         r.purpose = "purpose"
-        self.assertEqual(r.is_valid(), False)
+        self.assertFalse(r.is_valid())
 
         r.size = 32
-        self.assertEqual(r.is_valid(), True)
+        self.assertTrue(r.is_valid())
 
         fs = Fieldset(1)
         fs.add_field("1", 0, 0)
         r.add_fieldset(fs)
-        self.assertEqual(r.is_valid(), True)
+        self.assertTrue(r.is_valid())
 
-        fs = Fieldset(1)
-        fs.add_field("1", 2, 0)
+        fs.add_field("1", 0, 0)
         r.add_fieldset(fs)
-        self.assertEqual(r.is_valid(), False)
+        self.assertFalse(r.is_valid())

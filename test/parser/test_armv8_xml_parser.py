@@ -125,12 +125,12 @@ class TestArmV8XmlParser(unittest.TestCase):
         self.assertEqual(r.size, TEST_XML_REG64.size)
 
     def test__set_register_fields(self):
+        # Single fieldset
         r = Register()
         r.size = 64
         etree = ET.parse(TEST_XML_REG64_PATH)
         reg_node = etree.getroot().find("./registers/register")
         self.parser._set_register_fields(r, reg_node)
-
         self.assertEqual(len(r.fieldsets), len(TEST_XML_REG64.fieldsets))
         for fs_idx, fs in enumerate(r.fieldsets):
             self.assertEqual(len(fs.fields), len(TEST_XML_REG64.fieldsets[fs_idx].fields))
@@ -138,6 +138,21 @@ class TestArmV8XmlParser(unittest.TestCase):
                 self.assertEqual(f.name, TEST_XML_REG64.fieldsets[fs_idx].fields[f_idx].name)
                 self.assertEqual(f.msb, TEST_XML_REG64.fieldsets[fs_idx].fields[f_idx].msb)
                 self.assertEqual(f.lsb, TEST_XML_REG64.fieldsets[fs_idx].fields[f_idx].lsb)
+
+        # Multiple fieldsets
+        r = Register()
+        r.size = 64
+        etree = ET.parse(TEST_XML_MULTIPLE_FIELDSETS_PATH)
+        reg_node = etree.getroot().find("./registers/register")
+        self.parser._set_register_fields(r, reg_node)
+        self.assertEqual(len(r.fieldsets), len(TEST_XML_MULTIPLE_FIELDSETS.fieldsets))
+        for fs_idx, fs in enumerate(r.fieldsets):
+            self.assertEqual(len(fs.fields), len(TEST_XML_MULTIPLE_FIELDSETS.fieldsets[fs_idx].fields))
+            for f_idx, f in enumerate(fs.fields):
+                self.assertEqual(f.name, TEST_XML_MULTIPLE_FIELDSETS.fieldsets[fs_idx].fields[f_idx].name)
+                self.assertEqual(f.msb, TEST_XML_MULTIPLE_FIELDSETS.fieldsets[fs_idx].fields[f_idx].msb)
+                self.assertEqual(f.lsb, TEST_XML_MULTIPLE_FIELDSETS.fieldsets[fs_idx].fields[f_idx].lsb)
+
 
         etree = ET.parse(TEST_XML_INVALID_FIELD_PATH)
         reg_node = etree.getroot().find("./registers/register")

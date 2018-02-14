@@ -25,16 +25,68 @@ import unittest
 from shoulder.fieldset import *
 from shoulder.logger import logger
 
-class TestRegister(unittest.TestCase):
+class TestFieldset(unittest.TestCase):
 
-    def test_register_init(self):
+    def test_fieldset_init(self):
         self.assertIsNotNone(Fieldset(1))
         self.assertIsNotNone(Fieldset("1"))
         self.assertRaises(ValueError, Fieldset, "invalid")
 
-    def test_register_add_field(self):
+    def test_fieldset__str(self):
+        fs = Fieldset(32)
+        fs.add_field("field", 31, 0)
+        str(fs)
+        fs.condition = "condition is true"
+        str(fs)
+
+    def test_fieldset_add_field(self):
         fs = Fieldset(32)
         fs.add_field("valid", 31, 0)
         self.assertRaises(ValueError, fs.add_field, "invalid1", "string", 0)
         self.assertRaises(ValueError, fs.add_field, "invalid1", 0, "string")
         self.assertRaises(ValueError, fs.add_field, "invalid1", "string", "string")
+
+    def test_fieldset_is_valid(self):
+        fs = Fieldset(32)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 0)
+        self.assertTrue(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 0)
+        fs.add_field("field2", 32, 32)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 0)
+        fs.add_field("field2", -1, -1)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("bit1", 31, 31)
+        fs.add_field("bit1_duplicate", 31, 31)
+        fs.add_field("field2", 30, 0)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 20)
+        fs.add_field("field1_duplicate", 31, 20)
+        fs.add_field("field1", 19, 0)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 20)
+        fs.add_field("field1_overlap", 25, 0)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 20)
+        fs.add_field("field1_boundry_overlap", 20, 0)
+        self.assertFalse(fs.is_valid())
+
+        fs = Fieldset(32)
+        fs.add_field("field1", 31, 20)
+        fs.add_field("field1_adjacent", 19, 0)
+        self.assertTrue(fs.is_valid())
