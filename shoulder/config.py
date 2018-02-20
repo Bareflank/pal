@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
+
 class Configuration():
     """ A single user-definable configuration variable """
     def __init__(self, name, default_value):
@@ -162,4 +164,58 @@ config.add_configuration(c)
 
 c = Configuration("is_bit_cleared_function", "is_disabled")
 c.description = "Name of generated functions for checking if a bit is set to 0"
+config.add_configuration(c)
+
+# -----------------------------------------------------------------------------
+# C++ options
+# -----------------------------------------------------------------------------
+
+c = Configuration("cxx_namespace", "shoulder::aarch64")
+c.description = "Top namespace to place generated c++ functions into"
+config.add_configuration(c)
+
+# -----------------------------------------------------------------------------
+# Paths
+# -----------------------------------------------------------------------------
+
+_package_dir = os.path.dirname(os.path.realpath(__file__))
+c = Configuration("shoulder_package_dir", str(_package_dir))
+c.description = "Path the shoulder python package directory"
+config.add_configuration(c)
+
+_project_dir = os.path.abspath(os.path.join(_package_dir, ".."))
+c = Configuration("shoulder_project_dir", str(_project_dir))
+c.description = "Path the top directory of the shoulder project"
+config.add_configuration(c)
+
+_scripts_dir = os.path.join(_project_dir, "scripts")
+c = Configuration("shoulder_scripts_dir", _scripts_dir)
+c.description = "Path the shoulder project scripts directory"
+config.add_configuration(c)
+
+_include_dir = os.path.join(_project_dir, "include")
+c = Configuration("shoulder_include_dir", _include_dir)
+c.description = "Path the shoulder header include directory"
+config.add_configuration(c)
+
+_test_dir = os.path.join(_project_dir, "test")
+c = Configuration("shoulder_test_dir", _test_dir)
+c.description = "Path the shoulder test directory"
+config.add_configuration(c)
+
+_output_dir = os.path.join(_project_dir, "output")
+c = Configuration("shoulder_output_dir", _output_dir)
+c.description = "Path the shoulder output directory"
+config.add_configuration(c)
+
+c = Configuration("license_template_path", os.path.join(_scripts_dir, "license.txt"))
+c.description = "Path to license template for generated files"
+config.add_configuration(c)
+
+c = Configuration("regs_h_name", "regs.h")
+c.description = "Name of the c/c++ register access backend include file"
+config.add_configuration(c)
+
+c = Configuration("regs_h_path", os.path.join(_include_dir, config.regs_h_name))
+c.description = "Path to regs.h include file"
 config.add_configuration(c)
