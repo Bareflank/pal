@@ -89,6 +89,15 @@ TEST_XML_NAME_ONLY.size = None
 TEST_XML_NAME_ONLY.is_sysreg = True
 TEST_XML_NAME_ONLY_FIELDSET = []
 
+TEST_XML_NO_FIELDS_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_register_no_fields.xml")
+TEST_XML_NO_FIELDS = Register()
+TEST_XML_NO_FIELDS.name = "MOCK_REGISTER_WITHOUT_FIELDS"
+TEST_XML_NO_FIELDS.long_name = "A mock 64-bit register with no fields"
+TEST_XML_NO_FIELDS.purpose = "Register does not belong to the aarch64 architecture"
+TEST_XML_NO_FIELDS.size = 64
+TEST_XML_NO_FIELDS.is_sysreg = True
+TEST_XML_INVALID_FIELD_FIELDSET = []
+
 TEST_XML_INVALID_FIELD_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_register_invalid_field.xml")
 TEST_XML_INVALID_FIELD = Register()
 TEST_XML_INVALID_FIELD.name = "MOCK_REGISTER_INVALID_FIELD"
@@ -103,3 +112,11 @@ TEST_XML_MULTIPLE_PURPOSE_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_register_m
 TEST_XML_NO_ATTRIBUTES_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_register_no_attributes.xml")
 
 TEST_XML_EMPTY_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_register_empty.xml")
+
+# -----------------------------------------------------------------------------
+# Test Generated Files
+# -----------------------------------------------------------------------------
+
+TEST_GENERATED_REG64_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_generated_files/cxx_mock_register_64.h")
+TEST_GENERATED_REG_MULTIPLE_FIELDSETS_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_generated_files/cxx_mock_register_multiple_fieldsets.h")
+TEST_GENERATED_REG_NO_FIELDS_PATH = os.path.join(TEST_SUPPORT_DIR, "mock_generated_files/cxx_mock_register_no_fields.h")

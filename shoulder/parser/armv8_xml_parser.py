@@ -49,7 +49,7 @@ class ArmV8XmlParser(AbstractParser):
             msg = type(self).__name__ + ": processing " + str(reg_count)
             msg += " register " if reg_count == 1 else " registers "
             msg += "from " + str(path)
-            logger.info(msg)
+            logger.debug(msg)
 
             for reg_node in registers_node:
                 logger.debug("Register Attributes:")
