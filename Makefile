@@ -29,7 +29,7 @@ CXX = $(CROSS_COMPILE)g++
 CXX_FLAGS = -c -std=c++14 -O3 -I$(TOP_DIR)/include
 
 PYTHON = python3
-PYTHON_COVERAGE_FLAGS = --source=. --omit=*abstract*,*test* 
+PYTHON_COVERAGE_FLAGS = --source=. --omit=*abstract*,*test*
 
 all:
 

@@ -28,15 +28,18 @@ python:
     - 3.5
     - 3.6
 
-before_script:
-    # Check for trailing whitespace
-    - |
-        if [[ -n $(git diff --check HEAD^) ]]; then
-        echo "You must remove whitespace before submitting a pull request"
-        echo ""
-        git diff --check HEAD^
-        exit -1
-        fi
+jobs:
+# before_script:
+    include:
+        script:
+            # Check for trailing whitespace
+            - |
+                if [[ -n $(git diff --check HEAD^) ]]; then
+                echo "You must remove whitespace before submitting a pull request"
+                echo ""
+                git diff --check HEAD^
+                exit -1
+                fi
 
 install:
     - pip install lxml colorama codecov

@@ -347,7 +347,7 @@ class CxxHeaderGenerator(AbstractGenerator):
         )
         outfile.write(accessor)
 
-        # Set the field's value in an integer value 
+        # Set the field's value in an integer value
         accessor = "{indent}inline {size_t} {func}({size_t} {arg1}, {size_t} {arg2}) noexcept "
         accessor += "{{ SET_BITS_BY_VALUE_FUNC({arg1}, {arg2}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
