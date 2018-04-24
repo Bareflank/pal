@@ -29,6 +29,7 @@ CXX = $(CROSS_COMPILE)g++
 CXX_FLAGS = -c -std=c++14 -O3 -I$(TOP_DIR)/include
 
 PYTHON = python3
+PYTHON_COVERAGE_FLAGS = --source=. --omit=*abstract*,*test*
 
 all:
 
@@ -37,7 +38,7 @@ test: python_test
 test_all: python_test cxx_test
 
 python_test:
-	coverage3 run --source=. -m unittest discover -p 'test_*.py'
+	coverage3 run $(PYTHON_COVERAGE_FLAGS) -m unittest discover -p 'test_*.py'
 
 coverage: python_test
 	coverage3 report -m

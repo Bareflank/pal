@@ -19,33 +19,3 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
-dist: trusty
-sudo: false
-language: python
-python:
-    - 3.4
-    - 3.5
-    - 3.6
-
-jobs:
-# before_script:
-    include:
-        script:
-            # Check for trailing whitespace
-            - |
-                if [[ -n $(git diff --check HEAD^) ]]; then
-                echo "You must remove whitespace before submitting a pull request"
-                echo ""
-                git diff --check HEAD^
-                exit -1
-                fi
-
-install:
-    - pip install lxml colorama codecov
-
-script:
-    - make test
-
-after_success:
-    - codecov
