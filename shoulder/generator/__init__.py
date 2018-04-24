@@ -19,20 +19,3 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
-import unittest
-
-from shoulder.parser.abstract_parser import AbstractParser
-
-class TestAbstractParser(unittest.TestCase):
-
-    def test_parser_properties(self):
-        a = AbstractParser
-        a.__abstractmethods__ = frozenset()
-        abstract = a()
-        val = abstract.aarch_version_major
-        val = abstract.aarch_version_minor
-
-    def test_parser_interface(self):
-        AbstractParser.parse_registers(AbstractParser, "")
-        AbstractParser.parse_instructions(AbstractParser, "")

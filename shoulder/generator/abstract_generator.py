@@ -20,31 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-dist: trusty
-sudo: false
-language: python
-python:
-    - 3.4
-    - 3.5
-    - 3.6
+import abc
 
-jobs:
-    include:
-        - stage: "trailing whitespace check"
-        script:
-            - |
-                if [[ -n $(git diff --check HEAD^) ]]; then
-                echo "You must remove whitespace before submitting a pull request"
-                echo ""
-                git diff --check HEAD^
-                exit -1
-                fi
-
-install:
-    - pip install lxml colorama codecov
-
-script:
-    - make test
-
-after_success:
-    - codecov
+class AbstractGenerator(abc.ABC):
+    @abc.abstractmethod
+    def generate(self, objects, outpath):
+        """ Generate target output using the given register and/or """
+        """ instruction objects to the given output path"""
+        return
