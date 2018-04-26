@@ -91,7 +91,7 @@ class CxxHeaderGenerator(AbstractGenerator):
     def _generate_objects(self, objects, outfile):
         for obj in objects:
             if(isinstance(obj, Register)):
-                logger.debug("Writing register:\n" + str(obj))
+                logger.debug("Writing register: " + str(obj.name))
                 self._generate_register(obj, outfile)
             else:
                 msg = "Cannot generate object of unsupported {t} type".format(

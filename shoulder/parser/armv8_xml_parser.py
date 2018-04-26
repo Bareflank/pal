@@ -117,7 +117,7 @@ class ArmV8XmlParser(AbstractParser):
             logger.debug("size = " + str(reg.size))
         else:
             reg.size = None
-            logger.warn(str(reg.name) + " size attribute not found")
+            logger.debug(str(reg.name) + " size attribute not found")
 
     def _set_register_fields(self, reg, reg_node):
         fields_node_list = reg_node.findall("./reg_fieldsets/fields")
