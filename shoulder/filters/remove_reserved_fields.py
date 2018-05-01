@@ -39,7 +39,7 @@ class RemoveReservedFields(AbstractFilter):
             fs_len = len(fs.fields)
             fs.fields = [field for field in fs.fields if not "0" == field.name]
             fs.fields = [field for field in fs.fields if not "1" == field.name]
-            fs.fields = [field for field in fs.fields if not "RES" in field.name]
+            fs.fields = [field for field in fs.fields if not "res" in field.name.lower()]
             fs.fields = [field for field in fs.fields if not "implementation defined" == field.name.lower()]
 
             count = fs_len - len(fs.fields)

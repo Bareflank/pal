@@ -48,9 +48,6 @@ class TestFieldset(unittest.TestCase):
 
     def test_fieldset_is_valid(self):
         fs = Fieldset(32)
-        self.assertFalse(fs.is_valid())
-
-        fs = Fieldset(32)
         fs.add_field("field1", 31, 0)
         self.assertTrue(fs.is_valid())
 

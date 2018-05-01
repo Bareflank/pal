@@ -19,31 +19,25 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
 import unittest
-import os
-import sys
 
-from shoulder.generator import *
-from shoulder.register import Register
+from shoulder.filters import *
+from shoulder.register import *
+from shoulder.fieldset import *
 from shoulder.logger import logger
-from test.support.constants import *
 
-class TestGeneratorInit(unittest.TestCase):
+class TestFiltersInit(unittest.TestCase):
 
-    def test_generate_all(self):
-        test_outfile = os.path.abspath(os.path.join(TEST_TOP_DIR, "out/generate_all_output.txt"))
-        all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
-        generator_count = len(all_generators)
+    def test_apply_filters(self):
+        all_filters = [cls for cls in abstract_filter.AbstractFilter.__subclasses__()]
+        filters_count = len(all_filters)
 
-        regs = [Register()]
+        regs = self._generate_test_register_set()
+        regs = apply_filters(regs)
 
-        generate_all(regs, test_outfile)
-
-        # TODO: parse the generator output to verify that all generators have
-        # been applied and succeeded
+        # TODO: parse the logger output to verify that all filters have been applied
         # applied_count = parse_the_logger_output()
-        # self.assertTrue(generator_count == applied_count)
+        # self.assertTrue(filters_count == applied_count)
 
     def _generate_test_register_set(self):
         regs = []

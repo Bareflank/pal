@@ -63,7 +63,7 @@ class Fieldset(object):
 
         for f_idx, f in enumerate(self.fields):
             # Check individual field ranges
-            if not (0 <= f.lsb <= f.msb):
+            if not (0 <= f.lsb <= f.msb < self.size):
                 logger.debug(
                     "Invalid field position for \"{name}\" ({msb}:{lsb})".format(
                         name = f.name,

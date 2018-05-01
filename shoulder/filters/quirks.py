@@ -51,6 +51,8 @@ class Quirks(AbstractFilter):
                     if f.name == "NSE":
                         del fs.fields[f_idx]
                         logger.debug("Removed overlapping field \"NSE\" from register EDECCR")
+
+                for f_idx, f in enumerate(fs.fields):
                     if f.name == "SE":
                         del fs.fields[f_idx]
                         logger.debug("Removed overlapping field \"SE\" from register EDECCR")
