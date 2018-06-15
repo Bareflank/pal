@@ -26,10 +26,12 @@ from shoulder.logger import logger
 
 class Field(object):
     """ Models a single named field of a fieldset """
-    def __init__(self, name, msb, lsb):
+    def __init__(self, name, msb, lsb, long_name=None, access="rw"):
         self.name = name
+        self.long_name = long_name
         self.msb = msb
         self.lsb = lsb
+        self.access = access
 
 class Fieldset(object):
     """ Models a collection of named fields that apply to a register either """
@@ -54,8 +56,8 @@ class Fieldset(object):
 
         return msg
 
-    def add_field(self, name, msb, lsb):
-        self.fields.append(Field(str(name), int(msb), int(lsb)))
+    def add_field(self, name, msb, lsb, long_name=None, access="rw"):
+        self.fields.append(Field(str(name), int(msb), int(lsb), long_name=long_name, access=access))
 
     def is_valid(self):
         expected_total_set = set(range(0, self.size))

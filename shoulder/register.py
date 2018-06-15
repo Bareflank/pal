@@ -27,11 +27,12 @@ class Register(object):
         self.long_name = None
         self.purpose = None
         self.size = None
+        self.offset = None
         self.is_sysreg = True
         self.fieldsets = []
 
     def __str__(self):
-        msg = "{name} ({long_name})\nPurpose: {purpose}\nSize: {size}"
+        msg = "{name} ({long_name})\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
         msg += "\nSystem Register: {is_sysreg}"
         msg = msg.format(**self.__dict__)
 
