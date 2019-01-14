@@ -148,7 +148,7 @@ class IntelGenerator(AbstractGenerator):
 
     def _generate_register_dump_function(self, reg, outfile):
         # Function declaration
-        dump_func = "\n{indent}inline void dump(int level, value_type &{arg}, std::string *msg = nullptr)\n".format(
+        dump_func = "\n{indent}inline void dump(int level, const value_type &{arg}, std::string *msg = nullptr)\n".format(
             indent = self._indent_string(),
             arg = reg.name.lower()
         )
@@ -158,20 +158,22 @@ class IntelGenerator(AbstractGenerator):
 
         # Whole-register dump
         for i in range(0, int(reg.size / 64)):
-            dump_func += "{indent}bfdebug_nhex(level, \"{name}{position}\", {arg}.data[{index}], msg);\n".format(
+            #  dump_func += "{indent}bfdebug_nhex(level, \"{name}{position}\", {arg}.data[{index}], msg);\n".format(
+            dump_func += "{indent}bfdebug_nhex(level, \"{name}{position}\", {arg}{arg_index}, msg);\n".format(
                 indent = self._indent_string(),
                 arg = reg.name.lower(),
                 name = reg.name.lower(),
                 position = "[" + str(63 + (i * 64)) + ":" + str(i * 64) + "]" if reg.size > 64 else "",
-                index = str(i)
+                arg_index = ".data[" + str(i) + "]" if reg.size > 64 else ""
             )
 
         # Dump each field individually
         dump_func += "\n"
         for field in reg.fieldsets[0].fields:
-            dump_func += "{indent}{fieldname}::dump(level, context_entry, msg);\n".format(
+            dump_func += "{indent}{fieldname}::dump(level, {arg}, msg);\n".format(
                 indent = self._indent_string(),
-                fieldname = field.name.lower()
+                fieldname = field.name.lower(),
+                arg = reg.name.lower()
             )
 
         self._decrease_indent()
@@ -208,8 +210,6 @@ class IntelGenerator(AbstractGenerator):
                 self._generate_bitfield_accessors(reg, field, outfile)
             else:
                 self._generate_field_accessors(reg, field, outfile)
-
-            self._generate_field_dump_function(reg, field, outfile)
 
             self._decrease_indent()
 
@@ -262,7 +262,7 @@ class IntelGenerator(AbstractGenerator):
 
     def _generate_bitfield_accessors(self, reg, field, outfile):
         # Check bit enabled from an integer value
-        accessor = "{indent}inline auto {func}({argtype} &{arg}) noexcept\n"
+        accessor = "{indent}inline auto {func}(const {argtype} &{arg}) noexcept\n"
         accessor += "{indent}{{ return is_bit_set({arg}{index}, from); }}\n\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -274,7 +274,7 @@ class IntelGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Check bit disabled from an integer value
-        accessor = "{indent}inline auto {func}({argtype} &{arg}) noexcept\n"
+        accessor = "{indent}inline auto {func}(const {argtype} &{arg}) noexcept\n"
         accessor += "{indent}{{ return !is_bit_set({arg}{index}, from); }}\n\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -309,9 +309,20 @@ class IntelGenerator(AbstractGenerator):
         )
         outfile.write(accessor)
 
+        # Dump function
+        accessor = "{indent}inline void dump(int level, const value_type &{arg}, std::string *msg = nullptr)\n".format(
+            indent = self._indent_string(),
+            arg = reg.name.lower()
+        )
+        accessor += "{indent}{{ bfdebug_subbool(level, name, is_enabled({arg}), msg); }}\n".format(
+            indent = self._indent_string(),
+            arg = reg.name.lower()
+        )
+        outfile.write(accessor)
+
     def _generate_field_accessors(self, reg, field, outfile):
         # Get the field value from an integer value
-        accessor = "{indent}inline auto {func}({argtype} &{arg}) noexcept\n"
+        accessor = "{indent}inline auto {func}(const {argtype} &{arg}) noexcept\n"
         accessor += "{indent}{{ return get_bits({arg}{index}, mask) >> from; }}\n\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -329,24 +340,22 @@ class IntelGenerator(AbstractGenerator):
             indent = self._indent_string(),
             func = config.register_field_write_function,
             argtype = "value_type",
-            valtype = "value_type",
+            valtype = "uint64_t",
             arg = reg.name.lower(),
             index = ".data[index]" if reg.size > 64 else ""
         )
         outfile.write(accessor)
 
-    def _generate_field_dump_function(self, reg, field, outfile):
-        dump_func = "{indent}inline void dump(int level, value_type &{arg}, std::string *msg = nullptr)\n".format(
+        # Dump function
+        accessor = "{indent}inline void dump(int level, const value_type &{arg}, std::string *msg = nullptr)\n".format(
             indent = self._indent_string(),
             arg = reg.name.lower()
         )
-
-        dump_func += "{indent}{{ bfdebug_subnhex(level, name, get({arg}), msg); }}\n".format(
+        accessor += "{indent}{{ bfdebug_subnhex(level, name, get({arg}), msg); }}\n".format(
             indent = self._indent_string(),
             arg = reg.name.lower()
         )
-
-        outfile.write(dump_func)
+        outfile.write(accessor)
 
     def _increase_indent(self):
         self._current_indent_level += 1

@@ -26,21 +26,20 @@ from shoulder.logger import logger
 from shoulder.config import config
 from shoulder.exception import *
 
-class IommuGenerator(AbstractGenerator):
+class IommuGenerator2(AbstractGenerator):
     def __init__(self):
-        self.ifdef_name = "IOMMU_INTEL_X64_H"
+        self.ifdef_name = "IOMMU_2_INTEL_X64_H"
         self._current_indent_level = 0
 
     def generate(self, objects, outpath):
         try:
-            logger.info("Generating IOMMU Intrinsics to: " + str(outpath))
+            logger.info("Generating IOMMU 2 Intrinsics to: " + str(outpath))
             with open(outpath, "w") as outfile:
                 self._generate_license(outfile)
                 self._generate_include_guard_open(outfile)
                 self._generate_cxx_includes(outfile)
                 self._generate_namespace_open(outfile)
 
-                self._generate_global_namespace_content(objects, outfile)
                 self._generate_objects(objects, outfile)
 
                 self._generate_namespace_close(outfile)
@@ -66,6 +65,7 @@ class IommuGenerator(AbstractGenerator):
         cxx_includes += "#include <bfgsl.h>\n"
         cxx_includes += "#include <bfbitmanip.h>\n"
         cxx_includes += "#include <bfdebug.h>\n"
+        cxx_includes += "#include \"phys_iommu.h\"\n"
         outfile.write(cxx_includes)
         outfile.write("\n")
 
@@ -107,64 +107,6 @@ class IommuGenerator(AbstractGenerator):
                     t = type(obj)
                 )
                 raise ShoulderGeneratorException(msg)
-
-    def _generate_global_namespace_content(self, reg, outfile):
-        # IOMMU base address
-        base_addr = "\n{indent}static volatile uintptr_t iommu_base = 0;\n"
-        base_addr = base_addr.format(
-            indent = self._indent_string()
-        )
-        outfile.write(base_addr)
-
-        # IOMMU getters
-        accessor = "\n{indent}inline uint32_t read_iommu_32(uint32_t offset)\n"
-        accessor += "{indent}{{ return *reinterpret_cast<uint32_t *>(iommu_base + offset); }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string()
-        )
-        outfile.write(accessor)
-
-        accessor = "\n{indent}inline uint64_t read_iommu_64(uint64_t offset)\n"
-        accessor += "{indent}{{ return *reinterpret_cast<uint64_t *>(iommu_base + offset); }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string()
-        )
-        outfile.write(accessor)
-
-        # IOMMU setters
-        accessor = "\n{indent}inline void write_iommu_32(uint32_t offset, uint32_t val)\n"
-        accessor += "{indent}{{ *reinterpret_cast<uint32_t *>(iommu_base + offset) = val; }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string()
-        )
-        outfile.write(accessor)
-
-        accessor = "\n{indent}inline void write_iommu_32_preserved(uint32_t offset, uint32_t val, uint32_t mask)\n"
-        accessor += "{indent}{{\n"
-        accessor += "{indent}\tuint32_t reg = read_iommu_32(offset);\n"
-        accessor += "{indent}\twrite_iommu_32(offset, (reg & mask) | val);\n"
-        accessor += "{indent}}}\n"
-        accessor = accessor.format(
-            indent = self._indent_string()
-        )
-        outfile.write(accessor)
-
-        accessor = "\n{indent}inline void write_iommu_64(uint64_t offset, uint64_t val)\n"
-        accessor += "{indent}{{ *reinterpret_cast<uint64_t *>(iommu_base + offset) = val; }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string()
-        )
-        outfile.write(accessor)
-
-        accessor = "\n{indent}inline void write_iommu_64_preserved(uint64_t offset, uint64_t val, uint64_t mask)\n"
-        accessor += "{indent}{{\n"
-        accessor += "{indent}\tuint64_t reg = read_iommu_64(offset);\n"
-        accessor += "{indent}\twrite_iommu_64(offset, (reg & mask) | val);\n"
-        accessor += "{indent}}}\n"
-        accessor = accessor.format(
-            indent = self._indent_string()
-        )
-        outfile.write(accessor)
 
     def _generate_register(self, reg, outfile):
         outfile.write("\n")
@@ -245,8 +187,8 @@ class IommuGenerator(AbstractGenerator):
 
         # Register getter
         if is_readable:
-            accessor = "\n{indent}inline auto {func}() noexcept\n"
-            accessor += "{indent}{{ return read_iommu_{size}(offset); }}\n"
+            accessor = "\n{indent}inline auto {func}(const gsl::not_null<phys_iommu *> iommu) noexcept\n"
+            accessor += "{indent}{{ return iommu->read_{size}(offset); }}\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.register_read_function,
@@ -256,8 +198,8 @@ class IommuGenerator(AbstractGenerator):
 
         # Register setter
         if is_writeable:
-            accessor = "\n{indent}inline auto {func}(value_type val) noexcept\n"
-            accessor += "{indent}{{ return write_iommu_{size}{preserved}(offset, val{preserved_arg}); }}\n"
+            accessor = "\n{indent}inline auto {func}(const gsl::not_null<phys_iommu *> iommu, value_type val) noexcept\n"
+            accessor += "{indent}{{ return iommu->write_{size}{preserved}(offset, val{preserved_arg}); }}\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.register_write_function,
@@ -301,6 +243,28 @@ class IommuGenerator(AbstractGenerator):
                     fieldname = field.name.lower(),
                     arg = reg.name.lower()
                 )
+
+        self._decrease_indent()
+        dump_func += "{indent}}}\n".format(indent = self._indent_string())
+
+        outfile.write(dump_func)
+
+        # Secondary dump function
+        dump_func = "\n{indent}inline void dump(int level, const gsl::not_null<phys_iommu *> iommu, std::string *msg = nullptr)\n".format(
+            indent = self._indent_string(),
+            arg = reg.name.lower()
+        )
+
+        dump_func += "{indent}{{\n".format(indent = self._indent_string())
+        self._increase_indent()
+
+        dump_func += "{indent}auto reg_val = get(iommu);\n".format(
+            indent = self._indent_string()
+        )
+
+        dump_func += "{indent}dump(level, reg_val, msg);\n".format(
+            indent = self._indent_string()
+        )
 
         self._decrease_indent()
         dump_func += "{indent}}}\n".format(indent = self._indent_string())
@@ -393,8 +357,8 @@ class IommuGenerator(AbstractGenerator):
 
         if field.access in ["rw", "rw1c", "rw1cs", "ro", "ros"]:
             # Check bit enabled from register 
-            accessor = "{indent}inline auto {func}() noexcept\n"
-            accessor += "{indent}{{ return is_bit_set(get(), from); }}\n\n"
+            accessor = "{indent}inline auto {func}(const gsl::not_null<phys_iommu *> iommu) noexcept\n"
+            accessor += "{indent}{{ return is_bit_set(get(iommu), from); }}\n\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.is_bit_set_function,
@@ -415,8 +379,8 @@ class IommuGenerator(AbstractGenerator):
             outfile.write(accessor)
 
             # Check bit disabled from register 
-            accessor = "{indent}inline auto {func}() noexcept\n"
-            accessor += "{indent}{{ return !is_bit_set(get(), from); }}\n\n"
+            accessor = "{indent}inline auto {func}(const gsl::not_null<phys_iommu *> iommu) noexcept\n"
+            accessor += "{indent}{{ return !is_bit_set(get(iommu), from); }}\n\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.is_bit_cleared_function,
@@ -438,8 +402,8 @@ class IommuGenerator(AbstractGenerator):
 
         if field.access in ["rw", "rw1c", "rw1cs"]:
             # Enable the bit in the register 
-            accessor = "{indent}inline void {func}() noexcept\n"
-            accessor += "{indent}{{ set(set_bit(get(), from)); }}\n\n"
+            accessor = "{indent}inline void {func}(const gsl::not_null<phys_iommu *> iommu) noexcept\n"
+            accessor += "{indent}{{ set(iommu, set_bit(get(iommu), from)); }}\n\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.bit_set_function,
@@ -463,8 +427,8 @@ class IommuGenerator(AbstractGenerator):
 
         if field.access in ["rw"]:
             # Disable the bit in the register 
-            accessor = "{indent}inline void {func}() noexcept\n"
-            accessor += "{indent}{{ set(clear_bit(get(), from)); }}\n\n"
+            accessor = "{indent}inline void {func}(const gsl::not_null<phys_iommu *> iommu) noexcept\n"
+            accessor += "{indent}{{ set(iommu, clear_bit(get(iommu), from)); }}\n\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.bit_clear_function,
@@ -502,8 +466,8 @@ class IommuGenerator(AbstractGenerator):
 
         if field.access in ["rw", "rw1c", "rw1cs", "ro", "ros"]:
             # Get the field value from the register
-            accessor = "{indent}inline auto {func}() noexcept\n"
-            accessor += "{indent}{{ return get_bits(read_iommu_{size}(offset), mask) >> from; }}\n\n"
+            accessor = "{indent}inline auto {func}(const gsl::not_null<phys_iommu *> iommu) noexcept\n"
+            accessor += "{indent}{{ return get_bits(iommu->read_{size}(offset), mask) >> from; }}\n\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.register_field_read_function,
@@ -524,8 +488,8 @@ class IommuGenerator(AbstractGenerator):
 
         if field.access in ["rw", "rw1c", "rw1cs"]:
             # Set the field's value in an integer value
-            accessor = "{indent}inline void {func}({valtype} val) noexcept\n"
-            accessor += "{indent}{{ set(set_bits(read_iommu_{size}(offset), mask, val << from)); }}\n\n"
+            accessor = "{indent}inline void {func}(const gsl::not_null<phys_iommu *> iommu, {valtype} val) noexcept\n"
+            accessor += "{indent}{{ set(iommu, set_bits(iommu->read_{size}(offset), mask, val << from)); }}\n\n"
             accessor = accessor.format(
                 indent = self._indent_string(),
                 func = config.register_field_write_function,
