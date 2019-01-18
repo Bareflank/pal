@@ -23,20 +23,22 @@
 
 print("Hello from the shoulder package!")
 
-#  if __name == "__main__":
-#      from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
-#      from shoulder.config import config
-#      import glob
+if __name == "__main__":
+    from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
+    from shoulder.config import config
+    import glob
+
+    print("Hello from the main function inside shoulder.py!")
+
+#    config.cxx_namespace = "aarch64"
+#    parser = ArmV8XmlParser()
+#    generator = CxxHeaderGenerator()
+#    minified_generator = CxxMinifiedHeaderGenerator()
 #
-#      config.cxx_namespace = "aarch64"
-#      parser = ArmV8XmlParser()
-#      generator = CxxHeaderGenerator()
-#      minified_generator = CxxMinifiedHeaderGenerator()
-#
-#      paths = glob.glob("/Users/jared-ais/workspace/thunderlane/ARM_ASL/mra_tools/v8.3/SysReg_v83A_xml-00bet5/*.xml")
-#      regs = []
-#      for path in paths:
-#          results = parser.parse_registers(path)
-#          if results:
-#              regs.append(results[0])
-#      generator.generate(regs, TEST_OUTFILE2)
+#    paths = glob.glob("/Users/jared-ais/workspace/thunderlane/ARM_ASL/mra_tools/v8.3/SysReg_v83A_xml-00bet5/*.xml")
+#    regs = []
+#    for path in paths:
+#        results = parser.parse_registers(path)
+#        if results:
+#            regs.append(results[0])
+#    generator.generate(regs, TEST_OUTFILE2)
