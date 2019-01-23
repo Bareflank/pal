@@ -138,6 +138,31 @@ class CxxHeaderGenerator(AbstractGenerator):
 
         self._generate_fieldsets(reg, outfile)
 
+        # TODO: Make Bareflank independent printing function
+        outfile.write("\n")
+        dump_func = "{indent}inline void dump(int level, std::string *msg = nullptr)\n{indent}{{\n"
+        dump_func = dump_func.format(
+            indent = self._indent_string()
+        )
+        outfile.write(dump_func)
+
+        self._increase_indent()
+        dump_func = "{indent}bfdebug_nhex(level, name, get(), msg);\n"
+        for idx, fieldset in enumerate(reg.fieldsets):
+            for field in fieldset.fields:
+                field_cxx_name = field.name.lower()
+                dump_func += "{indent}{fieldname}::dump(level, msg);\n"
+                dump_func = dump_func.format(
+                    indent = self._indent_string(),
+                    fieldname = field_cxx_name,
+                )
+        outfile.write(dump_func)
+        self._decrease_indent()
+
+        outfile.write(self._indent_string())
+        dump_func = "}\n"
+        outfile.write(dump_func)
+
         outfile.write("}\n")
         self._decrease_indent()
 
@@ -190,6 +215,13 @@ class CxxHeaderGenerator(AbstractGenerator):
                 self._generate_bitfield_accessors(reg, field, outfile)
             else:
                 self._generate_field_accessors(reg, field, outfile)
+            # TODO: Create Bareflank independent printing function
+            dump_func = "{indent}inline void dump(int level, std::string *msg = nullptr) "
+            dump_func += "{{ bfdebug_subnhex(level, name, get(), msg); }}\n"
+            dump_func = dump_func.format(
+                indent = self._indent_string()
+            )
+            outfile.write(dump_func)
             self._decrease_indent()
 
             field_namespace_close = "{indent}}}\n".format(

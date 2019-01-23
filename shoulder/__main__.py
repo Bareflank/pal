@@ -64,8 +64,11 @@ regs = apply_filters(regs)
 # GENERATE
 if not os.path.exists(config.shoulder_output_dir):
     os.makedirs(config.shoulder_output_dir)
-generator = CHeaderGenerator()
-generator.generate(regs, (config.shoulder_output_dir + "/shoulder.h"))
+c_generator = CHeaderGenerator()
+c_generator.generate(regs, (config.shoulder_output_dir + "/c_shoulder.h"))
+
+cxx_generator = CxxHeaderGenerator()
+cxx_generator.generate(regs, (config.shoulder_output_dir + "/cxx_shoulder.h"))
 
 
 

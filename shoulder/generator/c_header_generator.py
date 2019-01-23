@@ -93,7 +93,7 @@ class CHeaderGenerator(AbstractGenerator):
         )
         outfile.write(reg_comment)
 
-        reg_getter = "{indent}inline {size_t} {c_prefix}_{regname}_{funcname}(void) "
+        reg_getter = "{indent}{size_t} {c_prefix}_{regname}_{funcname}(void) "
         reg_getter += "{{ GET_SYSREG_FUNC({regname}) }}\n"
         reg_getter = reg_getter.format(
             indent = self._indent_string(),
@@ -104,7 +104,7 @@ class CHeaderGenerator(AbstractGenerator):
         )
         outfile.write(reg_getter)
 
-        reg_setter = "{indent}inline void {c_prefix}_{regname}_{funcname}({size_t} val) "
+        reg_setter = "{indent}void {c_prefix}_{regname}_{funcname}({size_t} val) "
         reg_setter += "{{ SET_SYSREG_BY_VALUE_FUNC({regname}, val) }}\n"
         reg_setter = reg_setter.format(
             indent = self._indent_string(),
@@ -116,6 +116,35 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(reg_setter)
 
         self._generate_fieldsets(reg, outfile)
+
+        # TODO: Make Bareflank independent printing function
+        outfile.write("\n")
+        dump_func = "{indent}void {c_prefix}_{regname}_dump(int level, char *msg = nullptr)\n{indent}{{\n"
+        dump_func = dump_func.format(
+            indent = self._indent_string(),
+            c_prefix = config.c_prefix,
+            regname = reg_c_name
+        )
+        outfile.write(dump_func)
+
+        self._increase_indent()
+        dump_func = "{indent}bfdebug_nhex(level, name, get(), msg);\n"
+        for idx, fieldset in enumerate(reg.fieldsets):
+            for field in fieldset.fields:
+                field_c_name = field.name.lower()
+                dump_func += "{indent}{c_prefix}_{regname}_{fieldname}_dump(level, msg);\n"
+                dump_func = dump_func.format(
+                    indent = self._indent_string(),
+                    c_prefix = config.c_prefix,
+                    regname = reg_c_name,
+                    fieldname = field_c_name
+                )
+        outfile.write(dump_func)
+        self._decrease_indent()
+
+        outfile.write(self._indent_string())
+        dump_func = "}\n"
+        outfile.write(dump_func)
 
         outfile.write("\n")
 
@@ -150,6 +179,16 @@ class CHeaderGenerator(AbstractGenerator):
                 self._generate_bitfield_accessors(reg, field, outfile)
             else:
                 self._generate_field_accessors(reg, field, outfile)
+            # TODO: Create Bareflank independent printing function
+            dump_func = "{indent}void {c_prefix}_{regname}_{fieldname}_dump(int level, char *msg = nullptr) "
+            dump_func += "{{ bfdebug_subnhex(level, name, get(), msg); }}\n"
+            dump_func = dump_func.format(
+                indent = self._indent_string(),
+                c_prefix = config.c_prefix,
+                regname = reg.name.lower(),
+                fieldname = field.name.lower(),
+            )
+            outfile.write(dump_func)
             self._decrease_indent()
 
     def _generate_bitfield_accessors(self, reg, field, outfile):
@@ -161,7 +200,7 @@ class CHeaderGenerator(AbstractGenerator):
         field_c_name = field.name.lower()
 
         # Check bit enabled from the system register directly
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}() "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ IS_SYSREG_BIT_ENABLED_FUNC({regname}, {msb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -175,7 +214,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Check bit enabled from an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ IS_BIT_ENABLED_FUNC({arg}, {msb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -190,7 +229,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Check bit disabled from system register directly
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}() "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ IS_SYSREG_BIT_DISABLED_FUNC({regname}, {msb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -204,7 +243,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Check bit disabled from an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ IS_BIT_DISABLED_FUNC({arg}, {msb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -219,7 +258,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Enable the bit in the system register directly
-        accessor = "{indent}inline void {c_prefix}_{regname}_{fieldname}_{func}() "
+        accessor = "{indent}void {c_prefix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({regname}, {mask}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -232,7 +271,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Enable the bit in an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ SET_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -247,7 +286,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Disable the bit in the system register directly
-        accessor = "{indent}inline void {c_prefix}_{regname}_{fieldname}_{func}() "
+        accessor = "{indent}void {c_prefix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({regname}, {mask}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -260,7 +299,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Disable the bit in an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ CLEAR_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -287,7 +326,7 @@ class CHeaderGenerator(AbstractGenerator):
         field_c_name = field.name.lower()
 
         # Get the field value from the system register directly
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}() "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ GET_SYSREG_FIELD_FUNC({regname}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -302,7 +341,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Get the field value from an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ GET_BITFIELD_FUNC({arg}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -318,7 +357,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Set the field's value in the system register directly
-        accessor = "{indent}inline void {c_prefix}_{regname}_{fieldname}_{func}({size_t} {arg}) "
+        accessor = "{indent}void {c_prefix}_{regname}_{fieldname}_{func}({size_t} {arg}) "
         accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({regname}, {arg}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
@@ -334,7 +373,7 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
         # Set the field's value in an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg1}, {size_t} {arg2}) "
+        accessor = "{indent}{size_t} {c_prefix}_{regname}_{fieldname}_{func}_val({size_t} {arg1}, {size_t} {arg2}) "
         accessor += "{{ SET_BITS_BY_VALUE_FUNC({arg1}, {arg2}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),

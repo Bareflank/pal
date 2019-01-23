@@ -38,6 +38,9 @@ generate:
 all:
 
 clean:
+	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
+	rm -rf output
+
 
 test: python_test
 
