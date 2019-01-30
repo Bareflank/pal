@@ -25,6 +25,7 @@ class Register(object):
     def __init__(self):
         self.name = None
         self.long_name = None
+        self.access_mnemonic = None
         self.purpose = None
         self.size = None
         self.offset = None
@@ -32,7 +33,7 @@ class Register(object):
         self.fieldsets = []
 
     def __str__(self):
-        msg = "{name} ({long_name})\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
+        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
         msg += "\nSystem Register: {is_sysreg}"
         msg = msg.format(**self.__dict__)
 
@@ -47,6 +48,7 @@ class Register(object):
     def is_valid(self):
         if self.name is None: return False
         if self.long_name is None: return False
+        if self.access_mnemonic is None: return False
         if self.size is None: return False
         if self.purpose is None: return False
         for fs in self.fieldsets:

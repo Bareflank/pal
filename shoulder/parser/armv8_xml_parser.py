@@ -57,6 +57,7 @@ class ArmV8XmlParser(AbstractParser):
                     reg = Register()
                     self._set_register_name(reg, reg_node)
                     self._set_register_long_name(reg, reg_node)
+                    self._set_register_access_mnemonic(reg, reg_node)
                     self._set_register_purpose(reg, reg_node)
                     self._set_register_size(reg, reg_node)
                     self._set_register_fields(reg, reg_node)
@@ -88,6 +89,15 @@ class ArmV8XmlParser(AbstractParser):
             logger.debug("long_name = " + reg.long_name)
         else:
             logger.warn(str(reg.name) + " long_name attribute not found")
+
+    def _set_register_access_mnemonic(self, reg, reg_node):
+        access_mnemonic_node = reg_node.find("./access_mechanisms/access_mechanism")
+        if access_mnemonic_node is not None:
+            reg.access_mnemonic = str(access_mnemonic_node.attrib["accessor"])
+            reg.access_mnemonic = reg.access_mnemonic.split(' ', 1)[1]
+            logger.debug("access_mnemonic = " + reg.access_mnemonic)
+        else:
+            logger.warn(str(reg.name) + " access_mnemonic attribute not found")
 
     def _set_register_purpose(self, reg, reg_node):
         purpose_text_nodes = reg_node.findall("./reg_purpose/purpose_text")

@@ -84,6 +84,7 @@ class CHeaderGenerator(AbstractGenerator):
 
     def _generate_register(self, reg, outfile):
         reg_c_name = str(reg.name).lower()
+        reg_c_access_name = str(reg.access_mnemonic).lower()
         reg_c_size = "uint64_t" if reg.size == 64 else "uint32_t"
 
         reg_comment = "// {name} ({long_name})\n// {purpose}\n".format(
@@ -94,26 +95,28 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(reg_comment)
 
         reg_getter = "{indent}{size_t} {c_prefix}{c_suffix}_{regname}_{funcname}(void) "
-        reg_getter += "{{ GET_SYSREG_FUNC({regname}) }}\n"
+        reg_getter += "{{ GET_SYSREG_FUNC({accessname}) }}\n"
         reg_getter = reg_getter.format(
             indent = self._indent_string(),
             size_t = reg_c_size,
             c_prefix = config.c_prefix,
             c_suffix = str(reg.size),
             regname = reg_c_name,
-            funcname = config.register_read_function
+            funcname = config.register_read_function,
+            accessname = reg_c_access_name
         )
         outfile.write(reg_getter)
 
         reg_setter = "{indent}void {c_prefix}{c_suffix}_{regname}_{funcname}({size_t} val) "
-        reg_setter += "{{ SET_SYSREG_BY_VALUE_FUNC({regname}, val) }}\n"
+        reg_setter += "{{ SET_SYSREG_BY_VALUE_FUNC({accessname}, val) }}\n"
         reg_setter = reg_setter.format(
             indent = self._indent_string(),
             c_prefix = config.c_prefix,
             c_suffix = str(reg.size),
             regname = reg_c_name,
             funcname = config.register_write_function,
-            size_t = reg_c_size
+            size_t = reg_c_size,
+            accessname = reg_c_access_name
         )
         outfile.write(reg_setter)
 
@@ -199,14 +202,15 @@ class CHeaderGenerator(AbstractGenerator):
     def _generate_bitfield_accessors(self, reg, field, outfile):
         mask = "0x" + format(1 << field.msb, 'x')
         reg_c_name = reg.name.lower()
-        reg_val_c_name = reg_c_name + "_val"
+        reg_c_access_name = reg.access_mnemonic.lower()
+        reg_val_c_name = reg_c_access_name + "_val"
         reg_c_size = "uint64_t" if reg.size == 64 else "uint32_t"
 
         field_c_name = field.name.lower()
 
         # Check bit enabled from the system register directly
         accessor = "{indent}{size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ IS_SYSREG_BIT_ENABLED_FUNC({regname}, {msb}) }}\n"
+        accessor += "{{ IS_SYSREG_BIT_ENABLED_FUNC({accessname}, {msb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
             size_t = reg_c_size,
@@ -215,6 +219,7 @@ class CHeaderGenerator(AbstractGenerator):
             regname = reg_c_name,
             fieldname = field_c_name,
             func = config.is_bit_set_function,
+            accessname = reg_c_access_name,
             msb = field.msb
         )
         outfile.write(accessor)
@@ -237,7 +242,7 @@ class CHeaderGenerator(AbstractGenerator):
 
         # Check bit disabled from system register directly
         accessor = "{indent}{size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ IS_SYSREG_BIT_DISABLED_FUNC({regname}, {msb}) }}\n"
+        accessor += "{{ IS_SYSREG_BIT_DISABLED_FUNC({accessname}, {msb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
             size_t = reg_c_size,
@@ -246,6 +251,7 @@ class CHeaderGenerator(AbstractGenerator):
             regname = reg_c_name,
             fieldname = field_c_name,
             func = config.is_bit_cleared_function,
+            accessname = reg_c_access_name,
             msb = field.msb
         )
         outfile.write(accessor)
@@ -268,7 +274,7 @@ class CHeaderGenerator(AbstractGenerator):
 
         # Enable the bit in the system register directly
         accessor = "{indent}void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({regname}, {mask}) }}\n"
+        accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
             c_prefix = config.c_prefix,
@@ -276,6 +282,7 @@ class CHeaderGenerator(AbstractGenerator):
             regname = reg_c_name,
             fieldname = field_c_name,
             func = config.bit_set_function,
+            accessname = reg_c_access_name,
             mask = mask
         )
         outfile.write(accessor)
@@ -298,7 +305,7 @@ class CHeaderGenerator(AbstractGenerator):
 
         # Disable the bit in the system register directly
         accessor = "{indent}void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({regname}, {mask}) }}\n"
+        accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
             c_prefix = config.c_prefix,
@@ -306,6 +313,7 @@ class CHeaderGenerator(AbstractGenerator):
             regname = reg_c_name,
             fieldname = field_c_name,
             func = config.bit_clear_function,
+            accessname = reg_c_access_name,
             mask = mask
         )
         outfile.write(accessor)
@@ -333,14 +341,15 @@ class CHeaderGenerator(AbstractGenerator):
         mask = "0x" + format(mask_val, 'x')
 
         reg_c_name = reg.name.lower()
-        reg_val_c_name = reg_c_name + "_val"
+        reg_c_access_name = reg.access_mnemonic.lower()
+        reg_val_c_name = reg_c_access_name + "_val"
         reg_c_size = "uint64_t" if reg.size == 64 else "uint32_t"
 
         field_c_name = field.name.lower()
 
         # Get the field value from the system register directly
         accessor = "{indent}{size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ GET_SYSREG_FIELD_FUNC({regname}, {mask}, {lsb}) }}\n"
+        accessor += "{{ GET_SYSREG_FIELD_FUNC({accessname}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
             size_t = reg_c_size,
@@ -349,6 +358,7 @@ class CHeaderGenerator(AbstractGenerator):
             regname = reg_c_name,
             fieldname = field_c_name,
             func = config.register_field_read_function,
+            accessname = reg_c_access_name,
             mask = mask,
             lsb = field.lsb
         )
@@ -373,7 +383,7 @@ class CHeaderGenerator(AbstractGenerator):
 
         # Set the field's value in the system register directly
         accessor = "{indent}void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}({size_t} {arg}) "
-        accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({regname}, {arg}, {mask}, {lsb}) }}\n"
+        accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({accessname}, {arg}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
             indent = self._indent_string(),
             c_prefix = config.c_prefix,
@@ -382,6 +392,7 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = field_c_name,
             func = config.register_field_write_function,
             size_t = reg_c_size,
+            accessname = reg_c_access_name,
             arg = "value",
             mask = mask,
             lsb = field.lsb
@@ -399,7 +410,7 @@ class CHeaderGenerator(AbstractGenerator):
             regname = reg_c_name,
             fieldname = field_c_name,
             func = config.register_field_write_function,
-            arg1 = reg_c_name,
+            arg1 = reg_c_access_name,
             arg2 = "value",
             mask = mask,
             lsb = field.lsb
