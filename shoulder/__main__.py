@@ -46,7 +46,7 @@ def printReg(reg):
 # SETUP
 logger.set_log_level("info")
 test_input_dir = "/home/jzepf/Projects/Scapula/ARM-SysReg-v85A-00bet9/SysReg_v85A_xml-00bet9/"
-config.c_prefix = "aarch64"
+config.c_prefix = "aarch"
 
 # PARSE
 logger.info("Parsing registers from: " + str(test_input_dir))

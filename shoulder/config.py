@@ -178,7 +178,7 @@ config.add_configuration(c)
 # C options
 # -----------------------------------------------------------------------------
 
-c = Configuration("c_prefix", "shoulder_aarch64")
+c = Configuration("c_prefix", "aarch")
 c.description = "Prefix to place in front of generated C functions"
 config.add_configuration(c)
 
