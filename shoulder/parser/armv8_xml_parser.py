@@ -52,14 +52,15 @@ class ArmV8XmlParser(AbstractParser):
             logger.debug(msg)
 
             for reg_node in registers_node:
-                logger.debug("Register Attributes:")
-                reg = Register()
-                self._set_register_name(reg, reg_node)
-                self._set_register_long_name(reg, reg_node)
-                self._set_register_purpose(reg, reg_node)
-                self._set_register_size(reg, reg_node)
-                self._set_register_fields(reg, reg_node)
-                registers.append(reg)
+                if (str(reg_node.attrib["is_register"]) == "True"):
+                    logger.debug("Register Attributes:")
+                    reg = Register()
+                    self._set_register_name(reg, reg_node)
+                    self._set_register_long_name(reg, reg_node)
+                    self._set_register_purpose(reg, reg_node)
+                    self._set_register_size(reg, reg_node)
+                    self._set_register_fields(reg, reg_node)
+                    registers.append(reg)
 
         except Exception as e:
             msg = "Failed to parse register file " + str(path)
