@@ -49,6 +49,7 @@ filters.append("RemoveReservedFields")
 filters.append("SpecialToUnderscore")
 filters.append("Quirks")
 filters.append("RemoveInvalidRegisters")
+filters.append("RemoveDeprecatedRegisters")
 
 # Any filters not listed above are run afterward in the order they were imported
 filters = filters + list(set(all_filter_names) - set(filters))
