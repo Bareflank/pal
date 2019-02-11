@@ -20,37 +20,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-class Register(object):
-    """ Models a register in the ARM architecture """
-    def __init__(self):
-        self.name = None
-        self.long_name = None
-        self.access_mnemonic = None
-        self.purpose = None
-        self.size = None
-        self.offset = None
-        self.is_sysreg = True
-        self.fieldsets = []
+from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.logger import logger
 
-    def __str__(self):
-        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
-        msg += "\nSystem Register: {is_sysreg}"
-        msg = msg.format(**self.__dict__)
+class RemoveDeprecatedRegisters(AbstractFilter):
+    @property
+    def description(self):
+        return "Removing deprecated registers"
 
-        for fieldset in self.fieldsets:
-            msg += "\n" + str(fieldset)
+    def do_filter(self, objects):
+        result = list(filter(self._do_single_filter, objects))
+        return result
 
-        return msg
+    def _do_single_filter(self, reg):
+        result = True
 
-    def add_fieldset(self, fieldset):
-        self.fieldsets.append(fieldset)
+        if(reg.name == "SPSR_hyp"):
+            result = False
+            logger.debug("Removed deprecated register {name}".format(name=reg.name))
 
-    def is_valid(self):
-        if self.name is None: return False
-        if self.long_name is None: return False
-        if self.access_mnemonic is None: return False
-        if self.size is None: return False
-        if self.purpose is None: return False
-        for fs in self.fieldsets:
-            if not fs.is_valid(): return False
-        return True
+        if(reg.name == "SPSR_svc"):
+            result = False
+            logger.debug("Removed deprecated register {name}".format(name=reg.name))
+
+        return result
+

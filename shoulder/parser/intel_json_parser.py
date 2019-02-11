@@ -20,35 +20,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import unittest
-import os
-import sys
+import json
 
-from shoulder.generator import *
+from shoulder.parser.abstract_parser import AbstractParser
 from shoulder.register import Register
+from shoulder.fieldset import Fieldset
 from shoulder.logger import logger
-from test.support.constants import *
+from shoulder.config import config
 
-class TestGeneratorInit(unittest.TestCase):
+class IntelJsonParser(AbstractParser):
+    @property
+    def aarch_version_major(self):
+        return 0
 
-    def test_generate_all(self):
-        test_outfile = os.path.abspath(os.path.join(TEST_TOP_DIR, "out/generate_all_output.txt"))
-        all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
-        generator_count = len(all_generators)
+    @property
+    def aarch_version_minor(self):
+        return 0
 
-        regs = [Register()]
+    def parse_instructions(self, path):
+        raise NotImplementedError(type(self).__name__ + ".parse_instructions not yet implemented")
 
-        generate_all(regs, test_outfile)
+    def parse_registers(self, path):
+        registers = []
 
-        # TODO: parse the generator output to verify that all generators have
-        # been applied and succeeded
-        # applied_count = parse_the_logger_output()
-        # self.assertTrue(generator_count == applied_count)
+        with open(path, "r") as infile:
+            content = json.load(infile)
+            for reg in content:
+                r = Register()
+                r.name = reg["name"]
+                r.long_name = reg["description"]
+                r.purpose = reg["description"]
+                r.size = reg["size"]
 
-    def _generate_test_register_set(self):
-        regs = []
+                fs = Fieldset(r.size)
+                for field in reg["fields"]:
+                    name = field["name"]
+                    msb = field["msb"]
+                    lsb = field["lsb"]
+                    fs.add_field(name, msb, lsb)
 
-        valid_r = Register()
-        valid_r.name = "register"
+                r.add_fieldset(fs)
+                registers.append(r)
 
-        return regs
+        return registers

@@ -52,14 +52,16 @@ class ArmV8XmlParser(AbstractParser):
             logger.debug(msg)
 
             for reg_node in registers_node:
-                logger.debug("Register Attributes:")
-                reg = Register()
-                self._set_register_name(reg, reg_node)
-                self._set_register_long_name(reg, reg_node)
-                self._set_register_purpose(reg, reg_node)
-                self._set_register_size(reg, reg_node)
-                self._set_register_fields(reg, reg_node)
-                registers.append(reg)
+                if (str(reg_node.attrib["is_register"]) == "True"):
+                    logger.debug("Register Attributes:")
+                    reg = Register()
+                    self._set_register_name(reg, reg_node)
+                    self._set_register_long_name(reg, reg_node)
+                    self._set_register_access_mnemonic(reg, reg_node)
+                    self._set_register_purpose(reg, reg_node)
+                    self._set_register_size(reg, reg_node)
+                    self._set_register_fields(reg, reg_node)
+                    registers.append(reg)
 
         except Exception as e:
             msg = "Failed to parse register file " + str(path)
@@ -87,6 +89,15 @@ class ArmV8XmlParser(AbstractParser):
             logger.debug("long_name = " + reg.long_name)
         else:
             logger.warn(str(reg.name) + " long_name attribute not found")
+
+    def _set_register_access_mnemonic(self, reg, reg_node):
+        access_mnemonic_node = reg_node.find("./access_mechanisms/access_mechanism")
+        if access_mnemonic_node is not None:
+            reg.access_mnemonic = str(access_mnemonic_node.attrib["accessor"])
+            reg.access_mnemonic = reg.access_mnemonic.split(' ', 1)[1]
+            logger.debug("access_mnemonic = " + reg.access_mnemonic)
+        else:
+            logger.warn(str(reg.name) + " access_mnemonic attribute not found")
 
     def _set_register_purpose(self, reg, reg_node):
         purpose_text_nodes = reg_node.findall("./reg_purpose/purpose_text")
@@ -117,7 +128,7 @@ class ArmV8XmlParser(AbstractParser):
             logger.debug("size = " + str(reg.size))
         else:
             reg.size = None
-            logger.warn(str(reg.name) + " size attribute not found")
+            logger.debug(str(reg.name) + " size attribute not found")
 
     def _set_register_fields(self, reg, reg_node):
         fields_node_list = reg_node.findall("./reg_fieldsets/fields")

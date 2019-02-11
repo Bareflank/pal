@@ -21,15 +21,18 @@
 # SOFTWARE.
 
 import os
+import sys
 import pkgutil
 
 from shoulder.logger import logger
+from shoulder.filters.abstract_filter import AbstractFilter
 
 pkg_dir = os.path.dirname(__file__)
 for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
     pkgutil.importlib.import_module('.' + name, __package__)
 
-all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
+all_filters = [cls for cls in abstract_filter.AbstractFilter.__subclasses__()]
+all_filter_names = [f.__name__ for f in all_filters]
 
 # -----------------------------------------------------------------------------
 # Module interface
@@ -37,18 +40,28 @@ all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclass
 
 # Usage:
 #
-# from shoulder.generator import *
-# generate_all()
+# from shoulder.filters import *
+# apply_filters()
 
-def generate_all(objects, outdir):
-    logger.info("Generating outputs")
-    for g_cls in all_generators:
-        sub_outdir = os.path.abspath(os.path.join(outdir, "cxx"))
-        if not os.path.exists(sub_outdir):
-                os.makedirs(sub_outdir)
-        outfile = os.path.abspath(os.path.join(sub_outdir, "shoulder.h"))
+# Add any filters that need to be applied in a specific order by class name here
+filters = []
+filters.append("RemoveReservedFields")
+filters.append("SpecialToUnderscore")
+filters.append("Quirks")
+filters.append("RemoveInvalidRegisters")
+filters.append("RemoveDeprecatedRegisters")
 
-        g = g_cls()
-        g.generate(objects, outfile)
+# Any filters not listed above are run afterward in the order they were imported
+filters = filters + list(set(all_filter_names) - set(filters))
 
-    logger.info("Generation complete")
+# Delete any filters that need to be skipped by class name here
+# ex: filters.remove("RemoveInvalidRegisters")
+
+def apply_filters(objects):
+    for f_name in filters:
+        f_cls = next(x for x in all_filters if x.__name__ == f_name)
+        f = f_cls()
+        logger.info("Applying filter: {d}".format(d = str(f)))
+        objects = f.do_filter(objects)
+
+    return objects

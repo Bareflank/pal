@@ -31,7 +31,16 @@ CXX_FLAGS = -c -std=c++14 -O3 -I$(TOP_DIR)/include
 PYTHON = python3
 PYTHON_COVERAGE_FLAGS = --source=. --omit=*abstract*,*test*
 
+generate:
+	# mkdir -p ${BUILD_DIR}
+	${PYTHON} -m shoulder
+
 all:
+
+clean:
+	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
+	rm -rf output
+
 
 test: python_test
 

@@ -21,34 +21,48 @@
 # SOFTWARE.
 
 import unittest
-import os
 import sys
 
-from shoulder.generator import *
-from shoulder.register import Register
+from shoulder.filters.remove_reserved_fields import RemoveReservedFields
+from shoulder.register import *
+from shoulder.fieldset import *
 from shoulder.logger import logger
-from test.support.constants import *
 
-class TestGeneratorInit(unittest.TestCase):
+class TestRemoveInvalidRegisters(unittest.TestCase):
 
-    def test_generate_all(self):
-        test_outfile = os.path.abspath(os.path.join(TEST_TOP_DIR, "out/generate_all_output.txt"))
-        all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
-        generator_count = len(all_generators)
+    def test_filter(self):
+        regs = self._generate_test_register_set()
+        expected_regs = self._generate_expected_register_set()
+        f = RemoveReservedFields()
+        regs = f.do_filter(regs)
+        str(f)
 
-        regs = [Register()]
-
-        generate_all(regs, test_outfile)
-
-        # TODO: parse the generator output to verify that all generators have
-        # been applied and succeeded
-        # applied_count = parse_the_logger_output()
-        # self.assertTrue(generator_count == applied_count)
+        self.assertTrue(len(regs[0].fieldsets[0].fields) == len(expected_regs[0].fieldsets[0].fields))
 
     def _generate_test_register_set(self):
         regs = []
 
-        valid_r = Register()
-        valid_r.name = "register"
+        r = Register()
+        r.name = "register"
+        fs = Fieldset(5)
+        fs.add_field("0", 0, 0)
+        fs.add_field("1", 1, 1)
+        fs.add_field("RES", 2, 2)
+        fs.add_field("IMPLEMENTATION DEFINED", 3, 3)
+        fs.add_field("valid", 4, 4)
+        r.add_fieldset(fs)
+        regs.append(r)
+
+        return regs
+
+    def _generate_expected_register_set(self):
+        regs = []
+
+        r = Register()
+        r.name = "register"
+        fs = Fieldset(5)
+        fs.add_field("valid", 4, 4)
+        r.add_fieldset(fs)
+        regs.append(r)
 
         return regs

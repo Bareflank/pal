@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -20,37 +21,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-class Register(object):
-    """ Models a register in the ARM architecture """
-    def __init__(self):
-        self.name = None
-        self.long_name = None
-        self.access_mnemonic = None
-        self.purpose = None
-        self.size = None
-        self.offset = None
-        self.is_sysreg = True
-        self.fieldsets = []
+print("Hello from the shoulder package!")
 
-    def __str__(self):
-        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
-        msg += "\nSystem Register: {is_sysreg}"
-        msg = msg.format(**self.__dict__)
+if __name == "__main__":
+    from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
+    from shoulder.config import config
+    import glob
 
-        for fieldset in self.fieldsets:
-            msg += "\n" + str(fieldset)
+    print("Hello from the main function inside shoulder.py!")
 
-        return msg
-
-    def add_fieldset(self, fieldset):
-        self.fieldsets.append(fieldset)
-
-    def is_valid(self):
-        if self.name is None: return False
-        if self.long_name is None: return False
-        if self.access_mnemonic is None: return False
-        if self.size is None: return False
-        if self.purpose is None: return False
-        for fs in self.fieldsets:
-            if not fs.is_valid(): return False
-        return True
+#    config.cxx_namespace = "aarch64"
+#    parser = ArmV8XmlParser()
+#    generator = CxxHeaderGenerator()
+#    minified_generator = CxxMinifiedHeaderGenerator()
+#
+#    paths = glob.glob("/Users/jared-ais/workspace/thunderlane/ARM_ASL/mra_tools/v8.3/SysReg_v83A_xml-00bet5/*.xml")
+#    regs = []
+#    for path in paths:
+#        results = parser.parse_registers(path)
+#        if results:
+#            regs.append(results[0])
+#    generator.generate(regs, TEST_OUTFILE2)

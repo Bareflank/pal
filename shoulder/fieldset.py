@@ -22,8 +22,16 @@
 
 from collections import namedtuple
 
-# Tuple for representing bit positions of a named bit field
-Field = namedtuple('Field', 'name msb lsb')
+from shoulder.logger import logger
+
+class Field(object):
+    """ Models a single named field of a fieldset """
+    def __init__(self, name, msb, lsb, long_name=None, access="rw"):
+        self.name = name
+        self.long_name = long_name
+        self.msb = msb
+        self.lsb = lsb
+        self.access = access
 
 class Fieldset(object):
     """ Models a collection of named fields that apply to a register either """
@@ -48,8 +56,8 @@ class Fieldset(object):
 
         return msg
 
-    def add_field(self, name, msb, lsb):
-        self.fields.append(Field(str(name), int(msb), int(lsb)))
+    def add_field(self, name, msb, lsb, long_name=None, access="rw"):
+        self.fields.append(Field(str(name), int(msb), int(lsb), long_name=long_name, access=access))
 
     def is_valid(self):
         expected_total_set = set(range(0, self.size))
@@ -57,7 +65,14 @@ class Fieldset(object):
 
         for f_idx, f in enumerate(self.fields):
             # Check individual field ranges
-            if not (0 <= f.lsb <= f.msb < self.size): return False
+            if not (0 <= f.lsb <= f.msb < self.size):
+                logger.debug(
+                    "Invalid field position for \"{name}\" ({msb}:{lsb})".format(
+                        name = f.name,
+                        msb = f.msb,
+                        lsb = f.lsb
+                ))
+                return False
 
             # Check for intersections with other fields in this fieldset
             f_set = set(range(f.lsb, f.msb + 1))
@@ -66,9 +81,16 @@ class Fieldset(object):
                 if f_idx == x_idx: continue
                 x_set = set(range(x.lsb, x.msb + 1))
                 intersect = f_set.intersection(x_set)
-                if len(intersect) > 0: return False
+                if len(intersect) > 0:
+                    logger.debug(
+                        "Invalid field overlap, \"{f_name}\" ({f_msb}:{f_lsb}) "
+                        "overlaps with \"{x_name}\" ({x_msb}:{x_lsb})".format(
+                            f_name = f.name, f_msb = f.msb, f_lsb = f.lsb,
+                            x_name = x.name, x_msb = x.msb, x_lsb = x.lsb
+                    ))
+                    return False
 
 
         # Check all bits accounted for in this fieldset
-        if total_set != expected_total_set: return False
+        #  if total_set != expected_total_set: return False
         return True

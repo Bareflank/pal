@@ -19,38 +19,30 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import unittest
 
-class Register(object):
-    """ Models a register in the ARM architecture """
-    def __init__(self):
-        self.name = None
-        self.long_name = None
-        self.access_mnemonic = None
-        self.purpose = None
-        self.size = None
-        self.offset = None
-        self.is_sysreg = True
-        self.fieldsets = []
+from shoulder.filters import *
+from shoulder.register import *
+from shoulder.fieldset import *
+from shoulder.logger import logger
 
-    def __str__(self):
-        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
-        msg += "\nSystem Register: {is_sysreg}"
-        msg = msg.format(**self.__dict__)
+class TestFiltersInit(unittest.TestCase):
 
-        for fieldset in self.fieldsets:
-            msg += "\n" + str(fieldset)
+    def test_apply_filters(self):
+        all_filters = [cls for cls in abstract_filter.AbstractFilter.__subclasses__()]
+        filters_count = len(all_filters)
 
-        return msg
+        regs = self._generate_test_register_set()
+        regs = apply_filters(regs)
 
-    def add_fieldset(self, fieldset):
-        self.fieldsets.append(fieldset)
+        # TODO: parse the logger output to verify that all filters have been applied
+        # applied_count = parse_the_logger_output()
+        # self.assertTrue(filters_count == applied_count)
 
-    def is_valid(self):
-        if self.name is None: return False
-        if self.long_name is None: return False
-        if self.access_mnemonic is None: return False
-        if self.size is None: return False
-        if self.purpose is None: return False
-        for fs in self.fieldsets:
-            if not fs.is_valid(): return False
-        return True
+    def _generate_test_register_set(self):
+        regs = []
+
+        valid_r = Register()
+        valid_r.name = "register"
+
+        return regs
