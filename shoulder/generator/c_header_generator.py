@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
+
 from shoulder.generator.abstract_generator import AbstractGenerator
 from shoulder.register import Register
 from shoulder.logger import logger
@@ -32,8 +34,9 @@ class CHeaderGenerator(AbstractGenerator):
 
     def generate(self, objects, outpath):
         try:
-            logger.info("Generating C Header: " + str(outpath))
-            with open(outpath, "w") as outfile:
+            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
+            logger.info("Generating C Header: " + str(outfile_path))
+            with open(outfile_path, "w") as outfile:
                 self._generate_license(outfile)
                 self._generate_c_includes(outfile)
                 self._generate_include_guard_open(outfile)

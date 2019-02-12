@@ -29,8 +29,6 @@ pkg_dir = os.path.dirname(__file__)
 for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
     pkgutil.importlib.import_module('.' + name, __package__)
 
-all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
-
 # -----------------------------------------------------------------------------
 # Module interface
 # -----------------------------------------------------------------------------
@@ -41,14 +39,16 @@ all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclass
 # generate_all()
 
 def generate_all(objects, outdir):
-    logger.info("Generating outputs")
-    for g_cls in all_generators:
-        sub_outdir = os.path.abspath(os.path.join(outdir, "cxx"))
+    logger.info("Generating outputs to: " + str(outdir))
+
+    all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
+
+    for generator_class in all_generators:
+        sub_outdir = os.path.abspath(os.path.join(outdir, generator_class.__name__))
         if not os.path.exists(sub_outdir):
                 os.makedirs(sub_outdir)
-        outfile = os.path.abspath(os.path.join(sub_outdir, "shoulder.h"))
 
-        g = g_cls()
-        g.generate(objects, outfile)
+        g = generator_class()
+        g.generate(objects, sub_outdir)
 
     logger.info("Generation complete")
