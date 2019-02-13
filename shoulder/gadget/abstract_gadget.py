@@ -20,13 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pkgutil
+import abc
 
-from shoulder.logger import logger
-from shoulder.config import config
+class AbstractGadget(abc.ABC):
+    @property
+    @abc.abstractmethod
+    def description(self):
+        """ Description of what this gadget does """
 
-import shoulder.filters
-import shoulder.gadget
-import shoulder.generator
-import shoulder.parser
+    @abc.abstractmethod
+    def generate(self, objects, outfile):
+        """ Generate a specfic output using the given Shoulder objects """
+        """ to the given output file """
+        return
+
+    def __str__(self):
+        return self.description

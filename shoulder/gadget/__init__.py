@@ -23,10 +23,6 @@
 import os
 import pkgutil
 
-from shoulder.logger import logger
-from shoulder.config import config
-
-import shoulder.filters
-import shoulder.gadget
-import shoulder.generator
-import shoulder.parser
+pkg_dir = os.path.dirname(__file__)
+for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
+    pkgutil.importlib.import_module('.' + name, __package__)
