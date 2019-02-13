@@ -211,6 +211,11 @@ c = Configuration("shoulder_test_dir", _test_dir)
 c.description = "Path the shoulder test directory"
 config.add_configuration(c)
 
+_xml_register_dir = os.path.abspath(os.path.join(_project_dir, "../ARMv85A-SysReg-00bet9/SysReg_v85A_xml-00bet9"))
+c = Configuration("xml_register_dir", _xml_register_dir)
+c.description = "Path to XML register specficiation directory"
+config.add_configuration(c)
+
 _output_dir = os.path.join(_project_dir, "output")
 c = Configuration("shoulder_output_dir", _output_dir)
 c.description = "Path the shoulder output directory"

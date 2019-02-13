@@ -19,3 +19,39 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+import os
+import glob
+
+from shoulder.logger import logger
+from shoulder.config import config
+from shoulder.exception import *
+from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
+
+# -----------------------------------------------------------------------------
+# Module interface
+# -----------------------------------------------------------------------------
+
+# Usage:
+#
+# from shoulder.parser import *
+# regs = parse_registers("<path/to/xml/spec/registers>")
+
+def parse_registers(spec_path):
+    if not os.path.exists(spec_path):
+        msg = "Failed to parse registers, spec not found at: " + str(spec_path)
+        logger.error(msg)
+        raise ShoulderParserException(msg)
+
+    logger.info("Parsing registers from: " + str(spec_path))
+
+    paths = glob.glob(spec_path + "/*.xml")
+    regs = []
+    parser = ArmV8XmlParser()
+
+    for path in paths:
+        results = parser.parse_registers(path)
+        if results:
+            regs.append(results[0])
+
+    return regs
