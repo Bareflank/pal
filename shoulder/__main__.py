@@ -29,9 +29,9 @@ from shoulder.generator import *
 from shoulder.filters import *
 
 regs = parse_registers(config.xml_register_dir)
-logger.info("Registers parsed: " + str(len(regs)))
+logger.debug("Registers parsed: " + str(len(regs)))
 
 regs = apply_filters(regs)
-logger.info("Registers after filters: " + str(len(regs)))
+logger.debug("Registers after filters: " + str(len(regs)))
 
 generate_all(regs, config.shoulder_output_dir)

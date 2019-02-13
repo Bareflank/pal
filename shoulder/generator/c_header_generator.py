@@ -27,6 +27,7 @@ from shoulder.register import Register
 from shoulder.logger import logger
 from shoulder.config import config
 from shoulder.exception import *
+from shoulder.gadget import *
 
 class CHeaderGenerator(AbstractGenerator):
     def __init__(self):
@@ -37,7 +38,7 @@ class CHeaderGenerator(AbstractGenerator):
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C Header: " + str(outfile_path))
             with open(outfile_path, "w") as outfile:
-                self._generate_license(outfile)
+                license.generate(objects, outfile)
                 self._generate_c_includes(outfile)
                 self._generate_include_guard_open(outfile)
 
@@ -52,13 +53,6 @@ class CHeaderGenerator(AbstractGenerator):
                 exception = e
             )
             raise ShoulderGeneratorException(msg)
-
-    def _generate_license(self, outfile):
-        logger.debug("Writing license from " + str(config.license_template_path))
-        with open(config.license_template_path, "r") as license:
-            for line in license:
-                outfile.write("// " + line)
-        outfile.write("\n")
 
     def _generate_c_includes(self, outfile):
         c_includes = "#include <stdint.h>\n"

@@ -20,13 +20,35 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pkgutil
-
+from shoulder.gadget.abstract_gadget import AbstractGadget
 from shoulder.logger import logger
 from shoulder.config import config
+from shoulder.exception import *
 
-import shoulder.filters
-import shoulder.gadget
-import shoulder.generator
-import shoulder.parser
+class LicenseGadget(AbstractGadget):
+    @property
+    def description(self):
+        return "Generate the Shoulder license for a C/C++ file"
+
+    def generate(self, objects, outfile):
+        try:
+            with open(config.license_template_path, "r") as license:
+                for line in license:
+                    outfile.write("// " + line)
+                outfile.write("\n")
+
+            msg = "{gadget}: license generated".format(
+                gadget = str(type(self).__name__)
+            )
+            logger.debug(msg)
+
+        except Exception as e:
+            msg = "{gadget} failed to generate license: {exception}".format(
+                gadget = str(type(self).__name__),
+                exception = e
+            )
+            raise ShoulderGeneratorException(msg)
+
+def generate(objects, outfile):
+    g = LicenseGadget()
+    g.generate(objects, outfile)
