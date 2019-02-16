@@ -20,15 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import setuptools
 import os
-import pkgutil
 
-from shoulder.logger import logger
-from shoulder.config import config
+current_directory = os.path.dirname(os.path.abspath(__file__))
 
-import shoulder.filters
-import shoulder.gadget
-import shoulder.generator
-import shoulder.parser
+with open(os.path.join(current_directory, "README.md"), "r") as f:
+    long_description = f.read()
 
-name = "shoulder_pkg"
+setuptools.setup(
+    name="shoulder",
+    version="0.0.1",
+    author="Assured Information Security, Inc",
+    author_email="wrightj@ainfosec.com",
+    description="Generate C/C++ register access intrinsics for ARMv8-A",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/bareflank/shoulder",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+)
