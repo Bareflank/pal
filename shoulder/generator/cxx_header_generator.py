@@ -40,13 +40,13 @@ class CxxHeaderGenerator(AbstractGenerator):
             with open(outfile_path, "w") as outfile:
                 license.generate(objects, outfile)
                 self._generate_cxx_includes(outfile)
-                self._generate_include_guard_open(outfile)
+                include_guard_open.generate(objects, outfile)
                 self._generate_namespace_open(outfile)
 
                 self._generate_objects(objects, outfile)
 
                 self._generate_namespace_close(outfile)
-                self._generate_include_guard_close(outfile)
+                include_guard_close.generate(objects, outfile)
 
         except Exception as e:
             msg = "{g} failed to generate output {out}: {exception}".format(
@@ -61,14 +61,6 @@ class CxxHeaderGenerator(AbstractGenerator):
         cxx_includes += "#include \"{path}\"\n".format(path=config.regs_h_name)
         outfile.write(cxx_includes)
         outfile.write("\n")
-
-    def _generate_include_guard_open(self, outfile):
-        outfile.write("#ifndef SHOULDER_AARCH64_H\n")
-        outfile.write("#define SHOULDER_AARCH64_H\n")
-        outfile.write("\n")
-
-    def _generate_include_guard_close(self, outfile):
-        outfile.write("#endif\n\n")
 
     def _generate_namespace_open(self, outfile):
         if not config.cxx_namespace: return

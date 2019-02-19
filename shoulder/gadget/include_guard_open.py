@@ -20,15 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pkgutil
-
+from shoulder.gadget.abstract_gadget import AbstractGadget
 from shoulder.logger import logger
-from shoulder.config import config
 
-import shoulder.filters
-import shoulder.gadget
-import shoulder.generator
-import shoulder.parser
+class IncludeGuardOpenGadget(AbstractGadget):
+    @property
+    def description(self):
+        return "Generate opening include-guard for a C/C++ header file"
 
-name = "shoulder_pkg"
+    def generate(self, objects, outfile):
+        outfile.write("#ifndef SHOULDER_AARCH64_H\n")
+        outfile.write("#define SHOULDER_AARCH64_H\n")
+        outfile.write("\n")
+
+        msg = "{gadget}: opening include-guard generated".format(
+            gadget = str(type(self).__name__)
+        )
+        logger.debug(msg)
+
+def generate(objects, outfile):
+    g = IncludeGuardOpenGadget()
+    g.generate(objects, outfile)
