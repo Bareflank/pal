@@ -20,9 +20,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pkgutil
-
-pkg_dir = os.path.dirname(__file__)
-for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
-    pkgutil.importlib.import_module('.' + name, __package__)
+from .include_guard import include_guard
+from .license import license

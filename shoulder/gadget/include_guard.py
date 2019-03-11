@@ -20,22 +20,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.gadget.abstract_gadget import AbstractGadget
-from shoulder.logger import logger
+def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
+    """
+    A decorator gadget that generates include guards for C/C++ header files
 
-class IncludeGuardCloseGadget(AbstractGadget):
-    @property
-    def description(self):
-        return "Generate an closing include-guard for a C/C++ header file"
+    Args:
+        name (str): The name of the include guard to generate
 
-    def generate(self, objects, outfile):
-        outfile.write("#endif\n\n")
+    Usage:
+        @include_guard(name=MY_INCLUDE_GUARD_H)
+        function(generator, objects, outfile):
+            outfile.write( <contents to be protected by the include guard> )
+    """
 
-        msg = "{gadget}: closing include-guard generated".format(
-            gadget = str(type(self).__name__)
-        )
-        logger.debug(msg)
+    def _include_guard(decorated):
+        def include_guard_decorator(generator, objects, outfile):
+            outfile.write("#ifndef " + str(name) + "\n")
+            outfile.write("#define " + str(name) + "\n\n")
+            decorated(generator, objects, outfile)
+            outfile.write("#endif\n")
+        return include_guard_decorator
 
-def generate(objects, outfile):
-    g = IncludeGuardCloseGadget()
-    g.generate(objects, outfile)
+    if _decorated is None:
+        return _include_guard
+    else:
+        return _include_guard(_decorated)
