@@ -20,35 +20,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.gadget.abstract_gadget import AbstractGadget
-from shoulder.logger import logger
 from shoulder.config import config
-from shoulder.exception import *
 
-class LicenseGadget(AbstractGadget):
-    @property
-    def description(self):
-        return "Generate the Shoulder license for a C/C++ file"
+def license(_decorated=None, *, path=config.license_template_path):
+    """
+    A decorator gadget that generates a license for source code files
 
-    def generate(self, objects, outfile):
-        try:
-            with open(config.license_template_path, "r") as license:
-                for line in license:
+    Args:
+        path (str): Path to a license file to be generated
+
+    Usage:
+        @license
+        function(generator, objects, outfile):
+            outfile.write( <generate other code that the license applies to> )
+    """
+
+    def _license(decorated):
+        def license_decorator(generator, objects, outfile):
+            with open(path, "r") as license_file:
+                for line in license_file:
                     outfile.write("// " + line)
                 outfile.write("\n")
+            decorated(generator, objects, outfile)
+        return license_decorator
 
-            msg = "{gadget}: license generated".format(
-                gadget = str(type(self).__name__)
-            )
-            logger.debug(msg)
-
-        except Exception as e:
-            msg = "{gadget} failed to generate license: {exception}".format(
-                gadget = str(type(self).__name__),
-                exception = e
-            )
-            raise ShoulderGeneratorException(msg)
-
-def generate(objects, outfile):
-    g = LicenseGadget()
-    g.generate(objects, outfile)
+    if _decorated is None:
+        return _license
+    else:
+        return _license(_decorated)

@@ -38,15 +38,7 @@ class CxxHeaderGenerator(AbstractGenerator):
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C++ header: " + str(outfile_path))
             with open(outfile_path, "w") as outfile:
-                license.generate(objects, outfile)
-                self._generate_cxx_includes(outfile)
-                include_guard_open.generate(objects, outfile)
-                self._generate_namespace_open(outfile)
-
                 self._generate_objects(objects, outfile)
-
-                self._generate_namespace_close(outfile)
-                include_guard_close.generate(objects, outfile)
 
         except Exception as e:
             msg = "{g} failed to generate output {out}: {exception}".format(
@@ -77,7 +69,12 @@ class CxxHeaderGenerator(AbstractGenerator):
         for namespace in namespaces:
             outfile.write("}\n")
 
+    @license
+    @include_guard
     def _generate_objects(self, objects, outfile):
+        self._generate_cxx_includes(outfile)
+        self._generate_namespace_open(outfile)
+
         for obj in objects:
             if(isinstance(obj, Register)):
                 logger.debug("Writing register: " + str(obj.name))
@@ -87,6 +84,8 @@ class CxxHeaderGenerator(AbstractGenerator):
                     t = type(obj)
                 )
                 raise ShoulderGeneratorException(msg)
+
+        self._generate_namespace_close(outfile)
 
     def _generate_register(self, reg, outfile):
         reg_cxx_name = str(reg.name).lower()
