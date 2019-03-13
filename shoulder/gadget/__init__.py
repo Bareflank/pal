@@ -20,5 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from .header_depends import header_depends
 from .include_guard import include_guard
 from .license import license
+
+from .cxx import *

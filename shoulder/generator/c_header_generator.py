@@ -38,7 +38,7 @@ class CHeaderGenerator(AbstractGenerator):
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C Header: " + str(outfile_path))
             with open(outfile_path, "w") as outfile:
-                self._generate_objects(objects, outfile)
+                self._generate_objects(outfile, objects)
 
         except Exception as e:
             msg = "{g} failed to generate output {out}: {exception}".format(
@@ -48,16 +48,10 @@ class CHeaderGenerator(AbstractGenerator):
             )
             raise ShoulderGeneratorException(msg)
 
-    def _generate_c_includes(self, outfile):
-        c_includes = "#include <stdint.h>\n"
-        c_includes += "#include \"{path}\"\n".format(path=config.regs_h_name)
-        outfile.write(c_includes)
-        outfile.write("\n")
-
     @license
     @include_guard
-    def _generate_objects(self, objects, outfile):
-        self._generate_c_includes(outfile)
+    @header_depends
+    def _generate_objects(self, outfile, objects):
         for obj in objects:
             if(isinstance(obj, Register)):
                 logger.debug("Writing register: " + str(obj.name))

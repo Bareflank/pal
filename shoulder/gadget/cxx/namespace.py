@@ -20,34 +20,45 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
+from shoulder.exception import *
+
+def namespace(_decorated=None, *, name=None, indent=0):
     """
-    A decorator gadget that generates include guards for C/C++ header files
+    A decorator gadget that generates a C++ namespace
 
     Args:
-        name (str): The name of the include guard to generate
+        name (str): The name of the C++ namespace to generate (required)
+        indent (int): The indentation level to generate at
 
     Usage:
-        @include_guard(name="MY_INCLUDE_GUARD_H")
+        @namespace(name="my::cxx::namespace")
         function(generator, outfile, ...):
-            outfile.write("contents protected by the include guard")
+            outfile.write("contents inside generated namespace")
 
     Generates:
-        #ifndef SHOULDER_AARCH64_H
-        #define SHOULDER_AARCH64_H
-        contents protected by the include guard
-        #endif
+        my::cxx::namespace
+        {
+        contents inside generated namespace
+        }
     """
+    if not name:
+        msg = "Must provide name argument for namespace gadget"
+        raise ShoulderGeneratorException(msg)
 
-    def _include_guard(decorated):
-        def include_guard_decorator(generator, outfile, *args, **kwargs):
-            outfile.write("#ifndef " + str(name) + "\n")
-            outfile.write("#define " + str(name) + "\n\n")
+    def _namespace(decorated):
+        def namespace_decorator(generator, outfile, *args, **kwargs):
+            indent_str = ""
+            for level in range(0, indent):
+                indent_str += "\t"
+
+            outfile.write(indent_str)
+            outfile.write("namespace " + str(name) + "\n")
+            outfile.write(indent_str + "{\n")
             decorated(generator, outfile, *args, **kwargs)
-            outfile.write("#endif\n")
-        return include_guard_decorator
+            outfile.write(indent_str + "}\n\n")
+        return namespace_decorator
 
     if _decorated is None:
-        return _include_guard
+        return _namespace
     else:
-        return _include_guard(_decorated)
+        return _namespace(_decorated)

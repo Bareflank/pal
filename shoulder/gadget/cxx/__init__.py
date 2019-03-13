@@ -20,34 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
-    """
-    A decorator gadget that generates include guards for C/C++ header files
-
-    Args:
-        name (str): The name of the include guard to generate
-
-    Usage:
-        @include_guard(name="MY_INCLUDE_GUARD_H")
-        function(generator, outfile, ...):
-            outfile.write("contents protected by the include guard")
-
-    Generates:
-        #ifndef SHOULDER_AARCH64_H
-        #define SHOULDER_AARCH64_H
-        contents protected by the include guard
-        #endif
-    """
-
-    def _include_guard(decorated):
-        def include_guard_decorator(generator, outfile, *args, **kwargs):
-            outfile.write("#ifndef " + str(name) + "\n")
-            outfile.write("#define " + str(name) + "\n\n")
-            decorated(generator, outfile, *args, **kwargs)
-            outfile.write("#endif\n")
-        return include_guard_decorator
-
-    if _decorated is None:
-        return _include_guard
-    else:
-        return _include_guard(_decorated)
+from .get_32 import get_32
+from .get_32_from_value import get_32_from_value
+from .get_64 import get_64
+from .get_64_from_value import get_64_from_value
+from .namespace import namespace
+from .set_32 import set_32
+from .set_32_to_value import set_32_to_value
+from .set_64 import set_64
+from .set_64_to_value import set_64_to_value
+from .set_constant import set_constant

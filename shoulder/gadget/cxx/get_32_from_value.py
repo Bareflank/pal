@@ -20,34 +20,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
+def get_32_from_value(_decorated=None, *, indent=0, name="get", arg="val"):
     """
-    A decorator gadget that generates include guards for C/C++ header files
+    A decorator gadget that generates a function declaration for reading a
+    32-bit result from a given 32-bit value. The function decorated by this
+    gadget should generate the function's body.
 
     Args:
-        name (str): The name of the include guard to generate
+        indent (int): The indentation level to generate at
+        name (str): The name of the function to generate
+        arg (str): The name of the function argument to generate
 
     Usage:
-        @include_guard(name="MY_INCLUDE_GUARD_H")
+        @get_32_from_value
         function(generator, outfile, ...):
-            outfile.write("contents protected by the include guard")
+            outfile.write("contents inside function body")
 
     Generates:
-        #ifndef SHOULDER_AARCH64_H
-        #define SHOULDER_AARCH64_H
-        contents protected by the include guard
-        #endif
+        inline uint32_t get(uint32_t val) noexcept
+        { contents inside function body }
     """
+    def _get_32_from_value(decorated):
+        def get_32_from_value_decorator(generator, outfile, *args, **kwargs):
+            indent_str = ""
+            for level in range(0, indent):
+                indent_str += "\t"
 
-    def _include_guard(decorated):
-        def include_guard_decorator(generator, outfile, *args, **kwargs):
-            outfile.write("#ifndef " + str(name) + "\n")
-            outfile.write("#define " + str(name) + "\n\n")
+            outfile.write(indent_str)
+            outfile.write("inline uint32_t " + str(name))
+            outfile.write("(uint32_t " + str(arg) +") noexcept")
+            outfile.write("\n" + indent_str + "{ ")
             decorated(generator, outfile, *args, **kwargs)
-            outfile.write("#endif\n")
-        return include_guard_decorator
+            outfile.write(" }\n\n")
+        return get_32_from_value_decorator
 
     if _decorated is None:
-        return _include_guard
+        return _get_32_from_value
     else:
-        return _include_guard(_decorated)
+        return _get_32_from_value(_decorated)

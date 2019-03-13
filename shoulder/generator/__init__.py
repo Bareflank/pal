@@ -24,6 +24,8 @@ import os
 import pkgutil
 
 from shoulder.logger import logger
+from shoulder.config import config
+import shutil
 
 pkg_dir = os.path.dirname(__file__)
 for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
@@ -47,6 +49,9 @@ def generate_all(objects, outdir):
         sub_outdir = os.path.abspath(os.path.join(outdir, generator_class.__name__))
         if not os.path.exists(sub_outdir):
                 os.makedirs(sub_outdir)
+
+        if os.path.exists(config.accessor_macros_path):
+            shutil.copy(config.accessor_macros_path, sub_outdir)
 
         g = generator_class()
         g.generate(objects, sub_outdir)

@@ -22,7 +22,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include <stdint.h>
-#include "regs.h"
+#include "aarch64_gcc_accessor_macros.h"
 #include "catch.hpp"
 
 // -----------------------------------------------------------------------------
