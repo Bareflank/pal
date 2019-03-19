@@ -73,8 +73,7 @@ add_custom_target(package ALL DEPENDS ${SHOULDER_PKG_STAMP})
 
 install(DIRECTORY shoulder DESTINATION lib/python3/dist-packages)
 install(DIRECTORY scripts DESTINATION lib/python3/dist-packages)
-
-# TODO: Figure out how to install/integrate regs.h into these headers
+install(DIRECTORY include DESTINATION lib/python3/dist-packages)
 install(DIRECTORY output/ DESTINATION include/shoulder)
 
 #TODO: Remove this, we shoulden't rely on installing the xml specification

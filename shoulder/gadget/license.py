@@ -31,17 +31,17 @@ def license(_decorated=None, *, path=config.license_template_path):
 
     Usage:
         @license
-        function(generator, objects, outfile):
+        function(generator, outfile, ...):
             outfile.write( <generate other code that the license applies to> )
     """
 
     def _license(decorated):
-        def license_decorator(generator, objects, outfile):
+        def license_decorator(generator, outfile, *args, **kwargs):
             with open(path, "r") as license_file:
                 for line in license_file:
                     outfile.write("// " + line)
                 outfile.write("\n")
-            decorated(generator, objects, outfile)
+            decorated(generator, outfile, *args, **kwargs)
         return license_decorator
 
     if _decorated is None:

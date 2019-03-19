@@ -20,34 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
+def header_depends(decorated):
     """
-    A decorator gadget that generates include guards for C/C++ header files
-
-    Args:
-        name (str): The name of the include guard to generate
+    A decorator gadget that generates dependency-includes for C/C++ header files
 
     Usage:
-        @include_guard(name="MY_INCLUDE_GUARD_H")
+        @header_depends
         function(generator, outfile, ...):
-            outfile.write("contents protected by the include guard")
-
-    Generates:
-        #ifndef SHOULDER_AARCH64_H
-        #define SHOULDER_AARCH64_H
-        contents protected by the include guard
-        #endif
+            outfile.write( <contents that depend on included headers> )
     """
 
-    def _include_guard(decorated):
-        def include_guard_decorator(generator, outfile, *args, **kwargs):
-            outfile.write("#ifndef " + str(name) + "\n")
-            outfile.write("#define " + str(name) + "\n\n")
-            decorated(generator, outfile, *args, **kwargs)
-            outfile.write("#endif\n")
-        return include_guard_decorator
+    def header_depends_decorator(generator, outfile, *args, **kwargs):
+        outfile.write("#include <stdint.h>\n")
+        outfile.write("#include \"aarch64_gcc_accessor_macros.h\"\n")
+        outfile.write("\n")
+        decorated(generator, outfile, *args, **kwargs)
+    return header_depends_decorator
 
-    if _decorated is None:
-        return _include_guard
-    else:
-        return _include_guard(_decorated)

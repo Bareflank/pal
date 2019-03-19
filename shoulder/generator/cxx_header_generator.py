@@ -30,15 +30,13 @@ from shoulder.exception import *
 from shoulder.gadget import *
 
 class CxxHeaderGenerator(AbstractGenerator):
-    def __init__(self):
-        self._current_indent_level = 0
 
     def generate(self, objects, outpath):
         try:
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C++ header: " + str(outfile_path))
             with open(outfile_path, "w") as outfile:
-                self._generate_objects(objects, outfile)
+                self._generate(outfile, objects)
 
         except Exception as e:
             msg = "{g} failed to generate output {out}: {exception}".format(
@@ -48,50 +46,156 @@ class CxxHeaderGenerator(AbstractGenerator):
             )
             raise ShoulderGeneratorException(msg)
 
-    def _generate_cxx_includes(self, outfile):
-        cxx_includes = "#include <stdint>\n"
-        cxx_includes += "#include \"{path}\"\n".format(path=config.regs_h_name)
-        outfile.write(cxx_includes)
-        outfile.write("\n")
-
-    def _generate_namespace_open(self, outfile):
-        if not config.cxx_namespace: return
-        namespace_str = str(config.cxx_namespace)
-        namespaces = namespace_str.split("::")
-        if namespaces[0]:
-            for namespace in namespaces:
-                outfile.write("namespace " + namespace + "\n{\n")
-
-    def _generate_namespace_close(self, outfile):
-        if not config.cxx_namespace: return
-        namespace_str = str(config.cxx_namespace)
-        namespaces = namespace_str.split("::")
-        for namespace in namespaces:
-            outfile.write("}\n")
-
     @license
     @include_guard
-    def _generate_objects(self, objects, outfile):
-        self._generate_cxx_includes(outfile)
-        self._generate_namespace_open(outfile)
-
+    @header_depends
+    @cxx.namespace(name=config.cxx_namespace)
+    def _generate(self, outfile, objects):
+        """
+        Generate for all objects passed into this generator.  Wrap all generated
+        content in a license, include guard, and namespace. Append low-level
+        accessor macros before generating register accessors
+        """
         for obj in objects:
             if(isinstance(obj, Register)):
+                if not obj.is_sysreg: return
+
                 logger.debug("Writing register: " + str(obj.name))
-                self._generate_register(obj, outfile)
+                self._generate_register(outfile, obj)
+
             else:
                 msg = "Cannot generate object of unsupported {t} type".format(
                     t = type(obj)
                 )
                 raise ShoulderGeneratorException(msg)
 
-        self._generate_namespace_close(outfile)
+    def _generate_register(self, outfile, reg):
+        """
+        Generate accessors for a single register
+        """
+        self._generate_register_comment(outfile, reg)
 
-    def _generate_register(self, reg, outfile):
-        reg_cxx_name = str(reg.name).lower()
-        reg_cxx_size = "uint64_t" if reg.size == 64 else "uint32_t"
+        @cxx.namespace(name=str(reg.name).lower())
+        def _in_register_namespace(self, outfile, reg):
+            if reg.size == 32:
+                self._generate_sysreg_32_get(outfile, reg)
+                self._generate_sysreg_32_set(outfile, reg)
 
-        outfile.write("\n")
+            else:
+                self._generate_sysreg_64_get(outfile, reg)
+                self._generate_sysreg_64_set(outfile, reg)
+
+            self._generate_register_fieldsets(outfile, reg)
+
+        _in_register_namespace(self, outfile, reg)
+
+    def _generate_register_fieldsets(self, outfile, reg):
+        """
+        Generate accessors for all fieldsets that belong to a register
+        """
+        fieldsets = reg.fieldsets
+
+        if len(fieldsets) == 1:
+            self._generate_fieldset(outfile, reg, fieldsets[0])
+
+        elif len(fieldsets) > 1:
+            for idx, fieldset in enumerate(fieldsets):
+                self._generate_fieldset_comment(outfile, fieldset)
+
+                @cxx.namespace(name="fieldset_" + str(idx), indent=1)
+                def _in_fieldset_namespace(self, outfile, reg, fieldset):
+                    self._generate_fieldset(outfile, reg, fieldset)
+
+                _in_fieldset_namespace(self, outfile, reg, fieldset)
+        else:
+            logger.debug("No fieldsets generated for system register " + str(reg.name))
+
+    def _generate_fieldset(self, outfile, reg, fieldset):
+        """
+        Generate accessors for a single register fieldset
+        """
+        for field in fieldset.fields:
+
+            @cxx.namespace(name=str(field.name).lower(), indent=1)
+            def _in_field_namespace(self, outfile):
+                self._generate_field_constants(outfile, reg, field)
+
+                if(field.msb == field.lsb):
+                    self._generate_bitfield_accessors(outfile, reg, field)
+
+                else:
+                    self._generate_field_accessors(outfile, reg, field)
+
+            _in_field_namespace(self, outfile)
+
+    def _generate_field_constants(self, outfile, reg, field):
+        """
+        Generate constants for a field (i.e. mask, msb, lsb)
+        """
+        field_prefix = "\t\tconstexpr "
+        mask_val = 0
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+            outfile.write(field_prefix + "uint32_t mask = " + str(mask) + ";\n")
+            outfile.write(field_prefix + "uint32_t msb  = " + str(field.msb) + ";\n")
+            outfile.write(field_prefix + "uint32_t lsb  = " + str(field.lsb) + ";\n")
+            outfile.write("\n")
+
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+            outfile.write(field_prefix + "uint64_t mask = " + str(mask) + ";\n")
+            outfile.write(field_prefix + "uint64_t msb  = " + str(field.msb) + ";\n")
+            outfile.write(field_prefix + "uint64_t lsb  = " + str(field.lsb) + ";\n")
+            outfile.write("\n")
+
+    def _generate_field_accessors(self, outfile, reg, field):
+        """
+        Generate accessors for a field (i.e. larger than a single bit)
+        """
+        if reg.size == 32:
+            self._generate_sysreg_32_register_field_read(outfile, reg, field)
+            self._generate_value_32_register_field_read(outfile, reg, field)
+            self._generate_sysreg_32_register_field_write(outfile, reg, field)
+            self._generate_value_32_register_field_write(outfile, reg, field)
+
+        else:
+            self._generate_sysreg_64_register_field_read(outfile, reg, field)
+            self._generate_value_64_register_field_read(outfile, reg, field)
+            self._generate_sysreg_64_register_field_write(outfile, reg, field)
+            self._generate_value_64_register_field_write(outfile, reg, field)
+
+    def _generate_bitfield_accessors(self, outfile, reg, field):
+        """
+        Generate accessors for a bitfield (i.e. a single bit)
+        """
+        if reg.size == 32:
+            self._generate_sysreg_32_is_bit_set(outfile, reg, field)
+            self._generate_value_32_is_bit_set(outfile, reg, field)
+            self._generate_sysreg_32_is_bit_cleared(outfile, reg, field)
+            self._generate_value_32_is_bit_cleared(outfile, reg, field)
+            self._generate_sysreg_32_bit_set(outfile, reg, field)
+            self._generate_value_32_bit_set(outfile, reg, field)
+            self._generate_sysreg_32_bit_clear(outfile, reg, field)
+            self._generate_value_32_bit_clear(outfile, reg, field)
+
+        else:
+            self._generate_sysreg_64_is_bit_set(outfile, reg, field)
+            self._generate_value_64_is_bit_set(outfile, reg, field)
+            self._generate_sysreg_64_is_bit_cleared(outfile, reg, field)
+            self._generate_value_64_is_bit_cleared(outfile, reg, field)
+            self._generate_sysreg_64_bit_set(outfile, reg, field)
+            self._generate_value_64_bit_set(outfile, reg, field)
+            self._generate_sysreg_64_bit_clear(outfile, reg, field)
+            self._generate_value_64_bit_clear(outfile, reg, field)
+
+    def _generate_register_comment(self, outfile, reg):
+        """
+        Generate a comment for a register
+        """
         reg_comment = "// {name} ({long_name})\n// {purpose}\n".format(
             name = str(reg.name),
             long_name = str(reg.long_name),
@@ -99,299 +203,256 @@ class CxxHeaderGenerator(AbstractGenerator):
         )
         outfile.write(reg_comment)
 
-        reg_namespace = "namespace {name}\n{{\n".format(name=reg_cxx_name)
-        outfile.write(reg_namespace)
-
-        self._increase_indent()
-
-        reg_getter = "{indent}inline {size_t} {funcname}(void) noexcept "
-        reg_getter += "{{ GET_SYSREG_FUNC({regname}) }}\n"
-        reg_getter = reg_getter.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            funcname = config.register_read_function,
-            regname = reg_cxx_name
-        )
-        outfile.write(reg_getter)
-
-        reg_setter = "{indent}inline void {funcname}({size_t} val) noexcept "
-        reg_setter += "{{ SET_SYSREG_BY_VALUE_FUNC({regname}, val) }}\n"
-        reg_setter = reg_setter.format(
-            indent = self._indent_string(),
-            funcname = config.register_write_function,
-            size_t = reg_cxx_size,
-            regname = reg_cxx_name
-        )
-        outfile.write(reg_setter)
-
-        self._generate_fieldsets(reg, outfile)
-
-        # TODO: Make Bareflank independent printing function
-        outfile.write("\n")
-        dump_func = "{indent}inline void dump(int level, std::string *msg = nullptr)\n{indent}{{\n"
-        dump_func = dump_func.format(
-            indent = self._indent_string()
-        )
-        outfile.write(dump_func)
-
-        self._increase_indent()
-        dump_func = "{indent}bfdebug_nhex(level, name, get(), msg);\n"
-        for idx, fieldset in enumerate(reg.fieldsets):
-            for field in fieldset.fields:
-                field_cxx_name = field.name.lower()
-                dump_func += "{indent}{fieldname}::dump(level, msg);\n"
-                dump_func = dump_func.format(
-                    indent = self._indent_string(),
-                    fieldname = field_cxx_name,
-                )
-        outfile.write(dump_func)
-        self._decrease_indent()
-
-        outfile.write(self._indent_string())
-        dump_func = "}\n"
-        outfile.write(dump_func)
-
-        outfile.write("}\n")
-        self._decrease_indent()
-
-    def _generate_fieldsets(self, reg, outfile):
-        if not reg.is_sysreg: return
-        fieldsets = reg.fieldsets
-
-        if len(fieldsets) == 1:
-            self._generate_single_fieldset(reg, fieldsets[0], outfile)
-        elif len(reg.fieldsets) > 1:
-            for idx, fieldset in enumerate(fieldsets):
-                outfile.write("\n")
-
-                if(fieldset.condition is not None):
-                    fieldset_comment = "{indent}// Fieldset valid when: {comment}\n".format(
-                        indent = self._indent_string(),
-                        comment = str(fieldset.condition)
-                    )
-                    outfile.write(fieldset_comment)
-
-                fieldset_namespace = "{indent}namespace {name}\n{indent}{{".format(
-                    indent = self._indent_string(),
-                    name = "fieldset_" + str(idx + 1)
-                )
-                outfile.write(fieldset_namespace)
-
-                self._increase_indent()
-                self._generate_single_fieldset(reg, fieldset, outfile)
-                self._decrease_indent()
-
-                fieldset_namespace_close = "{indent}}}\n".format(
-                    indent = self._indent_string()
-                )
-                outfile.write(fieldset_namespace_close)
-        else:
-            logger.debug("No fieldsets generated for system register " + str(reg.name))
-
-    def _generate_single_fieldset(self, reg, fieldset, outfile):
-        for field in fieldset.fields:
-            field_cxx_name = field.name.lower()
-            outfile.write("\n")
-            field_namespace = "{indent}namespace {name}\n{indent}{{\n".format(
-                indent = self._indent_string(),
-                name = field_cxx_name
+    def _generate_fieldset_comment(self, outfile, fieldset):
+        """
+        Generate a comment for a fieldset
+        """
+        if(fieldset.condition is not None):
+            fieldset_comment = "\t// Fieldset valid when: {comment}\n".format(
+                comment = str(fieldset.condition)
             )
-            outfile.write(field_namespace)
+            outfile.write(fieldset_comment)
 
-            self._increase_indent()
-            if(field.msb == field.lsb):
-                self._generate_bitfield_accessors(reg, field, outfile)
-            else:
-                self._generate_field_accessors(reg, field, outfile)
-            # TODO: Create Bareflank independent printing function
-            dump_func = "{indent}inline void dump(int level, std::string *msg = nullptr) "
-            dump_func += "{{ bfdebug_subnhex(level, name, get(), msg); }}\n"
-            dump_func = dump_func.format(
-                indent = self._indent_string()
-            )
-            outfile.write(dump_func)
-            self._decrease_indent()
+    @cxx.get_32(indent=1)
+    def _generate_sysreg_32_get(self, outfile, reg):
+        """
+        Generate a function that reads a 32-bit system register directly
+        """
+        outfile.write("GET_SYSREG_FUNC(" + str(reg.name).lower() + ")")
 
-            field_namespace_close = "{indent}}}\n".format(
-                indent = self._indent_string()
-            )
-            outfile.write(field_namespace_close)
+    @cxx.get_64(indent=1)
+    def _generate_sysreg_64_get(self, outfile, reg):
+        """
+        Generate a function that reads a 64-bit system register directly
+        """
+        outfile.write("GET_SYSREG_FUNC(" + str(reg.name).lower() + ")")
 
-    def _generate_bitfield_accessors(self, reg, field, outfile):
-        mask = "0x" + format(1 << field.msb, 'x')
-        reg_cxx_name = reg.name.lower()
-        reg_val_cxx_name = reg_cxx_name + "_val"
-        reg_cxx_size = "uint64_t" if reg.size == 64 else "uint32_t"
+    @cxx.set_32(indent=1)
+    def _generate_sysreg_32_set(self, outfile, reg):
+        """
+        Generate a function that writes to a 32-bit system register directly
+        """
+        outfile.write("SET_SYSREG_BY_VALUE_FUNC(" + str(reg.name).lower() + ", val)")
 
-        # Check bit enabled from the system register directly
-        accessor = "{indent}inline {size_t} {func}() noexcept "
-        accessor += "{{ IS_SYSREG_BIT_ENABLED_FUNC({regname}, {msb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.is_bit_set_function,
-            regname = reg_cxx_name,
-            msb = field.msb
-        )
-        outfile.write(accessor)
+    @cxx.set_64(indent=1)
+    def _generate_sysreg_64_set(self, outfile, reg):
+        """
+        Generate a function that writes to a 64-bit system register directly
+        """
+        outfile.write("SET_SYSREG_BY_VALUE_FUNC(" + str(reg.name).lower() + ", val)")
 
-        # Check bit enabled from an integer value
-        accessor = "{indent}inline {size_t} {func}({size_t} {arg}) noexcept "
-        accessor += "{{ IS_BIT_ENABLED_FUNC({arg}, {msb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.is_bit_set_function,
-            arg = reg_val_cxx_name,
-            msb = field.msb
-        )
-        outfile.write(accessor)
+    @cxx.get_32(indent=2, name=str(config.is_bit_set_function))
+    def _generate_sysreg_32_is_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is enabled by reading from a
+        32-bit system register directly
+        """
+        outfile.write("IS_SYSREG_BIT_ENABLED_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", lsb)")
 
-        # Check bit disabled from the system register directly
-        accessor = "{indent}inline {size_t} {func}() noexcept "
-        accessor += "{{ IS_SYSREG_BIT_DISABLED_FUNC({regname}, {msb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.is_bit_cleared_function,
-            regname = reg_cxx_name,
-            msb = field.msb
-        )
-        outfile.write(accessor)
+    @cxx.get_64(indent=2, name=str(config.is_bit_set_function))
+    def _generate_sysreg_64_is_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is enabled by reading from a
+        64-bit system register directly
+        """
+        outfile.write("IS_SYSREG_BIT_ENABLED_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", lsb)")
 
-        # Check bit disabled from an integer value
-        accessor = "{indent}inline {size_t} {func}({size_t} {arg}) noexcept "
-        accessor += "{{ IS_BIT_DISABLED_FUNC({arg}, {msb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.is_bit_cleared_function,
-            arg = reg_val_cxx_name,
-            msb = field.msb
-        )
-        outfile.write(accessor)
+    @cxx.get_32_from_value(indent=2, name=str(config.is_bit_set_function))
+    def _generate_value_32_is_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is enabled by reading from a
+        32-bit integer value
+        """
+        outfile.write("IS_BIT_ENABLED_FUNC(val, lsb)")
 
-        # Enable the bit in the system register directly
-        accessor = "{indent}inline void {func}() noexcept "
-        accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({regname}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            func = config.bit_set_function,
-            regname = reg_cxx_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+    @cxx.get_64_from_value(indent=2, name=str(config.is_bit_set_function))
+    def _generate_value_64_is_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is enabled by reading from a
+        64-bit integer value
+        """
+        outfile.write("IS_BIT_ENABLED_FUNC(val, lsb)")
 
-        # Enable the bit in an integer value
-        accessor = "{indent}inline {size_t} {func}({size_t} {arg}) noexcept "
-        accessor += "{{ SET_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.bit_set_function,
-            arg = reg_val_cxx_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+    @cxx.get_32(indent=2, name=str(config.is_bit_cleared_function))
+    def _generate_sysreg_32_is_bit_cleared(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is disabled by reading from a
+        32-bit system register directly
+        """
+        outfile.write("IS_SYSREG_BIT_DISABLED_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", lsb)")
 
-        # Disable the bit in the system register directly
-        accessor = "{indent}inline void {func}() noexcept "
-        accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({regname}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            func = config.bit_clear_function,
-            regname = reg_cxx_name,
-            mask = mask,
-        )
-        outfile.write(accessor)
+    @cxx.get_64(indent=2, name=str(config.is_bit_cleared_function))
+    def _generate_sysreg_64_is_bit_cleared(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is disabled by reading from a
+        64-bit system register directly
+        """
+        outfile.write("IS_SYSREG_BIT_DISABLED_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", lsb)")
 
-        # Disable the bit in an integer value
-        accessor = "{indent}inline {size_t} {func}({size_t} {arg}) noexcept "
-        accessor += "{{ CLEAR_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.bit_clear_function,
-            arg = reg_val_cxx_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+    @cxx.get_32_from_value(indent=2, name=str(config.is_bit_cleared_function))
+    def _generate_value_32_is_bit_cleared(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is disabled by reading from a
+        32-bit integer value
+        """
+        outfile.write("IS_BIT_DISABLED_FUNC(val, lsb)")
 
-    def _generate_field_accessors(self, reg, field, outfile):
-        mask_val = 0
-        for i in range(field.lsb, field.msb + 1):
-            mask_val |= 1 << i
-        mask = "0x" + format(mask_val, 'x')
+    @cxx.get_64_from_value(indent=2, name=str(config.is_bit_cleared_function))
+    def _generate_value_64_is_bit_cleared(self, outfile, reg, field):
+        """
+        Generate a function that checks if a bit is disabled by reading from a
+        64-bit integer value
+        """
+        outfile.write("IS_BIT_DISABLED_FUNC(val, lsb)")
 
-        reg_cxx_name = reg.name.lower()
-        reg_val_cxx_name = reg_cxx_name + "_val"
-        reg_cxx_size = "uint64_t" if reg.size == 64 else "uint32_t"
+    @cxx.set_constant(indent=2, name=str(config.bit_set_function))
+    def _generate_sysreg_32_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that enables a bit by writing to a 32-bit system
+        register directly
+        """
+        outfile.write("SET_SYSREG_BITS_BY_MASK_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask)")
 
-        # Get the field value from the system register directly
-        accessor = "{indent}inline {size_t} {func}() noexcept "
-        accessor += "{{ GET_SYSREG_FIELD_FUNC({regname}, {mask}, {lsb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.register_field_read_function,
-            regname = reg_cxx_name,
-            mask = mask,
-            lsb = field.lsb
-        )
-        outfile.write(accessor)
+    @cxx.set_constant(indent=2, name=str(config.bit_set_function))
+    def _generate_sysreg_64_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that enables a bit by writing to a 64-bit system
+        register directly
+        """
+        outfile.write("SET_SYSREG_BITS_BY_MASK_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask)")
 
-        # Get the field value from an integer value
-        accessor = "{indent}inline {size_t} {func}({size_t} {arg}) noexcept "
-        accessor += "{{ GET_BITFIELD_FUNC({arg}, {mask}, {lsb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_cxx_size,
-            func = config.register_field_read_function,
-            arg = reg_val_cxx_name,
-            mask = mask,
-            lsb = field.lsb
-        )
-        outfile.write(accessor)
+    @cxx.get_32_from_value(indent=2, name=str(config.bit_set_function))
+    def _generate_value_32_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that enables a bit by writing to a 32-bit integer
+        value
+        """
+        outfile.write("SET_BITS_BY_MASK_FUNC(val, mask)")
 
-        # Set the field's value in the system register directly
-        accessor = "{indent}inline void {func}({size_t} {arg}) noexcept "
-        accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({regname}, {arg}, {mask}, {lsb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            func = config.register_field_write_function,
-            size_t = reg_cxx_size,
-            regname = reg_cxx_name,
-            arg = "value",
-            mask = mask,
-            lsb = field.lsb
-        )
-        outfile.write(accessor)
+    @cxx.get_64_from_value(indent=2, name=str(config.bit_set_function))
+    def _generate_value_64_bit_set(self, outfile, reg, field):
+        """
+        Generate a function that enables a bit by writing to a 64-bit integer
+        value
+        """
+        outfile.write("SET_BITS_BY_MASK_FUNC(val, mask)")
 
-        # Set the field's value in an integer value
-        accessor = "{indent}inline {size_t} {func}({size_t} {arg1}, {size_t} {arg2}) noexcept "
-        accessor += "{{ SET_BITS_BY_VALUE_FUNC({arg1}, {arg2}, {mask}, {lsb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            func = config.register_field_write_function,
-            size_t = reg_cxx_size,
-            arg1 = reg_cxx_name,
-            arg2 = "value",
-            mask = mask,
-            lsb = field.lsb
-        )
-        outfile.write(accessor)
+    @cxx.set_constant(indent=2, name=str(config.bit_clear_function))
+    def _generate_sysreg_32_bit_clear(self, outfile, reg, field):
+        """
+        Generate a function that disables a bit by writing to a 32-bit system
+        register directly
+        """
+        outfile.write("CLEAR_SYSREG_BITS_BY_MASK_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask)")
 
+    @cxx.set_constant(indent=2, name=str(config.bit_clear_function))
+    def _generate_sysreg_64_bit_clear(self, outfile, reg, field):
+        """
+        Generate a function that disables a bit by writing to a 64-bit system
+        register directly
+        """
+        outfile.write("CLEAR_SYSREG_BITS_BY_MASK_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask)")
 
-    def _increase_indent(self):
-        self._current_indent_level += 1
+    @cxx.get_32_from_value(indent=2, name=str(config.bit_clear_function))
+    def _generate_value_32_bit_clear(self, outfile, reg, field):
+        """
+        Generate a function that disables a bit by writing to a 32-bit integer
+        value
+        """
+        outfile.write("CLEAR_BITS_BY_MASK_FUNC(val, mask)")
 
-    def _decrease_indent(self):
-        if self._current_indent_level <= 0:
-            raise ShoulderGeneratorException("Indent level cannot be negative")
-        self._current_indent_level -= 1
+    @cxx.get_64_from_value(indent=2, name=str(config.bit_clear_function))
+    def _generate_value_64_bit_clear(self, outfile, reg, field):
+        """
+        Generate a function that disables a bit by writing to a 64-bit integer
+        value
+        """
+        outfile.write("CLEAR_BITS_BY_MASK_FUNC(val, mask)")
 
-    def _indent_string(self):
-        indent_str = ""
-        for level in range(0, self._current_indent_level):
-            indent_str += "\t"
-        return indent_str
+    @cxx.get_32(indent=2, name=str(config.register_field_read_function))
+    def _generate_sysreg_32_register_field_read(self, outfile, reg, field):
+        """
+        Generate a function that gets a field value by reading from a 32-bit
+        system register directly
+        """
+        outfile.write("GET_SYSREG_FIELD_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask, lsb)")
+
+    @cxx.get_64(indent=2, name=str(config.register_field_read_function))
+    def _generate_sysreg_64_register_field_read(self, outfile, reg, field):
+        """
+        Generate a function that gets a field value by reading from a 64-bit
+        system register directly
+        """
+        outfile.write("GET_SYSREG_FIELD_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask, lsb)")
+
+    @cxx.get_32_from_value(indent=2, name=str(config.register_field_read_function))
+    def _generate_value_32_register_field_read(self, outfile, reg, field):
+        """
+        Generate a function that gets a field value by reading from a 32-bit
+        integer value
+        """
+        outfile.write("GET_BITFIELD_FUNC(val, mask, lsb)")
+
+    @cxx.get_64_from_value(indent=2, name=str(config.register_field_read_function))
+    def _generate_value_64_register_field_read(self, outfile, reg, field):
+        """
+        Generate a function that gets a field value by reading from a 64-bit
+        integer value
+        """
+        outfile.write("GET_BITFIELD_FUNC(val, mask, lsb)")
+
+    @cxx.set_32(indent=2, name=str(config.register_field_write_function))
+    def _generate_sysreg_32_register_field_write(self, outfile, reg, field):
+        """
+        Generate a function that sets a field value by writing to a 32-bit
+        system register directly
+        """
+        outfile.write("GET_SYSREG_FIELD_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask, lsb)")
+
+    @cxx.set_64(indent=2, name=str(config.register_field_write_function))
+    def _generate_sysreg_64_register_field_write(self, outfile, reg, field):
+        """
+        Generate a function that sets a field value by writing to a 64-bit
+        system register directly
+        """
+        outfile.write("GET_SYSREG_FIELD_FUNC(")
+        outfile.write(str(reg.name).lower())
+        outfile.write(", mask, lsb)")
+
+    @cxx.set_32_to_value(indent=2, name=str(config.register_field_write_function))
+    def _generate_value_32_register_field_write(self, outfile, reg, field):
+        """
+        Generate a function that sets a field value by writing to a 32-bit
+        integer value
+        """
+        outfile.write("SET_BITS_BY_VALUE_FUNC(val, fieldval, mask, lsb)")
+
+    @cxx.set_64_to_value(indent=2, name=str(config.register_field_write_function))
+    def _generate_value_64_register_field_write(self, outfile, reg, field):
+        """
+        Generate a function that sets a field value by writing to a 64-bit
+        integer value
+        """
+        outfile.write("SET_BITS_BY_VALUE_FUNC(val, fieldval, mask, lsb)")
