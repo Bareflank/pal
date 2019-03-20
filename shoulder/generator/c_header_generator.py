@@ -143,7 +143,10 @@ class CHeaderGenerator(AbstractGenerator):
             self._generate_single_fieldset(reg, fieldsets[0], outfile)
         elif len(fieldsets) > 1:
             for idx, fieldset in enumerate(fieldsets):
+                temp = reg.name
+                reg.name = reg.name + "_fieldset_" + str(idx + 1)
                 self._generate_single_fieldset(reg, fieldset, outfile)
+                reg.name = temp
         else:
             logger.debug("No fieldsets generated for system register " + str(reg.name))
 

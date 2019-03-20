@@ -106,6 +106,7 @@ class ArmV8XmlParser(AbstractParser):
             if purpose_node is not None:
                 ET.strip_tags(purpose_node, "arm-defined-word", "register_link")
                 reg.purpose = purpose_node.text
+                reg.purpose = reg.purpose.replace("\n", " ")
         elif len(purpose_text_nodes) > 1:
             text = "See the ARMv" + str(self.aarch_version_major)
             if self.aarch_version_minor is not None:
@@ -113,6 +114,7 @@ class ArmV8XmlParser(AbstractParser):
             text += " architecture reference manual for a description"
             text += " of this register"
             reg.purpose = text
+            reg.purpose = reg.purpose.replace("\n", " ")
 
         if reg.purpose is not None:
             logger.debug("purpose = " + reg.purpose)
@@ -152,6 +154,7 @@ class ArmV8XmlParser(AbstractParser):
                     raise ShoulderParserException(error_msg)
 
                 name = name_node.text
+                name = name.replace(" ", "_")
                 msb = int(field_node.find("./field_msb").text)
                 lsb = int(field_node.find("./field_lsb").text)
                 fieldset.add_field(name, msb, lsb)
