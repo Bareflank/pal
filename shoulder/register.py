@@ -31,6 +31,7 @@ class Register(object):
         self.offset = None
         self.is_sysreg = True
         self.fieldsets = []
+        self.is_writable = False
 
     def __str__(self):
         msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"

@@ -87,18 +87,19 @@ class CHeaderGenerator(AbstractGenerator):
         )
         outfile.write(reg_getter)
 
-        reg_setter = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{funcname}({size_t} val) "
-        reg_setter += "{{ SET_SYSREG_BY_VALUE_FUNC({accessname}, val) }}\n"
-        reg_setter = reg_setter.format(
-            indent = self._indent_string(),
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            funcname = config.register_write_function,
-            size_t = reg_c_size,
-            accessname = reg_c_access_name
-        )
-        outfile.write(reg_setter)
+        if reg.is_writable:
+            reg_setter = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{funcname}({size_t} val) "
+            reg_setter += "{{ SET_SYSREG_BY_VALUE_FUNC({accessname}, val) }}\n"
+            reg_setter = reg_setter.format(
+                indent = self._indent_string(),
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                funcname = config.register_write_function,
+                size_t = reg_c_size,
+                accessname = reg_c_access_name
+            )
+            outfile.write(reg_setter)
 
         self._generate_fieldsets(reg, outfile)
 
@@ -132,8 +133,8 @@ class CHeaderGenerator(AbstractGenerator):
         #  outfile.write(self._indent_string())
         #  dump_func = "}\n"
         #  outfile.write(dump_func)
-        #
-        #  outfile.write("\n")
+
+        outfile.write("\n")
 
     def _generate_fieldsets(self, reg, outfile):
         if not reg.is_sysreg: return
@@ -255,67 +256,68 @@ class CHeaderGenerator(AbstractGenerator):
         )
         outfile.write(accessor)
 
-        # Enable the bit in the system register directly
-        accessor = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            fieldname = field_c_name,
-            func = config.bit_set_function,
-            accessname = reg_c_access_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+        if reg.is_writable:
+            # Enable the bit in the system register directly
+            accessor = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
+            accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
+            accessor = accessor.format(
+                indent = self._indent_string(),
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                fieldname = field_c_name,
+                func = config.bit_set_function,
+                accessname = reg_c_access_name,
+                mask = mask
+            )
+            outfile.write(accessor)
 
-        # Enable the bit in an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
-        accessor += "{{ SET_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_c_size,
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            fieldname = field_c_name,
-            func = config.bit_set_function,
-            arg = reg_val_c_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+            # Enable the bit in an integer value
+            accessor = "{indent}inline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+            accessor += "{{ SET_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
+            accessor = accessor.format(
+                indent = self._indent_string(),
+                size_t = reg_c_size,
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                fieldname = field_c_name,
+                func = config.bit_set_function,
+                arg = reg_val_c_name,
+                mask = mask
+            )
+            outfile.write(accessor)
 
-        # Disable the bit in the system register directly
-        accessor = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
-        accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            fieldname = field_c_name,
-            func = config.bit_clear_function,
-            accessname = reg_c_access_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+            # Disable the bit in the system register directly
+            accessor = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
+            accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
+            accessor = accessor.format(
+                indent = self._indent_string(),
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                fieldname = field_c_name,
+                func = config.bit_clear_function,
+                accessname = reg_c_access_name,
+                mask = mask
+            )
+            outfile.write(accessor)
 
-        # Disable the bit in an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
-        accessor += "{{ CLEAR_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_c_size,
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            fieldname = field_c_name,
-            func = config.bit_clear_function,
-            arg = reg_val_c_name,
-            mask = mask
-        )
-        outfile.write(accessor)
+            # Disable the bit in an integer value
+            accessor = "{indent}inline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
+            accessor += "{{ CLEAR_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
+            accessor = accessor.format(
+                indent = self._indent_string(),
+                size_t = reg_c_size,
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                fieldname = field_c_name,
+                func = config.bit_clear_function,
+                arg = reg_val_c_name,
+                mask = mask
+            )
+            outfile.write(accessor)
 
     def _generate_field_accessors(self, reg, field, outfile):
         mask_val = 0
@@ -364,41 +366,42 @@ class CHeaderGenerator(AbstractGenerator):
         )
         outfile.write(accessor)
 
-        # Set the field's value in the system register directly
-        accessor = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}({size_t} {arg}) "
-        accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({accessname}, {arg}, {mask}, {lsb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            fieldname = field_c_name,
-            func = config.register_field_write_function,
-            size_t = reg_c_size,
-            accessname = reg_c_access_name,
-            arg = "value",
-            mask = mask,
-            lsb = field.lsb
-        )
-        outfile.write(accessor)
+        if reg.is_writable:
+            # Set the field's value in the system register directly
+            accessor = "{indent}inline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}({size_t} {arg}) "
+            accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({accessname}, {arg}, {mask}, {lsb}) }}\n"
+            accessor = accessor.format(
+                indent = self._indent_string(),
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                fieldname = field_c_name,
+                func = config.register_field_write_function,
+                size_t = reg_c_size,
+                accessname = reg_c_access_name,
+                arg = "value",
+                mask = mask,
+                lsb = field.lsb
+            )
+            outfile.write(accessor)
 
-        # Set the field's value in an integer value
-        accessor = "{indent}inline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg1}, {size_t} {arg2}) "
-        accessor += "{{ SET_BITS_BY_VALUE_FUNC({arg1}, {arg2}, {mask}, {lsb}) }}\n"
-        accessor = accessor.format(
-            indent = self._indent_string(),
-            size_t = reg_c_size,
-            c_prefix = config.c_prefix,
-            c_suffix = str(reg.size),
-            regname = reg_c_name,
-            fieldname = field_c_name,
-            func = config.register_field_write_function,
-            arg1 = reg_c_access_name,
-            arg2 = "value",
-            mask = mask,
-            lsb = field.lsb
-        )
-        outfile.write(accessor)
+            # Set the field's value in an integer value
+            accessor = "{indent}inline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg1}, {size_t} {arg2}) "
+            accessor += "{{ SET_BITS_BY_VALUE_FUNC({arg1}, {arg2}, {mask}, {lsb}) }}\n"
+            accessor = accessor.format(
+                indent = self._indent_string(),
+                size_t = reg_c_size,
+                c_prefix = config.c_prefix,
+                c_suffix = str(reg.size),
+                regname = reg_c_name,
+                fieldname = field_c_name,
+                func = config.register_field_write_function,
+                arg1 = reg_c_access_name,
+                arg2 = "value",
+                mask = mask,
+                lsb = field.lsb
+            )
+            outfile.write(accessor)
 
     def _increase_indent(self):
         self._current_indent_level += 1

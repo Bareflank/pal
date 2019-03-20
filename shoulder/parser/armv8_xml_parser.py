@@ -91,13 +91,20 @@ class ArmV8XmlParser(AbstractParser):
             logger.warn(str(reg.name) + " long_name attribute not found")
 
     def _set_register_access_mnemonic(self, reg, reg_node):
-        access_mnemonic_node = reg_node.find("./access_mechanisms/access_mechanism")
-        if access_mnemonic_node is not None:
-            reg.access_mnemonic = str(access_mnemonic_node.attrib["accessor"])
-            reg.access_mnemonic = reg.access_mnemonic.split(' ', 1)[1]
-            logger.debug("access_mnemonic = " + reg.access_mnemonic)
-        else:
-            logger.warn(str(reg.name) + " access_mnemonic attribute not found")
+        access_mnemonic_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
+        for node in access_mnemonic_nodes:
+            if node is not None:
+                mnemonic = str(node.attrib["accessor"])
+                if mnemonic.split(' ', 1)[0] == "MRS":
+                    if reg.access_mnemonic is None:
+                        reg.access_mnemonic = mnemonic.split(' ', 1)[1]
+                        logger.debug("access_mnemonic = " + reg.access_mnemonic)
+                elif mnemonic.split(' ', 1)[0] == "MSR":
+                    reg.is_writable = True
+                elif mnemonic.split(' ', 1)[0] == "MSRregister":
+                    reg.is_writable = True
+            else:
+                logger.warn(str(reg.name) + " access_mnemonic attribute not found")
 
     def _set_register_purpose(self, reg, reg_node):
         purpose_text_nodes = reg_node.findall("./reg_purpose/purpose_text")
