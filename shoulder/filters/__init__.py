@@ -46,6 +46,8 @@ all_filter_names = [f.__name__ for f in all_filters]
 # Add any filters that need to be applied in a specific order by class name here
 filters = []
 filters.append("RemoveReservedFields")
+filters.append("RemoveInvalidRegisters")
+filters.append("NCounterToZero")
 filters.append("SpecialToUnderscore")
 filters.append("Quirks")
 filters.append("RemoveInvalidRegisters")
