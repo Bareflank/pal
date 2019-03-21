@@ -23,11 +23,10 @@
 from shoulder.filters.abstract_filter import AbstractFilter
 from shoulder.logger import logger
 
-class RemoveReservedFields(AbstractFilter):
+class NCounterToZero(AbstractFilter):
     @property
     def description(self):
-        d = "Removing fields with reserved keywords (\"0\", \"1\", \"RES\", "
-        d += "\"IMPLEMENTATION DEFINED\", etc.)"
+        d = "Replacing '<n>' with '0'"
         return d
 
     def do_filter(self, objects):
@@ -35,19 +34,31 @@ class RemoveReservedFields(AbstractFilter):
         return result
 
     def _do_single_transform(self, reg):
-        for fs in reg.fieldsets:
-            fs_len = len(fs.fields)
-            fs.fields = [field for field in fs.fields if not "0" == field.name]
-            fs.fields = [field for field in fs.fields if not "1" == field.name]
-            fs.fields = [field for field in fs.fields if not "res" in field.name.lower()]
-            fs.fields = [field for field in fs.fields if not "implementation_defined" == field.name.lower()]
+        new_name = reg.name.replace("<n>", "0")
+        if new_name != reg.name:
+            logger.debug("Replaced '<n>' in register: {name} -> {new_name}".format(
+                name = reg.name,
+                new_name = new_name
+            ))
 
-            count = fs_len - len(fs.fields)
-            if count:
-                logger.debug("Removed {count} reserved field{s} from {reg}".format(
-                    count = count,
-                    reg = reg.name,
-                    s = "" if count == 1 else "s"
-                ))
+            reg.name = new_name
+
+        for fs in reg.fieldsets:
+            for f in fs.fields:
+                new_name = f.name.replace("<n>", "0")
+                if new_name != f.name:
+                    logger.debug("Replaced '<n>' in field: {name} -> {new_name}".format(
+                        name = f.name,
+                        new_name = new_name
+                    ))
+                    f.name = new_name
+
+        new_access_mnemonic = reg.access_mnemonic.replace("<n>", "0")
+        if new_access_mnemonic != reg.access_mnemonic:
+            logger.debug("Replaced '<n>' in register: {name} -> {new_name}".format(
+                name = reg.name,
+                new_name = new_name
+            ))
+            reg.access_mnemonic = new_access_mnemonic
 
         return reg
