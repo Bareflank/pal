@@ -20,18 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .gadget_properties import GadgetProperties
-from .header_depends import header_depends
-from .include_guard import include_guard
-from .license import license
-from .cxx import *
+import abc
 
-from typing import List
-
-def create_gadget_properties() -> List[GadgetProperties]:
-    properties_subclasses = [cls for cls in GadgetProperties.__subclasses__()]
-    properties = {}
-    for subclass in properties_subclasses:
-        p = subclass()
-        properties[p.gadget_name] = p
-    return properties
+class GadgetProperties(abc.ABC):
+    """ Base class that represents properties for a gadget """
+    @property
+    @abc.abstractmethod
+    def gadget_name(self):
+        """ The name of the gadget these properties apply to """
+        pass
