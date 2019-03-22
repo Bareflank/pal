@@ -21,44 +21,49 @@
 # SOFTWARE.
 
 from shoulder.exception import *
+from dataclasses import dataclass
+from shoulder.gadget.gadget_properties import GadgetProperties
 
-def namespace(_decorated=None, *, name=None, indent=0):
+@dataclass
+class properties(GadgetProperties):
+    """ Properties of the namespace gadget """
+
+    gadget_name: str = "shoulder.cxx.namespace"
+    """ Name of the gadget these properties apply to """
+
+    name: str = "shoulder"
+    """ The name of the C++ namespace to generate """
+
+    indent: int = 0
+    """ The indentation level to generate at """
+
+def namespace(decorated):
     """
     A decorator gadget that generates a C++ namespace
 
-    Args:
-        name (str): The name of the C++ namespace to generate (required)
-        indent (int): The indentation level to generate at
-
     Usage:
-        @namespace(name="my::cxx::namespace")
+        properties.name = "my::cxx::namespace"
+
+        @namespace
         function(generator, outfile, ...):
             outfile.write("contents inside generated namespace")
 
     Generates:
-        my::cxx::namespace
+        namespace my::cxx:namespace
         {
         contents inside generated namespace
         }
     """
-    if not name:
-        msg = "Must provide name argument for namespace gadget"
-        raise ShoulderGeneratorException(msg)
+    def namespace_decorator(generator, outfile, *args, **kwargs):
+        properties = generator.gadgets["shoulder.cxx.namespace"]
 
-    def _namespace(decorated):
-        def namespace_decorator(generator, outfile, *args, **kwargs):
-            indent_str = ""
-            for level in range(0, indent):
-                indent_str += "\t"
+        indent_str = ""
+        for level in range(0, properties.indent):
+            indent_str += "\t"
 
-            outfile.write(indent_str)
-            outfile.write("namespace " + str(name) + "\n")
-            outfile.write(indent_str + "{\n")
-            decorated(generator, outfile, *args, **kwargs)
-            outfile.write(indent_str + "}\n\n")
-        return namespace_decorator
-
-    if _decorated is None:
-        return _namespace
-    else:
-        return _namespace(_decorated)
+        outfile.write(indent_str)
+        outfile.write("namespace " + str(properties.name) + "\n")
+        outfile.write(indent_str + "{\n")
+        decorated(generator, outfile, *args, **kwargs)
+        outfile.write(indent_str + "}\n\n")
+    return namespace_decorator

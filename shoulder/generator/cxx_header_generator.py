@@ -35,6 +35,9 @@ class CxxHeaderGenerator(AbstractGenerator):
         try:
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C++ header: " + str(outfile_path))
+
+            self.gadgets["shoulder.cxx.namespace"].name = config.cxx_namespace
+
             with open(outfile_path, "w") as outfile:
                 self._generate(outfile, objects)
 
@@ -49,7 +52,7 @@ class CxxHeaderGenerator(AbstractGenerator):
     @license
     @include_guard
     @header_depends
-    @cxx.namespace(name=config.cxx_namespace)
+    @cxx.namespace
     def _generate(self, outfile, objects):
         """
         Generate for all objects passed into this generator.  Wrap all generated
@@ -60,7 +63,12 @@ class CxxHeaderGenerator(AbstractGenerator):
             if(isinstance(obj, Register)):
                 if not obj.is_sysreg: return
 
-                logger.debug("Writing register: " + str(obj.name))
+                reg_name = str(obj.name).lower()
+                self.gadgets["shoulder.cxx.namespace"].name = reg_name
+                self.gadgets["shoulder.cxx.namespace"].indent = 0
+
+                logger.debug("Writing register: " + reg_name)
+                self._generate_register_comment(outfile, obj)
                 self._generate_register(outfile, obj)
 
             else:
@@ -69,25 +77,20 @@ class CxxHeaderGenerator(AbstractGenerator):
                 )
                 raise ShoulderGeneratorException(msg)
 
+    @cxx.namespace
     def _generate_register(self, outfile, reg):
         """
         Generate accessors for a single register
         """
-        self._generate_register_comment(outfile, reg)
+        if reg.size == 32:
+            self._generate_sysreg_32_get(outfile, reg)
+            self._generate_sysreg_32_set(outfile, reg)
 
-        @cxx.namespace(name=str(reg.name).lower())
-        def _in_register_namespace(self, outfile, reg):
-            if reg.size == 32:
-                self._generate_sysreg_32_get(outfile, reg)
-                self._generate_sysreg_32_set(outfile, reg)
+        else:
+            self._generate_sysreg_64_get(outfile, reg)
+            self._generate_sysreg_64_set(outfile, reg)
 
-            else:
-                self._generate_sysreg_64_get(outfile, reg)
-                self._generate_sysreg_64_set(outfile, reg)
-
-            self._generate_register_fieldsets(outfile, reg)
-
-        _in_register_namespace(self, outfile, reg)
+        self._generate_register_fieldsets(outfile, reg)
 
     def _generate_register_fieldsets(self, outfile, reg):
         """
@@ -102,7 +105,11 @@ class CxxHeaderGenerator(AbstractGenerator):
             for idx, fieldset in enumerate(fieldsets):
                 self._generate_fieldset_comment(outfile, fieldset)
 
-                @cxx.namespace(name="fieldset_" + str(idx), indent=1)
+                fieldset_namespace = "fieldset_" + str(idx)
+                self.gadgets["shoulder.cxx.namespace"].name = fieldset_namespace
+                self.gadgets["shoulder.cxx.namespace"].indent = 1
+
+                @cxx.namespace
                 def _in_fieldset_namespace(self, outfile, reg, fieldset):
                     self._generate_fieldset(outfile, reg, fieldset)
 
@@ -115,8 +122,10 @@ class CxxHeaderGenerator(AbstractGenerator):
         Generate accessors for a single register fieldset
         """
         for field in fieldset.fields:
+            self.gadgets["shoulder.cxx.namespace"].name = str(field.name).lower()
+            self.gadgets["shoulder.cxx.namespace"].indent = 1
 
-            @cxx.namespace(name=str(field.name).lower(), indent=1)
+            @cxx.namespace
             def _in_field_namespace(self, outfile):
                 self._generate_field_constants(outfile, reg, field)
 
