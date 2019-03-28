@@ -215,6 +215,17 @@ class CHeaderGenerator(AbstractGenerator):
         outfile.write(accessor)
 
     def _generate_sysreg_bit_set(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ SET_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
         accessor = accessor.format(
@@ -224,11 +235,22 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = str(field.name).lower(),
             func = config.bit_set_function,
             accessname = str(reg.access_mnemonic).lower(),
-            mask = "0x" + format(1 << field.msb, 'x')
+            mask = mask
         )
         outfile.write(accessor)
 
     def _generate_value_bit_set(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ SET_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
         accessor = accessor.format(
@@ -239,11 +261,22 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = str(field.name).lower(),
             func = config.bit_set_function,
             arg = str(reg.access_mnemonic).lower() + "_val",
-            mask = "0x" + format(1 << field.msb, 'x')
+            mask = mask
         )
         outfile.write(accessor)
 
     def _generate_sysreg_bit_clear(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ CLEAR_SYSREG_BITS_BY_MASK_FUNC({accessname}, {mask}) }}\n"
         accessor = accessor.format(
@@ -253,11 +286,22 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = str(field.name).lower(),
             func = config.bit_clear_function,
             accessname = str(reg.access_mnemonic).lower(),
-            mask = "0x" + format(1 << field.msb, 'x')
+            mask = mask
         )
         outfile.write(accessor)
 
     def _generate_value_bit_clear(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ CLEAR_BITS_BY_MASK_FUNC({arg}, {mask}) }}\n"
         accessor = accessor.format(
@@ -268,11 +312,22 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = str(field.name).lower(),
             func = config.bit_clear_function,
             arg = str(reg.access_mnemonic).lower() + "_val",
-            mask = "0x" + format(1 << field.msb, 'x')
+            mask = mask
         )
         outfile.write(accessor)
 
     def _generate_sysreg_register_field_read(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}() "
         accessor += "{{ GET_SYSREG_FIELD_FUNC({accessname}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
@@ -283,12 +338,23 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = str(field.name).lower(),
             func = config.register_field_read_function,
             accessname = str(reg.access_mnemonic).lower(),
-            mask = "0x" + format(1 << field.msb, 'x'),
+            mask = mask,
             lsb = field.lsb
         )
         outfile.write(accessor)
 
     def _generate_value_register_field_read(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg}) "
         accessor += "{{ GET_BITFIELD_FUNC({arg}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
@@ -299,12 +365,23 @@ class CHeaderGenerator(AbstractGenerator):
             fieldname = str(field.name).lower(),
             func = config.register_field_read_function,
             arg = str(reg.access_mnemonic).lower() + "_val",
-            mask = "0x" + format(1 << field.msb, 'x'),
+            mask = mask,
             lsb = field.lsb
         )
         outfile.write(accessor)
 
     def _generate_sysreg_register_field_write(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline void {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}({size_t} {arg}) "
         accessor += "{{ SET_SYSREG_BITS_BY_VALUE_FUNC({accessname}, {arg}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
@@ -316,12 +393,23 @@ class CHeaderGenerator(AbstractGenerator):
             func = config.register_field_write_function,
             accessname = str(reg.access_mnemonic).lower(),
             arg = "value",
-            mask = "0x" + format(1 << field.msb, 'x'),
+            mask = mask,
             lsb = field.lsb
         )
         outfile.write(accessor)
 
     def _generate_value_register_field_write(self, outfile, reg, field):
+        mask_val = 0
+        mask = ""
+
+        for i in range(field.lsb, field.msb + 1):
+            mask_val |= 1 << i
+
+        if reg.size == 32:
+            mask = "{0:#0{1}x}".format(mask_val, 10)
+        else:
+            mask = "{0:#0{1}x}".format(mask_val, 18)
+
         accessor = "\tinline {size_t} {c_prefix}{c_suffix}_{regname}_{fieldname}_{func}_val({size_t} {arg1}, {size_t} {arg2}) "
         accessor += "{{ SET_BITS_BY_VALUE_FUNC({arg1}, {arg2}, {mask}, {lsb}) }}\n"
         accessor = accessor.format(
@@ -333,7 +421,7 @@ class CHeaderGenerator(AbstractGenerator):
             func = config.register_field_write_function,
             arg1 = str(reg.access_mnemonic).lower(),
             arg2 = "value",
-            mask = "0x" + format(1 << field.msb, 'x'),
+            mask = mask,
             lsb = field.lsb
         )
         outfile.write(accessor)
