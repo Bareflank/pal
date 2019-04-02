@@ -20,28 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class SVERegisterFilter(AbstractFilter):
+class StatisticalProfilingRegisterFilter(AbstractFilter):
     def __init__(self):
-        self.registers = [
-            "zcr_el1",
-            "zcr_el2",
-            "zcr_el3",
-            "id_aa64zfr0_el1"
+        self.exclusions = [
+            "pmsidr_el1",
+            "pmsfcr_el1",
+            "pmsicr_el1",
+            "pmscr_el2",
+            "pmbptr_el1",
+            "pmbsr_el1",
+            "pmsirr_el1",
+            "pmscr_el1",
+            "pmblimitr_el1",
+            "pmslatfr_el1",
+            "pmmir_el1"
         ]
 
     @property
     def description(self):
-        return "Removing scalable vector extension (SVE) registers"
+        return "statistical profiling registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
-        if(reg.name.lower() in self.registers):
+    def do_filter(self, reg):
+        if(reg.name.lower() in self.exclusions):
             return False
         else:
             return True

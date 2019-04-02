@@ -20,41 +20,45 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.filter.abstract_filter import AbstractFilter
 from shoulder.logger import logger
 
-class Quirks(AbstractFilter):
+class NCounterToZero(AbstractFilter):
     @property
     def description(self):
-        return "Fixing miscellaneous quirks from the XML specification"
+        d = "Replacing '<n>' with '0'"
+        return d
 
     def do_filter(self, objects):
         result = list(map(self._do_single_transform, objects))
         return result
 
     def _do_single_transform(self, reg):
-        if(reg.name == "FPEXC32_EL2"):
-            for fs in reg.fieldsets:
-                fs.fields = set([field for field in fs.fields if fs.fields.count(field.name) == "UFF"])
-                logger.debug("Removed overlapping field \"UFF\" from register FPEXC32_EL2")
+        new_name = reg.name.replace("<n>", "0")
+        if new_name != reg.name:
+            logger.debug("Replaced '<n>' in register: {name} -> {new_name}".format(
+                name = reg.name,
+                new_name = new_name
+            ))
 
-        if(reg.name == "HCR_EL2"):
-            for fs in reg.fieldsets:
-                for f_idx, f in enumerate(fs.fields):
-                    if f.name == "TPC":
-                        del fs.fields[f_idx]
-                        logger.debug("Removed duplicate field \"TPC\" from register HCR_EL2")
+            reg.name = new_name
 
-        if(reg.name == "EDECCR"):
-            for fs in reg.fieldsets:
-                for f_idx, f in enumerate(fs.fields):
-                    if f.name == "NSE":
-                        del fs.fields[f_idx]
-                        logger.debug("Removed overlapping field \"NSE\" from register EDECCR")
+        for fs in reg.fieldsets:
+            for f in fs.fields:
+                new_name = f.name.replace("<n>", "0")
+                if new_name != f.name:
+                    logger.debug("Replaced '<n>' in field: {name} -> {new_name}".format(
+                        name = f.name,
+                        new_name = new_name
+                    ))
+                    f.name = new_name
 
-                for f_idx, f in enumerate(fs.fields):
-                    if f.name == "SE":
-                        del fs.fields[f_idx]
-                        logger.debug("Removed overlapping field \"SE\" from register EDECCR")
+        new_access_mnemonic = reg.access_mnemonic.replace("<n>", "0")
+        if new_access_mnemonic != reg.access_mnemonic:
+            logger.debug("Replaced '<n>' in register: {name} -> {new_name}".format(
+                name = reg.name,
+                new_name = new_name
+            ))
+            reg.access_mnemonic = new_access_mnemonic
 
         return reg

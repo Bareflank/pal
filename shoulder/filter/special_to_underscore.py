@@ -20,13 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.filter.abstract_filter import AbstractFilter
 from shoulder.logger import logger
 
-class NCounterToZero(AbstractFilter):
+class SpecialToUnderscore(AbstractFilter):
+    def __init__(self):
+        self.special_chars = "!@#$%^&*()[]{};:,./<>?\|`~-=+"
+
     @property
     def description(self):
-        d = "Replacing '<n>' with '0'"
+        d = "Replacing special characters ({chars}) with \"_\"".format(
+            chars = self.special_chars
+        )
         return d
 
     def do_filter(self, objects):
@@ -34,31 +39,22 @@ class NCounterToZero(AbstractFilter):
         return result
 
     def _do_single_transform(self, reg):
-        new_name = reg.name.replace("<n>", "0")
+        new_name = reg.name.translate({ord(c): "_" for c in self.special_chars})
         if new_name != reg.name:
-            logger.debug("Replaced '<n>' in register: {name} -> {new_name}".format(
+            logger.debug("Replaced special characters in register: {name} -> {new_name}".format(
                 name = reg.name,
                 new_name = new_name
             ))
-
             reg.name = new_name
 
         for fs in reg.fieldsets:
             for f in fs.fields:
-                new_name = f.name.replace("<n>", "0")
+                new_name = f.name.translate({ord(c): "_" for c in self.special_chars})
                 if new_name != f.name:
-                    logger.debug("Replaced '<n>' in field: {name} -> {new_name}".format(
+                    logger.debug("Replaced special characters in field: {name} -> {new_name}".format(
                         name = f.name,
                         new_name = new_name
                     ))
                     f.name = new_name
-
-        new_access_mnemonic = reg.access_mnemonic.replace("<n>", "0")
-        if new_access_mnemonic != reg.access_mnemonic:
-            logger.debug("Replaced '<n>' in register: {name} -> {new_name}".format(
-                name = reg.name,
-                new_name = new_name
-            ))
-            reg.access_mnemonic = new_access_mnemonic
 
         return reg

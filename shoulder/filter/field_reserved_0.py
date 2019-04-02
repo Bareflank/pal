@@ -20,25 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.filter.abstract_filter import AbstractFilter
 from shoulder.logger import logger
 
-class GICControlRegisterFilter(AbstractFilter):
+class FieldReserved0(AbstractFilter):
     @property
     def description(self):
-        return "Removing generic interrupt controller (GIC) registers"
+        d = "Removing \"reserved 0\" fields"
+        return d
 
     def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
+        result = list(map(self._do_single_transform, objects))
         return result
 
-    def _do_single_filter(self, reg):
-        regname = reg.name.lower()
-        if(regname.startswith("icc_")):
-            return False
-        elif(regname.startswith("icv_")):
-            return False
-        elif(regname.startswith("ich_")):
-            return False
-        else:
-            return True
+    def _do_single_transform(self, reg):
+        for fs in reg.fieldsets:
+            fs_len = len(fs.fields)
+            fs.fields = [field for field in fs.fields if not "0" == field.name]
+
+            count = fs_len - len(fs.fields)
+            if count:
+                logger.debug("Removed {count} RES0 field{s} from {reg}".format(
+                    count = count,
+                    reg = reg.name,
+                    s = "" if count == 1 else "s"
+                ))
+
+        return reg

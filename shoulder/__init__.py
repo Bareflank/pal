@@ -26,7 +26,7 @@ import pkgutil
 from shoulder.logger import logger
 from shoulder.config import config
 
-import shoulder.filters
+import shoulder.filter
 import shoulder.gadget
 import shoulder.generator
 import shoulder.parser

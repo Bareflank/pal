@@ -20,18 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class SpecialToUnderscore(AbstractFilter):
-    def __init__(self):
-        self.special_chars = "!@#$%^&*()[]{};:,./<>?\|`~-=+"
-
+class FieldImplementationDefined(AbstractFilter):
     @property
     def description(self):
-        d = "Replacing special characters ({chars}) with \"_\"".format(
-            chars = self.special_chars
-        )
+        d = "implementation-defined fields"
         return d
 
     def do_filter(self, objects):
@@ -39,22 +33,16 @@ class SpecialToUnderscore(AbstractFilter):
         return result
 
     def _do_single_transform(self, reg):
-        new_name = reg.name.translate({ord(c): "_" for c in self.special_chars})
-        if new_name != reg.name:
-            logger.debug("Replaced special characters in register: {name} -> {new_name}".format(
-                name = reg.name,
-                new_name = new_name
-            ))
-            reg.name = new_name
-
         for fs in reg.fieldsets:
-            for f in fs.fields:
-                new_name = f.name.translate({ord(c): "_" for c in self.special_chars})
-                if new_name != f.name:
-                    logger.debug("Replaced special characters in field: {name} -> {new_name}".format(
-                        name = f.name,
-                        new_name = new_name
-                    ))
-                    f.name = new_name
+            fs_len = len(fs.fields)
+            fs.fields = [field for field in fs.fields if not "IMPLEMENTATION_DEFINED" == field.name]
+
+            count = fs_len - len(fs.fields)
+            if count:
+                logger.debug("Removed {count} IMPLEMENTATION_DEFINED field{s} from {reg}".format(
+                    count = count,
+                    reg = reg.name,
+                    s = "" if count == 1 else "s"
+                ))
 
         return reg

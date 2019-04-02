@@ -20,19 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
 class MPAMRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing memory partitioning and monitoring (MPAM) registers"
+        return "memory partitioning and monitoring (MPAM) registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
+    def do_filter(self, reg):
         regname = reg.name.lower()
         if(regname.startswith("mpam")):
             return False

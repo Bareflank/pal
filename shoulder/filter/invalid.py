@@ -20,25 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class ActivityMonitorRegisterFilter(AbstractFilter):
+class InvalidRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing activity monitor registers"
+        return "invalid registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
+    def do_filter(self, reg):
+        return reg.is_valid()
 
-    def _do_single_filter(self, reg):
-        regname = reg.name.lower()
-        if(regname.startswith("amc")):
-            return False
-        elif(regname.startswith("ame")):
-            return False
-        elif(regname.startswith("amu")):
-            return False
-        else:
-            return True

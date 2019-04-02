@@ -20,18 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class AbstractFilter(abc.ABC):
+class ActivityMonitorRegisterFilter(AbstractFilter):
     @property
-    @abc.abstractmethod
     def description(self):
-        """ Description of what this filter does """
+        return "activity monitor registers"
 
-    @abc.abstractmethod
-    def do_filter(self, objects):
-        """ Filter the given register and/or instruction objects """
-        return
-
-    def __str__(self):
-        return self.description
+    def do_filter(self, reg):
+        regname = reg.name.lower()
+        if(regname.startswith("am") and not regname.startswith("amair")):
+            return False
+        else:
+            return True

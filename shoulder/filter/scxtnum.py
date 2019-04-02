@@ -20,21 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class RemoveInvalidRegisters(AbstractFilter):
+class SCXTNUMRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing invalid registers"
+        return "software context number (SCXTNUM) registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
-        result = reg.is_valid()
-        if result is False:
-            logger.debug("Removed invalid register {name}".format(name=reg.name))
-        return result
-
+    def do_filter(self, reg):
+        regname = reg.name.lower()
+        if(regname.startswith("scxtnum")):
+            return False
+        else:
+            return True

@@ -20,21 +20,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class SoftwareContextNumberRegisterFilter(AbstractFilter):
+class GICRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing software context number registers"
+        return "generic interrupt controller (GIC) registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
+    def do_filter(self, reg):
         regname = reg.name.lower()
-        if(regname.startswith("scxtnum")):
+        if(regname.startswith("gic")):
+            return False
+        elif(regname.startswith("icc_")):
+            return False
+        elif(regname.startswith("icv_")):
+            return False
+        elif(regname.startswith("ich_")):
             return False
         else:
             return True

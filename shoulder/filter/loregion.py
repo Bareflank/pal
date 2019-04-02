@@ -20,19 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
 class LORegionRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing limited order region (LORegion) registers"
+        return "limited order region (LORegion) registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
+    def do_filter(self, reg):
         if(reg.name.lower().startswith("lor")):
             return False
         else:
