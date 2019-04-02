@@ -20,29 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filter.abstract_filter import AbstractFilter
+import abc
 
-class FieldImplementationDefined(AbstractFilter):
+from shoulder.logger import logger
+
+class AbstractTransform(abc.ABC):
     @property
+    @abc.abstractmethod
     def description(self):
-        d = "implementation-defined fields"
-        return d
+        """ Description of what this transform does """
 
-    def do_filter(self, objects):
-        result = list(map(self._do_single_transform, objects))
-        return result
+    @abc.abstractmethod
+    def do_transform(self, reg):
+        """ Transform the given register object """
+        return
 
-    def _do_single_transform(self, reg):
-        for fs in reg.fieldsets:
-            fs_len = len(fs.fields)
-            fs.fields = [field for field in fs.fields if not "IMPLEMENTATION_DEFINED" == field.name]
+    def transform(self, registers):
+        """
+        Transform the given list of registers
+        """
+        logger.info("Applying transform: {d}".format(d = str(self)))
+        return list(map(self.do_transform, registers))
 
-            count = fs_len - len(fs.fields)
-            if count:
-                logger.debug("Removed {count} IMPLEMENTATION_DEFINED field{s} from {reg}".format(
-                    count = count,
-                    reg = reg.name,
-                    s = "" if count == 1 else "s"
-                ))
-
-        return reg
+    def __str__(self):
+        return self.description

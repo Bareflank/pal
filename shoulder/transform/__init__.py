@@ -35,26 +35,22 @@ for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
 
 # Usage:
 #
-# from shoulder.filters import filters
-# registers = filters["filter_name"].filter_exclusive(registers)
-# registers = filters["filter_name"].filter_inclusive(registers)
+# from shoulder.transform import transforms
+# registers = transforms["name"].transform(registers)
 
-filters = OrderedDict()
-filters["activity_monitor"] = activity_monitor.ActivityMonitorRegisterFilter()
-filters["deprecated"] = deprecated.DeprecatedRegisterFilter()
-filters["gic"] = gic.GICRegisterFilter()
-filters["loregion"] = loregion.LORegionRegisterFilter()
-filters["misc"] = misc.MiscelaneousRegisterFilter()
-filters["mpam"] = mpam.MPAMRegisterFilter()
-filters["scxtnum"] = scxtnum.SCXTNUMRegisterFilter()
-filters["statistical_profiling"] = \
-    statistical_profiling.StatisticalProfilingRegisterFilter()
-filters["sve"] = sve.SVERegisterFilter()
-filters["trace"] = trace.TraceRegisterFilter()
-filters["invalid"] = invalid.InvalidRegisterFilter()
+transforms = OrderedDict()
 
-def filter_all(registers):
-    """ Apply all of the filters (exclusively) to the given registers """
-    for key, f in filters.items():
-        registers = f.filter_exclusive(registers)
+transforms["n_counter_to_zero"] = n_counter_to_zero.NCounterToZero()
+transforms["quirks"] = quirks.QuirksTransform()
+transforms["remove_implementation_defined"] = \
+    remove_implementation_defined.RemoveImplementationDefinedTransform()
+transforms["remove_reserved_0"] = remove_reserved_0.RemoveReserved0Transform()
+transforms["remove_reserved_1"] = remove_reserved_1.RemoveReserved1Transform()
+transforms["special_to_underscore"] = \
+    special_to_underscore.SpecialToUnderscoreTransform()
+
+def transform_all(registers):
+    """ Apply all of the transforms to the given registers """
+    for key, t in transforms.items():
+        registers = t.transform(registers)
     return registers

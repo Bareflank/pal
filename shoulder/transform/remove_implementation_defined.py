@@ -20,27 +20,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filter.abstract_filter import AbstractFilter
+from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class FieldReserved1(AbstractFilter):
+class RemoveImplementationDefinedTransform(AbstractTransform):
     @property
     def description(self):
-        d = "Removing \"reserved 1\" fields"
+        d = "removing IMPLEMENTATION_DEFINED fields"
         return d
 
-    def do_filter(self, objects):
-        result = list(map(self._do_single_transform, objects))
-        return result
-
-    def _do_single_transform(self, reg):
+    def do_transform(self, reg):
         for fs in reg.fieldsets:
             fs_len = len(fs.fields)
-            fs.fields = [field for field in fs.fields if not "1" == field.name]
+            fs.fields = [field for field in fs.fields if not "IMPLEMENTATION_DEFINED" == field.name]
 
             count = fs_len - len(fs.fields)
             if count:
-                logger.debug("Removed {count} RES1 field{s} from {reg}".format(
+                logger.debug("Removed {count} field{s} from {reg}".format(
                     count = count,
                     reg = reg.name,
                     s = "" if count == 1 else "s"

@@ -30,5 +30,6 @@ import shoulder.filter
 import shoulder.gadget
 import shoulder.generator
 import shoulder.parser
+import shoulder.transform
 
 name = "shoulder_pkg"

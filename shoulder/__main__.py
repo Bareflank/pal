@@ -26,22 +26,14 @@ from shoulder.config import config
 from shoulder.logger import logger
 from shoulder.parser import *
 from shoulder.generator import *
-from shoulder.filter import filters
+from shoulder.filter import filter_all
+from shoulder.transform import transform_all
 
 regs = parse_registers(config.xml_register_dir)
 logger.debug("Registers parsed: " + str(len(regs)))
 
-regs = filters["activity_monitor"].filter_exclusive(regs)
-regs = filters["deprecated"].filter_exclusive(regs)
-regs = filters["gic"].filter_exclusive(regs)
-regs = filters["loregion"].filter_exclusive(regs)
-regs = filters["misc"].filter_exclusive(regs)
-regs = filters["mpam"].filter_exclusive(regs)
-regs = filters["scxtnum"].filter_exclusive(regs)
-regs = filters["statistical_profiling"].filter_exclusive(regs)
-regs = filters["sve"].filter_exclusive(regs)
-regs = filters["trace"].filter_exclusive(regs)
-regs = filters["invalid"].filter_exclusive(regs)
+regs = filter_all(regs)
+regs = transform_all(regs)
 logger.debug("Registers remaining after filters: " + str(len(regs)))
 
 generate_all(regs, config.shoulder_output_dir)
