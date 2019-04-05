@@ -20,31 +20,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class RemoveReservedFields(AbstractFilter):
+class RemoveImplementationDefinedTransform(AbstractTransform):
     @property
     def description(self):
-        d = "Removing fields with reserved keywords (\"0\", \"1\", \"RES\", "
-        d += "\"IMPLEMENTATION DEFINED\", etc.)"
+        d = "removing IMPLEMENTATION_DEFINED fields"
         return d
 
-    def do_filter(self, objects):
-        result = list(map(self._do_single_transform, objects))
-        return result
-
-    def _do_single_transform(self, reg):
+    def do_transform(self, reg):
         for fs in reg.fieldsets:
             fs_len = len(fs.fields)
-            fs.fields = [field for field in fs.fields if not "0" == field.name]
-            fs.fields = [field for field in fs.fields if not "1" == field.name]
-            fs.fields = [field for field in fs.fields if not "res" in field.name.lower()]
-            fs.fields = [field for field in fs.fields if not "implementation_defined" == field.name.lower()]
+            fs.fields = [field for field in fs.fields if not "IMPLEMENTATION_DEFINED" == field.name]
 
             count = fs_len - len(fs.fields)
             if count:
-                logger.debug("Removed {count} reserved field{s} from {reg}".format(
+                logger.debug("Removed {count} field{s} from {reg}".format(
                     count = count,
                     reg = reg.name,
                     s = "" if count == 1 else "s"

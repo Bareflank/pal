@@ -20,18 +20,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class AbstractFilter(abc.ABC):
+class SVERegisterFilter(AbstractFilter):
+    def __init__(self):
+        self.registers = [
+            "zcr_el1",
+            "zcr_el2",
+            "zcr_el3",
+            "id_aa64zfr0_el1"
+        ]
+
     @property
-    @abc.abstractmethod
     def description(self):
-        """ Description of what this filter does """
+        return "scalable vector extension (SVE) registers"
 
-    @abc.abstractmethod
-    def do_filter(self, objects):
-        """ Filter the given register and/or instruction objects """
-        return
-
-    def __str__(self):
-        return self.description
+    def do_filter(self, reg):
+        if(reg.name.lower() in self.registers):
+            return False
+        else:
+            return True

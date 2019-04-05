@@ -20,28 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class RemoveDeprecatedRegisters(AbstractFilter):
+class LORegionRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing deprecated registers"
+        return "limited order region (LORegion) registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
-        result = True
-
-        if(reg.name == "SPSR_hyp"):
-            result = False
-            logger.debug("Removed deprecated register {name}".format(name=reg.name))
-
-        if(reg.name == "SPSR_svc"):
-            result = False
-            logger.debug("Removed deprecated register {name}".format(name=reg.name))
-
-        return result
-
+    def do_filter(self, reg):
+        if(reg.name.lower().startswith("lor")):
+            return False
+        else:
+            return True

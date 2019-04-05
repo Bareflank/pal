@@ -20,19 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class Quirks(AbstractFilter):
+class QuirksTransform(AbstractTransform):
     @property
     def description(self):
-        return "Fixing miscellaneous quirks from the XML specification"
+        return "fixing miscellaneous quirks from the XML specification"
 
-    def do_filter(self, objects):
-        result = list(map(self._do_single_transform, objects))
-        return result
-
-    def _do_single_transform(self, reg):
+    def do_transform(self, reg):
         if(reg.name == "FPEXC32_EL2"):
             for fs in reg.fieldsets:
                 fs.fields = set([field for field in fs.fields if fs.fields.count(field.name) == "UFF"])

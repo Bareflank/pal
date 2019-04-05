@@ -20,20 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class LORegionRegisterFilter(AbstractFilter):
+class RemoveReserved1Transform(AbstractTransform):
     @property
     def description(self):
-        return "Removing limited order region (LORegion) registers"
+        d = "removing reserved 1 (RES1) fields"
+        return d
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
+    def do_transform(self, reg):
+        for fs in reg.fieldsets:
+            fs_len = len(fs.fields)
+            fs.fields = [field for field in fs.fields if not "1" == field.name]
 
-    def _do_single_filter(self, reg):
-        if(reg.name.lower().startswith("lor")):
-            return False
-        else:
-            return True
+            count = fs_len - len(fs.fields)
+            if count:
+                logger.debug("Removed {count} field{s} from {reg}".format(
+                    count = count,
+                    reg = reg.name,
+                    s = "" if count == 1 else "s"
+                ))
+
+        return reg

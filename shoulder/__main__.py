@@ -26,12 +26,14 @@ from shoulder.config import config
 from shoulder.logger import logger
 from shoulder.parser import *
 from shoulder.generator import *
-from shoulder.filters import *
+from shoulder.filter import filter_all
+from shoulder.transform import transform_all
 
 regs = parse_registers(config.xml_register_dir)
 logger.debug("Registers parsed: " + str(len(regs)))
 
-regs = apply_filters(regs)
-logger.debug("Registers after filters: " + str(len(regs)))
+regs = filter_all(regs)
+regs = transform_all(regs)
+logger.debug("Registers remaining after filters: " + str(len(regs)))
 
 generate_all(regs, config.shoulder_output_dir)

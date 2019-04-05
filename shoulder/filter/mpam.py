@@ -20,25 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class GICControlRegisterFilter(AbstractFilter):
+class MPAMRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing generic interrupt controller (GIC) registers"
+        return "memory partitioning and monitoring (MPAM) registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
+    def do_filter(self, reg):
         regname = reg.name.lower()
-        if(regname.startswith("icc_")):
-            return False
-        elif(regname.startswith("icv_")):
-            return False
-        elif(regname.startswith("ich_")):
+        if(regname.startswith("mpam")):
             return False
         else:
             return True

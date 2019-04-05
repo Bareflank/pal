@@ -20,16 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pkgutil
+from shoulder.filter.abstract_filter import AbstractFilter
 
-from shoulder.logger import logger
-from shoulder.config import config
+class SCXTNUMRegisterFilter(AbstractFilter):
+    @property
+    def description(self):
+        return "software context number (SCXTNUM) registers"
 
-import shoulder.filter
-import shoulder.gadget
-import shoulder.generator
-import shoulder.parser
-import shoulder.transform
-
-name = "shoulder_pkg"
+    def do_filter(self, reg):
+        regname = reg.name.lower()
+        if(regname.startswith("scxtnum")):
+            return False
+        else:
+            return True

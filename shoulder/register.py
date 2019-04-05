@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from shoulder.logger import logger
+
 class Register(object):
     """ Models a register in the ARM architecture """
     def __init__(self):
@@ -34,7 +36,8 @@ class Register(object):
         self.is_writable = False
 
     def __str__(self):
-        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\nPurpose: {purpose}\nSize: {size}\nOffset: {offset}"
+        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\n"
+        msg += "Purpose: {purpose}\nSize: {size}\nOffset: {offset}"
         msg += "\nSystem Register: {is_sysreg}"
         msg = msg.format(**self.__dict__)
 
@@ -47,11 +50,27 @@ class Register(object):
         self.fieldsets.append(fieldset)
 
     def is_valid(self):
-        if self.name is None: return False
-        if self.long_name is None: return False
-        if self.access_mnemonic is None: return False
-        if self.size is None: return False
-        if self.purpose is None: return False
+        if self.name is None:
+            logger.debug("Register has no name")
+            return False
+
+        if self.long_name is None:
+            logger.debug("Register " + str(self.name) + " has no long name")
+            return False
+
+        if self.access_mnemonic is None:
+            logger.debug("Register " + str(self.name) + " has no access mnemonic")
+            return False
+
+        if self.size is None:
+            logger.debug("Register " + str(self.name) + " has no size")
+            return False
+
+        if self.purpose is None:
+            logger.debug("Register " + str(self.name) + " has no purpose")
+            return False
+
         for fs in self.fieldsets:
             if not fs.is_valid(): return False
+
         return True

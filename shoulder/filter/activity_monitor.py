@@ -20,35 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
-from shoulder.logger import logger
+from shoulder.filter.abstract_filter import AbstractFilter
 
-class StatisticalProfilingRegisterFilter(AbstractFilter):
-    def __init__(self):
-        self.exclusions = [
-            "pmsidr_el1",
-            "pmsfcr_el1",
-            "pmsicr_el1",
-            "pmscr_el2",
-            "pmbptr_el1",
-            "pmbsr_el1",
-            "pmsirr_el1",
-            "pmscr_el1",
-            "pmblimitr_el1",
-            "pmslatfr_el1",
-            "pmmir_el1"
-        ]
-
+class ActivityMonitorRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        return "Removing statistical profiling registers"
+        return "activity monitor registers"
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
-
-    def _do_single_filter(self, reg):
-        if(reg.name.lower() in self.exclusions):
+    def do_filter(self, reg):
+        regname = reg.name.lower()
+        if(regname.startswith("am") and not regname.startswith("amair")):
             return False
         else:
             return True

@@ -20,21 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filters.abstract_filter import AbstractFilter
+import abc
+
 from shoulder.logger import logger
 
-class MPAMRegisterFilter(AbstractFilter):
+class AbstractTransform(abc.ABC):
     @property
+    @abc.abstractmethod
     def description(self):
-        return "Removing memory partitioning and monitoring (MPAM) registers"
+        """ Description of what this transform does """
 
-    def do_filter(self, objects):
-        result = list(filter(self._do_single_filter, objects))
-        return result
+    @abc.abstractmethod
+    def do_transform(self, reg):
+        """ Transform the given register object """
+        return
 
-    def _do_single_filter(self, reg):
-        regname = reg.name.lower()
-        if(regname.startswith("mpam")):
-            return False
-        else:
-            return True
+    def transform(self, registers):
+        """
+        Transform the given list of registers
+        """
+        logger.info("Applying transform: {d}".format(d = str(self)))
+        return list(map(self.do_transform, registers))
+
+    def __str__(self):
+        return self.description
