@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from shoulder.config import config
+
 def header_depends(decorated):
     """
     A decorator gadget that generates dependency-includes for C/C++ header files
@@ -32,6 +34,8 @@ def header_depends(decorated):
 
     def header_depends_decorator(generator, outfile, *args, **kwargs):
         outfile.write("#include <stdint.h>\n")
+        if config.encoded_functions:
+            outfile.write("#include \"encoded_accessor_macros.h\"\n")
         outfile.write("#include \"aarch64_gcc_accessor_macros.h\"\n")
         outfile.write("\n")
         decorated(generator, outfile, *args, **kwargs)

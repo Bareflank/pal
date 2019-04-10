@@ -53,6 +53,9 @@ def generate_all(objects, outdir):
         if os.path.exists(config.accessor_macros_path):
             shutil.copy(config.accessor_macros_path, sub_outdir)
 
+        if os.path.exists(config.encoded_macros_path):
+            shutil.copy(config.encoded_macros_path, sub_outdir)
+
         g = generator_class()
         g.generate(objects, sub_outdir)
 
