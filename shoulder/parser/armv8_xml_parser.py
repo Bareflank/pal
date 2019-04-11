@@ -24,6 +24,7 @@ from lxml import etree as ET
 
 from shoulder.parser.abstract_parser import AbstractParser
 from shoulder.register import Register
+from shoulder.access_attributes import AccessAttributes
 from shoulder.fieldset import Fieldset
 from shoulder.logger import logger
 from shoulder.exception import *
@@ -57,7 +58,7 @@ class ArmV8XmlParser(AbstractParser):
                     reg = Register()
                     self._set_register_name(reg, reg_node)
                     self._set_register_long_name(reg, reg_node)
-                    self._set_register_access_mnemonic(reg, reg_node)
+                    self._set_register_access_attributes(reg, reg_node)
                     self._set_register_purpose(reg, reg_node)
                     self._set_register_size(reg, reg_node)
                     self._set_register_fields(reg, reg_node)
@@ -90,21 +91,46 @@ class ArmV8XmlParser(AbstractParser):
         else:
             logger.warn(str(reg.name) + " long_name attribute not found")
 
-    def _set_register_access_mnemonic(self, reg, reg_node):
-        access_mnemonic_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
-        for node in access_mnemonic_nodes:
-            if node is not None:
-                mnemonic = str(node.attrib["accessor"])
-                if mnemonic.split(' ', 1)[0] == "MRS":
-                    if reg.access_mnemonic is None:
-                        reg.access_mnemonic = mnemonic.split(' ', 1)[1]
-                        logger.debug("access_mnemonic = " + reg.access_mnemonic)
-                elif mnemonic.split(' ', 1)[0] == "MSR":
+    def _set_register_access_attributes(self, reg, reg_node):
+        access_mechanism_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
+        for mechanism in access_mechanism_nodes:
+            if mechanism is not None:
+                accessor = str(mechanism.attrib["accessor"])
+                operation = accessor.split(' ', 1)[0]
+                if operation == "MSR" or operation == "MSRregister":
                     reg.is_writable = True
-                elif mnemonic.split(' ', 1)[0] == "MSRregister":
-                    reg.is_writable = True
+                if reg.access_attributes is None:
+                    access_attributes = AccessAttributes()
+                    if operation.startswith("MR"):
+                        access_attributes.mnemonic = accessor.split(' ', 1)[1]
+
+                    encoding_nodes = mechanism.findall("encoding/enc")
+                    for enc in encoding_nodes:
+                        name = str(enc.attrib["n"])
+                        try:
+                            val = int(enc.attrib["v"], 2)
+                        except:
+                            logger.warn("Could not parse access attribute value " + str(enc.attrib["v"]) + " for register " + reg.name)
+                            continue
+
+                        if name == "op0":
+                            access_attributes.op0 = val
+                        elif name == "op1":
+                            access_attributes.op1 = val
+                        elif name == "op2":
+                            access_attributes.op2 = val
+                        elif name == "CRn":
+                            access_attributes.crn = val
+                        elif name == "CRm":
+                            access_attributes.crm = val
+
+                    if access_attributes.is_valid():
+                        reg.access_attributes = access_attributes
             else:
-                logger.warn(str(reg.name) + " access_mnemonic attribute not found")
+                logger.warn(str(reg.name) + " access_mechanism attribute not found")
+
+        if reg.access_attributes is None:
+            logger.warn(str(reg.name) + " access attributes not found")
 
     def _set_register_purpose(self, reg, reg_node):
         purpose_text_nodes = reg_node.findall("./reg_purpose/purpose_text")

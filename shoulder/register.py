@@ -27,7 +27,7 @@ class Register(object):
     def __init__(self):
         self.name = None
         self.long_name = None
-        self.access_mnemonic = None
+        self.access_attributes = None
         self.purpose = None
         self.size = None
         self.offset = None
@@ -58,8 +58,8 @@ class Register(object):
             logger.debug("Register " + str(self.name) + " has no long name")
             return False
 
-        if self.access_mnemonic is None:
-            logger.debug("Register " + str(self.name) + " has no access mnemonic")
+        if self.access_attributes is None:
+            logger.debug("Register " + str(self.name) + " has no access attributes")
             return False
 
         if self.size is None:

@@ -50,13 +50,13 @@ class NCounterToZero(AbstractTransform):
                     ))
                     f.name = new_name
 
-        new_access_mnemonic = reg.access_mnemonic.replace("<n>", "0")
-        if new_access_mnemonic != reg.access_mnemonic:
+        new_access_mnemonic = reg.access_attributes.mnemonic.replace("<n>", "0")
+        if new_access_mnemonic != reg.access_attributes.mnemonic:
             logger.debug("Access mnemonic for {r}: {name} -> {new_name}".format(
                 r = reg.name,
-                name = reg.access_mnemonic,
+                name = reg.access_attributes.mnemonic,
                 new_name = new_access_mnemonic
             ))
-            reg.access_mnemonic = new_access_mnemonic
+            reg.access_attributes.mnemonic = new_access_mnemonic
 
         return reg
