@@ -28,6 +28,7 @@ class Register(object):
         self.name = None
         self.long_name = None
         self.access_attributes = None
+        self.access_mechanisms = []
         self.purpose = None
         self.size = None
         self.offset = None
@@ -36,7 +37,7 @@ class Register(object):
         self.is_writable = False
 
     def __str__(self):
-        msg = "{name} ({long_name})\nAccess Mnemonic: {access_mnemonic}\n"
+        msg = "{name} ({long_name})\n"
         msg += "Purpose: {purpose}\nSize: {size}\nOffset: {offset}"
         msg += "\nSystem Register: {is_sysreg}"
         msg = msg.format(**self.__dict__)

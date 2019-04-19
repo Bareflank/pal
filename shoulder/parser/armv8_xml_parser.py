@@ -28,7 +28,7 @@ from shoulder.access_attributes import AccessAttributes
 from shoulder.fieldset import Fieldset
 from shoulder.logger import logger
 from shoulder.exception import *
-
+import shoulder.model.access_mechanism as access_mechanism
 
 class ArmV8XmlParser(AbstractParser):
     @property
@@ -59,6 +59,7 @@ class ArmV8XmlParser(AbstractParser):
                     self._set_register_name(reg, reg_node)
                     self._set_register_long_name(reg, reg_node)
                     self._set_register_access_attributes(reg, reg_node)
+                    self._set_register_access_mechanisms(reg, reg_node)
                     self._set_register_purpose(reg, reg_node)
                     self._set_register_size(reg, reg_node)
                     self._set_register_fields(reg, reg_node)
@@ -110,7 +111,6 @@ class ArmV8XmlParser(AbstractParser):
                         try:
                             val = int(enc.attrib["v"], 2)
                         except:
-                            logger.warn("Could not parse access attribute value " + str(enc.attrib["v"]) + " for register " + reg.name)
                             continue
 
                         if name == "op0":
@@ -129,8 +129,134 @@ class ArmV8XmlParser(AbstractParser):
             else:
                 logger.warn(str(reg.name) + " access_mechanism attribute not found")
 
-        if reg.access_attributes is None:
-            logger.warn(str(reg.name) + " access attributes not found")
+    def _set_register_access_mechanisms(self, reg, reg_node):
+        # Memory mapped access mechanisms
+        reg_address_nodes = reg_node.findall("./reg_address")
+        offsets = set()
+        for node in reg_address_nodes:
+            offset_node = node.find("./reg_offset/hexnumber")
+            offset = int(offset_node.text, 0)
+            offsets.add(offset)
+
+            access_type_nodes = node.findall("./reg_access/reg_access_state/reg_access_type")
+            access_types = set()
+            for access_type_node in access_type_nodes:
+                access_type = access_type_node.text
+                access_types.add(access_type)
+
+            readable_types = set(["RO", "RW", "WI", "IMPDEF", "RO or RW", "RAZ/WI"])
+            writable_types = set(["RW", "WO", "RO or RW", "IMPDEF"])
+
+            if access_types & readable_types:
+                am = access_mechanism.ReadMemoryMapped(offset)
+                reg.access_mechanisms.append(am)
+
+            if access_types & writable_types:
+                am = access_mechanism.WriteMemoryMapped(offset)
+                reg.access_mechanisms.append(am)
+
+        # Instruction based access mechanisms
+        access_mechanism_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
+        for access_mechanism_node in access_mechanism_nodes:
+            try:
+                accessor = str(access_mechanism_node.attrib["accessor"])
+                operation = accessor.split(' ', 1)[0]
+                operand = accessor.split(' ', 1)[1]
+
+                encoding_nodes = access_mechanism_node.findall("encoding/enc")
+                encoding = {}
+                for enc in encoding_nodes:
+                    name = str(enc.attrib["n"]).lower()
+                    val = int(enc.attrib["v"], 2)
+                    encoding[name] = val
+
+                if operation == "MSRregister":
+                    am = access_mechanism.WriteSystemRegister(
+                        encoding["op0"], encoding["op1"], encoding["op2"],
+                        encoding["crn"], encoding["crm"], operand, rt=0b0
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MSRbanked":
+                    am = access_mechanism.WriteSystemRegisterBanked(
+                        encoding["m"], encoding["r"], encoding["m1"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MSRimmediate":
+                    am = access_mechanism.WriteSystemRegisterImmediate(
+                        encoding["crn"], encoding["op0"],
+                        encoding["op1"], encoding["op2"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MRS":
+                    am = access_mechanism.ReadSystemRegister(
+                        encoding["op0"], encoding["op1"], encoding["op2"],
+                        encoding["crn"], encoding["crm"], operand, rt=0b0
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MRSbanked":
+                    am = access_mechanism.ReadSystemRegisterBanked(
+                        encoding["m"], encoding["r"], encoding["m1"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MCR":
+                    am = access_mechanism.WriteCoprocessorRegister(
+                        encoding["coproc"], encoding["opc1"], encoding["opc2"],
+                        encoding["crn"], encoding["crm"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MCRR":
+                    am = access_mechanism.WriteCoprocessorRegister2(
+                        encoding["coproc"], encoding["opc1"], encoding["crm"],
+                        operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MRC":
+                    am = access_mechanism.ReadCoprocessorRegister(
+                        encoding["coproc"], encoding["opc1"], encoding["opc2"],
+                        encoding["crn"], encoding["crm"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "MRRC":
+                    am = access_mechanism.ReadCoprocessorRegister2(
+                        encoding["coproc"], encoding["opc1"], encoding["crm"],
+                        operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "VMRS":
+                    am = access_mechanism.ReadSystemVectorRegister(
+                        encoding["reg"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                elif operation == "VMSR":
+                    am = access_mechanism.WriteSystemVectorRegister(
+                        encoding["reg"], operand
+                    )
+                    reg.access_mechanisms.append(am)
+
+                else:
+                    msg = "Invalid operation " + operation
+                    msg += " in register " + reg.name
+                    raise ShoulderParserException(msg)
+
+                logger.debug(str(am))
+
+            except Exception as e:
+                msg = "Could not parse " + str(operation) + " access mechanism"
+                msg += " in register " + reg.name + ":"
+                logger.warn(msg)
+                logger.warn("\t" + str(e))
+                continue
+
 
     def _set_register_purpose(self, reg, reg_node):
         purpose_text_nodes = reg_node.findall("./reg_purpose/purpose_text")
