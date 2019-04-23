@@ -23,7 +23,7 @@
 import os
 
 from shoulder.generator.abstract_generator import AbstractGenerator
-from shoulder.register import Register
+from shoulder.model.register import Register
 from shoulder.logger import logger
 from shoulder.config import config
 from shoulder.exception import *

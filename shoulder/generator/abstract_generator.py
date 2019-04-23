@@ -23,7 +23,7 @@
 import abc
 from typing import List
 from typing import Dict
-from shoulder.register import Register
+from shoulder.model.register import Register
 from shoulder.gadget.gadget_properties import GadgetProperties
 from shoulder.gadget import create_gadget_properties
 
