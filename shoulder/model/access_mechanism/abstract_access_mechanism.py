@@ -21,22 +21,36 @@
 # SOFTWARE.
 
 import abc
-from typing import List
-from typing import Dict
-from shoulder.model.register import Register
-from shoulder.gadget.gadget_properties import GadgetProperties
-from shoulder.gadget import create_gadget_properties
+import itertools
 
-class AbstractGenerator(abc.ABC):
+from shoulder.logger import logger
+
+class AbstractAccessMechanism(abc.ABC):
+    """ Abstract base class for modeling a particular mechanism in which a """
+    """ register can be accessed """
+
     @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
+    def instruction_mnemonic(self):
+        """ Get the instruction mnemonic associated with this access mechanism """
         return
 
-    @property
-    def gadgets(self) -> List[GadgetProperties]:
-        """ Returns a dictionary of gadget properties, keyed by gadget name """
-        if not hasattr(self, "_gadgets"):
-            self._gadgets = create_gadget_properties()
-        return self._gadgets
+    @abc.abstractmethod
+    def is_read(self):
+        """ Returns true if the access mechanism performs a read """
+        return
+
+    @abc.abstractmethod
+    def is_write(self):
+        """ Returns true if the access mechanism performs a write """
+        return
+
+    @abc.abstractmethod
+    def is_valid(self):
+        """ Returns true if the access mechanism is valid """
+        return
+
+    @abc.abstractmethod
+    def binary_encoded(self):
+        """ Get the binary instruction encoding that performs an access """
+        """ to/from a register using this access mechanism """
+        return

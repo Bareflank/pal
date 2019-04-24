@@ -20,23 +20,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
-from typing import List
-from typing import Dict
-from shoulder.model.register import Register
-from shoulder.gadget.gadget_properties import GadgetProperties
-from shoulder.gadget import create_gadget_properties
+from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
 
-class AbstractGenerator(abc.ABC):
-    @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
-        return
+@dataclass(frozen=True)
+class WriteCoprocessorRegister(AbstractAccessMechanism):
+    """ Access mechanism for writing a system control coprocessor register """
 
-    @property
-    def gadgets(self) -> List[GadgetProperties]:
-        """ Returns a dictionary of gadget properties, keyed by gadget name """
-        if not hasattr(self, "_gadgets"):
-            self._gadgets = create_gadget_properties()
-        return self._gadgets
+    coproc: bytes
+    """ Coprocessor number """
+
+    opc1: bytes
+    """ Coprocessor-specific opcode """
+
+    opc2: bytes
+    """ Optional coprocessor-specific opcode """
+
+    crn: bytes
+    """ Register number within the system control coprocessor """
+
+    crm: bytes
+    """ Operational register within CRn """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
+
+    def instruction_mnemonic(self):
+        return "MCR"
+
+    def is_read(self):
+        return False
+
+    def is_write(self):
+        return True
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def binary_encoded(self):
+        raise NotImplementedError()

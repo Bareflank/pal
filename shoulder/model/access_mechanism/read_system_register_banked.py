@@ -20,23 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
-from typing import List
-from typing import Dict
-from shoulder.model.register import Register
-from shoulder.gadget.gadget_properties import GadgetProperties
-from shoulder.gadget import create_gadget_properties
+from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
 
-class AbstractGenerator(abc.ABC):
-    @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
-        return
+@dataclass(frozen=True)
+class ReadSystemRegisterBanked(AbstractAccessMechanism):
+    """ Access mechanism for reading a banked system register """
 
-    @property
-    def gadgets(self) -> List[GadgetProperties]:
-        """ Returns a dictionary of gadget properties, keyed by gadget name """
-        if not hasattr(self, "_gadgets"):
-            self._gadgets = create_gadget_properties()
-        return self._gadgets
+    m: bytes
+    """ ? """
+
+    r: bytes
+    """ ? """
+
+    m1: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
+
+    def instruction_mnemonic(self):
+        return "MRS"
+
+    def is_read(self):
+        return True
+
+    def is_write(self):
+        return False
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def binary_encoded(self):
+        raise NotImplementedError()

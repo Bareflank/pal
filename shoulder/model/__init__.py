@@ -20,23 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
-from typing import List
-from typing import Dict
-from shoulder.model.register import Register
-from shoulder.gadget.gadget_properties import GadgetProperties
-from shoulder.gadget import create_gadget_properties
-
-class AbstractGenerator(abc.ABC):
-    @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
-        return
-
-    @property
-    def gadgets(self) -> List[GadgetProperties]:
-        """ Returns a dictionary of gadget properties, keyed by gadget name """
-        if not hasattr(self, "_gadgets"):
-            self._gadgets = create_gadget_properties()
-        return self._gadgets
+from .register import Register
+from .fieldset import Fieldset
+from .fieldset import Field
+from .access_attributes import AccessAttributes
+from .access_mechanism import *

@@ -20,23 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
-from typing import List
-from typing import Dict
-from shoulder.model.register import Register
-from shoulder.gadget.gadget_properties import GadgetProperties
-from shoulder.gadget import create_gadget_properties
-
-class AbstractGenerator(abc.ABC):
-    @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
-        return
-
-    @property
-    def gadgets(self) -> List[GadgetProperties]:
-        """ Returns a dictionary of gadget properties, keyed by gadget name """
-        if not hasattr(self, "_gadgets"):
-            self._gadgets = create_gadget_properties()
-        return self._gadgets
+from .read_coprocessor_register import ReadCoprocessorRegister
+from .read_coprocessor_register2 import ReadCoprocessorRegister2
+from .read_memory_mapped import ReadMemoryMapped
+from .read_system_register import ReadSystemRegister
+from .read_system_register_banked import ReadSystemRegisterBanked
+from .read_system_vector_register import ReadSystemVectorRegister
+from .write_coprocessor_register import WriteCoprocessorRegister
+from .write_coprocessor_register2 import WriteCoprocessorRegister2
+from .write_memory_mapped import WriteMemoryMapped
+from .write_system_register import WriteSystemRegister
+from .write_system_register_banked import WriteSystemRegisterBanked
+from .write_system_register_immediate import WriteSystemRegisterImmediate
+from .write_system_vector_register import WriteSystemVectorRegister

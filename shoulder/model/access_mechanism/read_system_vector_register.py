@@ -20,23 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
-from typing import List
-from typing import Dict
-from shoulder.model.register import Register
-from shoulder.gadget.gadget_properties import GadgetProperties
-from shoulder.gadget import create_gadget_properties
+from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
 
-class AbstractGenerator(abc.ABC):
-    @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
-        return
+@dataclass(frozen=True)
+class ReadSystemVectorRegister(AbstractAccessMechanism):
+    """ Access mechanism for reading a system vector control register """
 
-    @property
-    def gadgets(self) -> List[GadgetProperties]:
-        """ Returns a dictionary of gadget properties, keyed by gadget name """
-        if not hasattr(self, "_gadgets"):
-            self._gadgets = create_gadget_properties()
-        return self._gadgets
+    reg: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
+
+    def instruction_mnemonic(self):
+        return "VMRS"
+
+    def is_read(self):
+        return True
+
+    def is_write(self):
+        return False
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def binary_encoded(self):
+        raise NotImplementedError()
