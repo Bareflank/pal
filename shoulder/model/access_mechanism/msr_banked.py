@@ -24,8 +24,8 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class ReadSystemRegisterBanked(AbstractAccessMechanism):
-    """ Access mechanism for reading a banked system register """
+class MSRBanked(AbstractAccessMechanism):
+    """ Access mechanism for writing a banked system register """
 
     m: bytes
     """ ? """
@@ -40,13 +40,13 @@ class ReadSystemRegisterBanked(AbstractAccessMechanism):
     """ The operand mnemonic of the register to be accessed """
 
     def instruction_mnemonic(self):
-        return "MRS"
+        return "MSR"
 
     def is_read(self):
-        return True
+        return False
 
     def is_write(self):
-        return False
+        return True
 
     def is_valid(self):
         raise NotImplementedError()

@@ -24,17 +24,29 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class WriteSystemVectorRegister(AbstractAccessMechanism):
-    """ Access mechanism for writing a system vector control register """
+class MRC(AbstractAccessMechanism):
+    """ Access mechanism for reading a system control coprocessor register """
 
-    reg: bytes
-    """ ? """
+    coproc: bytes
+    """ Coprocessor number """
+
+    opc1: bytes
+    """ Coprocessor-specific opcode """
+
+    opc2: bytes
+    """ Optional coprocessor-specific opcode """
+
+    crn: bytes
+    """ Register number within the system control coprocessor """
+
+    crm: bytes
+    """ Operational register within CRn """
 
     operand_mnemonic: str
     """ The operand mnemonic of the register to be accessed """
 
     def instruction_mnemonic(self):
-        return "VMSR"
+        return "MRC"
 
     def is_read(self):
         return True

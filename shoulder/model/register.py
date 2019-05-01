@@ -22,13 +22,29 @@
 
 from shoulder.logger import logger
 
+
 class Register(object):
     """ Models a register in the ARM architecture """
     def __init__(self):
         self.name = None
         self.long_name = None
         self.access_attributes = None
-        self.access_mechanisms = []
+        self.access_mechanisms = {
+            "mrc": [],
+            "mcr": [],
+            "mrrc": [],
+            "mcrr": [],
+            "ldr": [],
+            "str": [],
+            "msr": [],
+            "mrs_register": [],
+            "mrs_banked": [],
+            "msr_register": [],
+            "msr_banked": [],
+            "msr_immediate": [],
+            "vmsr": [],
+            "vmrs": [],
+        }
         self.purpose = None
         self.size = None
         self.offset = None
@@ -59,10 +75,6 @@ class Register(object):
             logger.debug("Register " + str(self.name) + " has no long name")
             return False
 
-        if self.access_attributes is None:
-            logger.debug("Register " + str(self.name) + " has no access attributes")
-            return False
-
         if self.size is None:
             logger.debug("Register " + str(self.name) + " has no size")
             return False
@@ -75,3 +87,36 @@ class Register(object):
             if not fs.is_valid(): return False
 
         return True
+
+    def readable(self):
+        readable_mechanisms = [
+            "mrs_register",
+            "mrs_banked",
+            "mrc",
+            "mrrc",
+            "vmrs",
+            "ldr"
+        ]
+
+        for key in readable_mechanisms:
+            if self.access_mechanisms[key]:
+                return True
+
+        return False
+
+    def writeable(self):
+        writeable_mechanisms = [
+            "msr_register",
+            "mcr",
+            "mcrr",
+            "msr_banked",
+            "msr_immediate",
+            "vmsr",
+            "str"
+        ]
+
+        for key in writeable_mechanisms:
+            if self.access_mechanisms[key]:
+                return True
+
+        return False

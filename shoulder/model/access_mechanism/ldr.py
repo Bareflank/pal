@@ -24,17 +24,14 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class ReadSystemVectorRegister(AbstractAccessMechanism):
-    """ Access mechanism for reading a system vector control register """
+class LDR(AbstractAccessMechanism):
+    """ Access mechanism for reading a system control coprocessor register """
 
-    reg: bytes
-    """ ? """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
+    offset: int
+    """ Register offset """
 
     def instruction_mnemonic(self):
-        return "VMRS"
+        return "LDR"
 
     def is_read(self):
         return True

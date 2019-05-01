@@ -24,26 +24,17 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class WriteSystemRegisterImmediate(AbstractAccessMechanism):
-    """ Access mechanism for writing an immediate value to a system register """
+class VMSR(AbstractAccessMechanism):
+    """ Access mechanism for writing a system vector control register """
 
-    crn: bytes
-    """ ? """
-
-    op0: bytes
-    """ ? """
-
-    op1: bytes
-    """ ? """
-
-    op2: bytes
+    reg: bytes
     """ ? """
 
     operand_mnemonic: str
     """ The operand mnemonic of the register to be accessed """
 
     def instruction_mnemonic(self):
-        return "MSR"
+        return "VMSR"
 
     def is_read(self):
         return False

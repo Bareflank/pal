@@ -20,16 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .read_coprocessor_register import ReadCoprocessorRegister
-from .read_coprocessor_register2 import ReadCoprocessorRegister2
-from .read_memory_mapped import ReadMemoryMapped
-from .read_system_register import ReadSystemRegister
-from .read_system_register_banked import ReadSystemRegisterBanked
-from .read_system_vector_register import ReadSystemVectorRegister
-from .write_coprocessor_register import WriteCoprocessorRegister
-from .write_coprocessor_register2 import WriteCoprocessorRegister2
-from .write_memory_mapped import WriteMemoryMapped
-from .write_system_register import WriteSystemRegister
-from .write_system_register_banked import WriteSystemRegisterBanked
-from .write_system_register_immediate import WriteSystemRegisterImmediate
-from .write_system_vector_register import WriteSystemVectorRegister
+from .ldr import LDR
+from .mcr import MCR
+from .mcrr import MCRR
+from .mrc import MRC
+from .mrrc import MRRC
+from .mrs_banked import MRSBanked
+from .mrs_register import MRSRegister
+from .msr_banked import MSRBanked
+from .msr_immediate import MSRImmediate
+from .msr_register import MSRRegister
+from .str_ import STR
+from .vmrs import VMRS
+from .vmsr import VMSR

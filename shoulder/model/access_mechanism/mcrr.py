@@ -24,7 +24,7 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class WriteCoprocessorRegister2(AbstractAccessMechanism):
+class MCRR(AbstractAccessMechanism):
     """ Secondary access mechanism for writing a system control coprocessor """
     """ register """
 

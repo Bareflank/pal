@@ -24,7 +24,7 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class ReadCoprocessorRegister2(AbstractAccessMechanism):
+class MRRC(AbstractAccessMechanism):
     """ Secondary access mechanism for reading a system control coprocessor """
     """ register """
 

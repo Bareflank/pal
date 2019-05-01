@@ -24,14 +24,26 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class WriteMemoryMapped(AbstractAccessMechanism):
-    """ Access mechanism for writing a memory mapped register """
+class MSRImmediate(AbstractAccessMechanism):
+    """ Access mechanism for writing an immediate value to a system register """
 
-    offset: int
-    """ Register offset from base address """
+    crn: bytes
+    """ ? """
+
+    op0: bytes
+    """ ? """
+
+    op1: bytes
+    """ ? """
+
+    op2: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
 
     def instruction_mnemonic(self):
-        return "STR"
+        return "MSR"
 
     def is_read(self):
         return False

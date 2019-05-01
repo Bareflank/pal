@@ -24,35 +24,29 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class WriteCoprocessorRegister(AbstractAccessMechanism):
-    """ Access mechanism for writing a system control coprocessor register """
+class MRSBanked(AbstractAccessMechanism):
+    """ Access mechanism for reading a banked system register """
 
-    coproc: bytes
-    """ Coprocessor number """
+    m: bytes
+    """ ? """
 
-    opc1: bytes
-    """ Coprocessor-specific opcode """
+    r: bytes
+    """ ? """
 
-    opc2: bytes
-    """ Optional coprocessor-specific opcode """
-
-    crn: bytes
-    """ Register number within the system control coprocessor """
-
-    crm: bytes
-    """ Operational register within CRn """
+    m1: bytes
+    """ ? """
 
     operand_mnemonic: str
     """ The operand mnemonic of the register to be accessed """
 
     def instruction_mnemonic(self):
-        return "MCR"
+        return "MRS"
 
     def is_read(self):
-        return False
+        return True
 
     def is_write(self):
-        return True
+        return False
 
     def is_valid(self):
         raise NotImplementedError()

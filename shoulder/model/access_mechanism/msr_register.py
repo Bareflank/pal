@@ -24,9 +24,9 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class ReadSystemRegister(AbstractAccessMechanism):
-    """ Access mechanism for reading the contents of a system register into """
-    """ a general purpose register via the MRS instruciton """
+class MSRRegister(AbstractAccessMechanism):
+    """ Access mechanism for writing a system register using the contents of """
+    """ a general purpose register """
 
     op0: bytes
     """ Top-level encoding of the system instruction type  """
@@ -47,16 +47,16 @@ class ReadSystemRegister(AbstractAccessMechanism):
     """ The operand mnemonic of the register to be accessed """
 
     rt: bytes = 0b0
-    """ Destination general purpose register (default = x0) """
+    """ Source general purpose register (default = x0) """
 
     def instruction_mnemonic(self):
-        return "MRS"
+        return "MSR"
 
     def is_read(self):
-        return True
+        return False
 
     def is_write(self):
-        return False
+        return True
 
     def is_valid(self):
         if self.op0 > 0b11: return False
@@ -71,7 +71,7 @@ class ReadSystemRegister(AbstractAccessMechanism):
     def binary_encoded(self):
         encoding = 0b0
         header = 0b1101010100   # System register transfer instruction
-        l = 0b1                 # Direction of transfer (1 = read, 0 = write)
+        l = 0b0                 # Direction of transfer (1 = read, 0 = write)
 
         encoding |= header << 22
         encoding |= l << 21
@@ -87,7 +87,7 @@ class ReadSystemRegister(AbstractAccessMechanism):
     def __str__(self):
         msg = super().__str__()
         msg += "\n"
-        msg += "\tAssembler Mnemonic: {instruction} x{rt}, {operand};\n"
+        msg += "\tAssembler Mnemonic: {instruction} {operand}, x{rt};\n"
         msg = msg.format(
             instruction=self.instruction_mnemonic(),
             operand=self.operand_mnemonic,
