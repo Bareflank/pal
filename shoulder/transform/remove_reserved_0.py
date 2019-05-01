@@ -23,7 +23,7 @@
 from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class RemoveReserved0Transform(AbstractTransform):
+class RemoveReserved0(AbstractTransform):
     @property
     def description(self):
         d = "removing reserved 0 (RES0) fields"
