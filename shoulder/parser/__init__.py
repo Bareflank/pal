@@ -52,6 +52,7 @@ def parse_registers(spec_path):
     for path in paths:
         results = parser.parse_registers(path)
         if results:
-            regs.append(results[0])
+            for result in results:
+                regs.append(result)
 
     return regs

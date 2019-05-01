@@ -40,7 +40,6 @@ for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
 
 transforms = OrderedDict()
 
-transforms["n_counter_to_zero"] = n_counter_to_zero.NCounterToZero()
 transforms["quirks"] = quirks.QuirksTransform()
 transforms["remove_implementation_defined"] = \
     remove_implementation_defined.RemoveImplementationDefinedTransform()

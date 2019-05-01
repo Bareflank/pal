@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import re
 from lxml import etree as ET
 
 from shoulder.parser.abstract_parser import AbstractParser
@@ -54,13 +55,48 @@ class ArmV8XmlParser(AbstractParser):
                     logger.debug("Register Attributes:")
                     reg = model.Register()
                     self._set_register_name(reg, reg_node)
-                    self._set_register_long_name(reg, reg_node)
-                    self._set_register_access_attributes(reg, reg_node)
-                    self._set_register_access_mechanisms(reg, reg_node)
-                    self._set_register_purpose(reg, reg_node)
-                    self._set_register_size(reg, reg_node)
-                    self._set_register_fields(reg, reg_node)
-                    registers.append(reg)
+                    if "<n>" in reg.name:
+                        array_start_node = reg_node.find("./reg_array/reg_array_start")
+                        array_end_node = reg_node.find("./reg_array/reg_array_end")
+
+                        if array_start_node is None or array_end_node is None:
+                            logger.warn("Unbounded n-index register " + str(reg.name))
+                            continue
+
+                        array_start = int(array_start_node.text)
+                        array_end = int(array_end_node.text)
+
+                        # TODO: Figure out better way to identify long
+                        # memory-mapped registers and access them with an
+                        # offset
+                        if ((array_end - array_start) > 32):
+                            logger.warn("Excessively large n-index register " + str(reg.name))
+                            continue
+
+                        for n in range(array_start, array_end + 1):
+                            n_reg = model.Register()
+                            self._set_register_name(n_reg, reg_node)
+                            self._set_register_long_name(n_reg, reg_node)
+                            self._set_register_access_attributes(n_reg, reg_node)
+                            self._set_register_access_mechanisms(n_reg, reg_node, n)
+                            self._set_register_purpose(n_reg, reg_node)
+                            self._set_register_size(n_reg, reg_node)
+                            self._set_register_fields(n_reg, reg_node)
+
+                            n_reg.name = n_reg.name.replace("<n>", str(n))
+                            for fs in n_reg.fieldsets:
+                                for f in fs.fields:
+                                    f.name = f.name.replace("<n>", str(n))
+
+                            registers.append(n_reg)
+                    else:
+                        self._set_register_long_name(reg, reg_node)
+                        self._set_register_access_attributes(reg, reg_node)
+                        self._set_register_access_mechanisms(reg, reg_node)
+                        self._set_register_purpose(reg, reg_node)
+                        self._set_register_size(reg, reg_node)
+                        self._set_register_fields(reg, reg_node)
+                        registers.append(reg)
 
         except Exception as e:
             msg = "Failed to parse register file " + str(path)
@@ -126,7 +162,7 @@ class ArmV8XmlParser(AbstractParser):
             else:
                 logger.warn(str(reg.name) + " access_mechanism attribute not found")
 
-    def _set_register_access_mechanisms(self, reg, reg_node):
+    def _set_register_access_mechanisms(self, reg, reg_node, n=0):
         # Memory mapped access mechanisms
         reg_address_nodes = reg_node.findall("./reg_address")
         offsets = set()
@@ -164,7 +200,43 @@ class ArmV8XmlParser(AbstractParser):
                 encoding = {}
                 for enc in encoding_nodes:
                     name = str(enc.attrib["n"]).lower()
-                    val = int(enc.attrib["v"], 2)
+                    try:
+                        val = int(enc.attrib["v"], 2)
+                    except ValueError:
+                        strval = str(enc.attrib["v"])
+                        n_field_strings = re.findall("\[n:\d+:\d+]", strval)
+                        for n_string in n_field_strings:
+                            n_trim = n_string[1:-1]
+                            msb = int(n_trim.split(":")[1])
+                            lsb = int(n_trim.split(":")[2])
+                            replacement = ""
+                            for i in range(lsb, msb + 1):
+                                if ((1 << i) & n):
+                                    replacement = "1" + replacement
+                                else:
+                                    replacement = "0" + replacement
+                            strval = strval.replace(n_string, replacement)
+
+                        n_bit_strings = re.findall("\[n:\d+]", strval)
+                        for n_string in n_bit_strings:
+                            n_trim = n_string[1:-1]
+                            bit = int(n_trim.split(":")[1])
+                            n_bit = bin(((1 << bit) & n) >> bit)
+                            strval = strval.replace(n_string, str(n_bit)[2:])
+
+                        n_strings = re.findall("n+", strval)
+                        for n_string in n_strings:
+                            num_bits = len(n_string)
+                            replacement = ""
+                            for i in range(num_bits):
+                                if ((1 << i) & n):
+                                    replacement = "1" + replacement
+                                else:
+                                    replacement = "0" + replacement
+                            strval = strval.replace(n_string, replacement)
+
+                        val = int(strval, 2)
+                        operand = operand.replace("<n>", str(n))
                     encoding[name] = val
 
                 if operation == "MSRregister":
