@@ -60,22 +60,13 @@ class CxxHeaderGenerator(AbstractGenerator):
         accessor macros before generating register accessors
         """
         for obj in objects:
-            if(isinstance(obj, Register)):
-                if not obj.is_sysreg: return
+            reg_name = str(obj.name).lower()
+            self.gadgets["shoulder.cxx.namespace"].name = reg_name
+            self.gadgets["shoulder.cxx.namespace"].indent = 0
 
-                reg_name = str(obj.name).lower()
-                self.gadgets["shoulder.cxx.namespace"].name = reg_name
-                self.gadgets["shoulder.cxx.namespace"].indent = 0
-
-                logger.debug("Writing register: " + reg_name)
-                self._generate_register_comment(outfile, obj)
-                self._generate_register(outfile, obj)
-
-            else:
-                msg = "Cannot generate object of unsupported {t} type".format(
-                    t = type(obj)
-                )
-                raise ShoulderGeneratorException(msg)
+            logger.debug("Writing register: " + reg_name)
+            self._generate_register_comment(outfile, obj)
+            self._generate_register(outfile, obj)
 
     @cxx.namespace
     def _generate_register(self, outfile, reg):

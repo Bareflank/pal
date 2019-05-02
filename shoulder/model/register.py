@@ -28,7 +28,16 @@ class Register(object):
     def __init__(self):
         self.name = None
         self.long_name = None
-        self.access_attributes = None
+        self.purpose = None
+        self.size = None
+        self.execution_state = ""
+        self.attributes = {
+            "is_register": False,
+            "is_internal": False,
+            "is_banked": False,
+            "is_optional": False,
+            "is_stub_entry": False
+        }
         self.access_mechanisms = {
             "mrc": [],
             "mcr": [],
@@ -45,18 +54,17 @@ class Register(object):
             "vmsr": [],
             "vmrs": [],
         }
-        self.purpose = None
-        self.size = None
-        self.offset = None
-        self.is_sysreg = True
         self.fieldsets = []
-        self.is_writable = False
 
     def __str__(self):
         msg = "{name} ({long_name})\n"
-        msg += "Purpose: {purpose}\nSize: {size}\nOffset: {offset}"
-        msg += "\nSystem Register: {is_sysreg}"
-        msg = msg.format(**self.__dict__)
+        msg += "Purpose: {purpose}\nSize: {size}\n"
+        msg = msg.format(
+            name=self.name,
+            long_name=self.long_name,
+            purpose=self.purpose,
+            size=self.size
+        )
 
         for fieldset in self.fieldsets:
             msg += "\n" + str(fieldset)

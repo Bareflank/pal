@@ -55,8 +55,12 @@ class ArmV8XmlParser(AbstractParser):
             for reg_node in registers_node:
                 if (str(reg_node.attrib["is_register"]) == "True"):
                     logger.debug("Register Attributes:")
+
                     reg = shoulder.model.Register()
                     self._set_register_name(reg, reg_node)
+                    self._set_register_execution_state(reg, reg_node)
+                    self._set_register_attributes(reg, reg_node)
+
                     if "<n>" in reg.name:
                         array_start_node = reg_node.find("./reg_array/reg_array_start")
                         array_end_node = reg_node.find("./reg_array/reg_array_end")
@@ -79,7 +83,6 @@ class ArmV8XmlParser(AbstractParser):
                             n_reg = shoulder.model.Register()
                             self._set_register_name(n_reg, reg_node)
                             self._set_register_long_name(n_reg, reg_node)
-                            self._set_register_access_attributes(n_reg, reg_node)
                             self._set_register_access_mechanisms(n_reg, reg_node, n)
                             self._set_register_purpose(n_reg, reg_node)
                             self._set_register_size(n_reg, reg_node)
@@ -93,7 +96,6 @@ class ArmV8XmlParser(AbstractParser):
                             registers.append(n_reg)
                     else:
                         self._set_register_long_name(reg, reg_node)
-                        self._set_register_access_attributes(reg, reg_node)
                         self._set_register_access_mechanisms(reg, reg_node)
                         self._set_register_purpose(reg, reg_node)
                         self._set_register_size(reg, reg_node)
@@ -127,42 +129,27 @@ class ArmV8XmlParser(AbstractParser):
         else:
             logger.warn(str(reg.name) + " long_name attribute not found")
 
-    def _set_register_access_attributes(self, reg, reg_node):
-        access_mechanism_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
-        for mechanism in access_mechanism_nodes:
-            if mechanism is not None:
-                accessor = str(mechanism.attrib["accessor"])
-                operation = accessor.split(' ', 1)[0]
-                if operation == "MSR" or operation == "MSRregister":
-                    reg.is_writable = True
-                if reg.access_attributes is None:
-                    access_attributes = shoulder.model.AccessAttributes()
-                    if operation.startswith("MR"):
-                        access_attributes.mnemonic = accessor.split(' ', 1)[1]
+    def _set_register_execution_state(self, reg, reg_node):
+        if "execution_state" in reg_node.attrib:
+            reg.execution_state = reg_node.attrib["execution_state"].lower()
+        else:
+            reg.execution_state = None
 
-                    encoding_nodes = mechanism.findall("encoding/enc")
-                    for enc in encoding_nodes:
-                        name = str(enc.attrib["n"])
-                        try:
-                            val = int(enc.attrib["v"], 2)
-                        except:
-                            continue
+    def _set_register_attributes(self, reg, reg_node):
+        if "is_register" in reg_node.attrib:
+            reg.is_register = bool(reg_node.attrib["is_register"])
 
-                        if name == "op0":
-                            access_attributes.op0 = val
-                        elif name == "op1":
-                            access_attributes.op1 = val
-                        elif name == "op2":
-                            access_attributes.op2 = val
-                        elif name == "CRn":
-                            access_attributes.crn = val
-                        elif name == "CRm":
-                            access_attributes.crm = val
+        if "is_internal" in reg_node.attrib:
+            reg.is_internal = bool(reg_node.attrib["is_internal"])
 
-                    if access_attributes.is_valid():
-                        reg.access_attributes = access_attributes
-            else:
-                logger.warn(str(reg.name) + " access_mechanism attribute not found")
+        if "is_banked" in reg_node.attrib:
+            reg.is_banked = bool(reg_node.attrib["is_banked"])
+
+        if "is_optional" in reg_node.attrib:
+            reg.is_optional = bool(reg_node.attrib["is_optional"])
+
+        if "is_stub_entry" in reg_node.attrib:
+            reg.is_stub_entry = bool(reg_node.attrib["is_stub_entry"])
 
     def _set_register_access_mechanisms(self, reg, reg_node, n=0):
         # Memory mapped access mechanisms
