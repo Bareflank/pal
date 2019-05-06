@@ -22,25 +22,49 @@
 
 from shoulder.logger import logger
 
+
 class Register(object):
     """ Models a register in the ARM architecture """
     def __init__(self):
         self.name = None
         self.long_name = None
-        self.access_attributes = None
-        self.access_mechanisms = []
         self.purpose = None
         self.size = None
-        self.offset = None
-        self.is_sysreg = True
+        self.execution_state = ""
+        self.attributes = {
+            "is_register": False,
+            "is_internal": False,
+            "is_banked": False,
+            "is_optional": False,
+            "is_stub_entry": False
+        }
+        self.access_mechanisms = {
+            "mrc": [],
+            "mcr": [],
+            "mrrc": [],
+            "mcrr": [],
+            "ldr": [],
+            "str": [],
+            "msr": [],
+            "mrs_register": [],
+            "mrs_banked": [],
+            "msr_register": [],
+            "msr_banked": [],
+            "msr_immediate": [],
+            "vmsr": [],
+            "vmrs": [],
+        }
         self.fieldsets = []
-        self.is_writable = False
 
     def __str__(self):
         msg = "{name} ({long_name})\n"
-        msg += "Purpose: {purpose}\nSize: {size}\nOffset: {offset}"
-        msg += "\nSystem Register: {is_sysreg}"
-        msg = msg.format(**self.__dict__)
+        msg += "Purpose: {purpose}\nSize: {size}\n"
+        msg = msg.format(
+            name=self.name,
+            long_name=self.long_name,
+            purpose=self.purpose,
+            size=self.size
+        )
 
         for fieldset in self.fieldsets:
             msg += "\n" + str(fieldset)
@@ -59,10 +83,6 @@ class Register(object):
             logger.debug("Register " + str(self.name) + " has no long name")
             return False
 
-        if self.access_attributes is None:
-            logger.debug("Register " + str(self.name) + " has no access attributes")
-            return False
-
         if self.size is None:
             logger.debug("Register " + str(self.name) + " has no size")
             return False
@@ -75,3 +95,36 @@ class Register(object):
             if not fs.is_valid(): return False
 
         return True
+
+    def readable(self):
+        readable_mechanisms = [
+            "mrs_register",
+            "mrs_banked",
+            "mrc",
+            "mrrc",
+            "vmrs",
+            "ldr"
+        ]
+
+        for key in readable_mechanisms:
+            if self.access_mechanisms[key]:
+                return True
+
+        return False
+
+    def writeable(self):
+        writeable_mechanisms = [
+            "msr_register",
+            "mcr",
+            "mcrr",
+            "msr_banked",
+            "msr_immediate",
+            "vmsr",
+            "str"
+        ]
+
+        for key in writeable_mechanisms:
+            if self.access_mechanisms[key]:
+                return True
+
+        return False

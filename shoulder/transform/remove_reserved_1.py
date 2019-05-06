@@ -23,7 +23,7 @@
 from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class RemoveReserved1Transform(AbstractTransform):
+class RemoveReserved1(AbstractTransform):
     @property
     def description(self):
         d = "removing reserved 1 (RES1) fields"

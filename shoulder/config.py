@@ -182,7 +182,7 @@ config.add_configuration(c)
 # C options
 # -----------------------------------------------------------------------------
 
-c = Configuration("c_prefix", "aarch")
+c = Configuration("c_prefix", "")
 c.description = "Prefix to place in front of generated C functions"
 config.add_configuration(c)
 

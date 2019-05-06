@@ -46,6 +46,7 @@ filters["gic"] = gic.GICRegisterFilter()
 filters["loregion"] = loregion.LORegionRegisterFilter()
 filters["misc"] = misc.MiscelaneousRegisterFilter()
 filters["mpam"] = mpam.MPAMRegisterFilter()
+filters["no_access_mechanism"] = no_access_mechanism.NoAccessMechanismFilter()
 filters["scxtnum"] = scxtnum.SCXTNUMRegisterFilter()
 filters["statistical_profiling"] = \
     statistical_profiling.StatisticalProfilingRegisterFilter()

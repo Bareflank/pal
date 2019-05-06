@@ -20,36 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
+from shoulder.transform.abstract_transform import AbstractTransform
 
-@dataclass(frozen=True)
-class WriteSystemRegisterBanked(AbstractAccessMechanism):
-    """ Access mechanism for writing a banked system register """
 
-    m: bytes
-    """ ? """
+class UniqueFieldsetNames(AbstractTransform):
+    @property
+    def description(self):
+        d = "assigning unique names to fields accross all field sets"
+        return d
 
-    r: bytes
-    """ ? """
-
-    m1: bytes
-    """ ? """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
-
-    def instruction_mnemonic(self):
-        return "MSR"
-
-    def is_read(self):
-        return False
-
-    def is_write(self):
-        return True
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+    def do_transform(self, reg):
+        if len(reg.fieldsets) > 1:
+            for idx, fs in enumerate(reg.fieldsets):
+                for f in fs.fields:
+                    f.name = "fieldset_" + str(idx + 1) + "_" + f.name
+        return reg

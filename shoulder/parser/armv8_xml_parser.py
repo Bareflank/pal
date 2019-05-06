@@ -25,8 +25,10 @@ from lxml import etree as ET
 
 from shoulder.parser.abstract_parser import AbstractParser
 from shoulder.logger import logger
-from shoulder.exception import *
-import shoulder.model as model
+from shoulder.exception import ShoulderParserException
+import shoulder.model
+import shoulder.model.access_mechanism
+
 
 class ArmV8XmlParser(AbstractParser):
     @property
@@ -53,8 +55,12 @@ class ArmV8XmlParser(AbstractParser):
             for reg_node in registers_node:
                 if (str(reg_node.attrib["is_register"]) == "True"):
                     logger.debug("Register Attributes:")
-                    reg = model.Register()
+
+                    reg = shoulder.model.Register()
                     self._set_register_name(reg, reg_node)
+                    self._set_register_execution_state(reg, reg_node)
+                    self._set_register_attributes(reg, reg_node)
+
                     if "<n>" in reg.name:
                         array_start_node = reg_node.find("./reg_array/reg_array_start")
                         array_end_node = reg_node.find("./reg_array/reg_array_end")
@@ -74,10 +80,9 @@ class ArmV8XmlParser(AbstractParser):
                             continue
 
                         for n in range(array_start, array_end + 1):
-                            n_reg = model.Register()
+                            n_reg = shoulder.model.Register()
                             self._set_register_name(n_reg, reg_node)
                             self._set_register_long_name(n_reg, reg_node)
-                            self._set_register_access_attributes(n_reg, reg_node)
                             self._set_register_access_mechanisms(n_reg, reg_node, n)
                             self._set_register_purpose(n_reg, reg_node)
                             self._set_register_size(n_reg, reg_node)
@@ -91,7 +96,6 @@ class ArmV8XmlParser(AbstractParser):
                             registers.append(n_reg)
                     else:
                         self._set_register_long_name(reg, reg_node)
-                        self._set_register_access_attributes(reg, reg_node)
                         self._set_register_access_mechanisms(reg, reg_node)
                         self._set_register_purpose(reg, reg_node)
                         self._set_register_size(reg, reg_node)
@@ -125,42 +129,27 @@ class ArmV8XmlParser(AbstractParser):
         else:
             logger.warn(str(reg.name) + " long_name attribute not found")
 
-    def _set_register_access_attributes(self, reg, reg_node):
-        access_mechanism_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
-        for mechanism in access_mechanism_nodes:
-            if mechanism is not None:
-                accessor = str(mechanism.attrib["accessor"])
-                operation = accessor.split(' ', 1)[0]
-                if operation == "MSR" or operation == "MSRregister":
-                    reg.is_writable = True
-                if reg.access_attributes is None:
-                    access_attributes = model.AccessAttributes()
-                    if operation.startswith("MR"):
-                        access_attributes.mnemonic = accessor.split(' ', 1)[1]
+    def _set_register_execution_state(self, reg, reg_node):
+        if "execution_state" in reg_node.attrib:
+            reg.execution_state = reg_node.attrib["execution_state"].lower()
+        else:
+            reg.execution_state = None
 
-                    encoding_nodes = mechanism.findall("encoding/enc")
-                    for enc in encoding_nodes:
-                        name = str(enc.attrib["n"])
-                        try:
-                            val = int(enc.attrib["v"], 2)
-                        except:
-                            continue
+    def _set_register_attributes(self, reg, reg_node):
+        if "is_register" in reg_node.attrib:
+            reg.is_register = bool(reg_node.attrib["is_register"])
 
-                        if name == "op0":
-                            access_attributes.op0 = val
-                        elif name == "op1":
-                            access_attributes.op1 = val
-                        elif name == "op2":
-                            access_attributes.op2 = val
-                        elif name == "CRn":
-                            access_attributes.crn = val
-                        elif name == "CRm":
-                            access_attributes.crm = val
+        if "is_internal" in reg_node.attrib:
+            reg.is_internal = bool(reg_node.attrib["is_internal"])
 
-                    if access_attributes.is_valid():
-                        reg.access_attributes = access_attributes
-            else:
-                logger.warn(str(reg.name) + " access_mechanism attribute not found")
+        if "is_banked" in reg_node.attrib:
+            reg.is_banked = bool(reg_node.attrib["is_banked"])
+
+        if "is_optional" in reg_node.attrib:
+            reg.is_optional = bool(reg_node.attrib["is_optional"])
+
+        if "is_stub_entry" in reg_node.attrib:
+            reg.is_stub_entry = bool(reg_node.attrib["is_stub_entry"])
 
     def _set_register_access_mechanisms(self, reg, reg_node, n=0):
         # Memory mapped access mechanisms
@@ -181,12 +170,12 @@ class ArmV8XmlParser(AbstractParser):
             writable_types = set(["RW", "WO", "RO or RW", "IMPDEF"])
 
             if access_types & readable_types:
-                am = model.access_mechanism.ReadMemoryMapped(offset)
-                reg.access_mechanisms.append(am)
+                am = shoulder.model.access_mechanism.LDR(offset)
+                reg.access_mechanisms["ldr"].append(am)
 
             if access_types & writable_types:
-                am = model.access_mechanism.WriteMemoryMapped(offset)
-                reg.access_mechanisms.append(am)
+                am = shoulder.model.access_mechanism.STR(offset)
+                reg.access_mechanisms["str"].append(am)
 
         # Instruction based access mechanisms
         access_mechanism_nodes = reg_node.findall("./access_mechanisms/access_mechanism")
@@ -240,77 +229,77 @@ class ArmV8XmlParser(AbstractParser):
                     encoding[name] = val
 
                 if operation == "MSRregister":
-                    am = model.access_mechanism.WriteSystemRegister(
+                    am = shoulder.model.access_mechanism.MSRRegister(
                         encoding["op0"], encoding["op1"], encoding["op2"],
                         encoding["crn"], encoding["crm"], operand, rt=0b0
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["msr_register"].append(am)
 
                 elif operation == "MSRbanked":
-                    am = model.access_mechanism.WriteSystemRegisterBanked(
+                    am = shoulder.model.access_mechanism.MSRBanked(
                         encoding["m"], encoding["r"], encoding["m1"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["msr_banked"].append(am)
 
                 elif operation == "MSRimmediate":
-                    am = model.access_mechanism.WriteSystemRegisterImmediate(
+                    am = shoulder.model.access_mechanism.MSRImmediate(
                         encoding["crn"], encoding["op0"],
                         encoding["op1"], encoding["op2"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["msr_immediate"].append(am)
 
                 elif operation == "MRS":
-                    am = model.access_mechanism.ReadSystemRegister(
+                    am = shoulder.model.access_mechanism.MRSRegister(
                         encoding["op0"], encoding["op1"], encoding["op2"],
                         encoding["crn"], encoding["crm"], operand, rt=0b0
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["mrs_register"].append(am)
 
                 elif operation == "MRSbanked":
-                    am = model.access_mechanism.ReadSystemRegisterBanked(
+                    am = shoulder.model.access_mechanism.MRSBanked(
                         encoding["m"], encoding["r"], encoding["m1"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["mrs_banked"].append(am)
 
                 elif operation == "MCR":
-                    am = model.access_mechanism.WriteCoprocessorRegister(
+                    am = shoulder.model.access_mechanism.MCR(
                         encoding["coproc"], encoding["opc1"], encoding["opc2"],
                         encoding["crn"], encoding["crm"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["mcr"].append(am)
 
                 elif operation == "MCRR":
-                    am = model.access_mechanism.WriteCoprocessorRegister2(
+                    am = shoulder.model.access_mechanism.MCRR(
                         encoding["coproc"], encoding["opc1"], encoding["crm"],
                         operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["mcrr"].append(am)
 
                 elif operation == "MRC":
-                    am = model.access_mechanism.ReadCoprocessorRegister(
+                    am = shoulder.model.access_mechanism.MRC(
                         encoding["coproc"], encoding["opc1"], encoding["opc2"],
                         encoding["crn"], encoding["crm"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["mrc"].append(am)
 
                 elif operation == "MRRC":
-                    am = model.access_mechanism.ReadCoprocessorRegister2(
+                    am = shoulder.model.access_mechanism.MRRC(
                         encoding["coproc"], encoding["opc1"], encoding["crm"],
                         operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["mrrc"].append(am)
 
                 elif operation == "VMRS":
-                    am = model.access_mechanism.ReadSystemVectorRegister(
+                    am = shoulder.model.access_mechanism.VMRS(
                         encoding["reg"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["vmrs"].append(am)
 
                 elif operation == "VMSR":
-                    am = model.access_mechanism.WriteSystemVectorRegister(
+                    am = shoulder.model.access_mechanism.VMSR(
                         encoding["reg"], operand
                     )
-                    reg.access_mechanisms.append(am)
+                    reg.access_mechanisms["vmsr"].append(am)
 
                 else:
                     msg = "Invalid operation " + operation
@@ -364,7 +353,7 @@ class ArmV8XmlParser(AbstractParser):
         fields_node_list = reg_node.findall("./reg_fieldsets/fields")
 
         for fields_node in fields_node_list:
-            fieldset = model.Fieldset(int(reg.size))
+            fieldset = shoulder.model.Fieldset(int(reg.size))
             fieldset_condition_node = fields_node.find("./fields_condition")
             field_node_list = fields_node.findall("./field")
             dbg_msg = "fieldset: "

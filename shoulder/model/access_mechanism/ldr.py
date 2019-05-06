@@ -24,7 +24,7 @@ from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAc
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class ReadMemoryMapped(AbstractAccessMechanism):
+class LDR(AbstractAccessMechanism):
     """ Access mechanism for reading a system control coprocessor register """
 
     offset: int

@@ -20,16 +20,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .ldr import LDR
-from .mcr import MCR
-from .mcrr import MCRR
-from .mrc import MRC
-from .mrrc import MRRC
-from .mrs_banked import MRSBanked
-from .mrs_register import MRSRegister
-from .msr_banked import MSRBanked
-from .msr_immediate import MSRImmediate
-from .msr_register import MSRRegister
-from .str_ import STR
-from .vmrs import VMRS
-from .vmsr import VMSR
+from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class MSRImmediate(AbstractAccessMechanism):
+    """ Access mechanism for writing an immediate value to a system register """
+
+    crn: bytes
+    """ ? """
+
+    op0: bytes
+    """ ? """
+
+    op1: bytes
+    """ ? """
+
+    op2: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
+
+    def instruction_mnemonic(self):
+        return "MSR"
+
+    def is_read(self):
+        return False
+
+    def is_write(self):
+        return True
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def binary_encoded(self):
+        raise NotImplementedError()

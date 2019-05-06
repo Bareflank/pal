@@ -20,30 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
+from shoulder.transform.abstract_transform import AbstractTransform
 
-@dataclass(frozen=True)
-class ReadSystemVectorRegister(AbstractAccessMechanism):
-    """ Access mechanism for reading a system vector control register """
 
-    reg: bytes
-    """ ? """
+class MakeReadOnly(AbstractTransform):
+    @property
+    def description(self):
+        d = "removing writeable access mechanisms"
+        return d
 
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
+    def do_transform(self, reg):
+        writeable = [
+            "msr_register",
+            "mcr",
+            "mcrr",
+            "msr_banked",
+            "msr_immediate",
+            "vmsr",
+            "str"
+        ]
 
-    def instruction_mnemonic(self):
-        return "VMRS"
+        for key in writeable:
+            reg.access_mechanisms[key] = []
 
-    def is_read(self):
-        return True
-
-    def is_write(self):
-        return False
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+        return reg

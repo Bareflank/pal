@@ -20,39 +20,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
+from shoulder.transform.abstract_transform import AbstractTransform
 
-@dataclass(frozen=True)
-class WriteSystemRegisterImmediate(AbstractAccessMechanism):
-    """ Access mechanism for writing an immediate value to a system register """
 
-    crn: bytes
-    """ ? """
+class RemoveRedundantFields(AbstractTransform):
+    @property
+    def description(self):
+        d = "removing redundant fields (by name) within each field set"
+        return d
 
-    op0: bytes
-    """ ? """
+    def do_transform(self, reg):
+        for idx, fs in enumerate(reg.fieldsets):
+            unique_fields = {}
 
-    op1: bytes
-    """ ? """
+            for f in fs.fields:
+                if f.name not in unique_fields:
+                    unique_fields[f.name] = f
 
-    op2: bytes
-    """ ? """
+            reg.fieldsets[idx].fields = [v for v in unique_fields.values()]
 
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
-
-    def instruction_mnemonic(self):
-        return "MSR"
-
-    def is_read(self):
-        return False
-
-    def is_write(self):
-        return True
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+        return reg

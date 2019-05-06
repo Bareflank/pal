@@ -23,5 +23,3 @@
 from .register import Register
 from .fieldset import Fieldset
 from .fieldset import Field
-from .access_attributes import AccessAttributes
-from .access_mechanism import *

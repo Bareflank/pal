@@ -55,4 +55,5 @@ def parse_registers(spec_path):
             for result in results:
                 regs.append(result)
 
+    logger.debug("Registers parsed: " + str(len(regs)))
     return regs

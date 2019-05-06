@@ -23,7 +23,7 @@
 from shoulder.transform.abstract_transform import AbstractTransform
 from shoulder.logger import logger
 
-class SpecialToUnderscoreTransform(AbstractTransform):
+class SpecialToUnderscore(AbstractTransform):
     def __init__(self):
         self.special_chars = "!@#$%^&*()[]{};:,./<>?\|`~-=+"
 

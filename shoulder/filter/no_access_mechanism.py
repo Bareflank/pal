@@ -20,37 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
+from shoulder.filter.abstract_filter import AbstractFilter
 
-@dataclass(frozen=True)
-class ReadCoprocessorRegister2(AbstractAccessMechanism):
-    """ Secondary access mechanism for reading a system control coprocessor """
-    """ register """
 
-    coproc: bytes
-    """ Coprocessor number """
+class NoAccessMechanismFilter(AbstractFilter):
+    @property
+    def description(self):
+        return "registers with no access mechanism"
 
-    opc1: bytes
-    """ Coprocessor-specific opcode """
+    def do_filter(self, reg):
+        for key, am_list in reg.access_mechanisms.items():
+            if am_list:
+                return True
 
-    crm: bytes
-    """ Operational register """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
-
-    def instruction_mnemonic(self):
-        return "MRRC"
-
-    def is_read(self):
-        return True
-
-    def is_write(self):
         return False
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()

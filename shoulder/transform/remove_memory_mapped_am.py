@@ -20,36 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
+from shoulder.transform.abstract_transform import AbstractTransform
 
-@dataclass(frozen=True)
-class ReadSystemRegisterBanked(AbstractAccessMechanism):
-    """ Access mechanism for reading a banked system register """
 
-    m: bytes
-    """ ? """
+class RemoveMemoryMappedAM(AbstractTransform):
+    @property
+    def description(self):
+        d = "removing memory mapped access mechanisms"
+        return d
 
-    r: bytes
-    """ ? """
+    def do_transform(self, reg):
+        reg.access_mechanisms["ldr"] = []
+        reg.access_mechanisms["str"] = []
 
-    m1: bytes
-    """ ? """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
-
-    def instruction_mnemonic(self):
-        return "MRS"
-
-    def is_read(self):
-        return True
-
-    def is_write(self):
-        return False
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+        return reg

@@ -24,6 +24,7 @@ from .gadget_properties import GadgetProperties
 from .header_depends import header_depends
 from .include_guard import include_guard
 from .license import license
+from .c import *
 from .cxx import *
 
 from typing import List
