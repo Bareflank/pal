@@ -47,6 +47,7 @@ class CHeaderGenerator(AbstractGenerator):
             regs = transforms["remove_system_vector_am"].transform(regs)
             regs = transforms["remove_system_banked_am"].transform(regs)
             regs = transforms["remove_system_immediate_am"].transform(regs)
+            regs = transforms["remove_redundant_am"].transform(regs)
             regs = transforms["remove_redundant_fields"].transform(regs)
             regs = transforms["unique_fieldset_names"].transform(regs)
 
@@ -134,14 +135,10 @@ class CHeaderGenerator(AbstractGenerator):
         rname = reg.name.lower()
         prefix = self._register_function_prefix(reg)
         suffix = config.register_read_function
-        if reg.size == 32:
-            size_type = "uint32_t"
-        else:
-            size_type = "uint64_t"
 
         gadget = self.gadgets["shoulder.c.function_definition"]
         gadget.name = prefix + "_" + rname + "_" + suffix
-        gadget.return_type = size_type
+        gadget.return_type = self._register_size_type(reg)
         gadget.args = []
 
         if reg.access_mechanisms["mrs_register"]:
@@ -209,12 +206,8 @@ class CHeaderGenerator(AbstractGenerator):
 
         rname = reg.name.lower()
         prefix = self._register_function_prefix(reg)
-
         suffix = config.register_write_function
-        if reg.size == 32:
-            size_type = "uint32_t"
-        else:
-            size_type = "uint64_t"
+        size_type = self._register_size_type(reg)
 
         gadget = self.gadgets["shoulder.c.function_definition"]
         gadget.name = prefix + "_" + rname + "_" + suffix
@@ -290,13 +283,14 @@ class CHeaderGenerator(AbstractGenerator):
     @shoulder.gadget.c.enum
     def _generate_field_constants(self, outfile, reg, field):
         """
-        Generate constants that describe a the given field in the given register
+        Generate constants that describe the given field in the given register
         """
 
-        constants = "{reg}_{field}_lsb = {lsb},\n"
-        constants += "{reg}_{field}_msb = {msb},\n"
-        constants += "{reg}_{field}_mask = {mask}"
+        constants = "{prefix}_{reg}_{field}_lsb = {lsb},\n"
+        constants += "{prefix}_{reg}_{field}_msb = {msb},\n"
+        constants += "{prefix}_{reg}_{field}_mask = {mask}"
         constants = constants.format(
+            prefix=self._register_function_prefix(reg),
             reg=reg.name.lower(),
             field=field.name.lower(),
             lsb=str(field.lsb),
@@ -735,6 +729,15 @@ class CHeaderGenerator(AbstractGenerator):
 # ----------------------------------------------------------------------------
 # utilities
 # ----------------------------------------------------------------------------
+    def _register_function_prefix(self, reg):
+        p = config.c_prefix
+        if reg.execution_state:
+            return p + str(reg.execution_state)
+        elif not reg.attributes["is_internal"]:
+            return p + "external"
+        else:
+            return p
+
     def _field_mask_hex_string(self, reg, field):
         mask_val = 0
         for i in range(field.lsb, field.msb + 1):
@@ -746,13 +749,15 @@ class CHeaderGenerator(AbstractGenerator):
             return "{0:#0{1}x}".format(mask_val, 18)
 
     def _field_mask_string(self, reg, field):
-        return "{reg}_{field}_mask".format(
+        return "{prefix}_{reg}_{field}_mask".format(
+            prefix=self._register_function_prefix(reg),
             reg=reg.name.lower(),
             field=field.name.lower()
         )
 
     def _field_lsb_string(self, reg, field):
-        return "{reg}_{field}_lsb".format(
+        return "{prefix}_{reg}_{field}_lsb".format(
+            prefix=self._register_function_prefix(reg),
             reg=reg.name.lower(),
             field=field.name.lower()
         )
@@ -776,12 +781,3 @@ class CHeaderGenerator(AbstractGenerator):
             reg_name=reg.name.lower(),
             write=config.register_write_function
         )
-
-    def _register_function_prefix(self, reg):
-        p = config.c_prefix
-        if reg.execution_state:
-            return p + str(reg.execution_state)
-        elif not reg.attributes["is_internal"]:
-            return p + "external"
-        else:
-            return p

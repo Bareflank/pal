@@ -25,8 +25,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class MCRR(AbstractAccessMechanism):
-    """ Secondary access mechanism for writing a system control coprocessor """
-    """ register """
+    """ Access mechanism for writing a 64-bit coprocessor register """
 
     coproc: bytes
     """ Coprocessor number """
@@ -36,9 +35,6 @@ class MCRR(AbstractAccessMechanism):
 
     crm: bytes
     """ Operational register """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
 
     def instruction_mnemonic(self):
         return "MCRR"
