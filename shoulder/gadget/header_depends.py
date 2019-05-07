@@ -35,8 +35,9 @@ def header_depends(decorated):
     def header_depends_decorator(generator, outfile, *args, **kwargs):
         outfile.write("#include <stdint.h>\n")
         if config.encoded_functions:
-            outfile.write("#include \"encoded_accessor_macros.h\"\n")
-        outfile.write("#include \"aarch64_gcc_accessor_macros.h\"\n")
+            outfile.write("#include \"aarch64_gcc_encoded_accessors.h\"\n")
+        else:
+            outfile.write("#include \"aarch64_gcc_mnemonic_accessors.h\"\n")
         outfile.write("\n")
         decorated(generator, outfile, *args, **kwargs)
     return header_depends_decorator

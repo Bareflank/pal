@@ -167,33 +167,64 @@ class CHeaderGenerator(AbstractGenerator):
 
     @shoulder.gadget.c.function_definition
     def _generate_mrs_register_get(self, outfile, reg, am):
+
         if config.encoded_functions:
             key = hex(am.binary_encoded())
         else:
             key = am.operand_mnemonic.lower()
 
-        reg_getter = "GET_SYSREG_FUNC({key})".format(key=key)
+        reg_getter = "SHOULDER_MRS_REGISTER_IMPL({key})".format(key=key)
         outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrs_banked_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using mrs_banked")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = am.operand_mnemonic.lower()
+
+        reg_getter = "SHOULDER_MRS_BANKED_IMPL({key})".format(key=key)
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrc_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using mrc")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_getter = "SHOULDER_MRC_IMPL({key})".format(key=key)
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrrc_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using mrrc")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_getter = "SHOULDER_MRRC_IMPL({key})".format(key=key)
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_vmrs_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using vmrs")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_getter = "SHOULDER_VMRS_IMPL({key})".format(key=key)
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_ldr_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using ldr")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_getter = "SHOULDER_LDR_IMPL({key})".format(key=key)
+        outfile.write(reg_getter)
 
 # ----------------------------------------------------------------------------
 # register_set
@@ -249,32 +280,68 @@ class CHeaderGenerator(AbstractGenerator):
         else:
             key = am.operand_mnemonic.lower()
 
-        reg_setter = "SET_SYSREG_BY_VALUE_FUNC({key}, val)".format(key=key)
+        reg_setter = "SHOULDER_MSR_REGISTER_IMPL({key}, val)".format(key=key)
         outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mcr_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using mcr")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_setter = "SHOULDER_MCR_IMPL({key}, val)".format(key=key)
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mcrr_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using mcrr")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_setter = "SHOULDER_MCRR_IMPL({key}, val)".format(key=key)
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_msr_banked_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using msr_banked")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_setter = "SHOULDER_MSR_BANKED_IMPL({key}, val)".format(key=key)
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_msr_immediate_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using msr_immediate")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_setter = "SHOULDER_MSR_IMMEDIATE_IMPL({key}, val)".format(key=key)
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_vmsr_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using vmsr")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_setter = "SHOULDER_VMSR_IMPL({key}, val)".format(key=key)
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_str_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using str")
+        if config.encoded_functions:
+            key = hex(am.binary_encoded())
+        else:
+            key = "***TODO***"
+
+        reg_setter = "SHOULDER_STR_IMPL({key}, val)".format(key=key)
+        outfile.write(reg_setter)
 
 # ----------------------------------------------------------------------------
 # constants
