@@ -31,6 +31,6 @@ class RemoveRedundantAccessMechanisms(AbstractTransform):
 
     def do_transform(self, reg):
         for key, am_list in reg.access_mechanisms.items():
-            reg.access_mechanisms[key] = am_list[0]
+            reg.access_mechanisms[key] = am_list[:1]
 
         return reg

@@ -58,8 +58,6 @@ class ArmV8XmlParser(AbstractParser):
 
                     reg = shoulder.model.Register()
                     self._set_register_name(reg, reg_node)
-                    self._set_register_execution_state(reg, reg_node)
-                    self._set_register_attributes(reg, reg_node)
 
                     if "<n>" in reg.name:
                         array_start_node = reg_node.find("./reg_array/reg_array_start")
@@ -87,6 +85,8 @@ class ArmV8XmlParser(AbstractParser):
                             self._set_register_purpose(n_reg, reg_node)
                             self._set_register_size(n_reg, reg_node)
                             self._set_register_fields(n_reg, reg_node)
+                            self._set_register_execution_state(n_reg, reg_node)
+                            self._set_register_attributes(n_reg, reg_node)
 
                             n_reg.name = n_reg.name.replace("<n>", str(n))
                             for fs in n_reg.fieldsets:
@@ -100,6 +100,8 @@ class ArmV8XmlParser(AbstractParser):
                         self._set_register_purpose(reg, reg_node)
                         self._set_register_size(reg, reg_node)
                         self._set_register_fields(reg, reg_node)
+                        self._set_register_execution_state(reg, reg_node)
+                        self._set_register_attributes(reg, reg_node)
                         registers.append(reg)
 
         except Exception as e:
