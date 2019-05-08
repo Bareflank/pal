@@ -56,9 +56,3 @@ filters["statistical_profiling"] = \
 filters["sve"] = sve.SVERegisterFilter()
 filters["trace"] = trace.TraceRegisterFilter()
 filters["invalid"] = invalid.InvalidRegisterFilter()
-
-def filter_all(registers):
-    """ Apply all of the filters (exclusively) to the given registers """
-    for key, f in filters.items():
-        registers = f.filter_exclusive(registers)
-    return registers
