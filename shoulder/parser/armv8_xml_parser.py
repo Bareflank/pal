@@ -31,15 +31,7 @@ import shoulder.model.access_mechanism
 
 
 class ArmV8XmlParser(AbstractParser):
-    @property
-    def aarch_version_major(self):
-        return 8
-
-    @property
-    def aarch_version_minor(self):
-        return None
-
-    def parse_registers(self, path):
+    def parse_file(self, path):
         registers = []
 
         try:
@@ -110,9 +102,6 @@ class ArmV8XmlParser(AbstractParser):
             raise ShoulderParserException(msg)
 
         return registers
-
-    def parse_instructions(self, path):
-        raise NotImplementedError(type(self).__name__ + ".parse_instructions not yet implemented")
 
     def _set_register_name(self, reg, reg_node):
         name_node = reg_node.find("./reg_short_name")
@@ -330,11 +319,8 @@ class ArmV8XmlParser(AbstractParser):
                 reg.purpose = purpose_node.text
                 reg.purpose = reg.purpose.replace("\n", " ")
         elif len(purpose_text_nodes) > 1:
-            text = "See the ARMv" + str(self.aarch_version_major)
-            if self.aarch_version_minor is not None:
-                text += "." + str(self.aarch_version_minor)
-            text += " architecture reference manual for a description"
-            text += " of this register"
+            text = "See the ARMv8 architecture reference manual for a "
+            text += "description of this register"
             reg.purpose = text
             reg.purpose = reg.purpose.replace("\n", " ")
 

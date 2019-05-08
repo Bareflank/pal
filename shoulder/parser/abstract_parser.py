@@ -21,28 +21,13 @@
 # SOFTWARE.
 
 import abc
+import typing
+
+from shoulder.model.register import Register
+
 
 class AbstractParser(abc.ABC):
-    @property
     @abc.abstractmethod
-    def aarch_version_major(self):
-        """ Major version of the ARM architecture specification """
-        """ supported by this parser """
-        pass
-
-    @property
-    @abc.abstractmethod
-    def aarch_version_minor(self):
-        """ Minor version of the ARM architecture specification """
-        """ supported by this parser """
-        pass
-
-    @abc.abstractmethod
-    def parse_registers(self, path):
-        """ Parse the given file to a register object(s) """
-        return
-
-    @abc.abstractmethod
-    def parse_instructions(self, path):
-        """ Parse the given file to an instruction object(s) """
+    def parse_file(self, file_path: str) -> typing.List[Register]:
+        """ Parse the file at the given path to a list of register objects """
         return
