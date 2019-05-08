@@ -42,16 +42,13 @@ class CHeaderGenerator(AbstractGenerator):
             regs = transforms["remove_reserved_sign_extended"].transform(regs)
             regs = transforms["remove_implementation_defined"].transform(regs)
             regs = transforms["special_to_underscore"].transform(regs)
-            regs = transforms["remove_coprocessor_am"].transform(regs)
-            regs = transforms["remove_memory_mapped_am"].transform(regs)
-            regs = transforms["remove_system_vector_am"].transform(regs)
-            regs = transforms["remove_system_banked_am"].transform(regs)
-            regs = transforms["remove_system_immediate_am"].transform(regs)
             regs = transforms["remove_redundant_am"].transform(regs)
             regs = transforms["remove_redundant_fields"].transform(regs)
             regs = transforms["unique_fieldset_names"].transform(regs)
 
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
+            regs = filters["aarch32"].filter_exclusive(regs)
+            regs = filters["external"].filter_exclusive(regs)
 
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C Header: " + str(outfile_path))
