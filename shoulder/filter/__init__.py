@@ -40,8 +40,11 @@ for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
 # registers = filters["filter_name"].filter_inclusive(registers)
 
 filters = OrderedDict()
+filters["aarch32"] = aarch32.AArch32RegisterFilter()
+filters["aarch64"] = aarch64.AArch64RegisterFilter()
 filters["activity_monitor"] = activity_monitor.ActivityMonitorRegisterFilter()
 filters["deprecated"] = deprecated.DeprecatedRegisterFilter()
+filters["external"] = external.ExternalRegisterFilter()
 filters["gic"] = gic.GICRegisterFilter()
 filters["loregion"] = loregion.LORegionRegisterFilter()
 filters["misc"] = misc.MiscelaneousRegisterFilter()

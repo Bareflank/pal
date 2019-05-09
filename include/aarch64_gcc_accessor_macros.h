@@ -21,321 +21,222 @@
 // SOFTWARE.
 // 
 
-#ifndef AARCH64_GCC_ACCESSOR_MACROS_H
-#define AARCH64_GCC_ACCESSOR_MACROS_H
+// ----------------------------------------------------------------------------
+// README
+// ----------------------------------------------------------------------------
+// This file contains aarch64-gcc specific implementations for reading and
+// writing system registers via all access mechanisms supported in the AArch64
+// architecture. An "implementation" is the body of a function that carries out
+// a read/write using a specific access mechanism, used to back generated
+// accessor functions from a Shoulder generator
 
-// -----------------------------------------------------------------------------
-// General Purpose Registers
-// -----------------------------------------------------------------------------
+#ifndef SHOULDER_AARCH64_GCC_ACCESSORS_H
+#define SHOULDER_AARCH64_GCC_ACCESSORS_H
 
-#ifndef GET_REG32
-#define GET_REG32(reg, result)                                                 \
+// Default implementation for reading a value using an instruction encoding.
+// Assumes that the instruction encoding contains r0 as the destination register
+// for the read
+//
+// @arg instruction_encoding a 32-bit binary representation of an instruction
+//      that reads data into r0
+//
+// returns the value read through the instruction
+#ifndef SHOULDER_ENCODED_READ_IMPL
+#define SHOULDER_ENCODED_READ_IMPL(instruction_encoding)                       \
+    uint64_t val;                                                              \
     __asm__ __volatile__(                                                      \
-        "mov %w[res], "#reg"\n"                                                \
-        : [res] "=r" (result)                                                  \
-    )
+        ".word "#instruction_encoding"\n"                                      \
+        "mov %[v], x0\n"                                                       \
+        : [v] "=r"(val)                                                        \
+        :                                                                      \
+        : "x0"                                                                 \
+    );                                                                         \
+    return val;
 #endif
 
-#ifndef GET_REG32_FUNC
-#define GET_REG32_FUNC(reg)                                                    \
+// Default implementation for writing a value using an instruction encoding.
+// Assumes that the instruction encoding contains r0 as the source register
+// for the write
+//
+// @arg instruction_encoding a 32-bit binary representation of an instruction
+//      that writes data from r0
+// @arg val an integer value to be written
+#ifndef SHOULDER_ENCODED_WRITE_IMPL
+#define SHOULDER_ENCODED_WRITE_IMPL(instruction_encoding, val)                 \
+    __asm__ __volatile__(                                                      \
+        "mov x0, %[v]\n"                                                       \
+        ".word "#instruction_encoding"\n"                                      \
+        :                                                                      \
+        : [v] "r"(val)                                                         \
+        : "x0"                                                                 \
+    );
+#endif
+
+// Default implementation for reading a value using the LDR instruction.
+//
+// @arg addr the address to read from
+#ifndef SHOULDER_LDR_IMPL
+#define SHOULDER_LDR_IMPL(addr)                                                \
+    "TODO: LDR using assembler mnemonics"
+#endif
+
+// Default implementation for writing a value to a coprocessor using the MCR
+// instruction.
+//
+// @arg coproc integer value (0-15) that defines the coprocessor number
+// @arg opc1 3-bit coprocessor-specific opcode
+// @arg crn coprocessor-specific subregister
+// @arg crm coprocessor-specific register
+// @arg opc2 optional 3-bit coprocessor-specific opcode
+// @arg val the value to be written
+#ifndef SHOULDER_MCR_IMPL
+#define SHOULDER_MCR_IMPL(coproc, opc1, crn, crm, opc2, val)                   \
+    __asm__ __volatile__(                                                      \
+        "mcr p"#coproc", #"#opc1", %[v], c"#crn", c"#crm", #"#opc2"\n"         \
+        :                                                                      \
+        : [v] "r"(val)                                                         \
+    );
+#endif
+
+// Default implementation for writing a value to a coprocessor using the MCRR
+// instruction.
+//
+// @arg coproc integer value (0-15) that defines the coprocessor number
+// @arg opc1 3-bit coprocessor-specific opcode
+// @arg crm coprocessor-specific register
+// @arg val the value to be written
+#ifndef SHOULDER_MCRR_IMPL
+#define SHOULDER_MCRR_IMPL(coproc, opc1, crm, val)                             \
+    "TODO: MCRR using assembler mnemonics"
+#endif
+
+// Default implementation for reading a value from a coprocessor using the MRC
+// instruction.
+//
+// @arg coproc integer value (0-15) that defines the coprocessor number
+// @arg opc1 3-bit coprocessor-specific opcode
+// @arg crn coprocessor-specific subregister
+// @arg crm coprocessor-specific register
+// @arg opc2 optional 3-bit coprocessor-specific opcode
+//
+// returns the value read from the coprocessor
+#ifndef SHOULDER_MRC_IMPL
+#define SHOULDER_MRC_IMPL(coproc, opc1, crn, crm, opc2)                        \
     uint32_t val;                                                              \
-    GET_REG32(reg, val);                                                       \
+    __asm__ __volatile__(                                                      \
+        "mrc p"#coproc", #"#opc1", %[v], c"#crn", c"#crm", #"#opc2"\n"         \
+        : [v] "=r"(val)                                                        \
+    );                                                                         \
     return val;
 #endif
 
-#ifndef GET_REG64
-#define GET_REG64(reg, result)                                                 \
-    __asm__ __volatile__(                                                      \
-        "mov %[res], "#reg"\n"                                                 \
-        : [res] "=r" (result)                                                  \
-    )
+// Default implementation for reading a value from a coprocessor using the MRRC
+// instruction.
+//
+// @arg coproc integer value (0-15) that defines the coprocessor number
+// @arg opc1 3-bit coprocessor-specific opcode
+// @arg crm coprocessor-specific register
+//
+// returns the value read from the coprocessor
+#ifndef SHOULDER_MRRC_IMPL
+#define SHOULDER_MRRC_IMPL(coproc, opc1, crm)                                  \
+    "TODO: MRRC using assembler mnemonics"
 #endif
 
-#ifndef GET_REG64_FUNC
-#define GET_REG64_FUNC(reg)                                                    \
+// Default implementation for reading a value from a banked system register to a
+// general purpose register using the MRS instruction.
+//
+// @arg sysreg_mnemonic the assmbler mnemonic for the system register to be read
+//
+// returns the value read from the system register
+#ifndef SHOULDER_MRS_BANKED_IMPL
+#define SHOULDER_MRS_BANKED_IMPL(sysreg_mnemonic)                              \
+    "TODO: MRS_BANKED using assembler mnemonics"
+#endif
+
+// Default implementation for reading a value from a system register to a
+// general purpose register using the MRS instruction.
+//
+// @arg sysreg_mnemonic the assmbler mnemonic for the system register to be read
+//
+// returns the value read from the system register
+#ifndef SHOULDER_MRS_REGISTER_IMPL
+#define SHOULDER_MRS_REGISTER_IMPL(sysreg_mnemonic)                            \
     uint64_t val;                                                              \
-    GET_REG64(reg, val);                                                       \
+    __asm__ __volatile__(                                                      \
+        "mrs %[v], "#sysreg_mnemonic"\n"                                       \
+        : [v] "=r"(val)                                                        \
+    );                                                                         \
     return val;
 #endif
 
-#ifndef SET_REG32
-#define SET_REG32(reg, val)                                                    \
+// Default implementation for writing a  value to a banked system register
+// from a general purpose register using the MSR instruction.
+//
+// @arg sysreg_mnemonic the assmbler mnemonic for the system register to be
+//      written
+// @arg val the value to be written
+#ifndef SHOULDER_MSR_BANKED_IMPL
+#define SHOULDER_MSR_BANKED_IMPL(sysreg_mnemonic, val)                         \
+    "TODO: MSR_BANKED using assembler mnemonics"
+#endif
+
+// Default implementation for writing an immediate value to a system register
+// using the MSR instruction.
+//
+// @arg sysreg_mnemonic the assmbler mnemonic for the system register to be
+//      written
+// @arg val the value to be written
+#ifndef SHOULDER_MSR_IMMEDIATE_IMPL
+#define SHOULDER_MSR_IMMEDIATE_IMPL(sysreg_mnemonic, val)                      \
+    "TODO: MSR_IMMEDIATE using assembler mnemonics"
+#endif
+
+// Default implementation for writing a value to a system register from a
+// general purpose register using the MSR instruction.
+//
+// @arg sysreg_mnemonic the assmbler mnemonic for the system register to be
+//      written
+// @arg val the value to be written
+#ifndef SHOULDER_MSR_REGISTER_IMPL
+#define SHOULDER_MSR_REGISTER_IMPL(sysreg_mnemonic, val)                       \
     __asm__ __volatile__(                                                      \
-        "mov "#reg", %w0\n"                                                    \
-        : : "r"(val) : #reg                                                    \
-    )
+        "msr "#sysreg_mnemonic", %[v]\n"                                       \
+        :                                                                      \
+        : [v] "r"(val)                                                         \
+    );
 #endif
 
-#ifndef SET_REG32_FUNC
-#define SET_REG32_FUNC(reg, val)                                               \
-    SET_REG32(reg, val);
+// Default implementation for writing a value using the STR instruction.
+//
+// @arg addr the address to write to
+// @arg val the value to be written
+#ifndef SHOULDER_STR_IMPL
+#define SHOULDER_STR_IMPL(addr, val)                                           \
+    "TODO: STR using assembler mnemonics"
 #endif
 
-#ifndef SET_REG64
-#define SET_REG64(reg, val)                                                    \
-    __asm__ __volatile__(                                                      \
-        "mov "#reg", %0\n"                                                     \
-        : : "r"(val) : #reg                                                    \
-    )
+// Default implementation for writing a value to a NEON/VFP system register
+// from a general purpose register using the VMSR instruction.
+//
+// @arg extsysreg_mnemonic the assmbler mnemonic for the NEON/VFP system
+//      register to be written
+// @arg val the value to be written
+#ifndef SHOULDER_VMSR_IMPL
+#define SHOULDER_VMSR_IMPL(extsysreg_mnemonic, val)                            \
+    "TODO: VMSR using assembler mnemonics"
 #endif
 
-#ifndef SET_REG64_FUNC
-#define SET_REG64_FUNC(reg, val)                                               \
-    SET_REG64(reg, val);
-#endif
-
-// -----------------------------------------------------------------------------
-// Immediate Values
-// -----------------------------------------------------------------------------
-
-#ifndef GET_BITFIELD
-#define GET_BITFIELD(val, mask, lsb)                                           \
-    __asm__ __volatile__(                                                      \
-        "and %[v], %[v], %[m]\n"                                               \
-        "lsr %[v], %[v], #"#lsb"\n"                                            \
-        : [v] "+r" (val)                                                       \
-        : [m] "r" (mask)                                                       \
-    )
-#endif
-
-#ifndef GET_BITFIELD_FUNC
-#define GET_BITFIELD_FUNC(reg_val, bitmask, lsb)                               \
-    uint64_t val = reg_val;                                                    \
-    uint64_t mask = bitmask;                                                   \
-    GET_BITFIELD(val, mask, lsb);                                              \
-    return val;
-#endif
-
-#ifndef SET_BITS_BY_VALUE
-#define SET_BITS_BY_VALUE(reg_val, field_val, mask, lsb)                       \
-    __asm__ __volatile__(                                                      \
-        "lsl %[fv], %[fv], #"#lsb"\n"                                          \
-        "and %[fv], %[fv], %[m]\n"                                             \
-        "mvn %[m], %[m]\n"                                                     \
-        "and %[rv], %[rv], %[m]\n"                                             \
-        "orr %[rv], %[rv], %[fv]\n"                                            \
-        : [rv] "+r" (reg_val), [fv] "+r" (field_val), [m] "+r" (mask)          \
-    )
-#endif
-
-#ifndef SET_BITS_BY_VALUE_FUNC
-#define SET_BITS_BY_VALUE_FUNC(reg_val, field_val, bitmask, lsb)               \
-    uint64_t rv = reg_val;                                                     \
-    uint64_t fv = field_val;                                                   \
-    uint64_t mask = bitmask;                                                   \
-    SET_BITS_BY_VALUE(rv, fv, mask, lsb);                                      \
-    return rv;
-#endif
-
-#ifndef SET_BITS_BY_MASK
-#define SET_BITS_BY_MASK(value, mask)                                          \
-    __asm__ __volatile__(                                                      \
-        "orr %[v], %[v], %[m]\n"                                               \
-        : [v] "+r" (value) : [m] "r" (mask)                                    \
-    )
-#endif
-
-#ifndef SET_BITS_BY_MASK_FUNC
-#define SET_BITS_BY_MASK_FUNC(value, bitmask)                                  \
-    uint64_t val = value;                                                      \
-    uint64_t mask = bitmask;                                                   \
-    SET_BITS_BY_MASK(val, mask);                                               \
-    return val;
-#endif
-
-#ifndef CLEAR_BITS_BY_MASK
-#define CLEAR_BITS_BY_MASK(value, mask)                                        \
-    __asm__ __volatile__(                                                      \
-        "mvn %[m], %[m]\n"                                                     \
-        "and %[v], %[v], %[m]\n"                                               \
-        : [v] "+r" (value), [m] "+r" (mask)                                    \
-    )
-#endif
-
-#ifndef CLEAR_BITS_BY_MASK_FUNC
-#define CLEAR_BITS_BY_MASK_FUNC(value, bitmask)                                \
-    uint64_t val = value;                                                      \
-    uint64_t mask = bitmask;                                                   \
-    CLEAR_BITS_BY_MASK(val, mask);                                             \
-    return val;
-#endif
-
-#ifndef IS_BIT_ENABLED
-#define IS_BIT_ENABLED(var, result, bit_position)                              \
-    __asm__ __volatile__(                                                      \
-        "mov %[res], %["#var"]\n"                                              \
-        "lsr %[res], %[res], #"#bit_position"\n"                               \
-        "and %[res], %[res], #1\n"                                             \
-        : [res] "=r" (result) : [var] "r" (var)                                \
-    )
-#endif
-
-#ifndef IS_BIT_ENABLED_FUNC
-#define IS_BIT_ENABLED_FUNC(var, bit_position)                                 \
-    uint64_t result;                                                           \
-    IS_BIT_ENABLED(var, result, bit_position);                                 \
-    return result;
-#endif
-
-#ifndef IS_BIT_DISABLED
-#define IS_BIT_DISABLED(var, result, bit_position)                             \
-    __asm__ __volatile__(                                                      \
-        "mov %[res], %["#var"]\n"                                              \
-        "lsr %[res], %[res], #"#bit_position"\n"                               \
-        "mvn %[res], %[res]\n"                                                 \
-        "and %[res], %[res], #1\n"                                             \
-        : [res] "=r" (result) : [var] "r" (var)                                \
-    )
-#endif
-
-#ifndef IS_BIT_DISABLED_FUNC
-#define IS_BIT_DISABLED_FUNC(var, bit_position)                                \
-    uint64_t result;                                                           \
-    IS_BIT_DISABLED(var, result, bit_position);                                \
-    return result;
-#endif
-
-// -----------------------------------------------------------------------------
-// System Registers
-// -----------------------------------------------------------------------------
-
-#ifndef GET_SYSREG
-#define GET_SYSREG(sysreg, dest)                                               \
-    __asm__ __volatile__(                                                      \
-        "mrs %0, "#sysreg"\n"                                                  \
-        : "=r"(dest)                                                           \
-    )
-#endif
-
-#ifndef GET_SYSREG_FUNC
-#define GET_SYSREG_FUNC(reg)                                                   \
-    uint64_t val;                                                              \
-    GET_SYSREG(reg, val);                                                      \
-    return val;
-#endif
-
-#ifndef GET_SYSREG_FIELD
-#define GET_SYSREG_FIELD(sysreg, dest, mask, lsb)                              \
-    __asm__ __volatile__(                                                      \
-        "mrs %[d], "#sysreg"\n"                                                \
-        "and %[d], %[d], %[m]\n"                                               \
-        "lsr %[d], %[d], #"#lsb"\n"                                            \
-        : [d] "+r" (dest)                                                      \
-        : [m] "r" (mask)                                                       \
-    )
-#endif
-
-#ifndef GET_SYSREG_FIELD_FUNC
-#define GET_SYSREG_FIELD_FUNC(sysreg, bitmask, lsb)                            \
-    uint64_t val;                                                              \
-    GET_SYSREG_FIELD(sysreg, val, bitmask, lsb);                               \
-    return val;
-#endif
-
-#ifndef SET_SYSREG_BY_VALUE
-#define SET_SYSREG_BY_VALUE(sysreg, val)                                       \
-    __asm__ __volatile__(                                                      \
-        "msr "#sysreg", %[v]\n"                                                \
-        : : [v] "r"(val)                                                       \
-    )
-#endif
-
-#ifndef SET_SYSREG_BY_VALUE_FUNC
-#define SET_SYSREG_BY_VALUE_FUNC(sysreg, val)                                  \
-    SET_SYSREG_BY_VALUE(sysreg, val);
-#endif
-
-#ifndef SET_SYSREG_BITS_BY_VALUE
-#define SET_SYSREG_BITS_BY_VALUE(sysreg, new_val, old_val, mask, lsb)          \
-    __asm__ __volatile__(                                                      \
-        "lsl %[nv], %[nv], #"#lsb"\n"                                          \
-        "and %[nv], %[nv], %[m]\n"                                             \
-        "mvn %[m], %[m]\n"                                                     \
-        "mrs %[ov], "#sysreg"\n"                                               \
-        "and %[ov], %[ov], %[m]\n"                                             \
-        "orr %[nv], %[nv], %[ov]\n"                                            \
-        "msr "#sysreg", %[nv]\n"                                               \
-        : [nv] "+r" (new_val), [ov] "+r" (old_val), [m] "+r" (mask)            \
-    )
-#endif
-
-#ifndef SET_SYSREG_BITS_BY_VALUE_FUNC
-#define SET_SYSREG_BITS_BY_VALUE_FUNC(sysreg, value, bitmask, lsb)             \
-    uint64_t old_val;                                                          \
-    uint64_t new_val = value;                                                  \
-    uint64_t mask = bitmask;                                                   \
-    SET_SYSREG_BITS_BY_VALUE(sysreg, new_val, old_val, mask, lsb);
-#endif
-
-#ifndef SET_SYSREG_BITS_BY_MASK
-#define SET_SYSREG_BITS_BY_MASK(sysreg, val, mask)                             \
-    __asm__ __volatile__(                                                      \
-        "mrs %[v], "#sysreg"\n"                                                \
-        "orr %[v], %[v], %[m]\n"                                               \
-        "msr "#sysreg", %[v]\n"                                                \
-        : [v] "+r" (val)                                                       \
-        : [m] "r" (mask)                                                       \
-    )
-#endif
-
-#ifndef SET_SYSREG_BITS_BY_MASK_FUNC
-#define SET_SYSREG_BITS_BY_MASK_FUNC(sysreg, bitmask)                          \
-    uint64_t val;                                                              \
-    uint64_t mask = bitmask;                                                   \
-    SET_SYSREG_BITS_BY_MASK(sysreg, val, mask);
-#endif
-
-#ifndef CLEAR_SYSREG_BITS_BY_MASK
-#define CLEAR_SYSREG_BITS_BY_MASK(sysreg, val, mask)                           \
-    __asm__ __volatile__(                                                      \
-        "mrs %[v], "#sysreg"\n"                                                \
-        "mvn %[m], %[m]\n"                                                     \
-        "and %[v], %[v], %[m]\n"                                               \
-        "msr "#sysreg", %[v]\n"                                                \
-        : [v] "+r" (val), [m] "+r" (mask)                                      \
-    )
-#endif
-
-#ifndef CLEAR_SYSREG_BITS_BY_MASK_FUNC
-#define CLEAR_SYSREG_BITS_BY_MASK_FUNC(sysreg, bitmask)                        \
-    uint64_t val;                                                              \
-    uint64_t mask = bitmask;                                                   \
-    CLEAR_SYSREG_BITS_BY_MASK(sysreg, val, mask);
-#endif
-
-#ifndef IS_SYSREG_BIT_ENABLED
-#define IS_SYSREG_BIT_ENABLED(sysreg, result, lsb)                             \
-    __asm__ __volatile__(                                                      \
-        "mrs %[res], "#sysreg"\n"                                              \
-        "lsr %[res], %[res], #"#lsb"\n"                                        \
-        "and %[res], %[res], #1\n"                                             \
-        : [res] "+r" (result)                                                  \
-    )
-#endif
-
-#ifndef IS_SYSREG_BIT_ENABLED_FUNC
-#define IS_SYSREG_BIT_ENABLED_FUNC(sysreg, lsb)                                \
-    uint64_t result;                                                           \
-    IS_SYSREG_BIT_ENABLED(sysreg, result, lsb);                                \
-    return result;
-#endif
-
-#ifndef IS_SYSREG_BIT_DISABLED
-#define IS_SYSREG_BIT_DISABLED(sysreg, result, lsb)                            \
-    __asm__ __volatile__(                                                      \
-        "mrs %[res], "#sysreg"\n"                                              \
-        "lsr %[res], %[res], #"#lsb"\n"                                        \
-        "mvn %[res], %[res]\n"                                                 \
-        "and %[res], %[res], #1\n"                                             \
-        : [res] "+r" (result)                                                  \
-    )
-#endif
-
-#ifndef IS_SYSREG_BIT_DISABLED_FUNC
-#define IS_SYSREG_BIT_DISABLED_FUNC(sysreg, lsb)                               \
-    uint64_t result;                                                           \
-    IS_SYSREG_BIT_DISABLED(sysreg, result, lsb);                               \
-    return result;
+// Default implementation for reading a value from a NEON/VFP system register
+// to a general purpose register using the VMRS instruction.
+//
+// @arg extsysreg_mnemonic the assmbler mnemonic for the NEON/VFP system
+//      register to be read
+//
+// returns the value read from the system register
+#ifndef SHOULDER_VMRS_IMPL
+#define SHOULDER_VMRS_IMPL(extsysreg_mnemonic)                                 \
+    "TODO: VMRS using assembler mnemonics"
 #endif
 
 #endif

@@ -42,15 +42,13 @@ class CHeaderGenerator(AbstractGenerator):
             regs = transforms["remove_reserved_sign_extended"].transform(regs)
             regs = transforms["remove_implementation_defined"].transform(regs)
             regs = transforms["special_to_underscore"].transform(regs)
-            regs = transforms["remove_coprocessor_am"].transform(regs)
-            regs = transforms["remove_memory_mapped_am"].transform(regs)
-            regs = transforms["remove_system_vector_am"].transform(regs)
-            regs = transforms["remove_system_banked_am"].transform(regs)
-            regs = transforms["remove_system_immediate_am"].transform(regs)
+            regs = transforms["remove_redundant_am"].transform(regs)
             regs = transforms["remove_redundant_fields"].transform(regs)
             regs = transforms["unique_fieldset_names"].transform(regs)
 
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
+            regs = filters["aarch32"].filter_exclusive(regs)
+            regs = filters["external"].filter_exclusive(regs)
 
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C Header: " + str(outfile_path))
@@ -134,69 +132,112 @@ class CHeaderGenerator(AbstractGenerator):
         rname = reg.name.lower()
         prefix = self._register_function_prefix(reg)
         suffix = config.register_read_function
-        if reg.size == 32:
-            size_type = "uint32_t"
-        else:
-            size_type = "uint64_t"
 
         gadget = self.gadgets["shoulder.c.function_definition"]
         gadget.name = prefix + "_" + rname + "_" + suffix
-        gadget.return_type = size_type
+        gadget.return_type = self._register_size_type(reg)
         gadget.args = []
 
         if reg.access_mechanisms["mrs_register"]:
             am = reg.access_mechanisms["mrs_register"][0]
-            self._generate_mrs_register_get(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_get(outfile, reg, am)
+            else:
+                self._generate_mrs_register_get(outfile, reg, am)
 
         elif reg.access_mechanisms["mrs_banked"]:
             am = reg.access_mechanisms["mrs_banked"][0]
-            self._generate_mrs_banked_get(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_get(outfile, reg, am)
+            else:
+                self._generate_mrs_banked_get(outfile, reg, am)
 
         elif reg.access_mechanisms["mrc"]:
             am = reg.access_mechanisms["mrc"][0]
-            self._generate_mrc_get(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_get(outfile, reg, am)
+            else:
+                self._generate_mrc_get(outfile, reg, am)
 
         elif reg.access_mechanisms["mrrc"]:
             am = reg.access_mechanisms["mrrc"][0]
-            self._generate_mrrc_get(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_get(outfile, reg, am)
+            else:
+                self._generate_mrrc_get(outfile, reg, am)
 
         elif reg.access_mechanisms["vmrs"]:
             am = reg.access_mechanisms["vmrs"][0]
-            self._generate_vmrs_get(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_get(outfile, reg, am)
+            else:
+                self._generate_vmrs_get(outfile, reg, am)
 
         elif reg.access_mechanisms["ldr"]:
             am = reg.access_mechanisms["ldr"][0]
-            self._generate_ldr_get(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_get(outfile, reg, am)
+            else:
+                self._generate_ldr_get(outfile, reg, am)
+
+    @shoulder.gadget.c.function_definition
+    def _generate_encoded_get(self, outfile, reg, am):
+        reg_getter = "SHOULDER_ENCODED_READ_IMPL({encoding})".format(
+            encoding=hex(am.binary_encoded())
+        )
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrs_register_get(self, outfile, reg, am):
-        if config.encoded_functions:
-            key = hex(am.binary_encoded())
-        else:
-            key = am.operand_mnemonic.lower()
-
-        reg_getter = "GET_SYSREG_FUNC({key})".format(key=key)
+        reg_getter = "SHOULDER_MRS_REGISTER_IMPL({mnemonic})".format(
+            mnemonic=am.operand_mnemonic.lower()
+        )
         outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrs_banked_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using mrs_banked")
+        reg_getter = "SHOULDER_MRS_BANKED_IMPL({key})".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrc_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using mrc")
+        reg_getter = "SHOULDER_MRC_IMPL({coproc}, {opc1}, {crn}, {crm}, {opc2})"
+        reg_getter = reg_getter.format(
+            coproc=am.coproc,
+            opc1=am.opc1,
+            crn=am.crn,
+            crm=am.crm,
+            opc2=am.opc2
+        )
+
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mrrc_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using mrrc")
+        reg_getter = "SHOULDER_MRRC_IMPL({coproc}, {opc1}, {crm})"
+        reg_getter = reg_getter.format(
+            coproc=am.coproc,
+            opc1=am.opc1,
+            crm=am.crm
+        )
+
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_vmrs_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using vmrs")
+        reg_getter = "SHOULDER_VMRS_IMPL({key})".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_getter)
 
     @shoulder.gadget.c.function_definition
     def _generate_ldr_get(self, outfile, reg, am):
-        outfile.write("TODO: get register using ldr")
+        reg_getter = "SHOULDER_LDR_IMPL({key})".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_getter)
 
 # ----------------------------------------------------------------------------
 # register_set
@@ -209,12 +250,8 @@ class CHeaderGenerator(AbstractGenerator):
 
         rname = reg.name.lower()
         prefix = self._register_function_prefix(reg)
-
         suffix = config.register_write_function
-        if reg.size == 32:
-            size_type = "uint32_t"
-        else:
-            size_type = "uint64_t"
+        size_type = self._register_size_type(reg)
 
         gadget = self.gadgets["shoulder.c.function_definition"]
         gadget.name = prefix + "_" + rname + "_" + suffix
@@ -223,65 +260,118 @@ class CHeaderGenerator(AbstractGenerator):
 
         if reg.access_mechanisms["msr_register"]:
             am = reg.access_mechanisms["msr_register"][0]
-            self._generate_msr_register_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_msr_register_set(outfile, reg, am)
 
         elif reg.access_mechanisms["mcr"]:
             am = reg.access_mechanisms["mcr"][0]
-            self._generate_mcr_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_mcr_set(outfile, reg, am)
 
         elif reg.access_mechanisms["mcrr"]:
             am = reg.access_mechanisms["mcrr"][0]
-            self._generate_mcrr_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_mcrr_set(outfile, reg, am)
 
         elif reg.access_mechanisms["msr_banked"]:
             am = reg.access_mechanisms["msr_banked"][0]
-            self._generate_msr_banked_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_msr_banked_set(outfile, reg, am)
 
         elif reg.access_mechanisms["msr_immediate"]:
             am = reg.access_mechanisms["msr_immediate"][0]
-            self._generate_msr_immediate_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_msr_immediate_set(outfile, reg, am)
 
         elif reg.access_mechanisms["vmsr"]:
             am = reg.access_mechanisms["vmsr"][0]
-            self._generate_vmsr_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_vmsr_set(outfile, reg, am)
 
         elif reg.access_mechanisms["str"]:
             am = reg.access_mechanisms["str"][0]
-            self._generate_str_set(outfile, reg, am)
+            if config.encoded_functions:
+                self._generate_encoded_set(outfile, reg, am)
+            else:
+                self._generate_str_set(outfile, reg, am)
+
+    @shoulder.gadget.c.function_definition
+    def _generate_encoded_set(self, outfile, reg, am):
+        reg_setter = "SHOULDER_ENCODED_WRITE_IMPL({encoding})".format(
+            encoding=hex(am.binary_encoded())
+        )
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_msr_register_set(self, outfile, reg, am):
-        if config.encoded_functions:
-            key = hex(am.binary_encoded())
-        else:
-            key = am.operand_mnemonic.lower()
-
-        reg_setter = "SET_SYSREG_BY_VALUE_FUNC({key}, val)".format(key=key)
+        reg_setter = "SHOULDER_MSR_REGISTER_IMPL({mnemonic}, val)".format(
+            mnemonic=am.operand_mnemonic.lower()
+        )
         outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mcr_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using mcr")
+        reg_setter = "SHOULDER_MCR_IMPL({coproc}, {opc1}, {crn}, {crm}, {opc2}, val)"
+        reg_setter = reg_setter.format(
+            coproc=am.coproc,
+            opc1=am.opc1,
+            crn=am.crn,
+            crm=am.crm,
+            opc2=am.opc2
+        )
+
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_mcrr_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using mcrr")
+        reg_setter = "SHOULDER_MCRR_IMPL({coproc}, {opc1}, {crm}, val)"
+        reg_setter = reg_setter.format(
+            coproc=am.coproc,
+            opc1=am.opc1,
+            crm=am.crm
+        )
+
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_msr_banked_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using msr_banked")
+        reg_setter = "SHOULDER_MSR_BANKED_IMPL({key}, val)".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_msr_immediate_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using msr_immediate")
+        reg_setter = "SHOULDER_MSR_IMMEDIATE_IMPL({key}, val)".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_vmsr_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using vmsr")
+        reg_setter = "SHOULDER_VMSR_IMPL({key}, val)".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_setter)
 
     @shoulder.gadget.c.function_definition
     def _generate_str_set(self, outfile, reg, am):
-        outfile.write("TODO: set register using str")
+        reg_setter = "SHOULDER_STR_IMPL({key}, val)".format(
+            key="***TODO***"
+        )
+        outfile.write(reg_setter)
 
 # ----------------------------------------------------------------------------
 # constants
@@ -290,13 +380,14 @@ class CHeaderGenerator(AbstractGenerator):
     @shoulder.gadget.c.enum
     def _generate_field_constants(self, outfile, reg, field):
         """
-        Generate constants that describe a the given field in the given register
+        Generate constants that describe the given field in the given register
         """
 
-        constants = "{reg}_{field}_lsb = {lsb},\n"
-        constants += "{reg}_{field}_msb = {msb},\n"
-        constants += "{reg}_{field}_mask = {mask}"
+        constants = "{prefix}_{reg}_{field}_lsb = {lsb},\n"
+        constants += "{prefix}_{reg}_{field}_msb = {msb},\n"
+        constants += "{prefix}_{reg}_{field}_mask = {mask}"
         constants = constants.format(
+            prefix=self._register_function_prefix(reg),
             reg=reg.name.lower(),
             field=field.name.lower(),
             lsb=str(field.lsb),
@@ -735,6 +826,15 @@ class CHeaderGenerator(AbstractGenerator):
 # ----------------------------------------------------------------------------
 # utilities
 # ----------------------------------------------------------------------------
+    def _register_function_prefix(self, reg):
+        p = config.c_prefix
+        if reg.execution_state:
+            return p + str(reg.execution_state)
+        elif not reg.attributes["is_internal"]:
+            return p + "external"
+        else:
+            return p
+
     def _field_mask_hex_string(self, reg, field):
         mask_val = 0
         for i in range(field.lsb, field.msb + 1):
@@ -746,13 +846,15 @@ class CHeaderGenerator(AbstractGenerator):
             return "{0:#0{1}x}".format(mask_val, 18)
 
     def _field_mask_string(self, reg, field):
-        return "{reg}_{field}_mask".format(
+        return "{prefix}_{reg}_{field}_mask".format(
+            prefix=self._register_function_prefix(reg),
             reg=reg.name.lower(),
             field=field.name.lower()
         )
 
     def _field_lsb_string(self, reg, field):
-        return "{reg}_{field}_lsb".format(
+        return "{prefix}_{reg}_{field}_lsb".format(
+            prefix=self._register_function_prefix(reg),
             reg=reg.name.lower(),
             field=field.name.lower()
         )
@@ -776,12 +878,3 @@ class CHeaderGenerator(AbstractGenerator):
             reg_name=reg.name.lower(),
             write=config.register_write_function
         )
-
-    def _register_function_prefix(self, reg):
-        p = config.c_prefix
-        if reg.execution_state:
-            return p + str(reg.execution_state)
-        elif not reg.attributes["is_internal"]:
-            return p + "external"
-        else:
-            return p

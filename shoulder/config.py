@@ -232,7 +232,3 @@ config.add_configuration(c)
 c = Configuration("accessor_macros_path", os.path.join(_include_dir, "aarch64_gcc_accessor_macros.h"))
 c.description = "Path to C/C++ register access macros"
 config.add_configuration(c)
-
-c = Configuration("encoded_macros_path", os.path.join(_include_dir, "encoded_accessor_macros.h"))
-c.description = "Path to C/C++ register encoded access macros"
-config.add_configuration(c)

@@ -20,17 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.transform.abstract_transform import AbstractTransform
+from shoulder.filter.abstract_filter import AbstractFilter
 
 
-class RemoveRedundantAccessMechanisms(AbstractTransform):
+class AArch64RegisterFilter(AbstractFilter):
     @property
     def description(self):
-        d = "removing redundant access mechanisms"
-        return d
+        return "AArch64 (64-bit execution state) registers"
 
-    def do_transform(self, reg):
-        for key, am_list in reg.access_mechanisms.items():
-            reg.access_mechanisms[key] = am_list[:1]
-
-        return reg
+    def do_filter(self, reg):
+        if(reg.execution_state == "aarch64"):
+            return False
+        else:
+            return True

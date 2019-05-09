@@ -20,17 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.transform.abstract_transform import AbstractTransform
+from shoulder.filter.abstract_filter import AbstractFilter
 
 
-class RemoveRedundantAccessMechanisms(AbstractTransform):
+class ExternalRegisterFilter(AbstractFilter):
     @property
     def description(self):
-        d = "removing redundant access mechanisms"
-        return d
+        return "external (memory mapped) registers"
 
-    def do_transform(self, reg):
-        for key, am_list in reg.access_mechanisms.items():
-            reg.access_mechanisms[key] = am_list[:1]
-
-        return reg
+    def do_filter(self, reg):
+        if(not reg.attributes["is_internal"]):
+            return False
+        else:
+            return True
