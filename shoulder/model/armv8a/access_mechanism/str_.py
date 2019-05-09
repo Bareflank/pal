@@ -20,31 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class MRRC(AbstractAccessMechanism):
-    """ Access mechanism for reading a 64-bit system control coprocessor """
-    """ register """
+class STR(AbstractAccessMechanism):
+    """ Access mechanism for writing a memory mapped register """
 
-    coproc: bytes
-    """ Coprocessor number """
-
-    opc1: bytes
-    """ Coprocessor-specific opcode """
-
-    crm: bytes
-    """ Operational register """
-
-    def instruction_mnemonic(self):
-        return "MRRC"
+    offset: int
+    """ Register offset from base address """
 
     def is_read(self):
-        return True
+        return False
 
     def is_write(self):
-        return False
+        return True
 
     def is_valid(self):
         raise NotImplementedError()

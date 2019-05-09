@@ -20,26 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from collections import namedtuple
+from dataclasses import dataclass, field as dataclass_field
+from typing import List
 
 from shoulder.logger import logger
+from shoulder.model.field import Field
 
-class Field(object):
-    """ Models a single named field of a fieldset """
-    def __init__(self, name, msb, lsb, long_name=None, access="rw"):
-        self.name = name
-        self.long_name = long_name
-        self.msb = msb
-        self.lsb = lsb
-        self.access = access
 
-class Fieldset(object):
+@dataclass
+class Fieldset():
     """ Models a collection of named fields that apply to a register either """
     """ always or under a particular condition """
-    def __init__(self, size):
-        self.size = int(size)
-        self.condition = None
-        self.fields = []
+
+    size: int
+    """ The size (width) of this fieldset """
+
+    condition: str = ""
+    """ A text description of conditions under which this fieldset is valid """
+
+    fields: List[Field] = dataclass_field(default_factory= lambda: [])
+    """ A list of fields that make up this fieldset """
 
     def __str__(self):
         if self.condition is not None:
@@ -49,15 +49,15 @@ class Fieldset(object):
 
         for field in self.fields:
             msg += "{name}=({msb}:{lsb}) ".format(
-                name = field.name,
-                msb = field.msb,
-                lsb = field.lsb
+                name=field.name,
+                msb=field.msb,
+                lsb=field.lsb
             )
 
         return msg
 
-    def add_field(self, name, msb, lsb, long_name=None, access="rw"):
-        self.fields.append(Field(str(name), int(msb), int(lsb), long_name=long_name, access=access))
+    def add_field(self, name, msb, lsb):
+        self.fields.append(Field(str(name), int(msb), int(lsb)))
 
     def is_valid(self):
         expected_total_set = set(range(0, self.size))
@@ -68,9 +68,9 @@ class Fieldset(object):
             if not (0 <= f.lsb <= f.msb < self.size):
                 logger.debug(
                     "Invalid field position for \"{name}\" ({msb}:{lsb})".format(
-                        name = f.name,
-                        msb = f.msb,
-                        lsb = f.lsb
+                        name=f.name,
+                        msb=f.msb,
+                        lsb=f.lsb
                 ))
                 return False
 
@@ -90,7 +90,4 @@ class Fieldset(object):
                     ))
                     return False
 
-
-        # Check all bits accounted for in this fieldset
-        #  if total_set != expected_total_set: return False
         return True

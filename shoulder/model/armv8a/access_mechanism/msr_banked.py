@@ -20,16 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.filter.abstract_filter import AbstractFilter
+from shoulder.model.access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
 
+@dataclass(frozen=True)
+class MSRBanked(AbstractAccessMechanism):
+    """ Access mechanism for writing a banked system register """
 
-class ExternalRegisterFilter(AbstractFilter):
-    @property
-    def description(self):
-        return "external (memory mapped) registers"
+    m: bytes
+    """ ? """
 
-    def do_filter(self, reg):
-        if not reg.is_internal:
-            return False
-        else:
-            return True
+    r: bytes
+    """ ? """
+
+    m1: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
+
+    def is_read(self):
+        return False
+
+    def is_write(self):
+        return True
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def binary_encoded(self):
+        raise NotImplementedError()

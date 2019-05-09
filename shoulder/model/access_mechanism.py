@@ -20,27 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
+import abc
 
-@dataclass(frozen=True)
-class STR(AbstractAccessMechanism):
-    """ Access mechanism for writing a memory mapped register """
 
-    offset: int
-    """ Register offset from base address """
+class AbstractAccessMechanism(abc.ABC):
+    """ Abstract base class for modeling a particular mechanism in which a """
+    """ register can be accessed """
 
-    def instruction_mnemonic(self):
-        return "STR"
-
+    @abc.abstractmethod
     def is_read(self):
-        return False
+        """ Returns true if the access mechanism performs a read """
+        return
 
+    @abc.abstractmethod
     def is_write(self):
-        return True
+        """ Returns true if the access mechanism performs a write """
+        return
 
+    @abc.abstractmethod
     def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+        """ Returns true if the access mechanism is valid """
+        return

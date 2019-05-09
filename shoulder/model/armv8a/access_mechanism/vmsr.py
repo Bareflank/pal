@@ -20,33 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class MRSBanked(AbstractAccessMechanism):
-    """ Access mechanism for reading a banked system register """
+class VMSR(AbstractAccessMechanism):
+    """ Access mechanism for writing a system vector control register """
 
-    m: bytes
-    """ ? """
-
-    r: bytes
-    """ ? """
-
-    m1: bytes
+    reg: bytes
     """ ? """
 
     operand_mnemonic: str
     """ The operand mnemonic of the register to be accessed """
 
-    def instruction_mnemonic(self):
-        return "MRS"
-
     def is_read(self):
-        return True
+        return False
 
     def is_write(self):
-        return False
+        return True
 
     def is_valid(self):
         raise NotImplementedError()

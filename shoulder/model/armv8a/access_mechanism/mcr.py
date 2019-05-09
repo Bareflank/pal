@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
@@ -41,9 +41,6 @@ class MCR(AbstractAccessMechanism):
 
     crm: bytes
     """ Operational register within CRn """
-
-    def instruction_mnemonic(self):
-        return "MCR"
 
     def is_read(self):
         return False

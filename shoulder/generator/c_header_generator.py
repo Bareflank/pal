@@ -406,7 +406,7 @@ class CHeaderGenerator(AbstractGenerator):
         given register
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             gadget = self.gadgets["shoulder.c.function_definition"]
             gadget.return_type = "void"
             gadget.args = []
@@ -442,7 +442,7 @@ class CHeaderGenerator(AbstractGenerator):
         value
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -474,7 +474,7 @@ class CHeaderGenerator(AbstractGenerator):
         the given register
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -511,7 +511,7 @@ class CHeaderGenerator(AbstractGenerator):
         (to 1) in an integer value
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -545,7 +545,7 @@ class CHeaderGenerator(AbstractGenerator):
         given register
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             gadget = self.gadgets["shoulder.c.function_definition"]
             gadget.return_type = "void"
             gadget.args = []
@@ -581,7 +581,7 @@ class CHeaderGenerator(AbstractGenerator):
         value
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -612,7 +612,7 @@ class CHeaderGenerator(AbstractGenerator):
         in the given register
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -649,7 +649,7 @@ class CHeaderGenerator(AbstractGenerator):
         in an integer value
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -684,7 +684,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that reads the given field from the given register
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -721,7 +721,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that reads the given field from an integer value
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -756,7 +756,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that writes the given field to the given register
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -795,7 +795,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that writes the given field to an integer value
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -830,7 +830,7 @@ class CHeaderGenerator(AbstractGenerator):
         p = config.c_prefix
         if reg.execution_state:
             return p + str(reg.execution_state)
-        elif not reg.attributes["is_internal"]:
+        elif not reg.is_internal:
             return p + "external"
         else:
             return p

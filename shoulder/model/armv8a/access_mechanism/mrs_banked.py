@@ -20,18 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class LDR(AbstractAccessMechanism):
-    """ Access mechanism for reading a system control coprocessor register """
+class MRSBanked(AbstractAccessMechanism):
+    """ Access mechanism for reading a banked system register """
 
-    offset: int
-    """ Register offset """
+    m: bytes
+    """ ? """
 
-    def instruction_mnemonic(self):
-        return "LDR"
+    r: bytes
+    """ ? """
+
+    m1: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
 
     def is_read(self):
         return True
