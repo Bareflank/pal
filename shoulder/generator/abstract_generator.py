@@ -29,9 +29,9 @@ from shoulder.gadget import create_gadget_properties
 
 class AbstractGenerator(abc.ABC):
     @abc.abstractmethod
-    def generate(self, objects: List[Register], outpath: str) -> None:
-        """ Generate target output using the given register and/or """
-        """ instruction objects to the given output path """
+    def generate(self, regs: List[Register], outpath: str) -> None:
+        """ Generate target output using the given registers """
+        """ to the given output path """
         return
 
     @property

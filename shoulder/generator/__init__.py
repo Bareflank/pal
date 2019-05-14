@@ -22,6 +22,7 @@
 
 import os
 import pkgutil
+import copy
 
 from shoulder.logger import logger
 from shoulder.config import config
@@ -40,7 +41,7 @@ for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
 # from shoulder.generator import *
 # generate_all()
 
-def generate_all(objects, outdir):
+def generate_all(regs, outdir):
     logger.info("Generating outputs to: " + str(outdir))
 
     all_generators = [cls for cls in abstract_generator.AbstractGenerator.__subclasses__()]
@@ -54,6 +55,6 @@ def generate_all(objects, outdir):
             shutil.copy(config.accessor_macros_path, sub_outdir)
 
         g = generator_class()
-        g.generate(objects, sub_outdir)
+        g.generate(copy.deepcopy(regs), sub_outdir)
 
     logger.info("Generation complete")

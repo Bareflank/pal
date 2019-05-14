@@ -33,9 +33,10 @@ import shoulder.gadget
 
 
 class CxxHeaderGenerator(AbstractGenerator):
-    def generate(self, objects, outpath):
+    def generate(self, regs, outpath):
         try:
-            regs = objects
+            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
+            logger.info("Generating C++ Header: " + str(outfile_path))
 
             regs = transforms["remove_reserved_0"].transform(regs)
             regs = transforms["remove_reserved_1"].transform(regs)
@@ -52,8 +53,6 @@ class CxxHeaderGenerator(AbstractGenerator):
                 "aarch64_gcc_accessor_macros.h"
             ]
 
-            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
-            logger.info("Generating C++ Header: " + str(outfile_path))
             with open(outfile_path, "w") as outfile:
                 self._generate(outfile, regs)
 

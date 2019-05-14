@@ -33,12 +33,10 @@ import shoulder.gadget
 
 
 class CHeaderGenerator(AbstractGenerator):
-    def generate(self, objects, outpath):
+    def generate(self, regs, outpath):
         try:
             outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
             logger.info("Generating C Header: " + str(outfile_path))
-
-            regs = objects
 
             regs = transforms["remove_reserved_0"].transform(regs)
             regs = transforms["remove_reserved_1"].transform(regs)
@@ -84,8 +82,8 @@ class CHeaderGenerator(AbstractGenerator):
             self.gadgets["shoulder.c.enum"].indent = 1
             self.gadgets["shoulder.c.function_definition"].indent = 1
 
-            for fieldset in reg.fieldsets:
-                self._generate_fieldset_comment(outfile, fieldset)
+            for idx, fieldset in enumerate(reg.fieldsets):
+                self._generate_fieldset_comment(outfile, fieldset, idx + 1)
 
                 for field in fieldset.fields:
                     self._generate_field_constants(outfile, reg, field)
@@ -117,10 +115,12 @@ class CHeaderGenerator(AbstractGenerator):
             line = "// " + str(line) + "\n"
             outfile.write(line)
 
-    def _generate_fieldset_comment(self, outfile, fieldset):
-        if fieldset.condition is not None:
-            fieldset_comment = "Fieldset valid when: {comment}\n".format(
-                comment=str(fieldset.condition))
+    def _generate_fieldset_comment(self, outfile, fieldset, idx):
+        if fieldset.condition:
+            fieldset_comment = "Fieldset {idx}: {comment}\n".format(
+                idx=idx,
+                comment=str(fieldset.condition)
+            )
             wrapped = textwrap.wrap(fieldset_comment, width=71)
             for line in wrapped:
                 line = "\t// " + str(line) + "\n"

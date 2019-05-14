@@ -67,13 +67,13 @@ class Register():
     def is_readable(self):
         for am_list in self.access_mechanisms.values():
             for am in am_list:
-                if not am.is_read(): return True
+                if am.is_read(): return True
 
         return False
 
     def is_writeable(self):
         for am_list in self.access_mechanisms.values():
             for am in am_list:
-                if not am.is_write(): return True
+                if am.is_write(): return True
 
         return False
