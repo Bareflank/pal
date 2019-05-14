@@ -20,14 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.config import config
+from dataclasses import dataclass
 
-def license(_decorated=None, *, path=config.license_template_path):
+from shoulder.config import config
+from shoulder.gadget.gadget_properties import GadgetProperties
+
+@dataclass
+class properties(GadgetProperties):
+    """ Properties of the license gadget """
+
+    gadget_name: str = "shoulder.license"
+    """ Name of the gadget these properties apply to """
+
+    path: str = config.license_template_path
+    """ Path to a file that contains a license to be copied """
+
+def license(decorated):
     """
     A decorator gadget that generates a license for source code files
-
-    Args:
-        path (str): Path to a license file to be generated
 
     Usage:
         @license
@@ -35,16 +45,12 @@ def license(_decorated=None, *, path=config.license_template_path):
             outfile.write( <generate other code that the license applies to> )
     """
 
-    def _license(decorated):
-        def license_decorator(generator, outfile, *args, **kwargs):
-            with open(path, "r") as license_file:
-                for line in license_file:
-                    outfile.write("// " + line)
-                outfile.write("\n")
-            decorated(generator, outfile, *args, **kwargs)
-        return license_decorator
+    def license_decorator(generator, outfile, *args, **kwargs):
+        properties = generator.gadgets["shoulder.license"]
 
-    if _decorated is None:
-        return _license
-    else:
-        return _license(_decorated)
+        with open(properties.path, "r") as license_file:
+            for line in license_file:
+                outfile.write("// " + line)
+            outfile.write("\n")
+        decorated(generator, outfile, *args, **kwargs)
+    return license_decorator

@@ -35,6 +35,9 @@ import shoulder.gadget
 class CHeaderGenerator(AbstractGenerator):
     def generate(self, objects, outpath):
         try:
+            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
+            logger.info("Generating C Header: " + str(outfile_path))
+
             regs = objects
 
             regs = transforms["remove_reserved_0"].transform(regs)
@@ -50,8 +53,11 @@ class CHeaderGenerator(AbstractGenerator):
             regs = filters["aarch32"].filter_exclusive(regs)
             regs = filters["external"].filter_exclusive(regs)
 
-            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
-            logger.info("Generating C Header: " + str(outfile_path))
+            self.gadgets["shoulder.header_depends"].includes = [
+                "<stdint.h>",
+                "aarch64_gcc_accessor_macros.h"
+            ]
+
             with open(outfile_path, "w") as outfile:
                 self._generate(outfile, regs)
 

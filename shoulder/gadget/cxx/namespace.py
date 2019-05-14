@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import io
+
 from shoulder.exception import *
 from dataclasses import dataclass
 from shoulder.gadget.gadget_properties import GadgetProperties
@@ -37,6 +39,9 @@ class properties(GadgetProperties):
     indent: int = 0
     """ The indentation level to generate at """
 
+    indent_contents: bool = True
+    """ Set True to indent namespace contents one level above definition """
+
 def namespace(decorated):
     """
     A decorator gadget that generates a C++ namespace
@@ -51,7 +56,7 @@ def namespace(decorated):
     Generates:
         namespace my::cxx:namespace
         {
-        contents inside generated namespace
+            contents inside generated namespace
         }
     """
     def namespace_decorator(generator, outfile, *args, **kwargs):
@@ -64,6 +69,24 @@ def namespace(decorated):
         outfile.write(indent_str)
         outfile.write("namespace " + str(properties.name) + "\n")
         outfile.write(indent_str + "{\n")
-        decorated(generator, outfile, *args, **kwargs)
-        outfile.write(indent_str + "}\n\n")
+
+        contents = io.StringIO()
+        decorated(generator, contents, *args, **kwargs)
+
+        lines = contents.getvalue().splitlines()
+
+        if len(lines) == 1:
+            outfile.write(" ")
+            outfile.write(lines[0])
+            outfile.write(" ")
+
+        elif len(lines) > 1:
+            for line in lines:
+                outfile.write(indent_str)
+                if properties.indent_contents:
+                    outfile.write("\t")
+                outfile.write(line + "\n")
+
+        outfile.write(indent_str + "}\n")
+
     return namespace_decorator

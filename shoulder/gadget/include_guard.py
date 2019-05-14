@@ -20,15 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
+from dataclasses import dataclass
+
+from shoulder.gadget.gadget_properties import GadgetProperties
+
+@dataclass
+class properties(GadgetProperties):
+    """ Properties of the include_guard gadget """
+
+    gadget_name: str = "shoulder.include_guard"
+    """ Name of the gadget these properties apply to """
+
+    name: str = "SHOULDER_AARCH64_H"
+    """ The name of the include guard """
+
+def include_guard(decorated):
     """
     A decorator gadget that generates include guards for C/C++ header files
 
-    Args:
-        name (str): The name of the include guard to generate
-
     Usage:
-        @include_guard(name="MY_INCLUDE_GUARD_H")
+        @include_guard
         function(generator, outfile, ...):
             outfile.write("contents protected by the include guard")
 
@@ -38,16 +49,11 @@ def include_guard(_decorated=None, *, name="SHOULDER_AARCH64_H"):
         contents protected by the include guard
         #endif
     """
+    def include_guard_decorator(generator, outfile, *args, **kwargs):
+        properties = generator.gadgets["shoulder.include_guard"]
 
-    def _include_guard(decorated):
-        def include_guard_decorator(generator, outfile, *args, **kwargs):
-            outfile.write("#ifndef " + str(name) + "\n")
-            outfile.write("#define " + str(name) + "\n\n")
-            decorated(generator, outfile, *args, **kwargs)
-            outfile.write("#endif\n")
-        return include_guard_decorator
-
-    if _decorated is None:
-        return _include_guard
-    else:
-        return _include_guard(_decorated)
+        outfile.write("#ifndef " + str(properties.name) + "\n")
+        outfile.write("#define " + str(properties.name) + "\n\n")
+        decorated(generator, outfile, *args, **kwargs)
+        outfile.write("#endif\n")
+    return include_guard_decorator

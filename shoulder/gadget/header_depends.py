@@ -20,7 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.config import config
+import io
+import typing
+
+from dataclasses import dataclass, field
+from shoulder.gadget.gadget_properties import GadgetProperties
+
+@dataclass
+class properties(GadgetProperties):
+    """ Properties of the header_depends gadget """
+
+    gadget_name: str = "shoulder.header_depends"
+    """ Name of the gadget these properties apply to """
+
+    includes: typing.List[str] = field(default_factory= lambda: [])
+    """ List of include file paths """
 
 def header_depends(decorated):
     """
@@ -33,8 +47,14 @@ def header_depends(decorated):
     """
 
     def header_depends_decorator(generator, outfile, *args, **kwargs):
-        outfile.write("#include <stdint.h>\n")
-        outfile.write("#include \"aarch64_gcc_accessor_macros.h\"\n")
+        properties = generator.gadgets["shoulder.header_depends"]
+
+        for inc in  properties.includes:
+            outfile.write("#include ")
+            if inc.startswith("<"):
+                outfile.write(str(inc) + "\n")
+            else:
+                outfile.write("\"" + str(inc) + "\"\n")
         outfile.write("\n")
         decorated(generator, outfile, *args, **kwargs)
     return header_depends_decorator
