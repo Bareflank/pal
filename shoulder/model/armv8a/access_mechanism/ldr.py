@@ -20,37 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import abc
-import itertools
+from shoulder.model.access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
 
-from shoulder.logger import logger
+@dataclass(frozen=True)
+class LDR(AbstractAccessMechanism):
+    """ Access mechanism for reading a system control coprocessor register """
 
-class AbstractAccessMechanism(abc.ABC):
-    """ Abstract base class for modeling a particular mechanism in which a """
-    """ register can be accessed """
+    offset: int
+    """ Register offset """
 
-    @abc.abstractmethod
-    def instruction_mnemonic(self):
-        """ Get the instruction mnemonic associated with this access mechanism """
-        return
-
-    @abc.abstractmethod
     def is_read(self):
-        """ Returns true if the access mechanism performs a read """
-        return
+        return True
 
-    @abc.abstractmethod
     def is_write(self):
-        """ Returns true if the access mechanism performs a write """
-        return
+        return False
 
-    @abc.abstractmethod
     def is_valid(self):
-        """ Returns true if the access mechanism is valid """
-        return
+        raise NotImplementedError()
 
-    @abc.abstractmethod
     def binary_encoded(self):
-        """ Get the binary instruction encoding that performs an access """
-        """ to/from a register using this access mechanism """
-        return
+        raise NotImplementedError()

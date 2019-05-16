@@ -20,30 +20,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
-from dataclasses import dataclass
-
-@dataclass(frozen=True)
-class VMSR(AbstractAccessMechanism):
-    """ Access mechanism for writing a system vector control register """
-
-    reg: bytes
-    """ ? """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
-
-    def instruction_mnemonic(self):
-        return "VMSR"
-
-    def is_read(self):
-        return False
-
-    def is_write(self):
-        return True
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+from .register import ARMv8ARegister

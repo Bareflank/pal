@@ -21,9 +21,8 @@
 # SOFTWARE.
 
 from shoulder.config import config
-from shoulder.logger import logger
-from shoulder.parser import *
-from shoulder.generator import *
+from shoulder.parser import parse_registers
+from shoulder.generator import generate_all
 
 regs = parse_registers(config.xml_register_dir)
 generate_all(regs, config.shoulder_output_dir)

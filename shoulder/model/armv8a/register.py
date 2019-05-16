@@ -24,56 +24,46 @@ from dataclasses import dataclass, field as datafield
 from typing import List, Dict
 
 from shoulder.logger import logger
+from shoulder.model.register import Register
 from shoulder.model.fieldset import Fieldset
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 
 
 @dataclass
-class Register():
-    """ Models a register """
+class ARMv8ARegister(Register):
+    """ Models a register in the ARMv8-A architecture profile """
 
-    name: str = ""
-    """ The (abbreviated/symbolic/accronym) name for this register """
+    execution_state: str = None
+    """ The execution state this register belongs to: """
+    """ None = no associated execution state (i.e. memory mapped) """
+    """ aarch32 = ARM 32-bit execution state """
+    """ aarch64 = ARM 64-bit execution state """
 
-    long_name: str = ""
-    """ The (non-abbreviated/spelled out) name for this register """
+    is_internal: bool = False
+    """ True if the register is internal to a CPU """
 
-    purpose: str = ""
-    """ A description of this register's purpose """
+    is_banked: bool = False
+    """ True if the register is banked (has copies per exception level) """
 
-    size: int = 64
-    """ The size (in bits) of this register """
+    is_optional: bool = False
+    """ True if this register is an optional feature of the architecture """
 
-    arch: str = "none"
-    """ The name of the architecture this register belongs to """
+    arch: str = "armv8-a"
 
     access_mechanisms: Dict[str, List[AbstractAccessMechanism]] \
-        = datafield(default_factory= lambda: {})
-    """ Access mechanisms by which this register is readable/writable """
-
-    fieldsets: List[Fieldset] = datafield(default_factory= lambda: [])
-    """ List of fieldsets that define all fields/bitfields in this register """
-
-    def is_valid(self):
-        for fs in self.fieldsets:
-            if not fs.is_valid(): return False
-
-        for am_list in self.access_mechanisms.values():
-            for am in am_list:
-                if not am.is_valid(): return False
-
-        return True
-
-    def is_readable(self):
-        for am_list in self.access_mechanisms.values():
-            for am in am_list:
-                if am.is_read(): return True
-
-        return False
-
-    def is_writeable(self):
-        for am_list in self.access_mechanisms.values():
-            for am in am_list:
-                if am.is_write(): return True
-
-        return False
+        = datafield(default_factory= lambda: {
+            "mrc": [],
+            "mcr": [],
+            "mrrc": [],
+            "mcrr": [],
+            "ldr": [],
+            "str": [],
+            "msr": [],
+            "mrs_register": [],
+            "mrs_banked": [],
+            "msr_register": [],
+            "msr_banked": [],
+            "msr_immediate": [],
+            "vmsr": [],
+            "vmrs": [],
+        })

@@ -20,27 +20,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
+from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class MRSBanked(AbstractAccessMechanism):
-    """ Access mechanism for reading a banked system register """
+class MRRC(AbstractAccessMechanism):
+    """ Access mechanism for reading a 64-bit system control coprocessor """
+    """ register """
 
-    m: bytes
-    """ ? """
+    coproc: bytes
+    """ Coprocessor number """
 
-    r: bytes
-    """ ? """
+    opc1: bytes
+    """ Coprocessor-specific opcode """
 
-    m1: bytes
-    """ ? """
-
-    operand_mnemonic: str
-    """ The operand mnemonic of the register to be accessed """
-
-    def instruction_mnemonic(self):
-        return "MRS"
+    crm: bytes
+    """ Operational register """
 
     def is_read(self):
         return True

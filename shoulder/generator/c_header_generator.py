@@ -33,9 +33,10 @@ import shoulder.gadget
 
 
 class CHeaderGenerator(AbstractGenerator):
-    def generate(self, objects, outpath):
+    def generate(self, regs, outpath):
         try:
-            regs = objects
+            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
+            logger.info("Generating C Header: " + str(outfile_path))
 
             regs = transforms["remove_reserved_0"].transform(regs)
             regs = transforms["remove_reserved_1"].transform(regs)
@@ -50,8 +51,11 @@ class CHeaderGenerator(AbstractGenerator):
             regs = filters["aarch32"].filter_exclusive(regs)
             regs = filters["external"].filter_exclusive(regs)
 
-            outfile_path = os.path.abspath(os.path.join(outpath, "shoulder.h"))
-            logger.info("Generating C Header: " + str(outfile_path))
+            self.gadgets["shoulder.header_depends"].includes = [
+                "<stdint.h>",
+                "aarch64_gcc_accessor_macros.h"
+            ]
+
             with open(outfile_path, "w") as outfile:
                 self._generate(outfile, regs)
 
@@ -78,8 +82,8 @@ class CHeaderGenerator(AbstractGenerator):
             self.gadgets["shoulder.c.enum"].indent = 1
             self.gadgets["shoulder.c.function_definition"].indent = 1
 
-            for fieldset in reg.fieldsets:
-                self._generate_fieldset_comment(outfile, fieldset)
+            for idx, fieldset in enumerate(reg.fieldsets):
+                self._generate_fieldset_comment(outfile, fieldset, idx + 1)
 
                 for field in fieldset.fields:
                     self._generate_field_constants(outfile, reg, field)
@@ -111,10 +115,12 @@ class CHeaderGenerator(AbstractGenerator):
             line = "// " + str(line) + "\n"
             outfile.write(line)
 
-    def _generate_fieldset_comment(self, outfile, fieldset):
-        if fieldset.condition is not None:
-            fieldset_comment = "Fieldset valid when: {comment}\n".format(
-                comment=str(fieldset.condition))
+    def _generate_fieldset_comment(self, outfile, fieldset, idx):
+        if fieldset.condition:
+            fieldset_comment = "Fieldset {idx}: {comment}\n".format(
+                idx=idx,
+                comment=str(fieldset.condition)
+            )
             wrapped = textwrap.wrap(fieldset_comment, width=71)
             for line in wrapped:
                 line = "\t// " + str(line) + "\n"
@@ -406,7 +412,7 @@ class CHeaderGenerator(AbstractGenerator):
         given register
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             gadget = self.gadgets["shoulder.c.function_definition"]
             gadget.return_type = "void"
             gadget.args = []
@@ -442,7 +448,7 @@ class CHeaderGenerator(AbstractGenerator):
         value
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -474,7 +480,7 @@ class CHeaderGenerator(AbstractGenerator):
         the given register
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -511,7 +517,7 @@ class CHeaderGenerator(AbstractGenerator):
         (to 1) in an integer value
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -545,7 +551,7 @@ class CHeaderGenerator(AbstractGenerator):
         given register
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             gadget = self.gadgets["shoulder.c.function_definition"]
             gadget.return_type = "void"
             gadget.args = []
@@ -581,7 +587,7 @@ class CHeaderGenerator(AbstractGenerator):
         value
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -612,7 +618,7 @@ class CHeaderGenerator(AbstractGenerator):
         in the given register
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -649,7 +655,7 @@ class CHeaderGenerator(AbstractGenerator):
         in an integer value
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -684,7 +690,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that reads the given field from the given register
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -721,7 +727,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that reads the given field from an integer value
         """
 
-        if reg.readable():
+        if reg.is_readable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -756,7 +762,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that writes the given field to the given register
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -795,7 +801,7 @@ class CHeaderGenerator(AbstractGenerator):
         Generate a C function that writes the given field to an integer value
         """
 
-        if reg.writeable():
+        if reg.is_writeable():
             size_type = self._register_size_type(reg)
 
             gadget = self.gadgets["shoulder.c.function_definition"]
@@ -830,7 +836,7 @@ class CHeaderGenerator(AbstractGenerator):
         p = config.c_prefix
         if reg.execution_state:
             return p + str(reg.execution_state)
-        elif not reg.attributes["is_internal"]:
+        elif not reg.is_internal:
             return p + "external"
         else:
             return p

@@ -20,13 +20,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .get_32 import get_32
-from .get_32_from_value import get_32_from_value
-from .get_64 import get_64
-from .get_64_from_value import get_64_from_value
+from .function_definition import function_definition
 from .namespace import namespace
-from .set_32 import set_32
-from .set_32_to_value import set_32_to_value
-from .set_64 import set_64
-from .set_64_to_value import set_64_to_value
-from .set_constant import set_constant

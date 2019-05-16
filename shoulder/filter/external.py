@@ -29,7 +29,7 @@ class ExternalRegisterFilter(AbstractFilter):
         return "external (memory mapped) registers"
 
     def do_filter(self, reg):
-        if(not reg.attributes["is_internal"]):
+        if not reg.is_internal:
             return False
         else:
             return True

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -21,24 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-print("Hello from the shoulder package!")
+from shoulder.model.access_mechanism import AbstractAccessMechanism
+from dataclasses import dataclass
 
-if __name == "__main__":
-    from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
-    from shoulder.config import config
-    import glob
+@dataclass(frozen=True)
+class MSRImmediate(AbstractAccessMechanism):
+    """ Access mechanism for writing an immediate value to a system register """
 
-    print("Hello from the main function inside shoulder.py!")
+    crn: bytes
+    """ ? """
 
-#    config.cxx_namespace = "aarch64"
-#    parser = ArmV8XmlParser()
-#    generator = CxxHeaderGenerator()
-#    minified_generator = CxxMinifiedHeaderGenerator()
-#
-#    paths = glob.glob("/Users/jared-ais/workspace/thunderlane/ARM_ASL/mra_tools/v8.3/SysReg_v83A_xml-00bet5/*.xml")
-#    regs = []
-#    for path in paths:
-#        results = parser.parse_registers(path)
-#        if results:
-#            regs.append(results[0])
-#    generator.generate(regs, TEST_OUTFILE2)
+    op0: bytes
+    """ ? """
+
+    op1: bytes
+    """ ? """
+
+    op2: bytes
+    """ ? """
+
+    operand_mnemonic: str
+    """ The operand mnemonic of the register to be accessed """
+
+    def is_read(self):
+        return False
+
+    def is_write(self):
+        return True
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def binary_encoded(self):
+        raise NotImplementedError()

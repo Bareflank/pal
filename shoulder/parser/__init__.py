@@ -24,8 +24,7 @@ import os
 import glob
 
 from shoulder.logger import logger
-from shoulder.config import config
-from shoulder.exception import *
+from shoulder.exception import ShoulderParserException
 from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
 
 # -----------------------------------------------------------------------------
@@ -34,8 +33,9 @@ from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
 
 # Usage:
 #
-# from shoulder.parser import *
-# regs = parse_registers("<path/to/xml/spec/registers>")
+# from shoulder.parser import parse_registers
+# regs = parse_registers("<path/to/xml/spec/register.xml>")
+
 
 def parse_registers(spec_path):
     if not os.path.exists(spec_path):
@@ -50,7 +50,7 @@ def parse_registers(spec_path):
     parser = ArmV8XmlParser()
 
     for path in paths:
-        results = parser.parse_registers(path)
+        results = parser.parse_file(path)
         if results:
             for result in results:
                 regs.append(result)

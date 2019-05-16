@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .register import Register
+from .access_mechanism import AbstractAccessMechanism
+from .field import Field
 from .fieldset import Fieldset
-from .fieldset import Field
+from .register import Register

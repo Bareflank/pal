@@ -20,9 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.parser.armv8_xml_parser import ArmV8XmlParser
+import abc
 
-class ArmV8_3_00bet6_XmlParser(ArmV8XmlParser):
-    @property
-    def aarch_version_minor(self):
-        return 3
+
+class AbstractAccessMechanism(abc.ABC):
+    """ Abstract base class for modeling a particular mechanism in which a """
+    """ register can be accessed """
+
+    @abc.abstractmethod
+    def is_read(self):
+        """ Returns true if the access mechanism performs a read """
+        return
+
+    @abc.abstractmethod
+    def is_write(self):
+        """ Returns true if the access mechanism performs a write """
+        return
+
+    @abc.abstractmethod
+    def is_valid(self):
+        """ Returns true if the access mechanism is valid """
+        return

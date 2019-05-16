@@ -20,27 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from shoulder.model.access_mechanism.abstract_access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
-class STR(AbstractAccessMechanism):
-    """ Access mechanism for writing a memory mapped register """
 
-    offset: int
-    """ Register offset from base address """
+@dataclass
+class Field():
+    """ Models a single named field (or bitfield) in a register fieldset """
 
-    def instruction_mnemonic(self):
-        return "STR"
+    name: str
+    """ Name of the field """
 
-    def is_read(self):
-        return False
+    msb: int
+    """ Most significant bit that the field occupies within a register """
 
-    def is_write(self):
-        return True
-
-    def is_valid(self):
-        raise NotImplementedError()
-
-    def binary_encoded(self):
-        raise NotImplementedError()
+    lsb: int
+    """ Least significant bit that the field occupies within a register """
