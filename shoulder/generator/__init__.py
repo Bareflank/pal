@@ -48,11 +48,12 @@ def generate_all(regs, outdir):
 
     for generator_class in all_generators:
         sub_outdir = os.path.abspath(os.path.join(outdir, generator_class.__name__))
-        if not os.path.exists(sub_outdir):
-                os.makedirs(sub_outdir)
 
-        if os.path.exists(config.accessor_macros_path):
-            shutil.copy(config.accessor_macros_path, sub_outdir)
+        if os.path.exists(sub_outdir):
+            shutil.rmtree(sub_outdir)
+
+        if os.path.exists(config.shoulder_include_dir):
+            shutil.copytree(config.shoulder_include_dir, sub_outdir)
 
         g = generator_class()
         g.generate(copy.deepcopy(regs), sub_outdir)
