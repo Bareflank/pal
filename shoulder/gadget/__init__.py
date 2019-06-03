@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from .external_component import external_component
 from .gadget_properties import GadgetProperties
 from .header_depends import header_depends
 from .include_guard import include_guard

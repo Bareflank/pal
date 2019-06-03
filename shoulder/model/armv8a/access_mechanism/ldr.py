@@ -27,6 +27,9 @@ from dataclasses import dataclass
 class LDR(AbstractAccessMechanism):
     """ Access mechanism for reading a system control coprocessor register """
 
+    component: str
+    """ Component that the register is mapped to """
+
     offset: int
     """ Register offset """
 
