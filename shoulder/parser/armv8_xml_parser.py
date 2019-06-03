@@ -145,6 +145,11 @@ class ArmV8XmlParser(AbstractParser):
         reg_address_nodes = reg_node.findall("./reg_address")
         offsets = set()
         for node in reg_address_nodes:
+            component_node = node.find("./reg_component")
+            component = str(component_node.text).lower()
+            component = component.replace(" ", "_")
+            component = component.replace(".", "_")
+
             offset_node = node.find("./reg_offset/hexnumber")
             offset = int(offset_node.text, 0)
             offsets.add(offset)
@@ -159,11 +164,11 @@ class ArmV8XmlParser(AbstractParser):
             writable_types = set(["RW", "WO", "RO or RW", "IMPDEF"])
 
             if access_types & readable_types:
-                am = shoulder.model.armv8a.access_mechanism.LDR(offset)
+                am = shoulder.model.armv8a.access_mechanism.LDR(component, offset)
                 reg.access_mechanisms["ldr"].append(am)
 
             if access_types & writable_types:
-                am = shoulder.model.armv8a.access_mechanism.STR(offset)
+                am = shoulder.model.armv8a.access_mechanism.STR(component, offset)
                 reg.access_mechanisms["str"].append(am)
 
         # Instruction based access mechanisms

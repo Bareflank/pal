@@ -59,6 +59,15 @@ class CxxHeaderGenerator(AbstractGenerator):
                 "aarch64_gcc_accessor_macros.h"
             ]
 
+            unique = []
+            for reg in regs:
+                external_mechs = reg.access_mechanisms["ldr"] + \
+                                 reg.access_mechanisms["str"]
+                for mech in external_mechs:
+                    if mech.component not in unique:
+                        unique.append(mech.component)
+            self.gadgets["shoulder.external_component"].components = unique
+
             with open(outfile_path, "w") as outfile:
                 self._generate(outfile, regs)
 
@@ -72,6 +81,7 @@ class CxxHeaderGenerator(AbstractGenerator):
     @shoulder.gadget.license
     @shoulder.gadget.include_guard
     @shoulder.gadget.header_depends
+    @shoulder.gadget.external_component
     def _generate(self, outfile, regs):
         self.gadgets["shoulder.cxx.namespace"].name = "aarch64"
         aarch64_regs = filters["aarch64"].filter_inclusive(regs)
@@ -222,6 +232,7 @@ class CxxHeaderGenerator(AbstractGenerator):
 
         elif reg.access_mechanisms["ldr"]:
             am = reg.access_mechanisms["ldr"][0]
+            self._generate_external_constants(outfile, reg, am)
             self._generate_ldr_get(outfile, reg, am)
 
         else:
@@ -286,8 +297,17 @@ class CxxHeaderGenerator(AbstractGenerator):
 
     @shoulder.gadget.cxx.function_definition
     def _generate_ldr_get(self, outfile, reg, am):
-        reg_getter = "SHOULDER_AARCH64_LDR_IMPL({addr})".format(
-            addr="0x0"
+        null_return = "0xffffffff"
+        if reg.size == 64:
+            null_return = "0xffffffffffffffff"
+
+        reg_getter =  "if ({base} == 0x0) return {null_ret};\n"
+        reg_getter += "return *(({ret_size} *)({base} + {reg}::offset));\n"
+        reg_getter = reg_getter.format(
+            base=str(am.component) + "_base",
+            null_ret=null_return,
+            ret_size=self._register_size_type(reg),
+            reg=reg.name.lower()
         )
         outfile.write(reg_getter)
 
@@ -337,6 +357,8 @@ class CxxHeaderGenerator(AbstractGenerator):
 
         elif reg.access_mechanisms["str"]:
             am = reg.access_mechanisms["str"][0]
+            if not reg.is_readable():
+                self._generate_external_constants(outfile, reg, am)
             self._generate_str_set(outfile, reg, am)
 
         elif reg.access_mechanisms["msr_immediate"]:
@@ -405,14 +427,37 @@ class CxxHeaderGenerator(AbstractGenerator):
 
     @shoulder.gadget.cxx.function_definition
     def _generate_str_set(self, outfile, reg, am):
-        reg_setter = "SHOULDER_AARCH64_STR_IMPL({addr}, val)".format(
-            addr="0x0"
+        null_return = "0xffffffff"
+        if reg.size == 64:
+            null_return = "0xffffffffffffffff"
+
+        reg_setter =  "if ({base} == 0x0) return {null_ret};\n"
+        reg_setter += "*(({ret_size} *)({base} + {reg}::offset)) = val;\n"
+        reg_setter = reg_setter.format(
+            base=str(am.component) + "_base",
+            null_ret=null_return,
+            ret_size=self._register_size_type(reg),
+            reg=reg.name.lower()
         )
         outfile.write(reg_setter)
 
 # ----------------------------------------------------------------------------
 # constants
 # ----------------------------------------------------------------------------
+
+    def _generate_external_constants(self, outfile, reg, am):
+        """
+        Generate constants that describe the address offset of the given register
+        """
+
+        constants = "constexpr {size} offset = {offset};\n"
+        constants += "\n"
+        constants = constants.format(
+            size=self._register_size_type(reg),
+            offset=am.offset
+        )
+
+        outfile.write(constants)
 
     def _generate_field_constants(self, outfile, reg, field):
         """
