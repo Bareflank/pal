@@ -23,7 +23,7 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class VMRS(AbstractAccessMechanism):
     """ Access mechanism for reading a system vector control register """
 

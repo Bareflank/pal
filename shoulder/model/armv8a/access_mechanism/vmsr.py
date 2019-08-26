@@ -23,7 +23,7 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class VMSR(AbstractAccessMechanism):
     """ Access mechanism for writing a system vector control register """
 

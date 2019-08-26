@@ -23,7 +23,7 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class LDR(AbstractAccessMechanism):
     """ Access mechanism for reading a system control coprocessor register """
 

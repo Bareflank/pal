@@ -23,7 +23,7 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class MSRBanked(AbstractAccessMechanism):
     """ Access mechanism for writing a banked system register """
 
