@@ -71,6 +71,7 @@ add_custom_target(package ALL DEPENDS ${SHOULDER_PKG_STAMP})
 # Install
 # ------------------------------------------------------------------------------
 
+set(CMAKE_INSTALL_MESSAGE NEVER)
 install(DIRECTORY shoulder DESTINATION lib/python3/dist-packages)
 install(DIRECTORY scripts DESTINATION lib/python3/dist-packages)
 install(DIRECTORY include DESTINATION lib/python3/dist-packages)

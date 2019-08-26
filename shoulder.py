@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #
 # Shoulder
 # Copyright (C) 2018 Assured Information Security, Inc.
@@ -20,17 +21,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
-
-from shoulder.cmd_args import parse_cmd_args
-from shoulder.parser import parse_registers
-from shoulder.generator import generate_all
-
-
-def shoulder_main():
-    config = parse_cmd_args(sys.argv[1:])
-    regs = parse_registers(config.xml_register_dir)
-    generate_all(regs, config.shoulder_output_dir)
-
+from shoulder.__main__ import shoulder_main
 
 shoulder_main()
