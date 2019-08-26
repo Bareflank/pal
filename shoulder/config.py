@@ -31,6 +31,9 @@ class Configuration():
         self.description = "Description N/A"
         self.options = []
 
+        if type(default_value) == bool:
+            self.options = [True, False]
+
     def __str__(self):
         return str(self.name) + ": " + str(self.value)
 
@@ -67,7 +70,10 @@ class ShoulderConfig:
         return string
 
     def __getitem__(self, key):
-        return self._configurations[key].value
+        if key in self._configurations:
+            return self._configurations[key].value
+        else:
+            raise IndexError
 
     def __setitem__(self, key, value):
         self._configurations[key].value = value
@@ -85,6 +91,9 @@ class ShoulderConfig:
            object.__setattr__(self, name, value)
         else:
             self._configurations[name].value = value
+
+    def items(self):
+        return self._configurations.items()
 
     def help(self):
         string = "Available Configurations:\n\n"
