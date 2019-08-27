@@ -23,7 +23,7 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class MRSRegister(AbstractAccessMechanism):
     """ Access mechanism for reading the contents of a system register into """
     """ a general purpose register via the MRS instruciton """

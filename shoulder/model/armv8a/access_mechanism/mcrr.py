@@ -23,9 +23,10 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class MCRR(AbstractAccessMechanism):
-    """ Access mechanism for writing a 64-bit coprocessor register """
+    """ Access mechanism for writing a coprocessor register using two """
+    """ general purpose registers """
 
     coproc: bytes
     """ Coprocessor number """
@@ -36,6 +37,12 @@ class MCRR(AbstractAccessMechanism):
     crm: bytes
     """ Operational register """
 
+    rt1: bytes = 0b0
+    """ Source general purpose register 1 (default = r0) """
+
+    rt2: bytes = 0b1
+    """ Source general purpose register 2 (default = r1) """
+
     def is_read(self):
         return False
 
@@ -43,7 +50,13 @@ class MCRR(AbstractAccessMechanism):
         return True
 
     def is_valid(self):
-        raise NotImplementedError()
+        if self.rt1 > 0b1110: return False
+        if self.rt2 > 0b1110: return False
+        if self.coproc > 0b1111: return False
+        if self.opc1 > 0b111: return False
+        if self.crm > 0b1111: return False
+
+        return True
 
     def binary_encoded(self):
         raise NotImplementedError()

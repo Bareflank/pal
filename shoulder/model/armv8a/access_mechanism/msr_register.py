@@ -23,7 +23,7 @@
 from shoulder.model.access_mechanism import AbstractAccessMechanism
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass()
 class MSRRegister(AbstractAccessMechanism):
     """ Access mechanism for writing a system register using the contents of """
     """ a general purpose register """
