@@ -76,7 +76,7 @@ def function_definition(decorated):
         outfile.write(indent_str)
 
         if properties.inline == True:
-            outfile.write("inline ")
+            outfile.write("static inline ")
 
         outfile.write(str(properties.return_type) + " ")
         outfile.write(str(properties.name))
