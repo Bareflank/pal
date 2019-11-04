@@ -1,25 +1,3 @@
-#
-# Shoulder
-# Copyright (C) 2018 Assured Information Security, Inc.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 cmake_minimum_required(VERSION 3.12)
 project(pal NONE)
 
@@ -32,11 +10,11 @@ include(${PAL_SOURCE_CMAKE_DIR}/macros/print_usage.cmake)
 
 set(PYTHONPATH ${CMAKE_CURRENT_LIST_DIR})
 
-file(GLOB_RECURSE PAL_SRC_FILES "shoulder/*.py" "setup.py")
+file(GLOB_RECURSE PAL_SRC_FILES "pal/*.py" "setup.py")
 set(PAL_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
 
 add_custom_command(
-    COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m shoulder
+    COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
         -o ${CMAKE_BINARY_DIR}/pal
         --arch=${ARCH}
         --language=${LANGUAGE}
