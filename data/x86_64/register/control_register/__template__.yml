@@ -1,0 +1,28 @@
+- name: <Register.name>
+  long_name: <Register.long_name>
+  purpose: <Register.purpose>
+  size: 64
+  
+  access_mechanisms:
+      - name: mov
+        source_mnemonic: <MOV.source_mnemonic>
+
+      - name: mov
+        destination_mnemonic: <MOV.destination_mnemonic>
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: <Field.name>
+              long_name: <Field.long_name>
+              lsb: <Field.lsb>
+              msb: <Field.lsb>
+              readable: True
+              writable: True
+              description: |
+                  "
+                  <Field.description>
+                  "
