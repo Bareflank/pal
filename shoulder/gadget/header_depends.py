@@ -48,6 +48,7 @@ def header_depends(decorated):
 
     def header_depends_decorator(generator, outfile, *args, **kwargs):
         properties = generator.gadgets["shoulder.header_depends"]
+        writer = generator.get_writer()
 
         for inc in  properties.includes:
             outfile.write("#include ")
@@ -55,6 +56,6 @@ def header_depends(decorated):
                 outfile.write(str(inc) + "\n")
             else:
                 outfile.write("\"" + str(inc) + "\"\n")
-        outfile.write("\n")
+        writer.write_newline(outfile)
         decorated(generator, outfile, *args, **kwargs)
     return header_depends_decorator

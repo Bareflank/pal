@@ -51,9 +51,12 @@ def include_guard(decorated):
     """
     def include_guard_decorator(generator, outfile, *args, **kwargs):
         properties = generator.gadgets["shoulder.include_guard"]
+        writer = generator.get_writer()
 
         outfile.write("#ifndef " + str(properties.name) + "\n")
-        outfile.write("#define " + str(properties.name) + "\n\n")
+        outfile.write("#define " + str(properties.name) + "\n")
+        writer.write_newline(outfile)
+
         decorated(generator, outfile, *args, **kwargs)
-        outfile.write("#endif\n")
+        outfile.write("#endif")
     return include_guard_decorator

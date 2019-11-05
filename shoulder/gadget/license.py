@@ -47,10 +47,12 @@ def license(decorated):
 
     def license_decorator(generator, outfile, *args, **kwargs):
         properties = generator.gadgets["shoulder.license"]
+        writer = generator.get_writer()
 
         with open(properties.path, "r") as license_file:
+            outfile.write("/*\n")
             for line in license_file:
-                outfile.write("// " + line)
-            outfile.write("\n")
+                outfile.write(" * " + line)
+            outfile.write("*/\n")
         decorated(generator, outfile, *args, **kwargs)
     return license_decorator

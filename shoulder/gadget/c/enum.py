@@ -60,11 +60,9 @@ def enum(decorated):
     """
     def enum_decorator(generator, outfile, *args, **kwargs):
         properties = generator.gadgets["shoulder.c.enum"]
+        writer = generator.get_writer()
 
-        indent_str = ""
-        for level in range(0, properties.indent):
-            indent_str += "\t"
-        outfile.write(indent_str)
+        writer.write_indent(outfile, count=properties.indent)
 
         if properties.name:
             outfile.write("typedef ")
@@ -80,14 +78,15 @@ def enum(decorated):
             outfile.write(lines[0])
             outfile.write(" ")
         elif len(lines) > 1:
-            outfile.write("\n")
-            for line in lines:
-                outfile.write(indent_str + "\t" + line + "\n")
-            outfile.write(indent_str)
+            writer.write_newline(outfile)
+            writer.write_indent(outfile, count=properties.indent + 1)
+            outfile.write(line)
+            writer.write_newline(outfile)
 
         outfile.write("}")
         if properties.name:
             outfile.write(str(properties.name))
-        outfile.write(";\n\n")
+        outfile.write(";")
+        writer.write_newline(outfile, count=2)
 
     return enum_decorator

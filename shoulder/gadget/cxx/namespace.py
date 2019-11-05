@@ -61,14 +61,16 @@ def namespace(decorated):
     """
     def namespace_decorator(generator, outfile, *args, **kwargs):
         properties = generator.gadgets["shoulder.cxx.namespace"]
+        writer = generator.get_writer()
 
-        indent_str = ""
-        for level in range(0, properties.indent):
-            indent_str += "\t"
+        writer.write_indent(outfile, count=properties.indent)
 
-        outfile.write(indent_str)
-        outfile.write("namespace " + str(properties.name) + "\n")
-        outfile.write(indent_str + "{\n")
+        outfile.write("namespace " + str(properties.name))
+        writer.write_newline(outfile)
+
+        writer.write_indent(outfile, count=properties.indent)
+        outfile.write("{")
+        writer.write_newline(outfile)
 
         contents = io.StringIO()
         decorated(generator, contents, *args, **kwargs)
@@ -82,11 +84,13 @@ def namespace(decorated):
 
         elif len(lines) > 1:
             for line in lines:
-                outfile.write(indent_str)
+                writer.write_indent(outfile, count=properties.indent)
                 if properties.indent_contents:
-                    outfile.write("\t")
+                    outfile.write("    ")
                 outfile.write(line + "\n")
 
-        outfile.write(indent_str + "}\n")
+        writer.write_indent(outfile, count=properties.indent)
+        outfile.write("}")
+        writer.write_newline(outfile)
 
     return namespace_decorator

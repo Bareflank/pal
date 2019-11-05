@@ -75,11 +75,9 @@ def function_definition(decorated):
     """
     def function_definition_decorator(generator, outfile, *args, **kwargs):
         properties = generator.gadgets["shoulder.cxx.function_definition"]
+        writer = generator.get_writer()
 
-        indent_str = ""
-        for level in range(0, properties.indent):
-            indent_str += "\t"
-        outfile.write(indent_str)
+        writer.write_indent(outfile, count=properties.indent)
 
         if properties.inline == True:
             outfile.write("inline ")
@@ -89,7 +87,8 @@ def function_definition(decorated):
 
 
         if len(properties.args) == 0:
-            outfile.write("(void)\n")
+            outfile.write("(void)")
+            writer.write_newline(outfile)
         else:
             outfile.write("(")
             for idx, arg_pair in enumerate(properties.args):
@@ -97,9 +96,12 @@ def function_definition(decorated):
                     outfile.write(", ")
                 outfile.write(str(arg_pair[0]) + " ")
                 outfile.write(str(arg_pair[1]))
-            outfile.write(")\n")
+            outfile.write(")")
+            writer.write_newline(outfile)
 
-        outfile.write(indent_str + "{")
+        writer.write_indent(outfile, count=properties.indent)
+        outfile.write("{")
+
         contents = io.StringIO()
         decorated(generator, contents, *args, **kwargs)
 
@@ -109,11 +111,15 @@ def function_definition(decorated):
             outfile.write(lines[0])
             outfile.write(" ")
         elif len(lines) > 1:
-            outfile.write("\n")
+            writer.write_newline(outfile)
             for line in lines:
-                outfile.write(indent_str + "\t" + line + "\n")
-            outfile.write(indent_str)
+                writer.write_indent(outfile, count=properties.indent + 1)
+                outfile.write(line)
+                writer.write_newline(outfile)
 
-        outfile.write("}\n\n")
+            writer.write_indent(outfile, count=properties.indent)
+
+        outfile.write("}")
+        writer.write_newline(outfile, count = 2)
 
     return function_definition_decorator
