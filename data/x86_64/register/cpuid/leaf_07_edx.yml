@@ -1,0 +1,132 @@
+- name: leaf_07_edx
+  long_name: "Structured Extended Feature Flags Enumeration Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 07H and ECX = 0, the processor
+      returns information about the maximum input value for sub-leaves that
+      contain extended feature flags. See Table 3-8.  When CPUID executes with
+      EAX set to 07H and the input value of ECX is invalid (see leaf 07H entry
+      in Table 3-8), the processor returns 0 in EAX/EBX/ECX/EDX. In subleaf 0,
+      EAX returns the maximum input value of the highest leaf 7 sub-leaf, and
+      EBX, ECX & EDX contain information of extended feature flags.
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x7
+        output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 0
+              reserved0: True
+              description: |
+                  "
+                  Bit 0 of CPUID leaf 07 edx is not defined, so it is assumed
+                  to be reserved 0
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 1
+              msb: 1
+              reserved0: True
+
+            - name: "AVX512_4VNNIW"
+              long_name: "AVX512_4VNNIW"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: AVX512_4VNNIW. (Intel® Xeon Phi™ only.)
+                  "
+
+            - name: "AVX512_4FMAPS"
+              long_name: "AVX512_4FMAPS"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: AVX512_4FMAPS. (Intel® Xeon Phi™ only.)
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 25
+              reserved0: True
+
+            - name: "Bit 26"
+              long_name: "Bit 26"
+              lsb: 26
+              msb: 26
+              readable: True
+              description: |
+                  "
+                  Bit 26: Enumerates support for indirect branch restricted
+                  speculation (IBRS) and the indirect branch predictor barrier
+                  (IBPB). Processors that set this bit support the
+                  IA32_SPEC_CTRL MSR and the IA32_PRED_CMD MSR. They allow
+                  software to set IA32_SPEC_CTRL[0] (IBRS) and IA32_PRED_CMD[0]
+                  (IBPB).
+                  "
+
+            - name: "STIBP"
+              long_name: "single thread indirect branch predictors"
+              lsb: 27
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Bit 27: Enumerates support for single thread indirect branch
+                  predictors (STIBP). Processors that set this bit support the
+                  IA32_SPEC_CTRL MSR. They allow software to set
+                  IA32_SPEC_CTRL[1] (STIBP).
+                  "
+
+            - name: "L1D_FLUSH"
+              long_name: "L1D_FLUSH"
+              lsb: 28
+              msb: 28
+              readable: True
+              description: |
+                  "
+                  Bit 28: Enumerates support for L1D_FLUSH. Processors that set
+                  this bit support the IA32_FLUSH_CMD MSR. They allow software
+                  to set IA32_FLUSH_CMD[0] (L1D_FLUSH).
+                  "
+
+            - name: "IA32_CORE_CAPABILITIES"
+              long_name: "IA32_CORE_CAPABILITIES"
+              lsb: 30
+              msb: 30
+              readable: True
+              description: |
+                  "
+                  Bit 30: Enumerates support for the IA32_CORE_CAPABILITIES MSR
+                  "
+
+            - name: "SSBD"
+              long_name: "Speculative Store Bypass Disable"
+              lsb: 31
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bit 31: Enumerates support for Speculative Store Bypass
+                  Disable (SSBD). Processors that set this bit support the
+                  IA32_SPEC_CTRL MSR. They allow software to set
+                  IA32_SPEC_CTRL[2] (SSBD).
+                  "

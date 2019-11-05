@@ -1,0 +1,26 @@
+- name: <Register.name>
+  long_name: <Register.long_name>
+  purpose: <Register.purpose>
+  size: <Register.size>
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: <CPUID.leaf>
+        subleaf: <CPUID.subleaf>
+        output: <CPUID.output>
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: <Fieldset.size> 
+
+        fields:
+            - name: <Field.name>
+              long_name: <Field.long_name>
+              lsb: <Field.lsb>
+              msb: <Field.lsb>
+              readable: True
+              description: |
+                  "
+                  <Field.description>
+                  "

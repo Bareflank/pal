@@ -1,0 +1,9 @@
+- name: leaf_03_ecx
+  long_name: "Basic CPUID Information"
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x3
+        output: ecx

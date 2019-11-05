@@ -1,0 +1,211 @@
+- name: leaf_07_ecx
+  long_name: "Structured Extended Feature Flags Enumeration Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 07H and ECX = 0, the processor
+      returns information about the maximum input value for sub-leaves that
+      contain extended feature flags. See Table 3-8.  When CPUID executes with
+      EAX set to 07H and the input value of ECX is invalid (see leaf 07H entry
+      in Table 3-8), the processor returns 0 in EAX/EBX/ECX/EDX. In subleaf 0,
+      EAX returns the maximum input value of the highest leaf 7 sub-leaf, and
+      EBX, ECX & EDX contain information of extended feature flags.
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x7
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "PREFETCHWT1"
+              long_name: "PREFETCHWT1"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: PREFETCHWT1. (Intel® Xeon Phi™ only.)
+                  "
+
+            - name: "AVX512_VBMI"
+              long_name: "AVX512_VBMI"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: AVX512_VBMI.
+                  "
+
+            - name: "UMIP"
+              long_name: "user-mode instruction prevention"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: UMIP. Supports user-mode instruction prevention if 1.
+                  "
+
+            - name: "PKU"
+              long_name: "protection keys for user-mode pages"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: PKU. Supports protection keys for user-mode pages if
+                  1.
+                  "
+
+            - name: "OSPKE"
+              long_name: "OSPKE"
+              lsb: 4
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bit 04: OSPKE. If 1, OS has set CR4.PKE to enable protection
+                  keys (and the RDPKRU/WRPKRU instructions).
+                  "
+
+            - name: "WAITPKG"
+              long_name: "WAITPKG"
+              lsb: 5
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Bit 05: WAITPKG
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 6
+              msb: 7
+              reserved0: True
+
+            - name: "GFNI"
+              long_name: "GFNI"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Bit 08: GFNI
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 9
+              msb: 13
+              reserved0: True
+
+            - name: "AVX512_VPOPCNTDQ"
+              long_name: "AVX512_VPOPCNTDQ"
+              lsb: 14
+              msb: 14
+              readable: True
+              description: |
+                  "
+                  Bit 14: AVX512_VPOPCNTDQ. (Intel® Xeon Phi™ only.)
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 15
+              msb: 16
+              reserved0: True
+
+            - name: "MAWAU"
+              long_name: "MAWAU"
+              lsb: 17
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Bits 21 - 17: The value of MAWAU used by the BNDLDX and
+                  BNDSTX instructions in 64-bit mode.
+                  "
+
+            - name: "Bit 22"
+              long_name: "Bit 22"
+              lsb: 22
+              msb: 22
+              readable: True
+              description: |
+                  "
+                  Bit 22: RDPID and IA32_TSC_AUX are available if 1
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 23
+              msb: 24
+              reserved0: True
+
+            - name: "CLDEMOTE"
+              long_name: "CLDEMOTE"
+              lsb: 25
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Bit 25: CLDEMOTE. Supports cache line demote if 1.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 26
+              msb: 26
+              reserved0: True
+
+            - name: "MOVDIRI"
+              long_name: "MOVDIRI"
+              lsb: 27
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Bit 27: MOVDIRI. Supports MOVDIRI if 1.
+                  "
+
+            - name: "MOVDIR64B"
+              long_name: "MOVDIR64B"
+              lsb: 28
+              msb: 28
+              readable: True
+              description: |
+                  "
+                  Bit 28: MOVDIR64B. Supports MOVDIR64B if 1.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 29
+              msb: 29
+              reserved0: True
+
+            - name: "SGX_LC"
+              long_name: "SGX Launch Configuration"
+              lsb: 30
+              msb: 30
+              readable: True
+              description: |
+                  "
+                  Bit 30: SGX_LC. Supports SGX Launch Configuration if 1.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 31
+              msb: 31
+              reserved0: True

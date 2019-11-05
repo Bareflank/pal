@@ -1,0 +1,104 @@
+- name: leaf_0A_ebx
+  long_name: "Architectural Performance Monitoring Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 0AH, the processor returns
+      information about support for architectural performance monitoring
+      capabilities. Architectural performance monitoring is supported if the
+      version ID (see Table 3-8) is greater than Pn 0. See Table 3-8.  For each
+      version of architectural performance monitoring capability, software must
+      enumerate this leaf to discover the programming facilities and the
+      architectural performance events available in the processor. The details
+      are described in Chapter 23, “Introduction to Virtual-Machine
+      Extensions,” in the Intel® 64 and IA-32 Architectures Software
+      Developer’s Manual, Volume 3C.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x7
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Bit 00"
+              long_name: "Bit 00"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: Core cycle event not available if 1.
+                  "
+
+            - name: "Bit 01"
+              long_name: "Bit 01"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: Instruction retired event not available if 1.
+                  "
+
+            - name: "Bit 02"
+              long_name: "Bit 02"
+              lsb: 11
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Bit 02: Reference cycles event not available if 1.
+                  "
+
+            - name: "Bit 03"
+              long_name: "Bit 03"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: Last-level cache reference event not available if 1.
+                  "
+
+            - name: "Bit 04"
+              long_name: "Bit 04"
+              lsb: 4
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bit 04: Last-level cache misses event not available if 1.
+                  "
+
+            - name: "Bit 05"
+              long_name: "Bit 05"
+              lsb: 5
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Bit 05: Branch instruction retired event not available if 1.
+                  "
+
+            - name: "Bit 06"
+              long_name: "Bit 06"
+              lsb: 6
+              msb: 6
+              readable: True
+              description: |
+                  "
+                  Bit 06: Branch mispredict retired event not available if 1.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 7
+              msb: 31
+              reserved0: True

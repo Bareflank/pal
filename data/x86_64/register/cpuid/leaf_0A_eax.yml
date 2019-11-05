@@ -1,0 +1,72 @@
+- name: leaf_0A_eax
+  long_name: "Architectural Performance Monitoring Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 0AH, the processor returns
+      information about support for architectural performance monitoring
+      capabilities. Architectural performance monitoring is supported if the
+      version ID (see Table 3-8) is greater than Pn 0. See Table 3-8.  For each
+      version of architectural performance monitoring capability, software must
+      enumerate this leaf to discover the programming facilities and the
+      architectural performance events available in the processor. The details
+      are described in Chapter 23, “Introduction to Virtual-Machine
+      Extensions,” in the Intel® 64 and IA-32 Architectures Software
+      Developer’s Manual, Volume 3C.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x7
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Version ID"
+              long_name: "Version ID"
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 00: Version ID of architectural performance
+                  monitoring.
+                  "
+
+            - name: "Bits 15 - 08"
+              long_name: "Bits 15 - 08"
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 15 - 08: Number of general-purpose performance
+                  monitoring counter per logical processor.
+                  "
+
+            - name: "Bits 23 - 16"
+              long_name: "Bits 23 - 16"
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Bits 23 - 16: Bit width of general-purpose, performance
+                  monitoring counter.
+                  "
+
+            - name: "Bits 31 - 24"
+              long_name: "Bits 31 - 24"
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 24: Length of EBX bit vector to enumerate
+                  architectural performance monitoring events.
+                  "
