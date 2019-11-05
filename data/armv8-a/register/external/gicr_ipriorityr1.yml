@@ -1,0 +1,42 @@
+- name: GICR_IPRIORITYR1
+  long_name: "Interrupt Priority Registers"
+  purpose: |
+       "
+       Holds the priority of the corresponding interrupt for each SGI and PPI
+       supported by the GIC.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0x400
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x400
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Priority_offset_0B
+            lsb: 0
+            msb: 7
+
+          - name: Priority_offset_1B
+            lsb: 8
+            msb: 15
+
+          - name: Priority_offset_2B
+            lsb: 16
+            msb: 23
+
+          - name: Priority_offset_3B
+            lsb: 24
+            msb: 31

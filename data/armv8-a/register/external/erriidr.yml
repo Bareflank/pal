@@ -1,0 +1,37 @@
+- name: ERRIIDR
+  long_name: "Implementation Identification Register"
+  purpose: |
+       "
+       Defines the implementer of the component.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xe10
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Implementer
+            lsb: 0
+            msb: 11
+
+          - name: Revision
+            lsb: 12
+            msb: 15
+
+          - name: Variant
+            lsb: 16
+            msb: 19
+
+          - name: ProductID
+            lsb: 20
+            msb: 31

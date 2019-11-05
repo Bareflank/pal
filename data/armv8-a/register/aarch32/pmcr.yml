@@ -1,0 +1,93 @@
+- name: PMCR
+  long_name: "Performance Monitors Control Register"
+  purpose: |
+       "
+       Provides details of the Performance Monitors implementation, including
+       the number of counters implemented, and configures and controls the
+       counters.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0xc
+        crn: 0x9
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0xc
+        crn: 0x9
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: E
+            lsb: 0
+            msb: 0
+
+          - name: P
+            lsb: 1
+            msb: 1
+
+          - name: C
+            lsb: 2
+            msb: 2
+
+          - name: D
+            lsb: 3
+            msb: 3
+
+          - name: X
+            lsb: 4
+            msb: 4
+
+          - name: DP
+            lsb: 5
+            msb: 5
+
+          - name: LC
+            lsb: 6
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 7
+            reserved0: True
+
+          - name: LP
+            lsb: 7
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 10
+            reserved0: True
+
+          - name: N
+            lsb: 11
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 23
+            reserved0: True
+
+          - name: IDCODE
+            lsb: 16
+            msb: 23
+
+          - name: IMP
+            lsb: 24
+            msb: 31

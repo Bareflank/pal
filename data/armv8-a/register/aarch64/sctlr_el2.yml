@@ -1,0 +1,551 @@
+- name: SCTLR_EL2
+  long_name: "System Control Register (EL2)"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x0
+        crn: 0x1
+        operand_mnemonic: SCTLR_EL2
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x0
+        crn: 0x1
+        operand_mnemonic: SCTLR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x0
+        crn: 0x1
+        operand_mnemonic: SCTLR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x0
+        crn: 0x1
+        operand_mnemonic: SCTLR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When HCR_EL2.E2H != 0b1 or HCR_EL2.TGE != 0b1"
+        size: 64
+
+        fields:
+          - name: M
+            lsb: 0
+            msb: 0
+
+          - name: A
+            lsb: 1
+            msb: 1
+
+          - name: C
+            lsb: 2
+            msb: 2
+
+          - name: SA
+            lsb: 3
+            msb: 3
+
+          - name: 1
+            lsb: 4
+            msb: 5
+            reserved1: True
+
+          - name: 0
+            lsb: 6
+            msb: 6
+            reserved0: True
+
+          - name: nAA
+            lsb: 6
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 10
+            reserved0: True
+
+          - name: 1
+            lsb: 11
+            msb: 11
+            reserved1: True
+
+          - name: EOS
+            lsb: 11
+            msb: 11
+
+          - name: I
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 13
+            reserved0: True
+
+          - name: EnDB
+            lsb: 13
+            msb: 13
+
+          - name: 0
+            lsb: 14
+            msb: 15
+            reserved0: True
+
+          - name: 1
+            lsb: 16
+            msb: 16
+            reserved1: True
+
+          - name: 0
+            lsb: 17
+            msb: 17
+            reserved0: True
+
+          - name: 1
+            lsb: 18
+            msb: 18
+            reserved1: True
+
+          - name: WXN
+            lsb: 19
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 20
+            reserved0: True
+
+          - name: 0
+            lsb: 21
+            msb: 21
+            reserved0: True
+
+          - name: IESB
+            lsb: 21
+            msb: 21
+
+          - name: 1
+            lsb: 22
+            msb: 22
+            reserved1: True
+
+          - name: EIS
+            lsb: 22
+            msb: 22
+
+          - name: 1
+            lsb: 23
+            msb: 23
+            reserved1: True
+
+          - name: 0
+            lsb: 24
+            msb: 24
+            reserved0: True
+
+          - name: EE
+            lsb: 25
+            msb: 25
+
+          - name: 0
+            lsb: 26
+            msb: 26
+            reserved0: True
+
+          - name: 0
+            lsb: 27
+            msb: 27
+            reserved0: True
+
+          - name: EnDA
+            lsb: 27
+            msb: 27
+
+          - name: 1
+            lsb: 28
+            msb: 29
+            reserved1: True
+
+          - name: 0
+            lsb: 30
+            msb: 30
+            reserved0: True
+
+          - name: EnIB
+            lsb: 30
+            msb: 30
+
+          - name: 0
+            lsb: 31
+            msb: 31
+            reserved0: True
+
+          - name: EnIA
+            lsb: 31
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 35
+            reserved0: True
+
+          - name: 0
+            lsb: 36
+            msb: 36
+            reserved0: True
+
+          - name: BT
+            lsb: 36
+            msb: 36
+
+          - name: 0
+            lsb: 37
+            msb: 37
+            reserved0: True
+
+          - name: ITFSB
+            lsb: 37
+            msb: 37
+
+          - name: 0
+            lsb: 38
+            msb: 39
+            reserved0: True
+
+          - name: 0
+            lsb: 40
+            msb: 41
+            reserved0: True
+
+          - name: TCF
+            lsb: 40
+            msb: 41
+
+          - name: 0
+            lsb: 42
+            msb: 42
+            reserved0: True
+
+          - name: 0
+            lsb: 43
+            msb: 43
+            reserved0: True
+
+          - name: ATA
+            lsb: 43
+            msb: 43
+
+          - name: 0
+            lsb: 44
+            msb: 44
+            reserved0: True
+
+          - name: DSSBS
+            lsb: 44
+            msb: 44
+
+          - name: 0
+            lsb: 45
+            msb: 63
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When HCR_EL2.E2H == 0b1 and HCR_EL2.TGE == 0b1"
+        size: 64
+
+        fields:
+          - name: M
+            lsb: 0
+            msb: 0
+
+          - name: A
+            lsb: 1
+            msb: 1
+
+          - name: C
+            lsb: 2
+            msb: 2
+
+          - name: SA
+            lsb: 3
+            msb: 3
+
+          - name: SA0
+            lsb: 4
+            msb: 4
+
+          - name: CP15BEN
+            lsb: 5
+            msb: 5
+
+          - name: 0
+            lsb: 6
+            msb: 6
+            reserved0: True
+
+          - name: nAA
+            lsb: 6
+            msb: 6
+
+          - name: ITD
+            lsb: 7
+            msb: 7
+
+          - name: SED
+            lsb: 8
+            msb: 8
+
+          - name: 0
+            lsb: 9
+            msb: 9
+            reserved0: True
+
+          - name: 0
+            lsb: 10
+            msb: 10
+            reserved0: True
+
+          - name: EnRCTX
+            lsb: 10
+            msb: 10
+
+          - name: 1
+            lsb: 11
+            msb: 11
+            reserved1: True
+
+          - name: EOS
+            lsb: 11
+            msb: 11
+
+          - name: I
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 13
+            reserved0: True
+
+          - name: EnDB
+            lsb: 13
+            msb: 13
+
+          - name: DZE
+            lsb: 14
+            msb: 14
+
+          - name: UCT
+            lsb: 15
+            msb: 15
+
+          - name: nTWI
+            lsb: 16
+            msb: 16
+
+          - name: 0
+            lsb: 17
+            msb: 17
+            reserved0: True
+
+          - name: nTWE
+            lsb: 18
+            msb: 18
+
+          - name: WXN
+            lsb: 19
+            msb: 19
+
+          - name: 1
+            lsb: 20
+            msb: 20
+            reserved1: True
+
+          - name: TSCXT
+            lsb: 20
+            msb: 20
+
+          - name: 0
+            lsb: 21
+            msb: 21
+            reserved0: True
+
+          - name: IESB
+            lsb: 21
+            msb: 21
+
+          - name: 1
+            lsb: 22
+            msb: 22
+            reserved1: True
+
+          - name: EIS
+            lsb: 22
+            msb: 22
+
+          - name: SPAN
+            lsb: 23
+            msb: 23
+
+          - name: E0E
+            lsb: 24
+            msb: 24
+
+          - name: EE
+            lsb: 25
+            msb: 25
+
+          - name: UCI
+            lsb: 26
+            msb: 26
+
+          - name: 0
+            lsb: 27
+            msb: 27
+            reserved0: True
+
+          - name: EnDA
+            lsb: 27
+            msb: 27
+
+          - name: 1
+            lsb: 28
+            msb: 28
+            reserved1: True
+
+          - name: nTLSMD
+            lsb: 28
+            msb: 28
+
+          - name: 1
+            lsb: 29
+            msb: 29
+            reserved1: True
+
+          - name: LSMAOE
+            lsb: 29
+            msb: 29
+
+          - name: 0
+            lsb: 30
+            msb: 30
+            reserved0: True
+
+          - name: EnIB
+            lsb: 30
+            msb: 30
+
+          - name: 0
+            lsb: 31
+            msb: 31
+            reserved0: True
+
+          - name: EnIA
+            lsb: 31
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 34
+            reserved0: True
+
+          - name: 0
+            lsb: 35
+            msb: 35
+            reserved0: True
+
+          - name: BT0
+            lsb: 35
+            msb: 35
+
+          - name: 0
+            lsb: 36
+            msb: 36
+            reserved0: True
+
+          - name: BT1
+            lsb: 36
+            msb: 36
+
+          - name: 0
+            lsb: 37
+            msb: 37
+            reserved0: True
+
+          - name: ITFSB
+            lsb: 37
+            msb: 37
+
+          - name: 0
+            lsb: 38
+            msb: 39
+            reserved0: True
+
+          - name: TCF0
+            lsb: 38
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 41
+            reserved0: True
+
+          - name: TCF
+            lsb: 40
+            msb: 41
+
+          - name: 0
+            lsb: 42
+            msb: 42
+            reserved0: True
+
+          - name: ATA0
+            lsb: 42
+            msb: 42
+
+          - name: 0
+            lsb: 43
+            msb: 43
+            reserved0: True
+
+          - name: ATA
+            lsb: 43
+            msb: 43
+
+          - name: 0
+            lsb: 44
+            msb: 44
+            reserved0: True
+
+          - name: DSSBS
+            lsb: 44
+            msb: 44
+
+          - name: 0
+            lsb: 45
+            msb: 63
+            reserved0: True

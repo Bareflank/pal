@@ -1,0 +1,35 @@
+- name: PMCID1SR
+  long_name: "CONTEXTIDR_EL1 Sample Register"
+  purpose: |
+       "
+       Contains the sampled value of CONTEXTIDR_EL1, captured on reading
+       PMPCSR[31:0].
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: pmu
+        offset: 0x208
+
+      - name: ldr
+        is_read: True
+        component: pmu
+        offset: 0x228
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True
+
+          - name: CONTEXTIDR_EL1
+            lsb: 0
+            msb: 31

@@ -1,0 +1,31 @@
+- name: AMCIDR3
+  long_name: "Activity Monitors Component Identification Register 3"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: amu
+        offset: 0xffc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: PRMBL_3
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

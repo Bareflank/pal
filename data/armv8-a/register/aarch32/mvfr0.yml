@@ -1,0 +1,54 @@
+- name: MVFR0
+  long_name: "Media and VFP Feature Register 0"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: vmrs
+        is_read: True
+        reg: 7
+        operand_mnemonic: MVFR0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: SIMDReg
+            lsb: 0
+            msb: 3
+
+          - name: FPSP
+            lsb: 4
+            msb: 7
+
+          - name: FPDP
+            lsb: 8
+            msb: 11
+
+          - name: FPTrap
+            lsb: 12
+            msb: 15
+
+          - name: FPDivide
+            lsb: 16
+            msb: 19
+
+          - name: FPSqrt
+            lsb: 20
+            msb: 23
+
+          - name: FPShVec
+            lsb: 24
+            msb: 27
+
+          - name: FPRound
+            lsb: 28
+            msb: 31

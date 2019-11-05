@@ -1,0 +1,57 @@
+- name: DBGDEVID
+  long_name: "Debug Device ID register 0"
+  purpose: |
+       "
+       Adds to the information given by the DBGDIDR by describing other
+       features of the debug implementation.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x7
+        crm: 0x2
+        crn: 0x7
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: PCSample
+            lsb: 0
+            msb: 3
+
+          - name: WPAddrMask
+            lsb: 4
+            msb: 7
+
+          - name: BPAddrMask
+            lsb: 8
+            msb: 11
+
+          - name: VectorCatch
+            lsb: 12
+            msb: 15
+
+          - name: VirtExtns
+            lsb: 16
+            msb: 19
+
+          - name: DoubleLock
+            lsb: 20
+            msb: 23
+
+          - name: AuxRegs
+            lsb: 24
+            msb: 27
+
+          - name: CIDMask
+            lsb: 28
+            msb: 31

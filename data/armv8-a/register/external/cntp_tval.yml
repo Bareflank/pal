@@ -1,0 +1,39 @@
+- name: CNTP_TVAL
+  long_name: "Counter-timer Physical Timer TimerValue"
+  purpose: |
+       "
+       Holds the timer value for the EL1 physical timer.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x28
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x28
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x28
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x28
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: TimerValue
+            lsb: 0
+            msb: 31

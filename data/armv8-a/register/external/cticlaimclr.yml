@@ -1,0 +1,31 @@
+- name: CTICLAIMCLR
+  long_name: "CTI Claim Tag Clear register"
+  purpose: |
+       "
+       Used by software to read the values of the CLAIM bits, and to clear
+       these bits to 0.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: cti
+        offset: 0xfa4
+
+      - name: str
+        is_write: True
+        component: cti
+        offset: 0xfa4
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CLAIM[x]
+            lsb: 0
+            msb: 31

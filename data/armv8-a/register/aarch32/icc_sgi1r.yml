@@ -1,0 +1,65 @@
+- name: ICC_SGI1R
+  long_name: "Interrupt Controller Software Generated Interrupt Group 1 Register"
+  purpose: |
+       "
+       Generates Group 1 SGIs for the current Security state.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        crm: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: TargetList
+            lsb: 0
+            msb: 15
+
+          - name: Aff1
+            lsb: 16
+            msb: 23
+
+          - name: INTID
+            lsb: 24
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 31
+            reserved0: True
+
+          - name: Aff2
+            lsb: 32
+            msb: 39
+
+          - name: IRM
+            lsb: 40
+            msb: 40
+
+          - name: 0
+            lsb: 41
+            msb: 43
+            reserved0: True
+
+          - name: RS
+            lsb: 44
+            msb: 47
+
+          - name: Aff3
+            lsb: 48
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 63
+            reserved0: True

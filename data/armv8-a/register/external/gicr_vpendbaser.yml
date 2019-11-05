@@ -1,0 +1,86 @@
+- name: GICR_VPENDBASER
+  long_name: "Virtual Redistributor LPI Pending Table Base Address Register"
+  purpose: |
+       "
+       Specifies the base address of the memory that holds the virtual LPI
+       Pending table for the currently scheduled virtual machine.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0x78
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x78
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 6
+            reserved0: True
+
+          - name: InnerCache
+            lsb: 7
+            msb: 9
+
+          - name: Shareability
+            lsb: 10
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 15
+            reserved0: True
+
+          - name: Physical_Address
+            lsb: 16
+            msb: 51
+
+          - name: 0
+            lsb: 52
+            msb: 55
+            reserved0: True
+
+          - name: OuterCache
+            lsb: 56
+            msb: 58
+
+          - name: 0
+            lsb: 59
+            msb: 59
+            reserved0: True
+
+          - name: UNKNOWN
+            lsb: 60
+            msb: 60
+
+          - name: Dirty
+            lsb: 60
+            msb: 60
+
+          - name: Dirty
+            lsb: 60
+            msb: 60
+
+          - name: PendingLast
+            lsb: 61
+            msb: 61
+
+          - name: IDAI
+            lsb: 62
+            msb: 62
+
+          - name: Valid
+            lsb: 63
+            msb: 63

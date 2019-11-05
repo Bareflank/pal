@@ -1,0 +1,29 @@
+- name: GICR_CLRLPIR
+  long_name: "Clear LPI Pending Register"
+  purpose: |
+       "
+       Clears the pending state of the specified LPI.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x48
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: pINTID
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

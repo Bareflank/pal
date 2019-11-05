@@ -1,0 +1,60 @@
+- name: ERRDEVAFF
+  long_name: "Device Affinity Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xfa8
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Aff0
+            lsb: 0
+            msb: 7
+
+          - name: Aff1
+            lsb: 8
+            msb: 15
+
+          - name: Aff2
+            lsb: 16
+            msb: 23
+
+          - name: MT
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 29
+            reserved0: True
+
+          - name: U
+            lsb: 30
+            msb: 30
+
+          - name: F0V
+            lsb: 31
+            msb: 31
+
+          - name: Aff3
+            lsb: 32
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 63
+            reserved0: True

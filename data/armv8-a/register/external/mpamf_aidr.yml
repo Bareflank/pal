@@ -1,0 +1,39 @@
+- name: MPAMF_AIDR
+  long_name: "MPAM Architecture Identification Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x20
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x20
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: ArchMinorRev
+            lsb: 0
+            msb: 3
+
+          - name: ArchMajorRev
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

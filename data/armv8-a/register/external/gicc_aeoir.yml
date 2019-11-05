@@ -1,0 +1,31 @@
+- name: GICC_AEOIR
+  long_name: "CPU Interface Aliased End Of Interrupt Register"
+  purpose: |
+       "
+       A write to this register performs priority drop for the specified Group
+       1 interrupt and, if the appropriate GICC_CTLR.EOImodeS or
+       GICC_CTLR.EOImodeNS field == 0, also deactivates the interrupt.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: str
+        is_write: True
+        component: gic_cpu_interface
+        offset: 0x24
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: INTID
+            lsb: 0
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 31
+            reserved0: True

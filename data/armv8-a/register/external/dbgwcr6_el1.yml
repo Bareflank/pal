@@ -1,0 +1,72 @@
+- name: DBGWCR6_EL1
+  long_name: "Debug Watchpoint Control Registers"
+  purpose: |
+       "
+       Holds control information for a watchpoint. Forms watchpoint n together
+       with value register DBGWVR<n>_EL1.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0x808
+
+      - name: str
+        is_write: True
+        component: debug
+        offset: 0x808
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: E
+            lsb: 0
+            msb: 0
+
+          - name: PAC
+            lsb: 1
+            msb: 2
+
+          - name: LSC
+            lsb: 3
+            msb: 4
+
+          - name: BAS
+            lsb: 5
+            msb: 12
+
+          - name: HMC
+            lsb: 13
+            msb: 13
+
+          - name: SSC
+            lsb: 14
+            msb: 15
+
+          - name: LBN
+            lsb: 16
+            msb: 19
+
+          - name: WT
+            lsb: 20
+            msb: 20
+
+          - name: 0
+            lsb: 21
+            msb: 23
+            reserved0: True
+
+          - name: MASK
+            lsb: 24
+            msb: 28
+
+          - name: 0
+            lsb: 29
+            msb: 31
+            reserved0: True

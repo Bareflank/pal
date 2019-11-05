@@ -1,0 +1,109 @@
+- name: TTBR1
+  long_name: "Translation Table Base Register 1"
+  purpose: |
+       "
+       Holds the base address of the translation table for the initial lookup
+       for stage 1 of the translation of an address from the higher VA range in
+       the PL1&0 translation regime, and other information for this translation
+       regime.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0x2
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0x2
+
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x1
+        crm: 0x2
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x1
+        crm: 0x2
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When TTBCR.EAE == 0"
+        size: 64
+
+        fields:
+          - name: IRGN[0]
+            lsb: 0
+            msb: 0
+
+          - name: S
+            lsb: 1
+            msb: 1
+
+          - name: IMP
+            lsb: 2
+            msb: 2
+
+          - name: RGN
+            lsb: 3
+            msb: 4
+
+          - name: NOS
+            lsb: 5
+            msb: 5
+
+          - name: IRGN[1]
+            lsb: 6
+            msb: 6
+
+          - name: TTB1
+            lsb: 7
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When TTBCR.EAE == 1"
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 0
+            reserved0: True
+
+          - name: CnP
+            lsb: 0
+            msb: 0
+
+          - name: BADDR
+            lsb: 1
+            msb: 47
+
+          - name: ASID
+            lsb: 48
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 63
+            reserved0: True

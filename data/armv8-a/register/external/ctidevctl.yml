@@ -1,0 +1,38 @@
+- name: CTIDEVCTL
+  long_name: "CTI Device Control register"
+  purpose: |
+       "
+       Provides target-specific device controls
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: cti
+        offset: 0x150
+
+      - name: str
+        is_write: True
+        component: cti
+        offset: 0x150
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: OSUCE
+            lsb: 0
+            msb: 0
+
+          - name: RCE
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 31
+            reserved0: True

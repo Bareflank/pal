@@ -1,0 +1,29 @@
+- name: JIDR
+  long_name: "Jazelle ID Register"
+  purpose: |
+       "
+       A Jazelle register, which identified the Jazelle architecture version.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x7
+        opc2: 0x0
+        crm: 0x0
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True

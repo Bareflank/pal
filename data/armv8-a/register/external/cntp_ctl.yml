@@ -1,0 +1,52 @@
+- name: CNTP_CTL
+  long_name: "Counter-timer Physical Timer Control"
+  purpose: |
+       "
+       Control register for the EL1 physical timer.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x2c
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x2c
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x2c
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x2c
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: ENABLE
+            lsb: 0
+            msb: 0
+
+          - name: IMASK
+            lsb: 1
+            msb: 1
+
+          - name: ISTATUS
+            lsb: 2
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 31
+            reserved0: True

@@ -1,0 +1,64 @@
+- name: CPACR
+  long_name: "Architectural Feature Access Control Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x0
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x0
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 19
+            reserved0: True
+
+          - name: cp10
+            lsb: 20
+            msb: 21
+
+          - name: cp11
+            lsb: 22
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 27
+            reserved0: True
+
+          - name: TRCDIS
+            lsb: 28
+            msb: 28
+
+          - name: 0
+            lsb: 29
+            msb: 30
+            reserved0: True
+
+          - name: ASEDIS
+            lsb: 31
+            msb: 31

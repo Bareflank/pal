@@ -1,0 +1,43 @@
+- name: ICV_PMR
+  long_name: "Interrupt Controller Virtual Interrupt Priority Mask Register"
+  purpose: |
+       "
+       Provides a virtual interrupt priority filter. Only virtual interrupts
+       with a higher priority than the value in this register are signaled to
+       the PE.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x6
+        crn: 0x4
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x6
+        crn: 0x4
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Priority
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

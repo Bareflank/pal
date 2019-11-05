@@ -1,0 +1,49 @@
+- name: MPAMCFG_INTPARTID
+  long_name: "MPAM Internal PARTID Narrowing Configuration Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x600
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x600
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x600
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x600
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: INTPARTID
+            lsb: 0
+            msb: 15
+
+          - name: INTERNAL
+            lsb: 16
+            msb: 16
+
+          - name: 0
+            lsb: 17
+            msb: 31
+            reserved0: True

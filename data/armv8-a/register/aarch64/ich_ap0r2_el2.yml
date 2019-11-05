@@ -1,0 +1,43 @@
+- name: ICH_AP0R2_EL2
+  long_name: "Interrupt Controller Hyp Active Priorities Group 0 Registers"
+  purpose: |
+       "
+       Provides information about Group 0 virtual active priorities for EL2.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x2
+        crm: 0x8
+        crn: 0xc
+        operand_mnemonic: ICH_AP0R2_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x2
+        crm: 0x8
+        crn: 0xc
+        operand_mnemonic: ICH_AP0R2_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: P<x>
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

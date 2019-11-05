@@ -1,0 +1,74 @@
+- name: TRFCR_EL1
+  long_name: "Trace Filter Control Register (EL1)"
+  purpose: |
+       "
+       Provides EL1 controls for Trace.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x2
+        crn: 0x1
+        operand_mnemonic: TRFCR_EL1
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x1
+        crm: 0x2
+        crn: 0x1
+        operand_mnemonic: TRFCR_EL12
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x2
+        crn: 0x1
+        operand_mnemonic: TRFCR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x1
+        crm: 0x2
+        crn: 0x1
+        operand_mnemonic: TRFCR_EL12
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: E0TRE
+            lsb: 0
+            msb: 0
+
+          - name: E1TRE
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 4
+            reserved0: True
+
+          - name: TS
+            lsb: 5
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 63
+            reserved0: True

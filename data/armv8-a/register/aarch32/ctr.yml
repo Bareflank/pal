@@ -1,0 +1,67 @@
+- name: CTR
+  long_name: "Cache Type Register"
+  purpose: |
+       "
+       Provides information about the architecture of the caches.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IminLine
+            lsb: 0
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 13
+            reserved0: True
+
+          - name: L1Ip
+            lsb: 14
+            msb: 15
+
+          - name: DminLine
+            lsb: 16
+            msb: 19
+
+          - name: ERG
+            lsb: 20
+            msb: 23
+
+          - name: CWG
+            lsb: 24
+            msb: 27
+
+          - name: IDC
+            lsb: 28
+            msb: 28
+
+          - name: DIC
+            lsb: 29
+            msb: 29
+
+          - name: 0
+            lsb: 30
+            msb: 30
+            reserved0: True
+
+          - name: 1
+            lsb: 31
+            msb: 31
+            reserved1: True

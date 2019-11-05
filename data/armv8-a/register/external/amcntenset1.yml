@@ -1,0 +1,25 @@
+- name: AMCNTENSET1
+  long_name: "Activity Monitors Count Enable Set Register 1"
+  purpose: |
+       "
+       Enable control bits for the auxiliary activity monitors event counters,
+       AMEVCNTR1<n>.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: amu
+        offset: 0xc04
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: P<n>
+            lsb: 0
+            msb: 31

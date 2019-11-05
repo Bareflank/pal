@@ -1,0 +1,31 @@
+- name: DBGDTRTXint
+  long_name: "Debug Data Transfer Register, Transmit"
+  purpose: |
+       "
+       Transfers data from the PE to an external debugger. For example, it is
+       used by a debug target to transfer data to the debugger. See DBGDTR_EL0
+       for additional architectural mappings. It is a component of the Debug
+       Communication Channel.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x5
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Return_DTRTX
+            lsb: 0
+            msb: 31

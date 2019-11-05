@@ -1,0 +1,36 @@
+- name: GICC_ABPR
+  long_name: "CPU Interface Aliased Binary Point Register"
+  purpose: |
+       "
+       Defines the point at which the priority value fields split into two
+       parts, the group priority field and the subpriority field. The group
+       priority field determines Group 1 interrupt preemption.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_cpu_interface
+        offset: 0x1c
+
+      - name: str
+        is_write: True
+        component: gic_cpu_interface
+        offset: 0x1c
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Binary_Point
+            lsb: 0
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 31
+            reserved0: True

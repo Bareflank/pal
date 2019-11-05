@@ -1,0 +1,33 @@
+- name: GICH_APR1
+  long_name: "Active Priorities Registers"
+  purpose: |
+       "
+       These registers track which preemption levels are active in the virtual
+       CPU interface, and indicate the current active priority. Corresponding
+       bits are set to 1 in this register when an interrupt is acknowledged,
+       based on GICH_LR<n>.Priority, and the least significant bit set is
+       cleared on EOI.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_virtual_interface_control
+        offset: 0xf0
+
+      - name: str
+        is_write: True
+        component: gic_virtual_interface_control
+        offset: 0xf0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: P<x>
+            lsb: 0
+            msb: 31

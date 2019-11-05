@@ -1,0 +1,25 @@
+- name: PMCEID0
+  long_name: "Performance Monitors Common Event Identification register 0"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: pmu
+        offset: 0xe20
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: ID<n>
+            lsb: 0
+            msb: 31

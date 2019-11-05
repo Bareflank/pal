@@ -1,0 +1,30 @@
+- name: GICD_ISACTIVER18
+  long_name: "Interrupt Set-Active Registers"
+  purpose: |
+       "
+       Activates the corresponding interrupt. These registers are used when
+       saving and restoring GIC state.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_distributor
+        offset: 0x300
+
+      - name: str
+        is_write: True
+        component: gic_distributor
+        offset: 0x300
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Set_active_bit<x>
+            lsb: 0
+            msb: 31

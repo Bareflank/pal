@@ -1,0 +1,52 @@
+- name: PMEVCNTR20_EL0
+  long_name: "Performance Monitors Event Count Registers"
+  purpose: |
+       "
+       Holds event counter n, which counts events, where n is 0 to 30.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x4
+        crm: 0xa
+        crn: 0xe
+        operand_mnemonic: PMEVCNTR20_EL0
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x4
+        crm: 0xa
+        crn: 0xe
+        operand_mnemonic: PMEVCNTR20_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When ARMv8.5-PMU is implemented"
+        size: 64
+
+        fields:
+          - name: Event_counter_n
+            lsb: 0
+            msb: 63
+
+      - name: fieldset_2
+        size: 64
+
+        fields:
+          - name: Event_counter_n
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

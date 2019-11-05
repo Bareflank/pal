@@ -1,0 +1,73 @@
+- name: DBGBVR15
+  long_name: "Debug Breakpoint Value Registers"
+  purpose: |
+       "
+       Holds a value for use in breakpoint matching, either the virtual address
+       of an instruction or a context ID. Forms breakpoint n together with
+       control register DBGBCR<n>. If EL2 is implemented and this breakpoint
+       supports Context matching, DBGBVR<n> can be associated with a Breakpoint
+       Extended Value Register DBGBXVR<n> for VMID matching.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0xf
+        crn: 0x0
+
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0xf
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When DBGBCR<n>.BT == 0b0x0x"
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 1
+            reserved0: True
+
+          - name: VA[31:2]
+            lsb: 2
+            msb: 31
+
+      - name: fieldset_2
+        condition: "When DBGBCR<n>.BT == 0b001x"
+        size: 32
+
+        fields:
+          - name: ContextID
+            lsb: 0
+            msb: 31
+
+      - name: fieldset_3
+        condition: "When DBGBCR<n>.BT == 0b101x and HaveEL(EL2)"
+        size: 32
+
+        fields:
+          - name: ContextID
+            lsb: 0
+            msb: 31
+
+      - name: fieldset_4
+        condition: "When DBGBCR<n>.BT == 0bx11x, HaveEL(EL2) and ARMv8.1-VHE is implemented"
+        size: 32
+
+        fields:
+          - name: ContextID
+            lsb: 0
+            msb: 31

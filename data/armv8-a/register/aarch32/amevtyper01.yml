@@ -1,0 +1,39 @@
+- name: AMEVTYPER01
+  long_name: "Activity Monitors Event Type Registers 0"
+  purpose: |
+       "
+       Provides information on the events that an architected activity monitor
+       event counter AMEVCNTR0<n> counts.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x6
+        crn: 0xd
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: evtCount
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 24
+            reserved0: True
+
+          - name: 0
+            lsb: 25
+            msb: 31
+            reserved0: True

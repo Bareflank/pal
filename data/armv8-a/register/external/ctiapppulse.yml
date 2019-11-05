@@ -1,0 +1,29 @@
+- name: CTIAPPPULSE
+  long_name: "CTI Application Pulse register"
+  purpose: |
+       "
+       Causes event pulses to be generated on ECT channels.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: cti
+        offset: 0x1c
+
+      - name: str
+        is_write: True
+        component: cti
+        offset: 0x1c
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: APPPULSE<x>
+            lsb: 0
+            msb: 31

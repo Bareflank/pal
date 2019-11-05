@@ -1,0 +1,46 @@
+- name: DBGOSDLR
+  long_name: "Debug OS Double Lock Register"
+  purpose: |
+       "
+       Locks out the external debug interface.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x3
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x3
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 0
+            reserved0: True
+
+          - name: DLK
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 31
+            reserved0: True

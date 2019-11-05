@@ -1,0 +1,46 @@
+- name: GICD_SGIR
+  long_name: "Software Generated Interrupt Register"
+  purpose: |
+       "
+       Controls the generation of SGIs.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: str
+        is_write: True
+        component: gic_distributor
+        offset: 0xf00
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: INTID
+            lsb: 0
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 14
+            reserved0: True
+
+          - name: NSATT
+            lsb: 15
+            msb: 15
+
+          - name: CPUTargetList
+            lsb: 16
+            msb: 23
+
+          - name: TargetListFilter
+            lsb: 24
+            msb: 25
+
+          - name: 0
+            lsb: 26
+            msb: 31
+            reserved0: True

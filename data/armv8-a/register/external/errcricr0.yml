@@ -1,0 +1,39 @@
+- name: ERRCRICR0
+  long_name: "Critical Error Interrupt Configuration Register 0"
+  purpose: |
+       "
+       Interrupt configuration register.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xea0
+
+      - name: str
+        is_write: True
+        component: ras
+        offset: 0xea0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 1
+            reserved0: True
+
+          - name: ADDR
+            lsb: 2
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 63
+            reserved0: True

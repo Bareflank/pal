@@ -1,0 +1,29 @@
+- name: ERRGSR
+  long_name: "Error Group Status Register"
+  purpose: |
+       "
+       ERRGSR shows the status for the records in the group.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xe00
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: S<m>
+            lsb: 0
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 63
+            reserved0: True

@@ -1,0 +1,224 @@
+- name: PAR
+  long_name: "Physical Address Register"
+  purpose: |
+       "
+       Returns the output address (OA) from an Address translation instruction
+       that executed successfully, or fault information if the instruction did
+       not execute successfully.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x4
+        crn: 0x7
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x4
+        crn: 0x7
+
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        crm: 0x7
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        crm: 0x7
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When the instruction returned a 32-bit value to the PAR, PAR.F==0"
+        size: 64
+
+        fields:
+          - name: F
+            lsb: 0
+            msb: 0
+
+          - name: SS
+            lsb: 1
+            msb: 1
+
+          - name: Outer[1:0]
+            lsb: 2
+            msb: 3
+
+          - name: Inner[2:0]
+            lsb: 4
+            msb: 6
+
+          - name: SH
+            lsb: 7
+            msb: 7
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 8
+            msb: 8
+
+          - name: NS
+            lsb: 9
+            msb: 9
+
+          - name: NOS
+            lsb: 10
+            msb: 10
+
+          - name: LPAE
+            lsb: 11
+            msb: 11
+
+          - name: PA
+            lsb: 12
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When the instruction returned a 32-bit value to the PAR, PAR.F==1"
+        size: 64
+
+        fields:
+          - name: F
+            lsb: 0
+            msb: 0
+
+          - name: FS
+            lsb: 1
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 10
+            reserved0: True
+
+          - name: LPAE
+            lsb: 11
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 15
+            reserved0: True
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 16
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True
+
+      - name: fieldset_3
+        condition: "When the instruction returned a 64-bit value to the PAR, PAR.F==0"
+        size: 64
+
+        fields:
+          - name: F
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 6
+            reserved0: True
+
+          - name: SH
+            lsb: 7
+            msb: 8
+
+          - name: NS
+            lsb: 9
+            msb: 9
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 10
+            msb: 10
+
+          - name: LPAE
+            lsb: 11
+            msb: 11
+
+          - name: PA
+            lsb: 12
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 55
+            reserved0: True
+
+          - name: ATTR
+            lsb: 56
+            msb: 63
+
+      - name: fieldset_4
+        condition: "When the instruction returned a 64-bit value to the PAR, PAR.F==1"
+        size: 64
+
+        fields:
+          - name: F
+            lsb: 0
+            msb: 0
+
+          - name: FST
+            lsb: 1
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 7
+            reserved0: True
+
+          - name: S2WLK
+            lsb: 8
+            msb: 8
+
+          - name: FSTAGE
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 10
+            reserved0: True
+
+          - name: LPAE
+            lsb: 11
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 47
+            reserved0: True
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 48
+            msb: 51
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 52
+            msb: 55
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 56
+            msb: 63

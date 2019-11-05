@@ -1,0 +1,36 @@
+- name: PMSWINC_EL0
+  long_name: "Performance Monitors Software Increment register"
+  purpose: |
+       "
+       Increments a counter that is configured to count the Software increment
+       event, event
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: pmu
+        offset: 0xca0
+
+      - name: str
+        is_write: True
+        component: pmu
+        offset: 0xca0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: P<n>
+            lsb: 0
+            msb: 30
+
+          - name: 0
+            lsb: 31
+            msb: 31
+            reserved0: True

@@ -1,0 +1,21 @@
+- name: SP_EL3
+  long_name: "Stack Pointer (EL3)"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Stack_pointer
+            lsb: 0
+            msb: 63

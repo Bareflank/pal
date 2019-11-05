@@ -1,0 +1,37 @@
+- name: DBGDTRTXext
+  long_name: "Debug OS Lock Data Transfer Register, Transmit"
+  purpose: |
+       "
+       Used for save/restore of DBGDTRTXint. It is a component of the Debug
+       Communication Channel.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x3
+        crn: 0x0
+
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x3
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Return_DTRTX_without_side-effect
+            lsb: 0
+            msb: 31

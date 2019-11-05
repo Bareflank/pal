@@ -1,0 +1,37 @@
+- name: AMCNTENSET0
+  long_name: "Activity Monitors Count Enable Set Register 0"
+  purpose: |
+       "
+       Enable control bits for the architected activity monitors event
+       counters, AMEVCNTR0<n>.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x5
+        crm: 0x2
+        crn: 0xd
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x5
+        crm: 0x2
+        crn: 0xd
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: P<n>
+            lsb: 0
+            msb: 31

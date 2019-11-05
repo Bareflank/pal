@@ -1,0 +1,34 @@
+- name: CCSIDR2
+  long_name: "Current Cache Size ID Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x1
+        opc2: 0x2
+        crm: 0x0
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: NumSets
+            lsb: 0
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 31
+            reserved0: True

@@ -1,0 +1,47 @@
+- name: ID_AFR0_EL1
+  long_name: "AArch32 Auxiliary Feature Register 0"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x3
+        crm: 0x1
+        crn: 0x0
+        operand_mnemonic: ID_AFR0_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 3
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 4
+            msb: 7
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 8
+            msb: 11
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 12
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 63
+            reserved0: True

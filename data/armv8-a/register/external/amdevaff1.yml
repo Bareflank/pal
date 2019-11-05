@@ -1,0 +1,27 @@
+- name: AMDEVAFF1
+  long_name: "Activity Monitors Device Affinity Register 1"
+  purpose: |
+       "
+       Copy of the high half of the PE MPIDR_EL1 register that allows a
+       debugger to determine which PE in a multiprocessor system the AMU
+       component relates to.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: amu
+        offset: 0xfac
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: MPIDR_EL1_high_half
+            lsb: 0
+            msb: 31

@@ -1,0 +1,26 @@
+- name: EDDEVID2
+  long_name: "External Debug Device ID register 2"
+  purpose: |
+       "
+       Reserved for future descriptions of features of the debug
+       implementation.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xfc0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True

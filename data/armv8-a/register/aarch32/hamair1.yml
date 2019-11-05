@@ -1,0 +1,40 @@
+- name: HAMAIR1
+  long_name: "Hyp Auxiliary Memory Attribute Indirection Register 1"
+  purpose: |
+       "
+       Provides IMPLEMENTATION DEFINED memory attributes for the memory
+       attribute encodings defined by HMAIR1. These IMPLEMENTATION DEFINED
+       attributes can only provide additional qualifiers for the memory
+       attribute encodings, and cannot change the memory attributes defined in
+       HMAIR1.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x1
+        crm: 0x3
+        crn: 0xa
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x1
+        crm: 0x3
+        crn: 0xa
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 31

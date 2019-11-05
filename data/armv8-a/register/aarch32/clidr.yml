@@ -1,0 +1,48 @@
+- name: CLIDR
+  long_name: "Cache Level ID Register"
+  purpose: |
+       "
+       Identifies the type of cache, or caches, that are implemented at each
+       level and can be managed using the architected cache maintenance
+       instructions that operate by set/way, up to a maximum of seven levels.
+       Also identifies the Level of Coherence (LoC) and Level of Unification
+       (LoU) for the cache hierarchy.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x1
+        opc2: 0x1
+        crm: 0x0
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Ctype<n>
+            lsb: 0
+            msb: 20
+
+          - name: LoUIS
+            lsb: 21
+            msb: 23
+
+          - name: LoC
+            lsb: 24
+            msb: 26
+
+          - name: LoUU
+            lsb: 27
+            msb: 29
+
+          - name: ICB
+            lsb: 30
+            msb: 31

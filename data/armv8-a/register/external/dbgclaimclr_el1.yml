@@ -1,0 +1,35 @@
+- name: DBGCLAIMCLR_EL1
+  long_name: "Debug Claim Tag Clear register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xfa4
+
+      - name: str
+        is_write: True
+        component: debug
+        offset: 0xfa4
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CLAIM
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

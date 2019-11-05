@@ -1,0 +1,66 @@
+- name: TFSR_EL2
+  long_name: "Tag Fail Status Register (EL2)."
+  purpose: |
+       "
+       Holds accumulated Tag Check Fails occurring in EL2 which are not taken
+       precisely.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x5
+        crn: 0x6
+        operand_mnemonic: TFSR_EL2
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x5
+        crn: 0x6
+        operand_mnemonic: TFSR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x5
+        crn: 0x6
+        operand_mnemonic: TFSR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x5
+        crn: 0x6
+        operand_mnemonic: TFSR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: TF0
+            lsb: 0
+            msb: 0
+
+          - name: TF1
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 63
+            reserved0: True

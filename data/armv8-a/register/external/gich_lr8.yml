@@ -1,0 +1,55 @@
+- name: GICH_LR8
+  long_name: "List Registers"
+  purpose: |
+       "
+       These registers provide context information for the virtual CPU
+       interface.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_virtual_interface_control
+        offset: 0x100
+
+      - name: str
+        is_write: True
+        component: gic_virtual_interface_control
+        offset: 0x100
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: vINTID
+            lsb: 0
+            msb: 9
+
+          - name: pINTID
+            lsb: 10
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 22
+            reserved0: True
+
+          - name: Priority
+            lsb: 23
+            msb: 27
+
+          - name: State
+            lsb: 28
+            msb: 29
+
+          - name: Group
+            lsb: 30
+            msb: 30
+
+          - name: HW
+            lsb: 31
+            msb: 31

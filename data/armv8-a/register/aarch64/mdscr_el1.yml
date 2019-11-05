@@ -1,0 +1,135 @@
+- name: MDSCR_EL1
+  long_name: "Monitor Debug System Control Register"
+  purpose: |
+       "
+       Main control register for the debug implementation.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x2
+        op1: 0x0
+        op2: 0x2
+        crm: 0x2
+        crn: 0x0
+        operand_mnemonic: MDSCR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x2
+        op1: 0x0
+        op2: 0x2
+        crm: 0x2
+        crn: 0x0
+        operand_mnemonic: MDSCR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: SS
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 5
+            reserved0: True
+
+          - name: ERR
+            lsb: 6
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 11
+            reserved0: True
+
+          - name: TDCC
+            lsb: 12
+            msb: 12
+
+          - name: KDE
+            lsb: 13
+            msb: 13
+
+          - name: HDE
+            lsb: 14
+            msb: 14
+
+          - name: MDE
+            lsb: 15
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 18
+            reserved0: True
+
+          - name: 0
+            lsb: 19
+            msb: 19
+            reserved0: True
+
+          - name: SC2
+            lsb: 19
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 20
+            reserved0: True
+
+          - name: TDA
+            lsb: 21
+            msb: 21
+
+          - name: INTdis
+            lsb: 22
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 25
+            reserved0: True
+
+          - name: TXU
+            lsb: 26
+            msb: 26
+
+          - name: RXO
+            lsb: 27
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 28
+            reserved0: True
+
+          - name: TXfull
+            lsb: 29
+            msb: 29
+
+          - name: RXfull
+            lsb: 30
+            msb: 30
+
+          - name: 0
+            lsb: 31
+            msb: 31
+            reserved0: True
+
+          - name: TFO
+            lsb: 31
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

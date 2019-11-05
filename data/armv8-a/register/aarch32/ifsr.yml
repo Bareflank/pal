@@ -1,0 +1,115 @@
+- name: IFSR
+  long_name: "Instruction Fault Status Register"
+  purpose: |
+       "
+       Holds status information about the last instruction fault.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0x5
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0x5
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When TTBCR.EAE == 0"
+        size: 32
+
+        fields:
+          - name: FS[3:0]
+            lsb: 0
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 8
+            reserved0: True
+
+          - name: LPAE
+            lsb: 9
+            msb: 9
+
+          - name: FS[4]
+            lsb: 10
+            msb: 10
+
+          - name: 0
+            lsb: 11
+            msb: 11
+            reserved0: True
+
+          - name: ExT
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 15
+            reserved0: True
+
+          - name: FnV
+            lsb: 16
+            msb: 16
+
+          - name: 0
+            lsb: 17
+            msb: 31
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When TTBCR.EAE == 1"
+        size: 32
+
+        fields:
+          - name: STATUS
+            lsb: 0
+            msb: 5
+
+          - name: 0
+            lsb: 6
+            msb: 8
+            reserved0: True
+
+          - name: LPAE
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 11
+            reserved0: True
+
+          - name: ExT
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 15
+            reserved0: True
+
+          - name: FnV
+            lsb: 16
+            msb: 16
+
+          - name: 0
+            lsb: 17
+            msb: 31
+            reserved0: True

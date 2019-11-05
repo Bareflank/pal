@@ -1,0 +1,387 @@
+- name: HCR_EL2
+  long_name: "Hypervisor Configuration Register"
+  purpose: |
+       "
+       Provides configuration controls for virtualization, including defining
+       whether various operations are trapped to EL2.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x1
+        crn: 0x1
+        operand_mnemonic: HCR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x1
+        crn: 0x1
+        operand_mnemonic: HCR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: VM
+            lsb: 0
+            msb: 0
+
+          - name: SWIO
+            lsb: 1
+            msb: 1
+
+          - name: PTW
+            lsb: 2
+            msb: 2
+
+          - name: FMO
+            lsb: 3
+            msb: 3
+
+          - name: IMO
+            lsb: 4
+            msb: 4
+
+          - name: AMO
+            lsb: 5
+            msb: 5
+
+          - name: VF
+            lsb: 6
+            msb: 6
+
+          - name: VI
+            lsb: 7
+            msb: 7
+
+          - name: VSE
+            lsb: 8
+            msb: 8
+
+          - name: FB
+            lsb: 9
+            msb: 9
+
+          - name: BSU
+            lsb: 10
+            msb: 11
+
+          - name: DC
+            lsb: 12
+            msb: 12
+
+          - name: TWI
+            lsb: 13
+            msb: 13
+
+          - name: TWE
+            lsb: 14
+            msb: 14
+
+          - name: TID0
+            lsb: 15
+            msb: 15
+
+          - name: TID1
+            lsb: 16
+            msb: 16
+
+          - name: TID2
+            lsb: 17
+            msb: 17
+
+          - name: TID3
+            lsb: 18
+            msb: 18
+
+          - name: TSC
+            lsb: 19
+            msb: 19
+
+          - name: TIDCP
+            lsb: 20
+            msb: 20
+
+          - name: TACR
+            lsb: 21
+            msb: 21
+
+          - name: TSW
+            lsb: 22
+            msb: 22
+
+          - name: TPC
+            lsb: 23
+            msb: 23
+
+          - name: TPCP
+            lsb: 23
+            msb: 23
+
+          - name: TPU
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 25
+            reserved0: True
+
+          - name: TTLB
+            lsb: 25
+            msb: 25
+
+          - name: TTLB
+            lsb: 25
+            msb: 25
+
+          - name: TVM
+            lsb: 26
+            msb: 26
+
+          - name: TGE
+            lsb: 27
+            msb: 27
+
+          - name: TDZ
+            lsb: 28
+            msb: 28
+
+          - name: HCD
+            lsb: 29
+            msb: 29
+
+          - name: TRVM
+            lsb: 30
+            msb: 30
+
+          - name: RW
+            lsb: 31
+            msb: 31
+
+          - name: CD
+            lsb: 32
+            msb: 32
+
+          - name: ID
+            lsb: 33
+            msb: 33
+
+          - name: 0
+            lsb: 34
+            msb: 34
+            reserved0: True
+
+          - name: E2H
+            lsb: 34
+            msb: 34
+
+          - name: 0
+            lsb: 35
+            msb: 35
+            reserved0: True
+
+          - name: TLOR
+            lsb: 35
+            msb: 35
+
+          - name: 0
+            lsb: 36
+            msb: 36
+            reserved0: True
+
+          - name: TERR
+            lsb: 36
+            msb: 36
+
+          - name: TEA
+            lsb: 37
+            msb: 37
+
+          - name: MIOCNCE
+            lsb: 38
+            msb: 38
+
+          - name: 0
+            lsb: 39
+            msb: 39
+            reserved0: True
+
+          - name: 0
+            lsb: 40
+            msb: 40
+            reserved0: True
+
+          - name: APK
+            lsb: 40
+            msb: 40
+
+          - name: 0
+            lsb: 41
+            msb: 41
+            reserved0: True
+
+          - name: API
+            lsb: 41
+            msb: 41
+
+          - name: 0
+            lsb: 42
+            msb: 42
+            reserved0: True
+
+          - name: NV
+            lsb: 42
+            msb: 42
+
+          - name: NV
+            lsb: 42
+            msb: 42
+
+          - name: 0
+            lsb: 43
+            msb: 43
+            reserved0: True
+
+          - name: NV1
+            lsb: 43
+            msb: 43
+
+          - name: NV1
+            lsb: 43
+            msb: 43
+
+          - name: 0
+            lsb: 44
+            msb: 44
+            reserved0: True
+
+          - name: AT
+            lsb: 44
+            msb: 44
+
+          - name: 0
+            lsb: 45
+            msb: 45
+            reserved0: True
+
+          - name: NV2
+            lsb: 45
+            msb: 45
+
+          - name: 0
+            lsb: 46
+            msb: 46
+            reserved0: True
+
+          - name: FWB
+            lsb: 46
+            msb: 46
+
+          - name: 0
+            lsb: 47
+            msb: 47
+            reserved0: True
+
+          - name: FIEN
+            lsb: 47
+            msb: 47
+
+          - name: 0
+            lsb: 48
+            msb: 48
+            reserved0: True
+
+          - name: 0
+            lsb: 49
+            msb: 49
+            reserved0: True
+
+          - name: TID4
+            lsb: 49
+            msb: 49
+
+          - name: 0
+            lsb: 50
+            msb: 50
+            reserved0: True
+
+          - name: TICAB
+            lsb: 50
+            msb: 50
+
+          - name: 0
+            lsb: 51
+            msb: 51
+            reserved0: True
+
+          - name: 0
+            lsb: 52
+            msb: 52
+            reserved0: True
+
+          - name: TOCU
+            lsb: 52
+            msb: 52
+
+          - name: 0
+            lsb: 53
+            msb: 53
+            reserved0: True
+
+          - name: EnSCXT
+            lsb: 53
+            msb: 53
+
+          - name: 0
+            lsb: 54
+            msb: 54
+            reserved0: True
+
+          - name: TTLBIS
+            lsb: 54
+            msb: 54
+
+          - name: 0
+            lsb: 55
+            msb: 55
+            reserved0: True
+
+          - name: TTLBOS
+            lsb: 55
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 56
+            reserved0: True
+
+          - name: ATA
+            lsb: 56
+            msb: 56
+
+          - name: 0
+            lsb: 57
+            msb: 57
+            reserved0: True
+
+          - name: DCT
+            lsb: 57
+            msb: 57
+
+          - name: 0
+            lsb: 58
+            msb: 63
+            reserved0: True

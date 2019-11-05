@@ -1,0 +1,44 @@
+- name: AMCNTENSET1_EL0
+  long_name: "Activity Monitors Count Enable Set Register 1"
+  purpose: |
+       "
+       Enable control bits for the auxiliary activity monitors event counters,
+       AMEVCNTR1<n>_EL0.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x3
+        crn: 0xd
+        operand_mnemonic: AMCNTENSET1_EL0
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x3
+        crn: 0xd
+        operand_mnemonic: AMCNTENSET1_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: P<n>
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

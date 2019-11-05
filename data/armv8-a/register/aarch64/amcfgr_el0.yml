@@ -1,0 +1,57 @@
+- name: AMCFGR_EL0
+  long_name: "Activity Monitors Configuration Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x2
+        crn: 0xd
+        operand_mnemonic: AMCFGR_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: N
+            lsb: 0
+            msb: 7
+
+          - name: SIZE
+            lsb: 8
+            msb: 13
+
+          - name: 0
+            lsb: 14
+            msb: 23
+            reserved0: True
+
+          - name: HDBG
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 27
+            reserved0: True
+
+          - name: NCG
+            lsb: 28
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

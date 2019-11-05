@@ -1,0 +1,37 @@
+- name: GICC_IIDR
+  long_name: "CPU Interface Identification Register"
+  purpose: |
+       "
+       Provides information about the implementer and revision of the CPU
+       interface.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_cpu_interface
+        offset: 0xfc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Implementer
+            lsb: 0
+            msb: 11
+
+          - name: Revision
+            lsb: 12
+            msb: 15
+
+          - name: Architecture_version
+            lsb: 16
+            msb: 19
+
+          - name: ProductID
+            lsb: 20
+            msb: 31

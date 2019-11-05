@@ -1,0 +1,30 @@
+- name: GICR_ICFGR5E
+  long_name: "Interrupt configuration registers"
+  purpose: |
+       "
+       Determines whether the corresponding PPI in the extended PPI range is
+       edge-triggered or level-sensitive.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0xc00
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0xc00
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Int_config<x>
+            lsb: 0
+            msb: 31

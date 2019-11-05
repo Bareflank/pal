@@ -1,0 +1,82 @@
+- name: DBGDSCRint
+  long_name: "Debug Status and Control Register, Internal View"
+  purpose: |
+       "
+       Main control register for the debug implementation. This is an internal,
+       read-only view.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x1
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 1
+            reserved0: True
+
+          - name: MOE
+            lsb: 2
+            msb: 5
+
+          - name: 0
+            lsb: 6
+            msb: 11
+            reserved0: True
+
+          - name: UDCCdis
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 14
+            reserved0: True
+
+          - name: MDBGen
+            lsb: 15
+            msb: 15
+
+          - name: SPIDdis
+            lsb: 16
+            msb: 16
+
+          - name: SPNIDdis
+            lsb: 17
+            msb: 17
+
+          - name: NS
+            lsb: 18
+            msb: 18
+
+          - name: 0
+            lsb: 19
+            msb: 28
+            reserved0: True
+
+          - name: TXfull
+            lsb: 29
+            msb: 29
+
+          - name: RXfull
+            lsb: 30
+            msb: 30
+
+          - name: 0
+            lsb: 31
+            msb: 31
+            reserved0: True

@@ -1,0 +1,57 @@
+- name: CNTCR
+  long_name: "Counter Control Register"
+  purpose: |
+       "
+       Enables the counter, controls the counter frequency setting, and
+       controls counter behavior during debug.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x0
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: EN
+            lsb: 0
+            msb: 0
+
+          - name: HDBG
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 2
+            reserved0: True
+
+          - name: SCEN
+            lsb: 2
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 7
+            reserved0: True
+
+          - name: FCREQ
+            lsb: 8
+            msb: 17
+
+          - name: 0
+            lsb: 18
+            msb: 31
+            reserved0: True
