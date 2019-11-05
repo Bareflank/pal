@@ -33,7 +33,7 @@ PYTHON_COVERAGE_FLAGS = --source=. --omit=*abstract*,*test*
 
 generate:
 	# mkdir -p ${BUILD_DIR}
-	${PYTHON} -m shoulder
+	${PYTHON} -m shoulder -i /home/wrightj/scapula_workspace/cache/sysreg_spec/SysReg_v85A_xml-00bet9 -o /home/wrightj/pal_workspace/output
 
 all:
 

@@ -127,6 +127,40 @@ class ShoulderConfig:
 config  = ShoulderConfig()
 
 # -----------------------------------------------------------------------------
+# General options
+# -----------------------------------------------------------------------------
+
+c = Configuration("arch", "intel_x64")
+c.description = "The target architecture"
+c.options = ["aarch32", "aarch64", "intel_x64"]
+config.add_configuration(c)
+
+c = Configuration("language", "c++11")
+c.description = "The target programming language"
+c.options = ["c++11", "none"]
+config.add_configuration(c)
+
+c = Configuration("access_mechanism", "gas_att")
+c.description = "The target access mechanism type"
+c.options = ["gas_att", "gas_intel", "none"]
+config.add_configuration(c)
+
+c = Configuration("print_style", "printf_utf8")
+c.description = "The target function printing style"
+c.options = ["printf_utf8", "none"]
+config.add_configuration(c)
+
+c = Configuration("file_format", "unix")
+c.description = "The target output file format"
+c.options = ["unix", "windows", "none"]
+config.add_configuration(c)
+
+c = Configuration("generator", "c++_header")
+c.description = "The target generator"
+c.options = ["c++_header"]
+config.add_configuration(c)
+
+# -----------------------------------------------------------------------------
 # Logging options
 # -----------------------------------------------------------------------------
 
@@ -143,9 +177,9 @@ config.add_configuration(c)
 # Function generation options
 # -----------------------------------------------------------------------------
 
-c = Configuration("encoded_functions", False)
-c.description = "Use 32bit encoded instruction values instead of traditional mnemonic accesses"
-config.add_configuration(c)
+#  c = Configuration("encoded_functions", False)
+#  c.description = "Use 32bit encoded instruction values instead of traditional mnemonic accesses"
+#  config.add_configuration(c)
 
 c = Configuration("register_read_function", "get")
 c.description = "Name of generated functions for reading registers"
@@ -155,12 +189,12 @@ c = Configuration("register_write_function", "set")
 c.description = "Name of generated functions for writing registers"
 config.add_configuration(c)
 
-c = Configuration("register_field_read_function", "get")
-c.description = "Name of generated functions for reading register fields"
+c = Configuration("field_read_function", "get")
+c.description = "Name of generated functions for reading a register field"
 config.add_configuration(c)
 
-c = Configuration("register_field_write_function", "set")
-c.description = "Name of generated functions for writing register fields"
+c = Configuration("field_write_function", "set")
+c.description = "Name of generated functions for writing a register field"
 config.add_configuration(c)
 
 c = Configuration("bit_set_function", "enable")
@@ -171,12 +205,16 @@ c = Configuration("bit_clear_function", "disable")
 c.description = "Name of generated functions for setting a bit to the value 0"
 config.add_configuration(c)
 
-c = Configuration("is_bit_set_function", "is_enabled")
+c = Configuration("bit_is_set_function", "is_enabled")
 c.description = "Name of generated functions for checking if a bit is set to 1"
 config.add_configuration(c)
 
-c = Configuration("is_bit_cleared_function", "is_disabled")
+c = Configuration("bit_is_clear_function", "is_disabled")
 c.description = "Name of generated functions for checking if a bit is set to 0"
+config.add_configuration(c)
+
+c = Configuration("print_function", "dump")
+c.description = "Name of generated functions for printing information"
 config.add_configuration(c)
 
 # -----------------------------------------------------------------------------
@@ -222,6 +260,11 @@ config.add_configuration(c)
 _test_dir = os.path.join(_project_dir, "test")
 c = Configuration("shoulder_test_dir", _test_dir)
 c.description = "Path the shoulder test directory"
+config.add_configuration(c)
+
+_data_dir = os.path.join(_project_dir, "data")
+c = Configuration("shoulder_data_dir", _data_dir)
+c.description = "Path the shoulder data directory"
 config.add_configuration(c)
 
 _xml_register_dir = os.path.abspath(os.path.join(_project_dir, "../ARMv85A-SysReg-00bet9/SysReg_v85A_xml-00bet9"))
