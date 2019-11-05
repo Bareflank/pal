@@ -28,13 +28,13 @@ class MRRC(AbstractAccessMechanism):
     """ Access mechanism for reading a coprocessor register into two general """
     """ purpose registers """
 
-    coproc: bytes
+    coproc: bytes = 0
     """ Coprocessor number """
 
-    opc1: bytes
+    opc1: bytes = 0
     """ Coprocessor-specific opcode """
 
-    crm: bytes
+    crm: bytes = 0
     """ Operational register """
 
     rt1: bytes = 0
@@ -42,6 +42,9 @@ class MRRC(AbstractAccessMechanism):
 
     rt2: bytes = 1
     """ Source general purpose register 2 (default = r1) """
+
+    name: str = "mrrc"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return True

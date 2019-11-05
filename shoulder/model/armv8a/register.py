@@ -39,14 +39,8 @@ class ARMv8ARegister(Register):
     """ aarch32 = ARM 32-bit execution state """
     """ aarch64 = ARM 64-bit execution state """
 
-    is_internal: bool = False
-    """ True if the register is internal to a CPU """
-
     is_banked: bool = False
     """ True if the register is banked (has copies per exception level) """
-
-    is_optional: bool = False
-    """ True if this register is an optional feature of the architecture """
 
     arch: str = "armv8-a"
 

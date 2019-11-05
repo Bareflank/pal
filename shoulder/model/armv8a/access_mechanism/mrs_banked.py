@@ -27,17 +27,20 @@ from dataclasses import dataclass
 class MRSBanked(AbstractAccessMechanism):
     """ Access mechanism for reading a banked system register """
 
-    m: bytes
+    m: bytes = 0
     """ ? """
 
-    r: bytes
+    r: bytes = 0
     """ ? """
 
-    m1: bytes
+    m1: bytes = 0
     """ ? """
 
-    operand_mnemonic: str
+    operand_mnemonic: str = ""
     """ The operand mnemonic of the register to be accessed """
+
+    name: str = "mrs_banked"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return True

@@ -32,8 +32,11 @@ class Fieldset():
     """ Models a collection of named fields that apply to a register either """
     """ always or under a particular condition """
 
-    size: int
+    size: int = 0
     """ The size (width) of this fieldset """
+
+    name: str = ""
+    """ The name of this fieldset """
 
     condition: str = ""
     """ A text description of conditions under which this fieldset is valid """

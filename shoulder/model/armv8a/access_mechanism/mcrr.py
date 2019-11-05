@@ -28,13 +28,13 @@ class MCRR(AbstractAccessMechanism):
     """ Access mechanism for writing a coprocessor register using two """
     """ general purpose registers """
 
-    coproc: bytes
+    coproc: bytes = 0
     """ Coprocessor number """
 
-    opc1: bytes
+    opc1: bytes = 0
     """ Coprocessor-specific opcode """
 
-    crm: bytes
+    crm: bytes = 0
     """ Operational register """
 
     rt1: bytes = 0b0
@@ -42,6 +42,9 @@ class MCRR(AbstractAccessMechanism):
 
     rt2: bytes = 0b1
     """ Source general purpose register 2 (default = r1) """
+
+    name: str = "mcrr"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return False

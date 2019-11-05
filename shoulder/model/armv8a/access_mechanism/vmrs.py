@@ -27,11 +27,14 @@ from dataclasses import dataclass
 class VMRS(AbstractAccessMechanism):
     """ Access mechanism for reading a system vector control register """
 
-    reg: bytes
+    reg: bytes = 0
     """ ? """
 
-    operand_mnemonic: str
+    operand_mnemonic: str = ""
     """ The operand mnemonic of the register to be accessed """
+
+    name: str = "vmrs"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return True

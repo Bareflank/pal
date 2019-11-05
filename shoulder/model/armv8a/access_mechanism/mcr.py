@@ -27,23 +27,26 @@ from dataclasses import dataclass
 class MCR(AbstractAccessMechanism):
     """ Access mechanism for writing a 32-bit coprocessor register """
 
-    coproc: bytes
+    coproc: bytes = 0
     """ Coprocessor number """
 
-    opc1: bytes
+    opc1: bytes = 0
     """ Coprocessor-specific opcode """
 
-    opc2: bytes
+    opc2: bytes = 0
     """ Optional coprocessor-specific opcode """
 
-    crn: bytes
+    crn: bytes = 0
     """ Register number within the system control coprocessor """
 
-    crm: bytes
+    crm: bytes = 0
     """ Operational register within CRn """
 
     rt: bytes = 0b0
     """ Source general purpose register (default = r0) """
+
+    name: str = "mcr"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return False

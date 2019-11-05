@@ -27,20 +27,23 @@ from dataclasses import dataclass
 class MSRImmediate(AbstractAccessMechanism):
     """ Access mechanism for writing an immediate value to a system register """
 
-    crn: bytes
+    crn: bytes = 0
     """ ? """
 
-    op0: bytes
+    op0: bytes = 0
     """ ? """
 
-    op1: bytes
+    op1: bytes = 0
     """ ? """
 
-    op2: bytes
+    op2: bytes = 0
     """ ? """
 
-    operand_mnemonic: str
+    operand_mnemonic: str = ""
     """ The operand mnemonic of the register to be accessed """
+
+    name: str = "msr_immediate"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return False

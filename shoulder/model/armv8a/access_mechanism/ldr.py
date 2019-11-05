@@ -27,11 +27,14 @@ from dataclasses import dataclass
 class LDR(AbstractAccessMechanism):
     """ Access mechanism for reading a system control coprocessor register """
 
-    component: str
+    component: str = ""
     """ Component that the register is mapped to """
 
-    offset: int
+    offset: int = 0
     """ Register offset """
+
+    name: str = "ldr"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return True

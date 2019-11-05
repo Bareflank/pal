@@ -28,26 +28,29 @@ class MRSRegister(AbstractAccessMechanism):
     """ Access mechanism for reading the contents of a system register into """
     """ a general purpose register via the MRS instruciton """
 
-    op0: bytes
+    op0: bytes = 0
     """ Top-level encoding of the system instruction type  """
 
-    op1: bytes
+    op1: bytes = 0
     """ The lowest exception level at which the access is possible """
 
-    op2: bytes
+    op2: bytes = 0
     """ Sub-encoding for the system instruction type  """
 
-    crn: bytes
+    crn: bytes = 0
     """ Register number """
 
-    crm: bytes
+    crm: bytes = 0
     """ Sub-register number  """
 
-    operand_mnemonic: str
+    operand_mnemonic: str = ""
     """ The operand mnemonic of the register to be accessed """
 
     rt: bytes = 0b0
     """ Destination general purpose register (default = x0) """
+
+    name: str = "mrs_register"
+    """ The name of this access mechanism """
 
     def is_read(self):
         return True
