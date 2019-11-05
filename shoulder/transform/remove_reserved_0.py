@@ -33,6 +33,8 @@ class RemoveReserved0(AbstractTransform):
         for fs in reg.fieldsets:
             fs_len = len(fs.fields)
             fs.fields = [field for field in fs.fields if not "0" == field.name]
+            fs.fields = [field for field in fs.fields if not field.reserved0]
+            fs.fields = [field for field in fs.fields if not field.preserved]
 
             count = fs_len - len(fs.fields)
             if count:

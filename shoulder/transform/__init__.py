@@ -32,6 +32,7 @@ from .remove_redundant_am import RemoveRedundantAccessMechanisms
 from .remove_redundant_fields import RemoveRedundantFields
 from .remove_reserved_0 import RemoveReserved0
 from .remove_reserved_1 import RemoveReserved1
+from .remove_preserved import RemovePreserved
 from .remove_reserved_sign_extended import RemoveReservedSignExtended
 from .remove_system_banked_am import RemoveSystemBankedAM
 from .remove_system_immediate_am import RemoveSystemImmediateAM
@@ -65,6 +66,7 @@ transforms["remove_redundant_am"] = RemoveRedundantAccessMechanisms()
 transforms["remove_redundant_fields"] = RemoveRedundantFields()
 transforms["remove_reserved_0"] = RemoveReserved0()
 transforms["remove_reserved_1"] = RemoveReserved1()
+transforms["remove_preserved"] = RemovePreserved()
 transforms["remove_reserved_sign_extended"] = RemoveReservedSignExtended()
 transforms["special_to_underscore"] = SpecialToUnderscore()
 transforms["unique_fieldset_names"] = UniqueFieldsetNames()
