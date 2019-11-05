@@ -1,0 +1,57 @@
+- name: ia32_hwp_request_pkg
+  long_name: "ia32_hwp_request_pkg"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x772
+
+      - name: wrmsr
+        is_write: True
+        address: 0x772
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: min_perf
+              long_name: "min_perf"
+              lsb: 0
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: max_perf
+              long_name: "max_perf"
+              lsb: 8
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: desired_perf
+              long_name: "desired_perf"
+              lsb: 16
+              msb: 23
+              readable: True
+              writable: True
+
+            - name: energy_perf_pref
+              long_name: "energy_perf_pref"
+              lsb: 24
+              msb: 31
+              readable: True
+              writable: True
+
+            - name: activity_window
+              long_name: "activity_window"
+              lsb: 32
+              msb: 41
+              readable: True
+              writable: True

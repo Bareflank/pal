@@ -1,0 +1,30 @@
+- name: ia32_sgx_svn_sinit
+  long_name: "ia32_sgx_svn_sinit"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x500
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: lock
+              long_name: "lock"
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: sgx_svn_sinit
+              long_name: "sgx_svn_sinit"
+              lsb: 16
+              msb: 23
+              readable: True

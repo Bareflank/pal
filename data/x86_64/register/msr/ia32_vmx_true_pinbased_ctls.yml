@@ -1,0 +1,48 @@
+- name: ia32_vmx_true_pinbased_ctls
+  long_name: "ia32_vmx_true_pinbased_ctls"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x48d
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: external_interrupt_exiting
+              long_name: "external_interrupt_exiting"
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: nmi_exiting
+              long_name: "nmi_exiting"
+              lsb: 3
+              msb: 3
+              readable: True
+
+            - name: virtual_nmis
+              long_name: "virtual_nmis"
+              lsb: 5
+              msb: 5
+              readable: True
+
+            - name: activate_preemption_timer
+              long_name: "activate_preemption_timer"
+              lsb: 6
+              msb: 6
+              readable: True
+
+            - name: process_posted_interrupts
+              long_name: "process_posted_interrupts"
+              lsb: 7
+              msb: 7
+              readable: True

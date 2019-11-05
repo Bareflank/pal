@@ -1,0 +1,29 @@
+- name: ia32_tsc_adjust
+  long_name: "ia32_tsc_adjust"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x3b
+
+      - name: wrmsr
+        is_write: True
+        address: 0x3b
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: thread_adjust
+              long_name: "thread_adjust"
+              lsb: 0
+              msb: 63
+              readable: True
+              writable: True

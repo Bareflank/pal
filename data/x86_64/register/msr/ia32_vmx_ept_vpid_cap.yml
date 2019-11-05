@@ -1,0 +1,108 @@
+- name: ia32_vmx_ept_vpid_cap
+  long_name: "ia32_vmx_ept_vpid_cap"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x48c
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: execute_only_translation
+              long_name: "execute_only_translation"
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: page_walk_length_of_4
+              long_name: "page_walk_length_of_4"
+              lsb: 6
+              msb: 6
+              readable: True
+
+            - name: memory_type_uncacheable_supported
+              long_name: "memory_type_uncacheable_supported"
+              lsb: 8
+              msb: 8
+              readable: True
+
+            - name: memory_type_write_back_supported
+              long_name: "memory_type_write_back_supported"
+              lsb: 14
+              msb: 14
+              readable: True
+
+            - name: pde_2mb_support
+              long_name: "pde_2mb_support"
+              lsb: 16
+              msb: 16
+              readable: True
+
+            - name: pdpte_1gb_support
+              long_name: "pdpte_1gb_support"
+              lsb: 17
+              msb: 17
+              readable: True
+
+            - name: invept_support
+              long_name: "invept_support"
+              lsb: 20
+              msb: 20
+              readable: True
+
+            - name: accessed_dirty_support
+              long_name: "accessed_dirty_support"
+              lsb: 21
+              msb: 21
+              readable: True
+
+            - name: invept_single_context_support
+              long_name: "invept_single_context_support"
+              lsb: 25
+              msb: 25
+              readable: True
+
+            - name: invept_all_context_support
+              long_name: "invept_all_context_support"
+              lsb: 26
+              msb: 26
+              readable: True
+
+            - name: invvpid_support
+              long_name: "invvpid_support"
+              lsb: 32
+              msb: 32
+              readable: True
+
+            - name: invvpid_individual_address_support
+              long_name: "invvpid_individual_address_support"
+              lsb: 40
+              msb: 40
+              readable: True
+
+            - name: invvpid_single_context_support
+              long_name: "invvpid_single_context_support"
+              lsb: 41
+              msb: 41
+              readable: True
+
+            - name: invvpid_all_context_support
+              long_name: "invvpid_all_context_support"
+              lsb: 42
+              msb: 42
+              readable: True
+
+            - name: invvpid_single_context_retaining_globals_support
+              long_name: "invvpid_single_context_retaining_globals_support"
+              lsb: 43
+              msb: 43
+              readable: True

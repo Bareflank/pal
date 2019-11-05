@@ -1,0 +1,43 @@
+- name: ia32_smm_monitor_ctl
+  long_name: "ia32_smm_monitor_ctl"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x9b
+
+      - name: wrmsr
+        is_write: True
+        address: 0x9b
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: valid
+              long_name: "valid"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: vmxoff
+              long_name: "vmxoff"
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: mseg_base
+              long_name: "mseg_base"
+              lsb: 12
+              msb: 31
+              readable: True
+              writable: True

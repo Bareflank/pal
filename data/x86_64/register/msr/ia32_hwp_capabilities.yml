@@ -1,0 +1,42 @@
+- name: ia32_hwp_capabilities
+  long_name: "ia32_hwp_capabilities"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x771
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: highest_perf
+              long_name: "highest_perf"
+              lsb: 0
+              msb: 7
+              readable: True
+
+            - name: guaranteed_perf
+              long_name: "guaranteed_perf"
+              lsb: 8
+              msb: 15
+              readable: True
+
+            - name: most_efficient_perf
+              long_name: "most_efficient_perf"
+              lsb: 16
+              msb: 23
+              readable: True
+
+            - name: lowest_perf
+              long_name: "lowest_perf"
+              lsb: 24
+              msb: 31
+              readable: True

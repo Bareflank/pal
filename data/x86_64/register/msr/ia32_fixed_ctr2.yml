@@ -1,0 +1,17 @@
+- name: ia32_fixed_ctr2
+  long_name: "ia32_fixed_ctr2"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x30b
+
+      - name: wrmsr
+        is_write: True
+        address: 0x30b
+

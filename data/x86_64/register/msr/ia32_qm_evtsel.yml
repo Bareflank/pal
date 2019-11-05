@@ -1,0 +1,36 @@
+- name: ia32_qm_evtsel
+  long_name: "ia32_qm_evtsel"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xc8d
+
+      - name: wrmsr
+        is_write: True
+        address: 0xc8d
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: event_id
+              long_name: "event_id"
+              lsb: 0
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: resource_monitoring_id
+              long_name: "resource_monitoring_id"
+              lsb: 32
+              msb: 63
+              readable: True
+              writable: True

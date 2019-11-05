@@ -1,0 +1,99 @@
+- name: ia32_perfevtsel0
+  long_name: "ia32_perfevtsel0"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x186
+
+      - name: wrmsr
+        is_write: True
+        address: 0x186
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: event_select
+              long_name: "event_select"
+              lsb: 0
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: umask
+              long_name: "umask"
+              lsb: 8
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: usr
+              long_name: "usr"
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: os
+              long_name: "os"
+              lsb: 17
+              msb: 17
+              readable: True
+              writable: True
+
+            - name: edge
+              long_name: "edge"
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+
+            - name: pc
+              long_name: "pc"
+              lsb: 19
+              msb: 19
+              readable: True
+              writable: True
+
+            - name: interrupt
+              long_name: "interrupt"
+              lsb: 20
+              msb: 20
+              readable: True
+              writable: True
+
+            - name: anythread
+              long_name: "anythread"
+              lsb: 21
+              msb: 21
+              readable: True
+              writable: True
+
+            - name: en
+              long_name: "en"
+              lsb: 22
+              msb: 22
+              readable: True
+              writable: True
+
+            - name: inv
+              long_name: "inv"
+              lsb: 23
+              msb: 23
+              readable: True
+              writable: True
+
+            - name: cmask
+              long_name: "cmask"
+              lsb: 24
+              msb: 31
+              readable: True
+              writable: True
