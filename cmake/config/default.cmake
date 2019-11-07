@@ -55,7 +55,7 @@ add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL gas_att
     DESCRIPTION "The target access mechnism type"
-    OPTIONS gas_att gas_intel test none
+    OPTIONS gas_att gas_intel gas_aarch64 gas_aarch32 test none
 )
 
 add_config(

@@ -4,6 +4,7 @@ import copy
 
 from pal.cmd_args import parse_cmd_args
 from pal.parser import parse_registers
+from pal.transform import transforms
 from pal.writer.writer_factory import make_writer
 
 from pal.generator.cxx_header_generator import CxxHeaderGenerator
@@ -36,17 +37,27 @@ def main_intel_x64(config, generator):
 def main_armv8a(config, generator):
     data_path = config.pal_data_dir
 
-    indir = os.path.join(data_path, "armv8-a/register/aarch64")
-    outdir = os.path.join(config.pal_output_dir, "aarch64")
-    os.makedirs(outdir, exist_ok=True)
-    regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+    if config.access_mechanism == "gas_aarch64" \
+       or config.access_mechanism == "test":
+        indir = os.path.join(data_path, "armv8-a/register/aarch64")
+        outdir = os.path.join(config.pal_output_dir, "aarch64")
+        os.makedirs(outdir, exist_ok=True)
 
-    indir = os.path.join(data_path, "armv8-a/register/aarch32")
-    outdir = os.path.join(config.pal_output_dir, "aarch32")
-    os.makedirs(outdir, exist_ok=True)
-    regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+        regs = parse_registers(indir)
+
+        # Quirk: VMPIDR_EL2  and VPIDR_EL2 have mrc and mcr defined as primary
+        # access mechanisms (which aren't compilable with an aarch64 toolchain)
+        regs = transforms["remove_coprocessor_am"].transform(regs)
+
+        generator.generate(copy.deepcopy(regs), outdir)
+
+    if config.access_mechanism == "gas_aarch32" \
+       or config.access_mechanism == "test":
+        indir = os.path.join(data_path, "armv8-a/register/aarch32")
+        outdir = os.path.join(config.pal_output_dir, "aarch32")
+        os.makedirs(outdir, exist_ok=True)
+        regs = parse_registers(indir)
+        generator.generate(copy.deepcopy(regs), outdir)
 
     indir = os.path.join(data_path, "armv8-a/register/external")
     outdir = os.path.join(config.pal_output_dir, "external")

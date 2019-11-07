@@ -7,10 +7,10 @@ from pal.writer.access_mechanism.gas_x86_64_intel_syntax import \
     GasX86_64IntelSyntaxAccessMechanismWriter
 from pal.writer.access_mechanism.gas_x86_64_att_syntax import \
     GasX86_64AttSyntaxAccessMechanismWriter
-from pal.writer.access_mechanism.gas_armv8a_intel_syntax import \
-    GasARMv8aIntelSyntaxAccessMechanismWriter
-from pal.writer.access_mechanism.gas_armv8a_att_syntax import \
-    GasARMv8aAttSyntaxAccessMechanismWriter
+from pal.writer.access_mechanism.gas_aarch64 import \
+    GasAarch64AccessMechanismWriter
+from pal.writer.access_mechanism.gas_aarch32 import \
+    GasAarch32AccessMechanismWriter
 from pal.writer.access_mechanism.cxx_test import \
     CxxTestAccessMechanismWriter
 from pal.writer.access_mechanism.none import \
@@ -31,6 +31,8 @@ language_options = {
 access_mechanism_options = [
     "gas_intel",
     "gas_att",
+    "gas_aarch64",
+    "gas_aarch32",
     "test",
     "none",
 ]
@@ -52,10 +54,10 @@ def get_access_mechanism_writer(arch, language, access_mechanism):
         return GasX86_64IntelSyntaxAccessMechanismWriter
     elif arch == "intel_x64" and access_mechanism == "gas_att":
         return GasX86_64AttSyntaxAccessMechanismWriter
-    elif arch == "armv8-a" and access_mechanism == "gas_intel":
-        return GasARMv8aIntelSyntaxAccessMechanismWriter
-    elif arch == "armv8-a" and access_mechanism == "gas_att":
-        return GasARMv8aAttSyntaxAccessMechanismWriter
+    elif arch == "armv8-a" and access_mechanism == "gas_aarch64":
+        return GasAarch64AccessMechanismWriter
+    elif arch == "armv8-a" and access_mechanism == "gas_aarch32":
+        return GasAarch32AccessMechanismWriter
     elif access_mechanism == "test" and language == "c++11":
         return CxxTestAccessMechanismWriter
     else:
