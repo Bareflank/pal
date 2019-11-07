@@ -36,6 +36,9 @@ class MSRRegister(AbstractAccessMechanism):
     def is_write(self):
         return True
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         if self.op0 > 0b11: return False
         if self.op1 > 0b111: return False

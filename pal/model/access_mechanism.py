@@ -16,6 +16,12 @@ class AbstractAccessMechanism(abc.ABC):
         return
 
     @abc.abstractmethod
+    def is_memory_mapped(self):
+        """ Returns true if the access mechanism is accessed using memory """
+        """ memory mapped I/O """
+        return False
+
+    @abc.abstractmethod
     def is_valid(self):
         """ Returns true if the access mechanism is valid """
         return

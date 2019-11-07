@@ -30,6 +30,9 @@ class MRRC(AbstractAccessMechanism):
     def is_write(self):
         return False
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         if self.rt1 > 0b1110: return False
         if self.rt2 > 0b1110: return False

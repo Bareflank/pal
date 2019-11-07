@@ -15,6 +15,10 @@ class LanguageWriter(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def declare_register_dependencies(self, outfile: TextIO, register: Register) -> None:
+        pass
+
+    @abc.abstractmethod
     def declare_register_constants(self, outfile: TextIO, register: Register) -> None:
         pass
 

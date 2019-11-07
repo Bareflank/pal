@@ -32,6 +32,9 @@ class MRC(AbstractAccessMechanism):
     def is_write(self):
         return False
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         if self.coproc > 0b1111: return False
         if self.opc1 > 0b111: return False

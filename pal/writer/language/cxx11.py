@@ -6,6 +6,16 @@ from pal.writer.language.language import LanguageWriter
 
 class Cxx11LanguageWriter(LanguageWriter):
 
+    def declare_register_dependencies(self, outfile, register):
+        if not register.is_internal:
+            for am_key, am_list in register.access_mechanisms.items():
+                for am in am_list:
+                    if am.is_memory_mapped():
+                        get_base = str(am.component) + '_base_address'
+                        outfile.write("uintptr_t " + get_base + "(void);")
+                        self.write_newline(outfile)
+                        return
+
     def declare_register_constants(self, outfile, register):
         self._declare_string_constant(outfile, "name", register.name.lower())
         self.write_newline(outfile)
@@ -17,6 +27,15 @@ class Cxx11LanguageWriter(LanguageWriter):
         if register.access_mechanisms.get("rdmsr"):
             addr = register.access_mechanisms["rdmsr"][0].address
             self._declare_hex_integer_constant(outfile, "address", addr)
+            self.write_newline(outfile)
+
+        if register.access_mechanisms.get("ldr"):
+            offset = register.access_mechanisms["ldr"][0].offset
+            self._declare_hex_integer_constant(outfile, "offset", offset)
+            self.write_newline(outfile)
+        elif register.access_mechanisms.get("str"):
+            offset = register.access_mechanisms["str"][0].offset
+            self._declare_hex_integer_constant(outfile, "offset", offset)
             self.write_newline(outfile)
 
         self.write_newline(outfile)
@@ -133,12 +152,21 @@ class Cxx11LanguageWriter(LanguageWriter):
     @pal.gadget.cxx.function_definition
     def _declare_register_get_details(self, outfile, register):
         for am_key, am_list in register.access_mechanisms.items():
-            for access_mechanism in am_list:
-                if access_mechanism.is_read():
+            for am in am_list:
+                if am.is_read():
                     size_type = self._register_size_type(register)
                     self._declare_variable(outfile, "value", 0, [size_type])
+
+                    if am.is_memory_mapped():
+                        addr_calc = str(am.component) + '_base_address() + offset'
+                        if register.is_indexed:
+                            addr_calc += " + (index * sizeof(" + size_type + "))"
+
+                        self._declare_variable(outfile, "address", addr_calc,
+                                               keywords=[size_type])
+
                     self.call_readable_access_mechanism(
-                        outfile, register, access_mechanism, "value"
+                        outfile, register, am, "value"
                     )
                     outfile.write("return value;")
                     return
@@ -146,10 +174,19 @@ class Cxx11LanguageWriter(LanguageWriter):
     @pal.gadget.cxx.function_definition
     def _declare_register_set_details(self, outfile, register):
         for am_key, am_list in register.access_mechanisms.items():
-            for access_mechanism in am_list:
-                if access_mechanism.is_write():
+            for am in am_list:
+                if am.is_write():
+                    if am.is_memory_mapped():
+                        size_type = self._register_size_type(register)
+                        addr_calc = str(am.component) + '_base_address() + offset'
+                        if register.is_indexed:
+                            addr_calc += " + (index * sizeof(" + size_type + "))"
+
+                        self._declare_variable(outfile, "address", addr_calc,
+                                               keywords=[size_type])
+
                     self.call_writable_access_mechanism(
-                        outfile, register, access_mechanism, "value"
+                        outfile, register, am, "value"
                     )
                     return
 

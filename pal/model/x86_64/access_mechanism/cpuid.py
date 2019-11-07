@@ -21,6 +21,9 @@ class CPUID(AbstractAccessMechanism):
     def is_write(self):
         return False
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         if str(output).lower() not in ["eax", "ebx", "ecx", "edx"]:
             return False

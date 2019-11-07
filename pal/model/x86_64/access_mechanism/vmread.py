@@ -20,6 +20,9 @@ class VMRead(AbstractAccessMechanism):
     def is_write(self):
         return False
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         # TODO
         return True

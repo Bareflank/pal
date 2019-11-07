@@ -6,7 +6,7 @@ class LDR(AbstractAccessMechanism):
     """ Access mechanism for reading a system control coprocessor register """
 
     component: str = ""
-    """ Component that the register is mapped to """
+    """ Name of the component that the register belongs to """
 
     offset: int = 0
     """ Register offset """
@@ -19,6 +19,9 @@ class LDR(AbstractAccessMechanism):
 
     def is_write(self):
         return False
+
+    def is_memory_mapped(self):
+        return True
 
     def is_valid(self):
         raise NotImplementedError()

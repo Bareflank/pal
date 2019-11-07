@@ -20,6 +20,9 @@ class VMWrite(AbstractAccessMechanism):
     def is_write(self):
         return True
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         # TODO Check source assembler mnemonic is valid
         return True

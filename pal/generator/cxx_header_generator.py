@@ -54,7 +54,9 @@ class CxxHeaderGenerator(AbstractGenerator):
     @pal.gadget.header_depends
     @pal.gadget.cxx.namespace
     def _generate_register(self, outfile, reg):
+        self.writer.declare_register_dependencies(outfile, reg)
         self.writer.write_newline(outfile)
+
         self._generate_register_comment(outfile, reg)
 
         self.gadgets["pal.cxx.namespace"].name = reg.name.lower()

@@ -17,6 +17,9 @@ class MOVWrite(AbstractAccessMechanism):
     def is_write(self):
         return True
 
+    def is_memory_mapped(self):
+        return False
+
     def is_valid(self):
         # TODO: Check destination assembler mnemonic is valid
         return True
