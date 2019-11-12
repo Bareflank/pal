@@ -8,8 +8,8 @@ class VMWrite(AbstractAccessMechanism):
     instruction
     """
 
-    address: int = 0
-    """ The address of the VMCS field to be read """
+    encoding: int = 0
+    """ The encoding of the VMCS field to be written """
 
     name: str = "vmwrite"
     """ The name of this access mechanism  """

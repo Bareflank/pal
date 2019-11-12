@@ -8,8 +8,8 @@ class VMRead(AbstractAccessMechanism):
     instruction
     """
 
-    address: int = 0
-    """ The address of the VMCS field to be read """
+    encoding: int = 0
+    """ The encoding of the VMCS field to be read """
 
     name: str = "vmread"
     """ The name of this access mechanism  """

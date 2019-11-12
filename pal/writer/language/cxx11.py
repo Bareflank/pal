@@ -37,6 +37,15 @@ class Cxx11LanguageWriter(LanguageWriter):
             offset = register.access_mechanisms["str"][0].offset
             self._declare_hex_integer_constant(outfile, "offset", offset)
             self.write_newline(outfile)
+        elif register.access_mechanisms.get("vmread"):
+            encoding = register.access_mechanisms["vmread"][0].encoding
+            self._declare_hex_integer_constant(outfile, "encoding", encoding)
+            self.write_newline(outfile)
+        elif register.access_mechanisms.get("vmwrite"):
+            encoding = register.access_mechanisms["vmwrite"][0].encoding
+            self._declare_hex_integer_constant(outfile, "encoding", encoding)
+            self.write_newline(outfile)
+
 
         self.write_newline(outfile)
 

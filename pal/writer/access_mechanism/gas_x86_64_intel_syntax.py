@@ -19,9 +19,13 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "rdmsr":
             self._call_rdmsr_access_mechanism(outfile, register,
                                               access_mechanism, result)
+        elif access_mechanism.name == "vmread":
+            self._call_vmread_access_mechanism(outfile, register,
+                                               access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
-            msg += "Intel x86_64 gas intel assembler syntax".format(
+            msg += "Intel x86_64 gas intel assembler syntax"
+            msg = msg.format(
                 am=access_mechanism.name
             )
             logger.warn(msg)
@@ -34,9 +38,13 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "wrmsr":
             self._call_wrmsr_access_mechanism(outfile, register,
                                               access_mechanism, value)
+        elif access_mechanism.name == "vmwrite":
+            self._call_vmwrite_access_mechanism(outfile, register,
+                                                access_mechanism, value)
         else:
             msg = "Access mechnism {am} is not supported using "
-            msg += "Intel x86_64 gas intel assembler syntax".format(
+            msg += "Intel x86_64 gas intel assembler syntax"
+            msg = msg.format(
                 am=access_mechanism.name
             )
             logger.warn(msg)
@@ -82,6 +90,16 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
             clobbers='"rax", "rcx", "rdx"'
         )
 
+    def _call_vmread_access_mechanism(self, outfile, register,
+                                      access_mechanism, result):
+        self._write_inline_assembly(outfile, [
+                "mov rdi, " + str(hex(access_mechanism.encoding)),
+                "vmread %[v], rdi",
+            ],
+            outputs='[v] "=r"(' + str(result) + ')',
+            clobbers='"rdi"'
+        )
+
     def _call_mov_write_access_mechanism(self, outfile, register,
                                          access_mechanism, value):
         self._write_inline_assembly(outfile, [
@@ -101,6 +119,16 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
             ],
             inputs='[v] "r"(' + value + ')',
             clobbers='"rax", "rcx", "rdx"'
+        )
+
+    def _call_vmwrite_access_mechanism(self, outfile, register,
+                                       access_mechanism, value):
+        self._write_inline_assembly(outfile, [
+                "mov rdi, " + str(hex(access_mechanism.encoding)),
+                "vmwrite rdi, %[v]",
+            ],
+            inputs='[v] "r"(' + value + ')',
+            clobbers='"rdi"'
         )
 
     def _write_inline_assembly(self, outfile, statements, outputs="",

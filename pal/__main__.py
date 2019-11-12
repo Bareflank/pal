@@ -13,7 +13,6 @@ from pal.generator.cxx_header_generator import CxxHeaderGenerator
 def main_intel_x64(config, generator):
 
     data_path = config.pal_data_dir
-    print("DATA PATH: " + data_path)
 
     indir = os.path.join(data_path, "x86_64/register/control_register")
     outdir = os.path.join(config.pal_output_dir, "control_register")
@@ -29,6 +28,12 @@ def main_intel_x64(config, generator):
 
     indir = os.path.join(data_path, "x86_64/register/msr")
     outdir = os.path.join(config.pal_output_dir, "msr")
+    os.makedirs(outdir, exist_ok=True)
+    regs = parse_registers(indir)
+    generator.generate(copy.deepcopy(regs), outdir)
+
+    indir = os.path.join(data_path, "x86_64/register/vmcs")
+    outdir = os.path.join(config.pal_output_dir, "vmcs")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
     generator.generate(copy.deepcopy(regs), outdir)
