@@ -1,0 +1,11 @@
+- name: tsc_offset
+  long_name: "TSC offset (full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002010
+
+      - name: vmwrite
+        encoding: 0x00002010

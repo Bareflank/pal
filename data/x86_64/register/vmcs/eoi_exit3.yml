@@ -1,0 +1,11 @@
+- name: eoi_exit3
+  long_name: "EOI-exit bitmap 3 (EOI_EXIT3; full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002022
+
+      - name: vmwrite
+        encoding: 0x00002022

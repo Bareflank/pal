@@ -1,0 +1,11 @@
+- name: guest_ldtr_base
+  long_name: "Guest LDTR base"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006812
+
+      - name: vmwrite
+        encoding: 0x00006812

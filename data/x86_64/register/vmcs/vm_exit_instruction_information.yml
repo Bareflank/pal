@@ -1,0 +1,8 @@
+- name: vm_exit_instruction_information
+  long_name: "VM-exit instruction information"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000440E

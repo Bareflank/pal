@@ -1,0 +1,11 @@
+- name: sub_page_permission_table_pointer
+  long_name: "Sub-page-permission-table pointer (full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002030
+
+      - name: vmwrite
+        encoding: 0x00002030

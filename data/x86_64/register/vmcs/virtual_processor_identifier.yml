@@ -1,0 +1,31 @@
+- name: vpid
+  long_name: "Virtual Processor Identifier"
+  purpose: |
+      "
+      The virtual-processor identifier (VPID) is a 16-bit field. It exists only
+      on processors that support the 1-setting of the “enable VPID”
+      VM-execution control. See Section 28.1 for details regarding the use of
+      this field.
+      "
+  size: 16
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00000000
+
+      - name: vmwrite
+        encoding: 0x00000000
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 16
+
+        fields:
+            - name: vpid
+              long_name: "Virtual Processor Identifier"
+              lsb: 0
+              msb: 16
+              readable: True
+              writable: True

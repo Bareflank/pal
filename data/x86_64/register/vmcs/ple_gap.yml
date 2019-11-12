@@ -1,0 +1,11 @@
+- name: ple_gap
+  long_name: "PLE_Gap"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004020
+
+      - name: vmwrite
+        encoding: 0x00004020

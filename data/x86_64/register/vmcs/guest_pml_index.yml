@@ -1,0 +1,11 @@
+- name: pml_index
+  long_name: "PML index"
+  size: 16
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00000812
+
+      - name: vmwrite
+        encoding: 0x00000812

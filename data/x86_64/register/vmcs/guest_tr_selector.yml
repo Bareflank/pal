@@ -1,0 +1,38 @@
+- name: guest_tr_selector
+  long_name: "Guest TR selector"
+  size: 16
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000080E
+
+      - name: vmwrite
+        encoding: 0x0000080E
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 16
+
+        fields:
+            - name: rpl
+              long_name: "rpl"
+              lsb: 0
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: ti
+              long_name: "ti"
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: index
+              long_name: "index"
+              lsb: 3
+              msb: 15
+              readable: True
+              writable: True

@@ -1,0 +1,11 @@
+- name: guest_es_base
+  long_name: "Guest ES base"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006806
+
+      - name: vmwrite
+        encoding: 0x00006806

@@ -1,0 +1,11 @@
+- name: host_rip
+  long_name: "Host RIP"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006C16
+
+      - name: vmwrite
+        encoding: 0x00006C16

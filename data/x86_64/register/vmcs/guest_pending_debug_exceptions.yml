@@ -1,0 +1,11 @@
+- name: guest_pending_debug_exceptions
+  long_name: "Guest pending debug exceptions"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006822
+
+      - name: vmwrite
+        encoding: 0x00006822

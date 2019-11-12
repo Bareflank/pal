@@ -1,0 +1,11 @@
+- name: vm_entry_msr_load_count
+  long_name: "VM-entry MSR-load count"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004014
+
+      - name: vmwrite
+        encoding: 0x00004014

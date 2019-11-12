@@ -1,0 +1,11 @@
+- name: cr3_target_value_0
+  long_name: "CR3-target value 0"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006008
+
+      - name: vmwrite
+        encoding: 0x00006008
