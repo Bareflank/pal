@@ -1,0 +1,23 @@
+- name: exception_bitmap
+  long_name: "Exception Bitmap"
+  purpose: |
+      "
+      The exception bitmap is a 32-bit field that contains one bit for each
+      exception. When an exception occurs, its vector is used to select a bit
+      in this field. If the bit is 1, the exception causes a VM exit. If the
+      bit is 0, the exception is delivered normally through the IDT, using the
+      descriptor corresponding to the exception’s vector.  Whether a page fault
+      (exception with vector 14) causes a VM exit is determined by bit 14 in
+      the exception bitmap as well as the error code produced by the page fault
+      and two 32-bit fields in the VMCS (the page-fault error-code mask and
+      page-fault error-code match). See Section 25.2 for details.
+      "
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004004
+
+      - name: vmwrite
+        encoding: 0x00004004

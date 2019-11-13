@@ -1,0 +1,11 @@
+- name: eoi_exit0
+  long_name: "EOI-exit bitmap 0 (EOI_EXIT0; full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000201C
+
+      - name: vmwrite
+        encoding: 0x0000201C

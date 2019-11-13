@@ -1,0 +1,11 @@
+- name: vmwrite_bitmap_address
+  long_name: "VMWRITE-bitmap address (full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002028
+
+      - name: vmwrite
+        encoding: 0x00002028

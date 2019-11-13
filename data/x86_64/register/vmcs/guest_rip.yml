@@ -1,0 +1,11 @@
+- name: guest_rip
+  long_name: "Guest RIP"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000681E
+
+      - name: vmwrite
+        encoding: 0x0000681E

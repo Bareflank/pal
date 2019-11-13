@@ -1,0 +1,8 @@
+- name: exit_reason
+  long_name: "Exit reason"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004402

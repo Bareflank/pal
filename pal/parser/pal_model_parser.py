@@ -101,6 +101,18 @@ class PalModelParser(AbstractParser):
                 am.address = am_yml["address"]
                 register.access_mechanisms["wrmsr"].append(am)
 
+            elif am_yml["name"] == "vmread":
+                am = pal.model.x86_64.access_mechanism.VMRead()
+                am.name = am_yml["name"]
+                am.encoding = am_yml["encoding"]
+                register.access_mechanisms["vmread"].append(am)
+
+            elif am_yml["name"] == "vmwrite":
+                am = pal.model.x86_64.access_mechanism.VMWrite()
+                am.name = am_yml["name"]
+                am.encoding = am_yml["encoding"]
+                register.access_mechanisms["vmwrite"].append(am)
+
             elif am_yml["name"] == "mrs_register":
                 am = pal.model.armv8a.access_mechanism.MRSRegister()
                 am.name = am_yml["name"]

@@ -1,0 +1,45 @@
+- name: host_ia32_efer
+  long_name: "Host IA32_EFER (full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002C02
+
+      - name: vmwrite
+        encoding: 0x00002C02
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: sce
+              long_name: "sce"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: lme
+              long_name: "lme"
+              lsb: 8
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: lma
+              long_name: "lma"
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: nxe
+              long_name: "lma"
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True

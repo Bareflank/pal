@@ -1,0 +1,11 @@
+- name: guest_ss_limit
+  long_name: "Guest SS limit"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004804
+
+      - name: vmwrite
+        encoding: 0x00004804

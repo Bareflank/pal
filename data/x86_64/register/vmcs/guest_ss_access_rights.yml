@@ -1,0 +1,11 @@
+- name: guest_ss_access_rights
+  long_name: "Guest SS access rights"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004818
+
+      - name: vmwrite
+        encoding: 0x00004818

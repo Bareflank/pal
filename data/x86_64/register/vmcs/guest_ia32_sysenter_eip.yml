@@ -1,0 +1,11 @@
+- name: guest_ia32_sysenter_eip
+  long_name: "Guest IA32_SYSENTER_EIP"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006826
+
+      - name: vmwrite
+        encoding: 0x00006826

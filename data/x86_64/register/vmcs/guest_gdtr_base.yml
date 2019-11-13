@@ -1,0 +1,11 @@
+- name: guest_gdtr_base
+  long_name: "Guest GDTR base"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006816
+
+      - name: vmwrite
+        encoding: 0x00006816

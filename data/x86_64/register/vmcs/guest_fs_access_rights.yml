@@ -1,0 +1,11 @@
+- name: guest_fs_access_rights
+  long_name: "Guest FS access rights"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000481C
+
+      - name: vmwrite
+        encoding: 0x0000481C

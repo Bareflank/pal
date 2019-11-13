@@ -8,12 +8,12 @@ from pal.transform import transforms
 from pal.writer.writer_factory import make_writer
 
 from pal.generator.cxx_header_generator import CxxHeaderGenerator
+from pal.generator.yaml_data_generator import YamlDataGenerator
 
 
 def main_intel_x64(config, generator):
 
     data_path = config.pal_data_dir
-    print("DATA PATH: " + data_path)
 
     indir = os.path.join(data_path, "x86_64/register/control_register")
     outdir = os.path.join(config.pal_output_dir, "control_register")
@@ -29,6 +29,12 @@ def main_intel_x64(config, generator):
 
     indir = os.path.join(data_path, "x86_64/register/msr")
     outdir = os.path.join(config.pal_output_dir, "msr")
+    os.makedirs(outdir, exist_ok=True)
+    regs = parse_registers(indir)
+    generator.generate(copy.deepcopy(regs), outdir)
+
+    indir = os.path.join(data_path, "x86_64/register/vmcs")
+    outdir = os.path.join(config.pal_output_dir, "vmcs")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
     generator.generate(copy.deepcopy(regs), outdir)
@@ -59,6 +65,19 @@ def main_armv8a(config, generator):
         regs = parse_registers(indir)
         generator.generate(copy.deepcopy(regs), outdir)
 
+    if config.access_mechanism == "yaml":
+        indir = os.path.join(data_path, "armv8-a/register/aarch64")
+        outdir = os.path.join(config.pal_output_dir, "aarch64")
+        os.makedirs(outdir, exist_ok=True)
+        regs = parse_registers(indir)
+        generator.generate(copy.deepcopy(regs), outdir)
+
+        indir = os.path.join(data_path, "armv8-a/register/aarch32")
+        outdir = os.path.join(config.pal_output_dir, "aarch32")
+        os.makedirs(outdir, exist_ok=True)
+        regs = parse_registers(indir)
+        generator.generate(copy.deepcopy(regs), outdir)
+
     indir = os.path.join(data_path, "armv8-a/register/external")
     outdir = os.path.join(config.pal_output_dir, "external")
     os.makedirs(outdir, exist_ok=True)
@@ -79,6 +98,8 @@ def pal_main():
 
     if config.generator == "c++_header":
         generator = CxxHeaderGenerator(writer)
+    elif config.generator == "yaml":
+        generator = YamlDataGenerator(writer)
     else:
         raise Exception("Invalid generator: " + str(config.generator))
 

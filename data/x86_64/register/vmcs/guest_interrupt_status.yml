@@ -1,0 +1,11 @@
+- name: guest_interrupt_status
+  long_name: "Guest interrupt status"
+  size: 16
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00000810
+
+      - name: vmwrite
+        encoding: 0x00000810

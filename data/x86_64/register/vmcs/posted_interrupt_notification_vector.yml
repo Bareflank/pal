@@ -1,0 +1,24 @@
+- name: vpid
+  long_name: "Posted-interrupt notification vector"
+  size: 16
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00000002
+
+      - name: vmwrite
+        encoding: 0x00000002
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 16
+
+        fields:
+            - name: vpid
+              long_name: "Posted-interrupt notification vector"
+              lsb: 0
+              msb: 16
+              readable: True
+              writable: True

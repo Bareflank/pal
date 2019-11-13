@@ -1,0 +1,11 @@
+- name: encls_exiting_bitmap
+  long_name: "ENCLS-exiting bitmap (full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000202E
+
+      - name: vmwrite
+        encoding: 0x0000202E

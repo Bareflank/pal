@@ -1,0 +1,8 @@
+- name: io_rcx
+  long_name: "I/O RCX"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006402

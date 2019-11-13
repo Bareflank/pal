@@ -1,0 +1,8 @@
+- name: guest_physical_address
+  long_name: "Guest-physical address (full)"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002400

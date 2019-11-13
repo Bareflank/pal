@@ -1,0 +1,11 @@
+- name: guest_interruptibility_state
+  long_name: "Guest interruptibility state"
+  size: 32
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004824
+
+      - name: vmwrite
+        encoding: 0x00004824

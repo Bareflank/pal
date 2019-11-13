@@ -1,0 +1,8 @@
+- name: guest_linear_address
+  long_name: "Guest-linear address"
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000640A
