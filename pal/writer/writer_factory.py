@@ -1,6 +1,7 @@
 from pal.writer.abstract_writer import AbstractWriter
 
 from pal.writer.language.cxx11 import Cxx11LanguageWriter
+from pal.writer.language.yaml import YamlLanguageWriter
 from pal.writer.language.none import NoneLanguageWriter
 
 from pal.writer.access_mechanism.gas_x86_64_intel_syntax import \
@@ -13,6 +14,8 @@ from pal.writer.access_mechanism.gas_aarch32 import \
     GasAarch32AccessMechanismWriter
 from pal.writer.access_mechanism.cxx_test import \
     CxxTestAccessMechanismWriter
+from pal.writer.access_mechanism.yaml import \
+    YamlAccessMechanismWriter
 from pal.writer.access_mechanism.none import \
     NoneAccessMechanismWriter
 
@@ -21,10 +24,12 @@ from pal.writer.printer.none import NonePrinterWriter
 
 from pal.writer.file_format.unix import UnixFileFormatWriter
 from pal.writer.file_format.windows import WindowsFileFormatWriter
+from pal.writer.file_format.yaml import YamlFileFormatWriter
 from pal.writer.file_format.none import NoneFileFormatWriter
 
 language_options = {
     "c++11": Cxx11LanguageWriter,
+    "yaml": YamlLanguageWriter,
     "none": NoneLanguageWriter,
 }
 
@@ -34,6 +39,7 @@ access_mechanism_options = [
     "gas_aarch64",
     "gas_aarch32",
     "test",
+    "yaml",
     "none",
 ]
 
@@ -45,6 +51,7 @@ printer_options = {
 file_format_options = {
     "unix": UnixFileFormatWriter,
     "windows": WindowsFileFormatWriter,
+    "yaml": YamlFileFormatWriter,
     "none": NoneFileFormatWriter,
 }
 
@@ -60,6 +67,8 @@ def get_access_mechanism_writer(arch, language, access_mechanism):
         return GasAarch32AccessMechanismWriter
     elif access_mechanism == "test" and language == "c++11":
         return CxxTestAccessMechanismWriter
+    elif access_mechanism == "yaml":
+        return YamlAccessMechanismWriter
     else:
         return NoneAccessMechanismWriter
 

@@ -47,7 +47,7 @@ add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL c++11
     DESCRIPTION "The target programming language"
-    OPTIONS c++11 none
+    OPTIONS c++11 yaml none
 )
 
 add_config(
@@ -55,7 +55,7 @@ add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL gas_att
     DESCRIPTION "The target access mechnism type"
-    OPTIONS gas_att gas_intel gas_aarch64 gas_aarch32 test none
+    OPTIONS gas_att gas_intel gas_aarch64 gas_aarch32 test yaml none
 )
 
 add_config(
@@ -71,7 +71,7 @@ add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL unix
     DESCRIPTION "The target file format"
-    OPTIONS unix windows none
+    OPTIONS unix windows yaml none
 )
 
 add_config(

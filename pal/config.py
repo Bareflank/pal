@@ -115,12 +115,13 @@ config.add_configuration(c)
 
 c = Configuration("language", "c++11")
 c.description = "The target programming language"
-c.options = ["c++11", "none"]
+c.options = ["c++11", "yaml", "none"]
 config.add_configuration(c)
 
 c = Configuration("access_mechanism", "gas_att")
 c.description = "The target access mechanism type"
-c.options = ["gas_att", "gas_intel", "gas_aarch64", "gas_aarch32", "test", "none"]
+c.options = ["gas_att", "gas_intel", "gas_aarch64", "gas_aarch32", "test",
+             "yaml", "none"]
 config.add_configuration(c)
 
 c = Configuration("print_style", "printf_utf8")
@@ -130,7 +131,7 @@ config.add_configuration(c)
 
 c = Configuration("file_format", "unix")
 c.description = "The target output file format"
-c.options = ["unix", "windows", "none"]
+c.options = ["unix", "windows", "yaml", "none"]
 config.add_configuration(c)
 
 c = Configuration("generator", "c++_header")
