@@ -156,10 +156,6 @@ config.add_configuration(c)
 # Function generation options
 # -----------------------------------------------------------------------------
 
-#  c = Configuration("encoded_functions", False)
-#  c.description = "Use 32bit encoded instruction values instead of traditional mnemonic accesses"
-#  config.add_configuration(c)
-
 c = Configuration("register_read_function", "get")
 c.description = "Name of generated functions for reading registers"
 config.add_configuration(c)
@@ -226,19 +222,9 @@ c = Configuration("pal_project_dir", str(_project_dir))
 c.description = "Path the top directory of the pal project"
 config.add_configuration(c)
 
-_scripts_dir = os.path.join(_project_dir, "scripts")
-c = Configuration("pal_scripts_dir", _scripts_dir)
-c.description = "Path the pal project scripts directory"
-config.add_configuration(c)
-
 _include_dir = os.path.join(_project_dir, "include")
 c = Configuration("pal_include_dir", _include_dir)
 c.description = "Path the pal header include directory"
-config.add_configuration(c)
-
-_test_dir = os.path.join(_project_dir, "test")
-c = Configuration("pal_test_dir", _test_dir)
-c.description = "Path the pal test directory"
 config.add_configuration(c)
 
 _data_dir = os.path.join(_project_dir, "data")
@@ -246,16 +232,11 @@ c = Configuration("pal_data_dir", _data_dir)
 c.description = "Path the pal data directory"
 config.add_configuration(c)
 
-_xml_register_dir = os.path.abspath(os.path.join(_project_dir, "../ARMv85A-SysReg-00bet9/SysReg_v85A_xml-00bet9"))
-c = Configuration("xml_register_dir", _xml_register_dir)
-c.description = "Path to XML register specficiation directory"
-config.add_configuration(c)
-
 _output_dir = os.path.join(_project_dir, "output")
 c = Configuration("pal_output_dir", _output_dir)
 c.description = "Path the pal output directory"
 config.add_configuration(c)
 
-c = Configuration("license_template_path", os.path.join(_scripts_dir, "license.txt"))
+c = Configuration("license_template_path", os.path.join(_project_dir, "LICENSE"))
 c.description = "Path to license template for generated files"
 config.add_configuration(c)

@@ -10,7 +10,7 @@ include(${PAL_SOURCE_CMAKE_DIR}/macros/print_usage.cmake)
 
 set(PYTHONPATH ${CMAKE_CURRENT_LIST_DIR})
 
-file(GLOB_RECURSE PAL_SRC_FILES "pal/*.py" "setup.py")
+file(GLOB_RECURSE PAL_SRC_FILES "pal/*.py" "data/*.yml")
 set(PAL_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
 
 add_custom_command(
