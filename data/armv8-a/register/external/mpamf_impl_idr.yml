@@ -1,0 +1,30 @@
+- name: MPAMF_IMPL_IDR
+  long_name: "MPAM Implementation-Specific Partitioning Feature Identification Register"
+  purpose: |
+       "
+       The MPAMF_IMPL_IDR is a 32-bit read-only register that indicates the
+       implementation-defined partitioning features and parameters of the MSC.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x28
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x28
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IMP_DEF
+            lsb: 0
+            msb: 31

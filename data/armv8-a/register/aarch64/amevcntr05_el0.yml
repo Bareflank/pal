@@ -1,0 +1,38 @@
+- name: AMEVCNTR05_EL0
+  long_name: "Activity Monitors Event Counter Registers 0"
+  purpose: |
+       "
+       Provides access to the architected activity monitor event counters.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x5
+        crm: 0x4
+        crn: 0xd
+        operand_mnemonic: AMEVCNTR05_EL0
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x5
+        crm: 0x4
+        crn: 0xd
+        operand_mnemonic: AMEVCNTR05_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: ACNT
+            lsb: 0
+            msb: 63

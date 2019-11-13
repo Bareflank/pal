@@ -1,0 +1,62 @@
+- name: GICR_PROPBASER
+  long_name: "Redistributor Properties Base Address Register"
+  purpose: |
+       "
+       Specifies the base address of the LPI Configuration table, and the
+       Shareability and Cacheability of accesses to the LPI Configuration
+       table.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0x70
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x70
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: IDbits
+            lsb: 0
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 6
+            reserved0: True
+
+          - name: InnerCache
+            lsb: 7
+            msb: 9
+
+          - name: Shareability
+            lsb: 10
+            msb: 11
+
+          - name: Physical_Address
+            lsb: 12
+            msb: 51
+
+          - name: 0
+            lsb: 52
+            msb: 55
+            reserved0: True
+
+          - name: OuterCache
+            lsb: 56
+            msb: 58
+
+          - name: 0
+            lsb: 59
+            msb: 63
+            reserved0: True

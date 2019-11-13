@@ -1,0 +1,45 @@
+- name: ICV_BPR0_EL1
+  long_name: "Interrupt Controller Virtual Binary Point Register 0"
+  purpose: |
+       "
+       Defines the point at which the priority value fields split into two
+       parts, the group priority field and the subpriority field. The group
+       priority field determines virtual Group 0 interrupt preemption.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x3
+        crm: 0x8
+        crn: 0xc
+        operand_mnemonic: ICC_BPR0_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x3
+        crm: 0x8
+        crn: 0xc
+        operand_mnemonic: ICC_BPR0_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: BinaryPoint
+            lsb: 0
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 63
+            reserved0: True

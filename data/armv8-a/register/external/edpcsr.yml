@@ -1,0 +1,113 @@
+- name: EDPCSR
+  long_name: "External Debug Program Counter Sample Register"
+  purpose: |
+       "
+       Holds a sampled instruction address value.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xa0
+
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xac
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When ARMv8.1-VHE is not implemented"
+        size: 64
+
+        fields:
+          - name: PC_Sample_low_word
+            lsb: 0
+            msb: 31
+
+          - name: PC_Sample_high_word,_EDPCSRhi
+            lsb: 32
+            msb: 63
+
+      - name: fieldset_2
+        condition: "When ARMv8.1-VHE is implemented and EDSCR.SC2 == 0"
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True
+
+          - name: PC_Sample_low_word
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True
+
+          - name: PC_Sample_high_word,_EDPCSRhi
+            lsb: 32
+            msb: 63
+
+      - name: fieldset_3
+        condition: "When ARMv8.1-VHE is implemented and EDSCR.SC2 == 1"
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True
+
+          - name: PC_Sample_low_word
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 55
+            reserved0: True
+
+          - name: PC_Sample_high_word,_EDPCSRhi
+            lsb: 32
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 60
+            reserved0: True
+
+          - name: 0
+            lsb: 61
+            msb: 62
+            reserved0: True
+
+          - name: EL
+            lsb: 61
+            msb: 62
+
+          - name: 0
+            lsb: 63
+            msb: 63
+            reserved0: True
+
+          - name: NS
+            lsb: 63
+            msb: 63
+
+      - name: fieldset_4
+        condition: "When ARMv8.2-PCSample is implemented"
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 63
+            reserved0: True

@@ -1,0 +1,37 @@
+- name: HAIFSR
+  long_name: "Hyp Auxiliary Instruction Fault Status Register"
+  purpose: |
+       "
+       Provides additional IMPLEMENTATION DEFINED syndrome information for
+       Prefetch Abort exceptions taken to Hyp mode.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x1
+        crm: 0x1
+        crn: 0x5
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x1
+        crm: 0x1
+        crn: 0x5
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 31

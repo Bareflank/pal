@@ -1,0 +1,44 @@
+- name: MSMON_MBWU
+  long_name: "MPAM Memory Bandwdith Usage Monitor Register"
+  purpose: |
+       "
+       MSMON_MBWU is a 32-bit read-write register that accesses the monitor
+       selected by MSMON_CFG_MON_SEL.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x860
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x860
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x860
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x860
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: VALUE
+            lsb: 0
+            msb: 30
+
+          - name: NRDY
+            lsb: 31
+            msb: 31

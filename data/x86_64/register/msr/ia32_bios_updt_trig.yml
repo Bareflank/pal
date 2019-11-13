@@ -1,0 +1,13 @@
+- name: ia32_bios_updt_trig
+  long_name: "ia32_bios_updt_trig"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: wrmsr
+        is_write: True
+        address: 0x79
+

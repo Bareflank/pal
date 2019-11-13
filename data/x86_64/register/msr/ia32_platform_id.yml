@@ -1,0 +1,24 @@
+- name: ia32_platform_id
+  long_name: "ia32_platform_id"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x17
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: platform_id
+              long_name: "platform_id"
+              lsb: 50
+              msb: 52
+              readable: True

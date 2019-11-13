@@ -1,0 +1,71 @@
+- name: MPAMF_PRI_IDR
+  long_name: "MPAM Priority Partitioning Identification Register"
+  purpose: |
+       "
+       The MPAMF_PRI_IDR is a 32-bit read-only register that indicates which
+       MPAM priority partitioning features are present on this MSC.  This
+       register is only present if MPAMF_IDR.HAS_PRI_PART == 1.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x48
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x48
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: HAS_INTPRI
+            lsb: 0
+            msb: 0
+
+          - name: INTPRI_0_IS_LOW
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 3
+            reserved0: True
+
+          - name: INTPRI_WD
+            lsb: 4
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 15
+            reserved0: True
+
+          - name: HAS_DSPRI
+            lsb: 16
+            msb: 16
+
+          - name: DSPRI_0_IS_LOW
+            lsb: 17
+            msb: 17
+
+          - name: 0
+            lsb: 18
+            msb: 19
+            reserved0: True
+
+          - name: DSPRI_WD
+            lsb: 20
+            msb: 25
+
+          - name: 0
+            lsb: 26
+            msb: 31
+            reserved0: True

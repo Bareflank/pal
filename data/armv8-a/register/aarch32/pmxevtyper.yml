@@ -1,0 +1,38 @@
+- name: PMXEVTYPER
+  long_name: "Performance Monitors Selected Event Type Register"
+  purpose: |
+       "
+       When PMSELR.SEL selects an event counter, this accesses a PMEVTYPER<n>
+       register. When PMSELR.SEL selects the cycle counter, this accesses
+       PMCCFILTR.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0xd
+        crn: 0x9
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0xd
+        crn: 0x9
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Event_type_register_or_PMCCFILTR
+            lsb: 0
+            msb: 31

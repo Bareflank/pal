@@ -1,0 +1,26 @@
+- name: EDDEVAFF0
+  long_name: "External Debug Device Affinity register 0"
+  purpose: |
+       "
+       Copy of the low half of the PE MPIDR_EL1 register that allows a debugger
+       to determine which PE in a multiprocessor system the external debug
+       component relates to.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xfa8
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: MPIDR_EL1_low_half
+            lsb: 0
+            msb: 31

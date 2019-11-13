@@ -1,0 +1,239 @@
+- name: leaf_06_eax
+  long_name: "Thermal and Power Management Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 06H, the processor returns
+      information about thermal and power management features. See Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x6
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Digital temperature sensor"
+              long_name: "Digital temperature sensor"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: Digital temperature sensor is supported if set.
+                  "
+
+            - name: "Intel Turbo Boost"
+              long_name: "Intel Turbo Boost Technology"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: Intel Turbo Boost Technology available (see
+                  description of IA32_MISC_ENABLE[38]).
+                  "
+
+            - name: "ARAT"
+              long_name: "APIC-Timer-always-running"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: ARAT. APIC-Timer-always-running feature is supported
+                  if set.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 3
+              msb: 3
+              reserved0: True
+
+            - name: "PLN"
+              long_name: "Power limit notification"
+              lsb: 4
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bit 04: PLN. Power limit notification controls are supported
+                  if set.
+                  "
+
+            - name: "ECMD"
+              long_name: "Clock modulation duty cycle extension"
+              lsb: 5
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Bit 05: ECMD. Clock modulation duty cycle extension is
+                  supported if set.
+                  "
+
+            - name: "PTM"
+              long_name: "Package thermal management"
+              lsb: 6
+              msb: 6
+              readable: True
+              description: |
+                  "
+                  Bit 06: PTM. Package thermal management is supported if set.
+                  "
+
+            - name: "HWP"
+              long_name: "HWP base registers"
+              lsb: 7
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bit 07: HWP. HWP base registers (IA32_PM_ENABLE[bit 0],
+                  IA32_HWP_CAPABILITIES, IA32_HWP_REQUEST, IA32_HWP_STATUS) are
+                  supported if set.
+                  "
+
+            - name: "HWP_Notification"
+              long_name: "HWP_Notification"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Bit 08: HWP_Notification. IA32_HWP_INTERRUPT MSR is supported
+                  if set.
+                  "
+
+            - name: "HWP_Activity_Window"
+              long_name: "HWP_Activity_Window"
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Bit 09: HWP_Activity_Window. IA32_HWP_REQUEST[bits 41:32] is
+                  supported if set
+                  "
+
+            - name: "HWP_Energy_Performance_Preference"
+              long_name: "HWP_Energy_Performance_Preference"
+              lsb: 10
+              msb: 10
+              readable: True
+              description: |
+                  "
+                  Bit 10: HWP_Energy_Performance_Preference.
+                  IA32_HWP_REQUEST[bits 31:24] is supported if set.
+                  "
+
+            - name: "HWP_Package_Level_Request"
+              long_name: "HWP_Package_Level_Request"
+              lsb: 11
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Bit 11: HWP_Package_Level_Request. IA32_HWP_REQUEST_PKG MSR
+                  is supported if set.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 12
+              msb: 12
+              reserved0: True
+
+            - name: "HDC"
+              long_name: "HDC"
+              lsb: 13
+              msb: 13
+              readable: True
+              description: |
+                  "
+                  Bit 13: HDC. HDC base registers IA32_PKG_HDC_CTL,
+                  IA32_PM_CTL1, IA32_THREAD_STALL MSRs are supported if set.
+                  "
+
+            - name: "Bit 14"
+              long_name: "Intel Turbo Boost Max Technology 3.0 available"
+              lsb: 14
+              msb: 14
+              readable: True
+              description: |
+                  "
+                  Bit 14: Intel® Turbo Boost Max Technology 3.0 available.
+                  "
+
+            - name: "HWP Capabilities"
+              long_name: "HWP Capabilities"
+              lsb: 15
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bit 15: HWP Capabilities. Highest Performance change is
+                  supported if set
+                  "
+
+            - name: "HWP PECI override"
+              long_name: "HWP PECI override"
+              lsb: 16
+              msb: 16
+              readable: True
+              description: |
+                  "
+                  Bit 16: HWP PECI override is supported if set.
+                  "
+
+            - name: "Flexible HWP"
+              long_name: "Flexible HWP"
+              lsb: 17
+              msb: 17
+              readable: True
+              description: |
+                  "
+                  Bit 17: Flexible HWP is supported if set.
+                  "
+
+            - name: "Fast access mode"
+              long_name: "Fast access mode"
+              lsb: 18
+              msb: 18
+              readable: True
+              description: |
+                  "
+                  Bit 18: Fast access mode for the IA32_HWP_REQUEST MSR is
+                  supported if set.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 19
+              msb: 19
+              reserved0: True
+
+            - name: "Bit 20"
+              long_name: "Bit 20"
+              lsb: 20
+              msb: 20
+              readable: True
+              description: |
+                  "
+                  Bit 20: Ignoring Idle Logical Processor HWP request is
+                  supported if set.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 21
+              msb: 31
+              reserved0: True
+

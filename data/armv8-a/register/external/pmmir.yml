@@ -1,0 +1,30 @@
+- name: PMMIR
+  long_name: "Performance Monitors Machine Identification Register"
+  purpose: |
+       "
+       Describes Performance Monitors parameters specific to the
+       implementation.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: pmu
+        offset: 0xe40
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: SLOTS
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

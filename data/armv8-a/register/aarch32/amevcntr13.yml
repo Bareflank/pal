@@ -1,0 +1,32 @@
+- name: AMEVCNTR13
+  long_name: "Activity Monitors Event Counter Registers 1"
+  purpose: |
+       "
+       Provides access to the auxiliary activity monitor event counters.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x3
+        crm: 0x4
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x3
+        crm: 0x4
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: ACNT
+            lsb: 0
+            msb: 63

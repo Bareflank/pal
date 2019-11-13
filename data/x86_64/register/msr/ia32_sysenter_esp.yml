@@ -1,0 +1,17 @@
+- name: ia32_sysenter_esp
+  long_name: "ia32_sysenter_esp"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x175
+
+      - name: wrmsr
+        is_write: True
+        address: 0x175
+

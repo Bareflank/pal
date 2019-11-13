@@ -1,0 +1,98 @@
+- name: cr3
+  long_name: "Control Register 3"
+  purpose: |
+      "
+      Contains the physical address of the base of the paging-structure
+      hierarchy and two flags (PCD and PWT). Only the most-significant bits
+      (less the lower 12 bits) of the base address are specified; the lower 12
+      bits of the address are assumed to be 0. The first paging structure must
+      thus be aligned to a page (4-KByte) boundary. The PCD and PWT flags
+      control caching of that paging structure in the processor’s internal data
+      caches (they do not control TLB caching of page-directory information)
+      "
+  size: 64
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr3
+
+      - name: mov_write
+        destination_mnemonic: cr3
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 2
+              preserved: True
+
+            - name: pwt
+              long_name: "Page-level Write-Through"
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Page-level Write-Through (bit 3 of CR3) — Controls the memory
+                  type used to access the first paging structure of the current
+                  paging-structure hierarchy. See Section 4.9, “Paging and
+                  Memory Typing”. This bit is not used if paging is disabled,
+                  with PAE paging, or with 4-level paging if CR4.PCIDE=1
+                  "
+
+            - name: pcd
+              long_name: "Page-level Cache Disable"
+              lsb: 4
+              msb: 4
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Page-level Cache Disable (bit 4 of CR3) — Controls the memory
+                  type used to access the first paging structure of the current
+                  paging-structure hierarchy. See Section 4.9, “Paging and
+                  Memory Typing”. This bit is not used if paging is disabled,
+                  with PAE paging, or with 4-level paging2 if CR4.PCIDE=1
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 5
+              msb: 11
+              preserved: True
+
+            - name: page_directory_base
+              long_name: "Page-Directory Base"
+              lsb: 12
+              msb: 39
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Contains the physical address of the base of the
+                  paging-structure hierarchy
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 40
+              msb: 51
+              reserved0: True
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 52
+              msb: 63
+              reserved0: True
+              description: |
+                  "
+                  Bits 52:63 of CR3 are not specified, and are assumed to be
+                  reserved 0
+                  "

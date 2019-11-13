@@ -1,0 +1,36 @@
+- name: ia32_rtit_addr2_b
+  long_name: "ia32_rtit_addr2_b"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x585
+
+      - name: wrmsr
+        is_write: True
+        address: 0x585
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: virtual_address
+              long_name: "virtual_address"
+              lsb: 0
+              msb: 47
+              readable: True
+              writable: True
+
+            - name: signext_va
+              long_name: "signext_va"
+              lsb: 48
+              msb: 63
+              readable: True
+              writable: True

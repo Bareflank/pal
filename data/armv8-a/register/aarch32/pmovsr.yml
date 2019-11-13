@@ -1,0 +1,42 @@
+- name: PMOVSR
+  long_name: "Performance Monitors Overflow Flag Status Register"
+  purpose: |
+       "
+       Contains the state of the overflow bit for the Cycle Count Register,
+       PMCCNTR, and each of the implemented event counters PMEVCNTR<n>. Writing
+       to this register clears these bits.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0xc
+        crn: 0x9
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0xc
+        crn: 0x9
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: P<n>
+            lsb: 0
+            msb: 30
+
+          - name: C
+            lsb: 31
+            msb: 31

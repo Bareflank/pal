@@ -1,0 +1,42 @@
+- name: EDDEVARCH
+  long_name: "External Debug Device Architecture register"
+  purpose: |
+       "
+       Identifies the programmers' model architecture of the external debug
+       component.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xfbc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: ARCHPART
+            lsb: 0
+            msb: 11
+
+          - name: ARCHVER
+            lsb: 12
+            msb: 15
+
+          - name: REVISION
+            lsb: 16
+            msb: 19
+
+          - name: PRESENT
+            lsb: 20
+            msb: 20
+
+          - name: ARCHITECT
+            lsb: 21
+            msb: 31

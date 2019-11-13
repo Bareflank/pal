@@ -1,0 +1,24 @@
+- name: ia32_platform_info
+  long_name: "platform_info"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xce
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: max_nonturbo_ratio
+              long_name: "max_non_turbo_ratio"
+              lsb: 8
+              msb: 15
+              readable: True

@@ -1,0 +1,46 @@
+- name: OSLSR_EL1
+  long_name: "OS Lock Status Register"
+  purpose: |
+       "
+       Provides the status of the OS Lock.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x2
+        op1: 0x0
+        op2: 0x4
+        crm: 0x1
+        crn: 0x1
+        operand_mnemonic: OSLSR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: OSLM[0]
+            lsb: 0
+            msb: 0
+
+          - name: OSLK
+            lsb: 1
+            msb: 1
+
+          - name: nTT
+            lsb: 2
+            msb: 2
+
+          - name: OSLM[1]
+            lsb: 3
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 63
+            reserved0: True

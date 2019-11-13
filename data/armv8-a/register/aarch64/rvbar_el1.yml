@@ -1,0 +1,31 @@
+- name: RVBAR_EL1
+  long_name: "Reset Vector Base Address Register (if EL2 and EL3 not implemented)"
+  purpose: |
+       "
+       If EL1 is the highest Exception level implemented, contains the
+       IMPLEMENTATION DEFINED address that execution starts from after reset
+       when executing in AArch64 state.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x0
+        crn: 0xc
+        operand_mnemonic: RVBAR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Reset_Address
+            lsb: 0
+            msb: 63

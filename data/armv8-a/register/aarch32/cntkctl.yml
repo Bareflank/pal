@@ -1,0 +1,67 @@
+- name: CNTKCTL
+  long_name: "Counter-timer Kernel Control register"
+  purpose: |
+       "
+       Controls the generation of an event stream from the virtual counter, and
+       access from EL0 modes to the physical counter, virtual counter, EL1
+       physical timers, and the virtual timer.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x1
+        crn: 0xe
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x1
+        crn: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: PL0PCTEN
+            lsb: 0
+            msb: 0
+
+          - name: PL0VCTEN
+            lsb: 1
+            msb: 1
+
+          - name: EVNTEN
+            lsb: 2
+            msb: 2
+
+          - name: EVNTDIR
+            lsb: 3
+            msb: 3
+
+          - name: EVNTI
+            lsb: 4
+            msb: 7
+
+          - name: PL0VTEN
+            lsb: 8
+            msb: 8
+
+          - name: PL0PTEN
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 31
+            reserved0: True

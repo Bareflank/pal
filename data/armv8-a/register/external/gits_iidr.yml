@@ -1,0 +1,41 @@
+- name: GITS_IIDR
+  long_name: "ITS Identification Register"
+  purpose: |
+       "
+       Provides information about the implementer and revision of the ITS.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_its_control
+        offset: 0x4
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Implementer
+            lsb: 0
+            msb: 11
+
+          - name: Revision
+            lsb: 12
+            msb: 15
+
+          - name: Variant
+            lsb: 16
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 23
+            reserved0: True
+
+          - name: ProductID
+            lsb: 24
+            msb: 31

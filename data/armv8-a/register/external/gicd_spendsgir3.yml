@@ -1,0 +1,30 @@
+- name: GICD_SPENDSGIR3
+  long_name: "SGI Set-Pending Registers"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_distributor
+        offset: 0xf20
+
+      - name: str
+        is_write: True
+        component: gic_distributor
+        offset: 0xf20
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: SGI_set_pending_bits<x>
+            lsb: 0
+            msb: 31

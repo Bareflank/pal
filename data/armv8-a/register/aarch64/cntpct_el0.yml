@@ -1,0 +1,29 @@
+- name: CNTPCT_EL0
+  long_name: "Counter-timer Physical Count register"
+  purpose: |
+       "
+       Holds the 64-bit physical count value.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x0
+        crn: 0xe
+        operand_mnemonic: CNTPCT_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Physical_count_value
+            lsb: 0
+            msb: 63

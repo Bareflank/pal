@@ -1,0 +1,57 @@
+- name: GICR_STATUSR
+  long_name: "Error Reporting Status Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0x10
+
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0x10
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x10
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x10
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: RRD
+            lsb: 0
+            msb: 0
+
+          - name: WRD
+            lsb: 1
+            msb: 1
+
+          - name: RWOD
+            lsb: 2
+            msb: 2
+
+          - name: WROD
+            lsb: 3
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 31
+            reserved0: True

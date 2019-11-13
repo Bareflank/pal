@@ -1,0 +1,63 @@
+- name: ID_MMFR2_EL1
+  long_name: "AArch32 Memory Model Feature Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x6
+        crm: 0x1
+        crn: 0x0
+        operand_mnemonic: ID_MMFR2_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: L1HvdFG
+            lsb: 0
+            msb: 3
+
+          - name: L1HvdBG
+            lsb: 4
+            msb: 7
+
+          - name: L1HvdRng
+            lsb: 8
+            msb: 11
+
+          - name: HvdTLB
+            lsb: 12
+            msb: 15
+
+          - name: UniTLB
+            lsb: 16
+            msb: 19
+
+          - name: MemBarr
+            lsb: 20
+            msb: 23
+
+          - name: WFIStall
+            lsb: 24
+            msb: 27
+
+          - name: HWAccFlg
+            lsb: 28
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

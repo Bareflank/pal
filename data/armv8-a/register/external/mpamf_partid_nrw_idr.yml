@@ -1,0 +1,35 @@
+- name: MPAMF_PARTID_NRW_IDR
+  long_name: "MPAM PARTID Narrowing ID register"
+  purpose: |
+       "
+       The MPAMF_PARTID_NRW_IDR is a 32-bit read-only register that indicates
+       the largest internal PARTID for this MSC.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x50
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x50
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: INTPARTID_MAX
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

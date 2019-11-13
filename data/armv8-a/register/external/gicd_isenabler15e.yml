@@ -1,0 +1,30 @@
+- name: GICD_ISENABLER15E
+  long_name: "Interrupt Set-Enable Registers"
+  purpose: |
+       "
+       Enables forwarding of the corresponding SPI in the extended SPI range to
+       the CPU interfaces.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_distributor
+        offset: 0x1200
+
+      - name: str
+        is_write: True
+        component: gic_distributor
+        offset: 0x1200
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Set_enable_bit<x>
+            lsb: 0
+            msb: 31

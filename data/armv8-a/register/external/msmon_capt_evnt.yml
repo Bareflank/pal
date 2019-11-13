@@ -1,0 +1,49 @@
+- name: MSMON_CAPT_EVNT
+  long_name: "MPAM Capture Event Generation Register"
+  purpose: |
+       "
+       MSMON_CAPT_EVNT is a 32-bit read-write register that generates a local
+       capture event when written with bit 0 as 1.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x808
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x808
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x808
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x808
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: NOW
+            lsb: 0
+            msb: 0
+
+          - name: ALL
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 31
+            reserved0: True

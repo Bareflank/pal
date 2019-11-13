@@ -1,0 +1,46 @@
+- name: GICR_WAKER
+  long_name: "Redistributor Wake Register"
+  purpose: |
+       "
+       Permits software to control the behavior of the
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_redistributor
+        offset: 0x14
+
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0x14
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 0
+
+          - name: ProcessorSleep
+            lsb: 1
+            msb: 1
+
+          - name: ChildrenAsleep
+            lsb: 2
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 30
+            reserved0: True
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 31
+            msb: 31

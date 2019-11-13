@@ -1,0 +1,61 @@
+- name: CNTP_TVAL_EL0
+  long_name: "Counter-timer Physical Timer TimerValue register"
+  purpose: |
+       "
+       Holds the timer value for the EL1 physical timer.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x0
+        crm: 0x2
+        crn: 0xe
+        operand_mnemonic: CNTP_TVAL_EL0
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x0
+        crm: 0x2
+        crn: 0xe
+        operand_mnemonic: CNTP_TVAL_EL02
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x0
+        crm: 0x2
+        crn: 0xe
+        operand_mnemonic: CNTP_TVAL_EL0
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x0
+        crm: 0x2
+        crn: 0xe
+        operand_mnemonic: CNTP_TVAL_EL02
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: TimerValue
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

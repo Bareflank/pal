@@ -1,0 +1,39 @@
+- name: MPAMF_CSUMON_IDR
+  long_name: "MPAM Features Cache Storage Usage Monitoring ID register"
+  purpose: |
+       "
+       The MPAMF_CSUMON_IDR is a 32-bit read-only register that indicates the
+       number of cache storage usage monitors for this MSC.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x88
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x88
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: NUM_MON
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 30
+            reserved0: True
+
+          - name: HAS_CAPTURE
+            lsb: 31
+            msb: 31

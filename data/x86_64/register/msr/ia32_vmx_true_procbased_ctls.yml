@@ -1,0 +1,144 @@
+- name: ia32_vmx_true_procbased_ctls
+  long_name: "ia32_vmx_true_procbased_ctls"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x48e
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: interrupt_window_exiting
+              long_name: "interrupt_window_exiting"
+              lsb: 2
+              msb: 2
+              readable: True
+
+            - name: use_tsc_offsetting
+              long_name: "use_tsc_offsetting"
+              lsb: 3
+              msb: 3
+              readable: True
+
+            - name: hlt_exiting
+              long_name: "hlt_exiting"
+              lsb: 7
+              msb: 7
+              readable: True
+
+            - name: invlpg_exiting
+              long_name: "invlpg_exiting"
+              lsb: 9
+              msb: 9
+              readable: True
+
+            - name: mwait_exiting
+              long_name: "mwait_exiting"
+              lsb: 10
+              msb: 10
+              readable: True
+
+            - name: rdpmc_exiting
+              long_name: "rdpmc_exiting"
+              lsb: 11
+              msb: 11
+              readable: True
+
+            - name: rdtsc_exiting
+              long_name: "rdtsc_exiting"
+              lsb: 12
+              msb: 12
+              readable: True
+
+            - name: cr3_load_exiting
+              long_name: "cr3_load_exiting"
+              lsb: 15
+              msb: 15
+              readable: True
+
+            - name: cr3_store_exiting
+              long_name: "cr3_store_exiting"
+              lsb: 16
+              msb: 16
+              readable: True
+
+            - name: cr8_load_exiting
+              long_name: "cr8_load_exiting"
+              lsb: 19
+              msb: 19
+              readable: True
+
+            - name: cr8_store_exiting
+              long_name: "cr8_store_exiting"
+              lsb: 20
+              msb: 20
+              readable: True
+
+            - name: use_tpr_shadow
+              long_name: "use_tpr_shadow"
+              lsb: 21
+              msb: 21
+              readable: True
+
+            - name: nmi_window_exiting
+              long_name: "nmi_window_exiting"
+              lsb: 22
+              msb: 22
+              readable: True
+
+            - name: mov_dr_exiting
+              long_name: "mov_dr_exiting"
+              lsb: 23
+              msb: 23
+              readable: True
+
+            - name: unconditional_io_exiting
+              long_name: "unconditional_io_exiting"
+              lsb: 24
+              msb: 24
+              readable: True
+
+            - name: use_io_bitmaps
+              long_name: "use_io_bitmaps"
+              lsb: 25
+              msb: 25
+              readable: True
+
+            - name: monitor_trap_flag
+              long_name: "monitor_trap_flag"
+              lsb: 27
+              msb: 27
+              readable: True
+
+            - name: use_msr_bitmap
+              long_name: "use_msr_bitmap"
+              lsb: 28
+              msb: 28
+              readable: True
+
+            - name: monitor_exiting
+              long_name: "monitor_exiting"
+              lsb: 29
+              msb: 29
+              readable: True
+
+            - name: pause_exiting
+              long_name: "pause_exiting"
+              lsb: 30
+              msb: 30
+              readable: True
+
+            - name: activate_secondary_controls
+              long_name: "activate_secondary_controls"
+              lsb: 31
+              msb: 31
+              readable: True

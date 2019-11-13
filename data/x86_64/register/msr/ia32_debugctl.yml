@@ -1,0 +1,106 @@
+- name: ia32_debugctl
+  long_name: "ia32_debugctl"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x1d9
+
+      - name: wrmsr
+        is_write: True
+        address: 0x1d9
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: lbr
+              long_name: "lbr"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: btf
+              long_name: "btf"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: tr
+              long_name: "tr"
+              lsb: 6
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: bts
+              long_name: "bts"
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: btint
+              long_name: "btint"
+              lsb: 8
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: bt_off_os
+              long_name: "bt_off_os"
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+
+            - name: bt_off_user
+              long_name: "bt_off_user"
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: freeze_lbrs_on_pmi
+              long_name: "freeze_lbrs_on_pmi"
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: freeze_perfmon_on_pmi
+              long_name: "freeze_perfmon_on_pmi"
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: enable_uncore_pmi
+              long_name: "enable_uncore_pmi"
+              lsb: 13
+              msb: 13
+              readable: True
+              writable: True
+
+            - name: freeze_while_smm
+              long_name: "freeze_while_smm"
+              lsb: 14
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: rtm_debug
+              long_name: "rtm_debug"
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True

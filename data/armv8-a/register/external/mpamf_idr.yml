@@ -1,0 +1,67 @@
+- name: MPAMF_IDR
+  long_name: "MPAM Features Identification Register"
+  purpose: |
+       "
+       The MPAMF_IDR is a 32-bit read-only register that indicates which memory
+       partitioning and monitoring features are present on this MSC.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x0
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: PARTID_MAX
+            lsb: 0
+            msb: 15
+
+          - name: PMG_MAX
+            lsb: 16
+            msb: 23
+
+          - name: HAS_CCAP_PART
+            lsb: 24
+            msb: 24
+
+          - name: HAS_CPOR_PART
+            lsb: 25
+            msb: 25
+
+          - name: HAS_MBW_PART
+            lsb: 26
+            msb: 26
+
+          - name: HAS_PRI_PART
+            lsb: 27
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 28
+            reserved0: True
+
+          - name: HAS_IMPL_IDR
+            lsb: 29
+            msb: 29
+
+          - name: HAS_MSMON
+            lsb: 30
+            msb: 30
+
+          - name: HAS_PARTID_NRW
+            lsb: 31
+            msb: 31

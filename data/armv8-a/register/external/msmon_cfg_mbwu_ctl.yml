@@ -1,0 +1,86 @@
+- name: MSMON_CFG_MBWU_CTL
+  long_name: "MPAM Memory System Monitor Configure Memory Bandwidth Usage Monitor Control Register"
+  purpose: |
+       "
+       MSMON_CFG_MBWU_CTL is a 32-bit read-write register that controls the
+       MBWU monitor selected by MSMON_CFG_MON_SEL.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x828
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x828
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x828
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x828
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: TYPE
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 15
+            reserved0: True
+
+          - name: MATCH_PARTID
+            lsb: 16
+            msb: 16
+
+          - name: MATCH_PMG
+            lsb: 17
+            msb: 17
+
+          - name: 0
+            lsb: 18
+            msb: 19
+            reserved0: True
+
+          - name: SUBTYPE
+            lsb: 20
+            msb: 23
+
+          - name: OFLOW_FRZ
+            lsb: 24
+            msb: 24
+
+          - name: OFLOW_INTR
+            lsb: 25
+            msb: 25
+
+          - name: OFLOW_STATUS
+            lsb: 26
+            msb: 26
+
+          - name: CAPT_RESET
+            lsb: 27
+            msb: 27
+
+          - name: CAPT_EVNT
+            lsb: 28
+            msb: 30
+
+          - name: EN
+            lsb: 31
+            msb: 31

@@ -1,0 +1,51 @@
+- name: DBGDRAR
+  long_name: "Debug ROM Address Register"
+  purpose: |
+       "
+       Defines the base physical address of a 4KB-aligned memory-mapped debug
+       component, usually a ROM table that locates and describes the memory-
+       mapped debug components in the system. Armv8 deprecates any use of this
+       register.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x0
+        crn: 0x1
+
+      - name: mrrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        crm: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Valid
+            lsb: 0
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 11
+            reserved0: True
+
+          - name: ROMADDR[47:12]
+            lsb: 12
+            msb: 47
+
+          - name: 0
+            lsb: 48
+            msb: 63
+            reserved0: True

@@ -1,0 +1,60 @@
+- name: ia32_perf_global_inuse
+  long_name: "ia32_perf_global_inuse"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x392
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: perfevtsel0
+              long_name: "perfevtsel0"
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: perfevtsel1
+              long_name: "perfevtsel1"
+              lsb: 1
+              msb: 1
+              readable: True
+
+            - name: perfevtsel2
+              long_name: "perfevtsel2"
+              lsb: 2
+              msb: 2
+              readable: True
+
+            - name: fixed_ctr0
+              long_name: "fixed_ctr0"
+              lsb: 32
+              msb: 32
+              readable: True
+
+            - name: fixed_ctr1
+              long_name: "fixed_ctr1"
+              lsb: 33
+              msb: 33
+              readable: True
+
+            - name: fixed_ctr2
+              long_name: "fixed_ctr2"
+              lsb: 34
+              msb: 34
+              readable: True
+
+            - name: pmi
+              long_name: "pmi"
+              lsb: 63
+              msb: 63
+              readable: True

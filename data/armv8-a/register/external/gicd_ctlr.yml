@@ -1,0 +1,143 @@
+- name: GICD_CTLR
+  long_name: "Distributor Control Register"
+  purpose: |
+       "
+       Enables interrupts and affinity routing.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_distributor
+        offset: 0x0
+
+      - name: str
+        is_write: True
+        component: gic_distributor
+        offset: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When access is Secure, in a system that supports two Security states"
+        size: 32
+
+        fields:
+          - name: EnableGrp0
+            lsb: 0
+            msb: 0
+
+          - name: EnableGrp1NS
+            lsb: 1
+            msb: 1
+
+          - name: EnableGrp1S
+            lsb: 2
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 3
+            reserved0: True
+
+          - name: ARE_S
+            lsb: 4
+            msb: 4
+
+          - name: ARE_NS
+            lsb: 5
+            msb: 5
+
+          - name: DS
+            lsb: 6
+            msb: 6
+
+          - name: E1NWF
+            lsb: 7
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 30
+            reserved0: True
+
+          - name: RWP
+            lsb: 31
+            msb: 31
+
+      - name: fieldset_2
+        condition: "When access is Non-secure, in a system that supports two Security states"
+        size: 32
+
+        fields:
+          - name: EnableGrp1
+            lsb: 0
+            msb: 0
+
+          - name: EnableGrp1A
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 3
+            reserved0: True
+
+          - name: ARE_NS
+            lsb: 4
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 30
+            reserved0: True
+
+          - name: RWP
+            lsb: 31
+            msb: 31
+
+      - name: fieldset_3
+        condition: "When in a system that supports only a single Security state"
+        size: 32
+
+        fields:
+          - name: EnableGrp0
+            lsb: 0
+            msb: 0
+
+          - name: EnableGrp1
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 3
+            reserved0: True
+
+          - name: ARE
+            lsb: 4
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 5
+            reserved0: True
+
+          - name: DS
+            lsb: 6
+            msb: 6
+
+          - name: E1NWF
+            lsb: 7
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 30
+            reserved0: True
+
+          - name: RWP
+            lsb: 31
+            msb: 31

@@ -1,0 +1,32 @@
+- name: DBGDTRRX_EL0
+  long_name: "Debug Data Transfer Register, Receive"
+  purpose: |
+       "
+       Transfers data from an external debugger to the PE. For example, it is
+       used by a debugger transferring commands and data to a debug target. See
+       DBGDTR_EL0 for additional architectural mappings. It is a component of
+       the Debug Communications Channel.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0x80
+
+      - name: str
+        is_write: True
+        component: debug
+        offset: 0x80
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Update_DTRRX
+            lsb: 0
+            msb: 31

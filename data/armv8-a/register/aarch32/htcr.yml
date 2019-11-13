@@ -1,0 +1,123 @@
+- name: HTCR
+  long_name: "Hyp Translation Control Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x2
+        crm: 0x0
+        crn: 0x2
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x2
+        crm: 0x0
+        crn: 0x2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: T0SZ
+            lsb: 0
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 7
+            reserved0: True
+
+          - name: IRGN0
+            lsb: 8
+            msb: 9
+
+          - name: ORGN0
+            lsb: 10
+            msb: 11
+
+          - name: SH0
+            lsb: 12
+            msb: 13
+
+          - name: 0
+            lsb: 14
+            msb: 22
+            reserved0: True
+
+          - name: 1
+            lsb: 23
+            msb: 23
+            reserved1: True
+
+          - name: 0
+            lsb: 24
+            msb: 24
+            reserved0: True
+
+          - name: HPD
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 25
+            reserved0: True
+
+          - name: HWU59
+            lsb: 25
+            msb: 25
+
+          - name: 0
+            lsb: 26
+            msb: 26
+            reserved0: True
+
+          - name: HWU60
+            lsb: 26
+            msb: 26
+
+          - name: 0
+            lsb: 27
+            msb: 27
+            reserved0: True
+
+          - name: HWU61
+            lsb: 27
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 28
+            reserved0: True
+
+          - name: HWU62
+            lsb: 28
+            msb: 28
+
+          - name: 0
+            lsb: 29
+            msb: 29
+            reserved0: True
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 30
+            msb: 30
+
+          - name: 1
+            lsb: 31
+            msb: 31
+            reserved1: True

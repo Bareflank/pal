@@ -1,0 +1,30 @@
+- name: ERRCIDR0
+  long_name: "Component Identification Register 0"
+  purpose: |
+       "
+       Provides discovery information for the component.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xff0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: PRMBL_0
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

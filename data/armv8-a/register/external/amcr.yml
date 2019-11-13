@@ -1,0 +1,35 @@
+- name: AMCR
+  long_name: "Activity Monitors Control Register"
+  purpose: |
+       "
+       Global control register for the activity monitors implementation. AMCR
+       is applicable to both the architected and the auxiliary counter groups.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: amu
+        offset: 0xe04
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 9
+            reserved0: True
+
+          - name: HDBG
+            lsb: 10
+            msb: 10
+
+          - name: 0
+            lsb: 11
+            msb: 31
+            reserved0: True

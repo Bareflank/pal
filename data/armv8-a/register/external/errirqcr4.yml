@@ -1,0 +1,30 @@
+- name: ERRIRQCR4
+  long_name: "Generic Error Interrupt Configuration Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xe80
+
+      - name: str
+        is_write: True
+        component: ras
+        offset: 0xe80
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 63

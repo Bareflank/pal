@@ -1,0 +1,45 @@
+- name: PMXEVCNTR_EL0
+  long_name: "Performance Monitors Selected Event Count Register"
+  purpose: |
+       "
+       Reads or writes the value of the selected event counter,
+       PMEVCNTR<n>_EL0. PMSELR_EL0.SEL determines which event counter is
+       selected.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x2
+        crm: 0xd
+        crn: 0x9
+        operand_mnemonic: PMXEVCNTR_EL0
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x2
+        crm: 0xd
+        crn: 0x9
+        operand_mnemonic: PMXEVCNTR_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: PMEVCNTR<n>
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

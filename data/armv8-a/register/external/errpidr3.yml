@@ -1,0 +1,44 @@
+- name: ERRPIDR3
+  long_name: "Peripheral Identification Register 3"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xfec
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CMOD
+            lsb: 0
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 7
+            reserved0: True
+
+          - name: REVISION
+            lsb: 4
+            msb: 7
+
+          - name: REVAND
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

@@ -1,0 +1,45 @@
+- name: CounterID5
+  long_name: "Counter ID registers"
+  purpose: |
+       "
+       IMPLEMENTATION DEFINED identification registers 0 to 11 for the memory-
+       mapped Generic Timer.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0xfd0
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0xfd0
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0xfd0
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0xfd0
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0xfd0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 31

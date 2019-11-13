@@ -1,0 +1,46 @@
+- name: ERRERICR2
+  long_name: "Error Recovery Interrupt Configuration Register 2"
+  purpose: |
+       "
+       Interrupt configuration register.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: ras
+        offset: 0xe9c
+
+      - name: str
+        is_write: True
+        component: ras
+        offset: 0xe9c
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: MemAttr
+            lsb: 0
+            msb: 3
+
+          - name: SH
+            lsb: 4
+            msb: 5
+
+          - name: NSMSI
+            lsb: 6
+            msb: 6
+
+          - name: IRQEN
+            lsb: 7
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

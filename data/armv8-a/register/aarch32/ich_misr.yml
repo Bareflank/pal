@@ -1,0 +1,61 @@
+- name: ICH_MISR
+  long_name: "Interrupt Controller Maintenance Interrupt State Register"
+  purpose: |
+       "
+       Indicates which maintenance interrupts are asserted.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x2
+        crm: 0xb
+        crn: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: EOI
+            lsb: 0
+            msb: 0
+
+          - name: U
+            lsb: 1
+            msb: 1
+
+          - name: LRENP
+            lsb: 2
+            msb: 2
+
+          - name: NP
+            lsb: 3
+            msb: 3
+
+          - name: VGrp0E
+            lsb: 4
+            msb: 4
+
+          - name: VGrp0D
+            lsb: 5
+            msb: 5
+
+          - name: VGrp1E
+            lsb: 6
+            msb: 6
+
+          - name: VGrp1D
+            lsb: 7
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

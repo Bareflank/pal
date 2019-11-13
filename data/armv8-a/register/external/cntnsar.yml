@@ -1,0 +1,35 @@
+- name: CNTNSAR
+  long_name: "Counter-timer Non-secure Access Register"
+  purpose: |
+       "
+       Provides the highest-level control of whether frames CNTBaseN and
+       CNTEL0BaseN are accessible by Non-secure accesses.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x4
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x4
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: NS<n>
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

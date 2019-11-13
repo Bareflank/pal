@@ -1,0 +1,24 @@
+- name: CTITRIGINSTATUS
+  long_name: "CTI Trigger In Status register"
+  purpose: |
+       "
+       Provides the status of the trigger inputs.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: cti
+        offset: 0x130
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: TRIN<n>
+            lsb: 0
+            msb: 31

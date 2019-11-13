@@ -1,0 +1,35 @@
+- name: ICC_EOIR1_EL1
+  long_name: "Interrupt Controller End Of Interrupt Register 1"
+  purpose: |
+       "
+       A PE writes to this register to inform the CPU interface that it has
+       completed the processing of the specified Group 1 interrupt.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0xc
+        crn: 0xc
+        operand_mnemonic: ICC_EOIR1_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: INTID
+            lsb: 0
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 63
+            reserved0: True

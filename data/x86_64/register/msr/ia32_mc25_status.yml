@@ -1,0 +1,13 @@
+- name: ia32_mc25_status
+  long_name: "ia32_mc25_status"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x465
+

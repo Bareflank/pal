@@ -1,0 +1,25 @@
+- name: GITS_TRANSLATER
+  long_name: "ITS Translation Register"
+  purpose: |
+       "
+       Written by a requesting Device to signal an interrupt for translation by
+       the ITS.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: str
+        is_write: True
+        component: gic_its_translation
+        offset: 0x40
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: EventID
+            lsb: 0
+            msb: 31

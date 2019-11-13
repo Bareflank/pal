@@ -1,0 +1,56 @@
+- name: ICC_SRE_EL2
+  long_name: "Interrupt Controller System Register Enable register (EL2)"
+  purpose: |
+       "
+       Controls whether the System register interface or the memory-mapped
+       interface to the GIC CPU interface is used for EL2.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x5
+        crm: 0x9
+        crn: 0xc
+        operand_mnemonic: ICC_SRE_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x5
+        crm: 0x9
+        crn: 0xc
+        operand_mnemonic: ICC_SRE_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: SRE
+            lsb: 0
+            msb: 0
+
+          - name: DFB
+            lsb: 1
+            msb: 1
+
+          - name: DIB
+            lsb: 2
+            msb: 2
+
+          - name: Enable
+            lsb: 3
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 63
+            reserved0: True

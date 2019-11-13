@@ -1,0 +1,46 @@
+- name: HRMR
+  long_name: "Hyp Reset Management Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x2
+        crm: 0x0
+        crn: 0xc
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x2
+        crm: 0x0
+        crn: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: AA64
+            lsb: 0
+            msb: 0
+
+          - name: RR
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 31
+            reserved0: True

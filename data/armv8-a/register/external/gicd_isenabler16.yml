@@ -1,0 +1,29 @@
+- name: GICD_ISENABLER16
+  long_name: "Interrupt Set-Enable Registers"
+  purpose: |
+       "
+       Enables forwarding of the corresponding interrupt to the CPU interfaces.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_distributor
+        offset: 0x100
+
+      - name: str
+        is_write: True
+        component: gic_distributor
+        offset: 0x100
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Set_enable_bit<x>
+            lsb: 0
+            msb: 31

@@ -1,0 +1,37 @@
+- name: ERXMISC2
+  long_name: " Selected Error Record Miscellaneous Register 2"
+  purpose: |
+       "
+       Accesses bits [31:0] of ERR<n>MISC1 for the error record selected by
+       ERRSELR.SEL.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x5
+        crn: 0x5
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x5
+        crn: 0x5
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Bits_[31:0]_of_ERR<n>MISC1
+            lsb: 0
+            msb: 31

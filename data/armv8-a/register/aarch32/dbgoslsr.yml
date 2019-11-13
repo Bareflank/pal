@@ -1,0 +1,45 @@
+- name: DBGOSLSR
+  long_name: "Debug OS Lock Status Register"
+  purpose: |
+       "
+       Provides status information for the OS Lock.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x1
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: OSLM[0]
+            lsb: 0
+            msb: 0
+
+          - name: OSLK
+            lsb: 1
+            msb: 1
+
+          - name: nTT
+            lsb: 2
+            msb: 2
+
+          - name: OSLM[1]
+            lsb: 3
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 31
+            reserved0: True

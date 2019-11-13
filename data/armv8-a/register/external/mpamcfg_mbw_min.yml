@@ -1,0 +1,47 @@
+- name: MPAMCFG_MBW_MIN
+  long_name: "MPAM Cache Maximum Capacity Partition Configuration Register"
+  purpose: |
+       "
+       MPAMCFG_MBW_MIN is a 32-bit read-write register that controls the
+       minimum fraction of memory bandwidth that the PARTID selected by
+       MPAMCFG_PART_SEL is permitted to use. A PARTID that has used less than
+       MIN is given preferential access to bandwidth.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x200
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x200
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x200
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x200
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: MIN
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

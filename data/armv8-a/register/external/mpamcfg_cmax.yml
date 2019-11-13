@@ -1,0 +1,46 @@
+- name: MPAMCFG_CMAX
+  long_name: "MPAM Cache Maximum Capacity Partition Configuration Register"
+  purpose: |
+       "
+       The MPAMCFG_CMAX is a 32-bit read-write register that controls the
+       maximum fraction cache capacity that the PARTID selected by
+       MPAMCFG_PART_SEL is permitted to allocate.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x108
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x108
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x108
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x108
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CMAX
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

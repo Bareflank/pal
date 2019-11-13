@@ -1,0 +1,54 @@
+- name: CNTEL0ACR
+  long_name: "Counter-timer EL0 Access Control Register"
+  purpose: |
+       "
+       An implementation of CNTEL0ACR in the frame at CNTBaseN controls whether
+       the CNTPCT, CNTVCT, CNTFRQ, EL1 Physical Timer, and Virtual Timer
+       registers are visible in the frame at CNTEL0BaseN.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x14
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x14
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: EL0PCTEN
+            lsb: 0
+            msb: 0
+
+          - name: EL0VCTEN
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 7
+            reserved0: True
+
+          - name: EL0VTEN
+            lsb: 8
+            msb: 8
+
+          - name: EL0PTEN
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 31
+            reserved0: True

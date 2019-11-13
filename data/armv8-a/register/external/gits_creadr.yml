@@ -1,0 +1,39 @@
+- name: GITS_CREADR
+  long_name: "ITS Read Register"
+  purpose: |
+       "
+       Specifies the offset from GITS_CBASER where the ITS reads the next ITS
+       command.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_its_control
+        offset: 0x90
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Stalled
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 4
+            reserved0: True
+
+          - name: Offset
+            lsb: 5
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 63
+            reserved0: True

@@ -1,0 +1,91 @@
+- name: GITS_TYPER
+  long_name: "ITS Type Register"
+  purpose: |
+       "
+       Specifies the features that an ITS supports.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_its_control
+        offset: 0x8
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Physical
+            lsb: 0
+            msb: 0
+
+          - name: Virtual
+            lsb: 1
+            msb: 1
+
+          - name: CCT
+            lsb: 2
+            msb: 2
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 3
+            msb: 3
+
+          - name: ITT_entry_size
+            lsb: 4
+            msb: 7
+
+          - name: ID_bits
+            lsb: 8
+            msb: 12
+
+          - name: Devbits
+            lsb: 13
+            msb: 17
+
+          - name: SEIS
+            lsb: 18
+            msb: 18
+
+          - name: PTA
+            lsb: 19
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 23
+            reserved0: True
+
+          - name: HCC
+            lsb: 24
+            msb: 31
+
+          - name: CIDbits
+            lsb: 32
+            msb: 35
+
+          - name: CIL
+            lsb: 36
+            msb: 36
+
+          - name: VMOVP
+            lsb: 37
+            msb: 37
+
+          - name: 0
+            lsb: 38
+            msb: 38
+            reserved0: True
+
+          - name: MPAM
+            lsb: 38
+            msb: 38
+
+          - name: 0
+            lsb: 39
+            msb: 63
+            reserved0: True

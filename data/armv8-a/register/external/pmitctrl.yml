@@ -1,0 +1,37 @@
+- name: PMITCTRL
+  long_name: "Performance Monitors Integration mode Control register"
+  purpose: |
+       "
+       Enables the Performance Monitors to switch from default mode into
+       integration mode, where test software can control directly the inputs
+       and outputs of the PE, for integration testing or topology detection.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+  is_optional: True
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: pmu
+        offset: 0xf00
+
+      - name: str
+        is_write: True
+        component: pmu
+        offset: 0xf00
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IME
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 31
+            reserved0: True

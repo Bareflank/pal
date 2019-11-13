@@ -1,0 +1,72 @@
+- name: ID_PFR0
+  long_name: "Processor Feature Register 0"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x1
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: State0
+            lsb: 0
+            msb: 3
+
+          - name: State1
+            lsb: 4
+            msb: 7
+
+          - name: State2
+            lsb: 8
+            msb: 11
+
+          - name: State3
+            lsb: 12
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 19
+            reserved0: True
+
+          - name: CSV2
+            lsb: 16
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 23
+            reserved0: True
+
+          - name: AMU
+            lsb: 20
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 27
+            reserved0: True
+
+          - name: DIT
+            lsb: 24
+            msb: 27
+
+          - name: RAS
+            lsb: 28
+            msb: 31

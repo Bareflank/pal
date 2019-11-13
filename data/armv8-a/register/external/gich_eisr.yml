@@ -1,0 +1,30 @@
+- name: GICH_EISR
+  long_name: "End Interrupt Status Register"
+  purpose: |
+       "
+       Indicates which List registers have outstanding EOI maintenance
+       interrupts.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: gic_virtual_interface_control
+        offset: 0x20
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Status<n>
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

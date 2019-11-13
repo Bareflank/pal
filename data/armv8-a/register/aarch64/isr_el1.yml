@@ -1,0 +1,48 @@
+- name: ISR_EL1
+  long_name: "Interrupt Status Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x1
+        crn: 0xc
+        operand_mnemonic: ISR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 5
+            reserved0: True
+
+          - name: F
+            lsb: 6
+            msb: 6
+
+          - name: I
+            lsb: 7
+            msb: 7
+
+          - name: A
+            lsb: 8
+            msb: 8
+
+          - name: 0
+            lsb: 9
+            msb: 63
+            reserved0: True

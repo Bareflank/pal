@@ -1,0 +1,63 @@
+- name: ID_ISAR1_EL1
+  long_name: "AArch32 Instruction Set Attribute Register 1"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x2
+        crn: 0x0
+        operand_mnemonic: ID_ISAR1_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Endian
+            lsb: 0
+            msb: 3
+
+          - name: Except
+            lsb: 4
+            msb: 7
+
+          - name: Except_AR
+            lsb: 8
+            msb: 11
+
+          - name: Extend
+            lsb: 12
+            msb: 15
+
+          - name: IfThen
+            lsb: 16
+            msb: 19
+
+          - name: Immediate
+            lsb: 20
+            msb: 23
+
+          - name: Interwork
+            lsb: 24
+            msb: 27
+
+          - name: Jazelle
+            lsb: 28
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

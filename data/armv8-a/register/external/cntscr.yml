@@ -1,0 +1,30 @@
+- name: CNTSCR
+  long_name: "Counter Scale Register"
+  purpose: |
+       "
+       Enables the counter, controls the counter frequency setting, and
+       controls counter behavior during debug.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x10
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x10
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: ScaleVal
+            lsb: 0
+            msb: 31

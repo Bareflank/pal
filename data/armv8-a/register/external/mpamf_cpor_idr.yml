@@ -1,0 +1,35 @@
+- name: MPAMF_CPOR_IDR
+  long_name: "MPAM Features Cache Portion Partitioning ID register"
+  purpose: |
+       "
+       The MPAMF_CPOR_IDR is a 32-bit read-only register that indicates the
+       number of bits in MPAMCFG_CPBM for this MSC.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x30
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x30
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CPBM_WD
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

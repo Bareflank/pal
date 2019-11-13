@@ -1,0 +1,45 @@
+- name: CNTHP_CVAL
+  long_name: "Counter-timer Hyp Physical CompareValue register"
+  purpose: |
+       "
+       Holds the compare value for the Hyp mode physical timer.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x6
+        crm: 0xe
+
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x2
+        crm: 0xe
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x6
+        crm: 0xe
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x2
+        crm: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: CompareValue
+            lsb: 0
+            msb: 63

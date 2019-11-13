@@ -1,0 +1,59 @@
+- name: CNTHCTL
+  long_name: "Counter-timer Hyp Control register"
+  purpose: |
+       "
+       Controls the generation of an event stream from the physical counter,
+       and access from Non-secure EL1 modes to the physical counter and the
+       Non-secure EL1 physical timer.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x0
+        crm: 0x1
+        crn: 0xe
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x0
+        crm: 0x1
+        crn: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: PL1PCTEN
+            lsb: 0
+            msb: 0
+
+          - name: PL1PCEN
+            lsb: 1
+            msb: 1
+
+          - name: EVNTEN
+            lsb: 2
+            msb: 2
+
+          - name: EVNTDIR
+            lsb: 3
+            msb: 3
+
+          - name: EVNTI
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

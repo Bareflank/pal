@@ -1,0 +1,53 @@
+- name: MPAMCFG_MBW_MAX
+  long_name: "MPAM Memory Bandwidth Maximum Partition Configuration Register"
+  purpose: |
+       "
+       MPAMCFG_MBW_MAX is a 32-bit read-write register that controls the
+       maximum fraction of memory bandwidth that the PARTID selected by
+       MPAMCFG_PART_SEL is permitted to use. A PARTID that has used more than
+       MAX is given no access to additional bandwidth if HARDLIM == 1 or is
+       given additional bandwidth only if there are no requests from PARTIDs
+       that have not exceeded their MAX if HARDLIM == 0.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x208
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x208
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x208
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x208
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: MAX
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 30
+            reserved0: True
+
+          - name: HARDLIM
+            lsb: 31
+            msb: 31

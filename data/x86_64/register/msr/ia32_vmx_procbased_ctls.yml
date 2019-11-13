@@ -1,0 +1,30 @@
+- name: ia32_vmx_procbased_ctls
+  long_name: "ia32_vmx_procbased_ctls"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x482
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: allowed_0_settings
+              long_name: "allowed_0_settings"
+              lsb: 0
+              msb: 31
+              readable: True
+
+            - name: allowed_1_settings
+              long_name: "allowed_1_settings"
+              lsb: 32
+              msb: 63
+              readable: True

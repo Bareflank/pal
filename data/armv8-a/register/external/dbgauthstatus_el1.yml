@@ -1,0 +1,50 @@
+- name: DBGAUTHSTATUS_EL1
+  long_name: "Debug Authentication Status register"
+  purpose: |
+       "
+       Provides information about the state of the IMPLEMENTATION DEFINED
+       authentication interface for debug.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: debug
+        offset: 0xfb8
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: NSID
+            lsb: 0
+            msb: 1
+
+          - name: NSNID
+            lsb: 2
+            msb: 3
+
+          - name: NSNID
+            lsb: 2
+            msb: 3
+
+          - name: SID
+            lsb: 4
+            msb: 5
+
+          - name: SNID
+            lsb: 6
+            msb: 7
+
+          - name: SNID
+            lsb: 6
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

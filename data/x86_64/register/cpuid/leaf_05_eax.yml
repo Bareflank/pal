@@ -1,0 +1,41 @@
+- name: leaf_05_eax
+  long_name: "MONITOR/MWAIT Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 05H, the processor returns
+      information about features available to MONITOR/MWAIT instructions. The
+      MONITOR instruction is used for address-range monitoring in conjunction
+      with MWAIT instruction. The MWAIT instruction optionally provides
+      additional extensions for advanced power management. See Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x5
+        output: eax
+  
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Smallest monitor-line size"
+              long_name: "Smallest monitor-line size"
+              lsb: 0
+              msb: 15
+              readable: True
+              description: |
+                  "
+                   Bits 15 - 00: Smallest monitor-line size in bytes (default
+                   is processor's monitor granularity).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 16
+              msb: 31
+              reserved0: True

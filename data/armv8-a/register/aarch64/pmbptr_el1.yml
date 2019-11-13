@@ -1,0 +1,38 @@
+- name: PMBPTR_EL1
+  long_name: "Profiling Buffer Write Pointer Register"
+  purpose: |
+       "
+       Defines the current write pointer for the profiling buffer.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0xa
+        crn: 0x9
+        operand_mnemonic: PMBPTR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0xa
+        crn: 0x9
+        operand_mnemonic: PMBPTR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: PTR
+            lsb: 0
+            msb: 63

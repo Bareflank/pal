@@ -1,0 +1,102 @@
+- name: ia32_package_therm_status
+  long_name: "ia32_package_therm_status"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: x86_64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x1b1
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: pkg_therm_status
+              long_name: "pkg_therm_status"
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: pkg_therm_log
+              long_name: "pkg_therm_log"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: pkg_prochot_event
+              long_name: "pkg_prochot_event"
+              lsb: 2
+              msb: 2
+              readable: True
+
+            - name: pkg_prochot_log
+              long_name: "pkg_prochot_log"
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+
+            - name: pkg_crit_temp_status
+              long_name: "pkg_crit_temp_status"
+              lsb: 4
+              msb: 4
+              readable: True
+
+            - name: pkg_crit_temp_log
+              long_name: "pkg_crit_temp_log"
+              lsb: 5
+              msb: 5
+              readable: True
+              writable: True
+
+            - name: pkg_therm_thresh1_status
+              long_name: "pkg_therm_thresh1_status"
+              lsb: 6
+              msb: 6
+              readable: True
+
+            - name: pkg_therm_thresh1_log
+              long_name: "pkg_therm_thresh1_log"
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: pkg_therm_thresh2_status
+              long_name: "pkg_therm_thresh2_status"
+              lsb: 8
+              msb: 8
+              readable: True
+
+            - name: pkg_therm_thresh2_log
+              long_name: "pkg_therm_thresh2_log"
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+
+            - name: pkg_power_limit_status
+              long_name: "pkg_power_limit_status"
+              lsb: 10
+              msb: 10
+              readable: True
+
+            - name: pkg_power_limit_log
+              long_name: "pkg_power_limit_log"
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: pkg_digital_readout
+              long_name: "pkg_digital_readout"
+              lsb: 16
+              msb: 22
+              readable: True

@@ -1,0 +1,59 @@
+- name: CNTP_CVAL
+  long_name: "Counter-timer Physical Timer CompareValue"
+  purpose: |
+       "
+       Holds the 64-bit compare value for the EL1 physical timer.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x20
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x24
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x20
+
+      - name: ldr
+        is_read: True
+        component: timer
+        offset: 0x24
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x20
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x24
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x20
+
+      - name: str
+        is_write: True
+        component: timer
+        offset: 0x24
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: CompareValue
+            lsb: 0
+            msb: 63

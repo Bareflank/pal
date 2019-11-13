@@ -1,0 +1,31 @@
+- name: GICR_INVLPIR
+  long_name: "Redistributor Invalidate LPI Register"
+  purpose: |
+       "
+       Invalidates the cached configuration data of a specified LPI, causing
+       the GIC to reload the interrupt configuration from the physical LPI
+       Configuration table at the address specified by GICR_PROPBASER.
+       "
+  size: 64
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: str
+        is_write: True
+        component: gic_redistributor
+        offset: 0xa0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: pINTID
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

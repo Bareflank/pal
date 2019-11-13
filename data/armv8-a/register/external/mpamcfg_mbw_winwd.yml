@@ -1,0 +1,49 @@
+- name: MPAMCFG_MBW_WINWD
+  long_name: "MPAM Memory Bandwidth Partitioning Window Width Configuration Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x220
+
+      - name: ldr
+        is_read: True
+        component: mpam_any
+        offset: 0x220
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x220
+
+      - name: str
+        is_write: True
+        component: mpam_any
+        offset: 0x220
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: US_FRAC
+            lsb: 0
+            msb: 7
+
+          - name: US_INT
+            lsb: 8
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 31
+            reserved0: True

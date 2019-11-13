@@ -1,0 +1,24 @@
+- name: CTICHOUTSTATUS
+  long_name: "CTI Channel Out Status register"
+  purpose: |
+       "
+       Provides the status of the ECT channel outputs from the CTI.
+       "
+  size: 32
+  arch: armv8-a
+  execution_state: None
+
+  access_mechanisms:
+      - name: ldr
+        is_read: True
+        component: cti
+        offset: 0x13c
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CHOUT<n>
+            lsb: 0
+            msb: 31
