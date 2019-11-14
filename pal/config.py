@@ -110,7 +110,7 @@ config  = PalConfig()
 
 c = Configuration("arch", "intel_x64")
 c.description = "The target architecture"
-c.options = ["aarch32", "aarch64", "intel_x64"]
+c.options = ["armv8-a", "intel_x64"]
 config.add_configuration(c)
 
 c = Configuration("language", "c++11")
@@ -136,7 +136,7 @@ config.add_configuration(c)
 
 c = Configuration("generator", "c++_header")
 c.description = "The target generator"
-c.options = ["c++_header"]
+c.options = ["c++_header", "yaml"]
 config.add_configuration(c)
 
 # -----------------------------------------------------------------------------
@@ -196,7 +196,7 @@ config.add_configuration(c)
 # C++ options
 # -----------------------------------------------------------------------------
 
-c = Configuration("cxx_namespace", "pal::aarch64")
+c = Configuration("cxx_namespace", "pal")
 c.description = "Top namespace to place generated c++ functions into"
 config.add_configuration(c)
 
@@ -213,28 +213,16 @@ config.add_configuration(c)
 # -----------------------------------------------------------------------------
 
 _package_dir = os.path.dirname(os.path.realpath(__file__))
-c = Configuration("pal_package_dir", str(_package_dir))
-c.description = "Path the pal python package directory"
-config.add_configuration(c)
-
 _project_dir = os.path.abspath(os.path.join(_package_dir, ".."))
-c = Configuration("pal_project_dir", str(_project_dir))
-c.description = "Path the top directory of the pal project"
-config.add_configuration(c)
-
-_include_dir = os.path.join(_project_dir, "include")
-c = Configuration("pal_include_dir", _include_dir)
-c.description = "Path the pal header include directory"
-config.add_configuration(c)
 
 _data_dir = os.path.join(_project_dir, "data")
 c = Configuration("pal_data_dir", _data_dir)
-c.description = "Path the pal data directory"
+c.description = "Path to a pal input data directory"
 config.add_configuration(c)
 
 _output_dir = os.path.join(_project_dir, "output")
 c = Configuration("pal_output_dir", _output_dir)
-c.description = "Path the pal output directory"
+c.description = "Path to a pal output directory"
 config.add_configuration(c)
 
 c = Configuration("license_template_path", os.path.join(_project_dir, "LICENSE"))

@@ -86,7 +86,10 @@ class CxxHeaderGenerator(AbstractGenerator):
         for idx, fieldset in enumerate(fieldsets):
             if len(fieldsets) > 1:
                 self.writer.declare_comment(outfile, fieldset.condition)
-                self.gadgets["pal.cxx.namespace"].name = "fieldset_" + str(idx + 1)
+                if fieldset.name:
+                    self.gadgets["pal.cxx.namespace"].name = str(fieldset.name)
+                else:
+                    self.gadgets["pal.cxx.namespace"].name = "fieldset_" + str(idx + 1)
                 self._generate_fieldset_in_namespace(outfile, reg, fieldsets[0])
             else:
                 self._generate_fieldset(outfile, reg, fieldsets[0])
