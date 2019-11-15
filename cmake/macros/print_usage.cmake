@@ -16,8 +16,4 @@ function(print_usage)
     message(STATUS "${Green} PAL is ready to build, usage:${ColorReset}")
     message(STATUS "${Yellow}    ${BUILD_COMMAND}${ColorReset}")
     message(STATUS "")
-
-    message(STATUS "${Green} For more build options:${ColorReset}")
-    message(STATUS "${Yellow}    ${BUILD_COMMAND} info${ColorReset}")
-    message(STATUS "")
 endfunction(print_usage)
