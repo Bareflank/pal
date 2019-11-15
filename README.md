@@ -1,10 +1,10 @@
-# PAL: The Bareflank (P)rocessor (A)bstraction (L)ayer
+![PAL](https://github.com/Bareflank/pal/raw/gh-pages/PAL-logo.png)
 
 Are you working on a bare-metal software project for Intel or ARM?
 
 Are you sick of hunting through a 6000 page .pdf file to find basic facts about the contents of a system register?
 
-Do you hate reading and writing code that ```sets |= (bitfields && like) << this;```?
+Do you hate reading and writing code that ```sets |= (bitfields && like) << this;```? (and accidentally using logical AND instead of bitwise AND in the process?)
 
 Is your software so tightly coupled to your CPU that unit testing seems impossible?
 
@@ -41,13 +41,13 @@ void pal_test(void)
 3. Reuse the code above *in userspace* for your unit tests:
 
 ```
-./pal.py --arch=intel_x64 --language=c++11 --access_mechanism=test
+./pal/pal.py --arch=intel_x64 --language=c++11 --access_mechanism=test
 ```
 
 4. Explore other built-in configuration options:
 
 ```
-./pal --help
+./pal/pal --help
 ```
 
 ## Are you using CMake?
