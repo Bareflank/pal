@@ -12,7 +12,7 @@ Is your software so tightly coupled to your CPU that unit testing seems impossib
 
 The Bareflank **P**rocessor **A**bstraction **L**ayer transforms facts about your CPU into a software support library. This lets you access and manipulate the low-level details of your hardware through a convinient software API. Supose you are working on a C++ project for the Intel platform, and compiling/assembling with a GNU toolchain:
 
-0. Install Python 3
+0. Install Python > 3.6 and ```pip install lxml dataclasses colorama```
 
 1. Generate a PAL for your project:
 
@@ -68,7 +68,7 @@ Not yet, but it does support a whole lot. Is the project missing something that 
 
 2) Contribute a new [parser](pal/parser) for another existing source of information. For example, PAL can generate ARMv8-A register definitons from [ARM's offical machine readable spec](https://developer.arm.com/architectures/cpu-architecture/a-profile/exploration-tools).
 
-3) PAL can generate the project's built in .yml files *for you*, if you can provide a way to parse an existing source of information into a [PAL model](pal/model). 
+3) PAL can generate the project's built in .yml files *for you*, if you can provide a way to parse an existing source of information into a [PAL model](pal/model).
 
 
 ## Current status and scope
