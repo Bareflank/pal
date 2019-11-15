@@ -1,8 +1,0 @@
-- name: id_vectoring_information_field
-  long_name: "IDT-vectoring information field"
-  size: 32
-  arch: x86_64
-
-  access_mechanisms:
-      - name: vmread
-        encoding: 0x00004408

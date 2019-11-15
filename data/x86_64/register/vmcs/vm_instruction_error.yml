@@ -1,8 +1,0 @@
-- name: vm_instruction_error
-  long_name: "VM-instruction error"
-  size: 32
-  arch: x86_64
-
-  access_mechanisms:
-      - name: vmread
-        encoding: 0x00004400

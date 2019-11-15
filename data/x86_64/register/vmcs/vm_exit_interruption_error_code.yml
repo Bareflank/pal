@@ -1,8 +1,0 @@
-- name: vm_exit_interruption_error_code
-  long_name: "VM-exit interruption error code"
-  size: 32
-  arch: x86_64
-
-  access_mechanisms:
-      - name: vmread
-        encoding: 0x00004406

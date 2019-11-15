@@ -1,8 +1,0 @@
-- name: io_rip
-  long_name: "I/O RIP"
-  size: 64
-  arch: x86_64
-
-  access_mechanisms:
-      - name: vmread
-        encoding: 0x00006408
