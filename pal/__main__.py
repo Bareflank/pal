@@ -87,6 +87,7 @@ def main_armv8a(config, generator):
 
 def pal_main():
     config = parse_cmd_args(sys.argv[1:])
+    config.validate()
 
     writer = make_writer(
         config.arch,
