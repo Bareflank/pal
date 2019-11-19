@@ -1,0 +1,40 @@
+- name: leaf_80000007_edx
+  long_name: |
+      "
+      Extended Function CPUID Information
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x80000007
+        output: edx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 7
+              reserved0: True
+
+            - name: "Invariant TSC"
+              long_name: "Invariant TSC"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Bit 08: Invariant TSC available if 1.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 9
+              msb: 31
+              reserved0: True

@@ -1,4 +1,4 @@
-- name: leaf_09_eax
+- name: leaf_09_ebx
   long_name: "Direct Cache Access Information Leaf"
   purpose: |
       "
@@ -12,7 +12,7 @@
       - name: cpuid
         leaf: 0x9
         uses_subleaf: True
-        output: eax
+        output: ebx
 
   fieldsets:
       - name: latest
@@ -20,13 +20,8 @@
         size: 32
 
         fields:
-            - name: "IA32_PLATFORM_DCA_CAP"
-              long_name: "IA32_PLATFORM_DCA_CAP"
+            - name: reserved
+              long_name: "Reserved"
               lsb: 0
               msb: 31
-              readable: True
-              description: |
-                  "
-                  Value of bits [31:0] of IA32_PLATFORM_DCA_CAP MSR (address
-                  1F8H).
-                  "
+              reserved0: True

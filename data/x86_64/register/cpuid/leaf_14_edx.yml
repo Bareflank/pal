@@ -1,0 +1,42 @@
+- name: leaf_14_edx
+  long_name: "Returns Intel Processor Trace Enumeration Information"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 14H and ECX = 0H, the processor
+      returns information about Intel Processor Trace extensions. See Table
+      3-8.  When CPUID executes with EAX set to 14H and ECX = n (n > 0 and less
+      than the number of non-zero bits in CPUID.(EAX=14H, ECX= 0H).EAX), the
+      processor returns information about packet generation in Intel Processor
+      Trace. See Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x14
+        output: edx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True

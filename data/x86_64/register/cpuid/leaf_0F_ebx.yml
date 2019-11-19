@@ -1,0 +1,62 @@
+- name: leaf_0F_ebx
+  long_name: |
+      "
+      Returns Intel Resource Director Technology (Intel RDT) Monitoring
+      Enumeration Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 0FH and ECX = 0, the processor
+      returns information about the bit-vector representation of QoS monitoring
+      resource types that are supported in the processor and maximum range of
+      RMID values the processor can use to monitor of any supported resource
+      types. Each bit, starting from bit 1, corresponds to a specific resource
+      type if the bit is set. The bit position corresponds to the sub-leaf
+      index (or ResID) that software must use to query QoS monitoring
+      capability available for that type. See Table 3-8.  When CPUID executes
+      with EAX set to 0FH and ECX = n (n >= 1, and is a valid ResID), the
+      processor returns information software can use to program IA32_PQR_ASSOC,
+      IA32_QM_EVTSEL MSRs before reading QoS data from the IA32_QM_CTR MSR
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0xf
+        output: ebx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "Bits 31 - 00"
+              long_name: "Bits 31 - 00"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 00: Maximum range (zero-based) of RMID within this
+                  physical processor of all types
+                  "
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: "Bits 31 - 00"
+              long_name: "Bits 31 - 00"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 00: Conversion factor from reported IA32_QM_CTR
+                  value to occupancy metric (bytes) and Memory Bandwidth
+                  Monitoring (MBM) metrics
+                  "

@@ -1,0 +1,47 @@
+- name: leaf_1A_eax
+  long_name: |
+      "
+      Returns Hybrid Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 1AH, the processor returns
+      information about hybrid capabilities. See Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x1a
+        output: eax
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Native model ID"
+              long_name: "Native model ID"
+              lsb: 0
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Bits 23-0: Native model ID of the core. The core-type and
+                  native mode ID can be used to uniquely identify the
+                  microarchitecture of the core. This native model ID is not
+                  unique across core types, and not related to the model ID
+                  reported in CPUID leaf 01h, and does not identify the SOC
+                  "
+
+            - name: "Core type"
+              long_name: "Core type"
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31-24: Core type
+                  "

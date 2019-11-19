@@ -1,0 +1,107 @@
+- name: leaf_10_eax
+  long_name: |
+      "
+      Returns Intel Resource Director Technology (Intel RDT) Allocation
+      Enumeration Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 10H and ECX = 0, the processor
+      returns information about the bit-vector representation of QoS
+      Enforcement resource types that are supported in the processor. Each bit,
+      starting from bit 1, corresponds to a specific resource type if the bit
+      is set. The bit position corresponds to the sub-leaf index (or ResID)
+      that software must use to query QoS enforcement capability available for
+      that type. See Table 3-8.  When CPUID executes with EAX set to 10H and
+      ECX = n (n >= 1, and is a valid ResID), the processor returns information
+      about available classes of service and range of QoS mask MSRs that
+      software can use to configure each class of services using capability bit
+      masks in the QoS Mask registers, IA32_resourceType_Mask_n
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x10
+        output: eax
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: "Bits 04 - 00"
+              long_name: "Bits 04 - 00"
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bits 04 - 00: Length of the capacity bit mask for the
+                  corresponding ResID using minus-one notation
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 5
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_2
+        condition: "Fieldset valid for subleaf (ECX) = 2"
+        size: 32
+
+        fields:
+            - name: "Bits 04 - 00"
+              long_name: "Bits 04 - 00"
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bits 04 - 00: Length of the capacity bit mask for the
+                  corresponding ResID using minus-one notation
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 5
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_3
+        condition: "Fieldset valid for subleaf (ECX) = 3"
+        size: 32
+
+        fields:
+            - name: "Bits 11 - 00"
+              long_name: "Bits 11 - 00"
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Bits 11 - 00: Reports the maximum MBA throttling value
+                  supported for the corresponding ResID using minus-one
+                  notation
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 12
+              msb: 31
+              reserved0: True

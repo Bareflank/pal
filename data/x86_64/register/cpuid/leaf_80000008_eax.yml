@@ -1,0 +1,44 @@
+- name: leaf_80000008_eax
+  long_name: |
+      "
+      Extended Function CPUID Information
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x80000008
+        output: eax
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Physical Address Bits"
+              long_name: "Physical Address Bits"
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 00: #Physical Address Bits
+                  "
+
+            - name: "Linear Address Bits"
+              long_name: "Linear Address Bits"
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 15 - 08: #Linear Address Bits
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 16
+              msb: 31
+              reserved0: True

@@ -1,0 +1,54 @@
+- name: leaf_80000006_ecx
+  long_name: |
+      "
+      Extended Function CPUID Information
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x80000006
+        output: ecx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Cache Line size"
+              long_name: "Cache Line size"
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 00: Cache Line size in bytes
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 8
+              msb: 11
+              reserved0: True
+
+            - name: "L2 Associativity"
+              long_name: "L2 Associativity"
+              lsb: 12
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 15 - 12: L2 Associativity field
+                  "
+
+            - name: "Cache size"
+              long_name: "Cache size"
+              lsb: 16
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 16: Cache size in 1K units
+                  "

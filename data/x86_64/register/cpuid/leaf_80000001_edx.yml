@@ -1,0 +1,98 @@
+- name: leaf_80000001_edx
+  long_name: |
+      "
+      Extended Function CPUID Information
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x80000001
+        output: edx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 10
+              reserved0: True
+
+            - name: "SYSCALL/SYSRET"
+              long_name: "SYSCALL/SYSRET"
+              lsb: 11
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Bit 11: SYSCALL/SYSRET
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 12
+              msb: 19
+              reserved0: True
+
+            - name: "Execute Disable Bit available"
+              long_name: "Execute Disable Bit available"
+              lsb: 20
+              msb: 20
+              readable: True
+              description: |
+                  "
+                  Bit 20: Execute Disable Bit available.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 21
+              msb: 25
+              reserved0: True
+
+            - name: "Bit 26"
+              long_name: "Bit 26"
+              lsb: 26
+              msb: 26
+              readable: True
+              description: |
+                  "
+                  Bit 26: 1-GByte pages are available if 1
+                  "
+
+            - name: "Bit 27"
+              long_name: "Bit 27"
+              lsb: 27
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Bit 27: RDTSCP and IA32_TSC_AUX are available if 1
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 28
+              msb: 28
+              reserved0: True
+
+            - name: "Bit 29"
+              long_name: "Bit 29"
+              lsb: 29
+              msb: 29
+              readable: True
+              description: |
+                  "
+                  Bit 29: Intel® 64 Architecture available if 1.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 30
+              msb: 31
+              reserved0: True

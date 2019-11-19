@@ -30,3 +30,15 @@
       - name: cpuid
         leaf: 0x2
         output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Cache and TLB Information"
+              long_name: "Cache and TLB Information"
+              lsb: 0
+              msb: 31
+              readable: True
