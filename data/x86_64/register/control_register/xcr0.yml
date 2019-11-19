@@ -1,0 +1,155 @@
+- name: xcr0
+  long_name: "Extended Control Register 0"
+  purpose: |
+      "
+      If CPUID.01H:ECX.XSAVE[bit 26] is 1, the processor supports one or more
+      extended control registers (XCRs).  Currently, the only such register
+      defined is XCR0. This register specifies the set of processor state
+      components for which the operating system provides context management,
+      e.g. x87 FPU state, SSE state, AVX state. The OS programs XCR0 to reflect
+      the features for which it provides context management.
+      "
+  size: 64
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: xgetbv
+        register: 0
+
+      - name: xsetbv
+        register: 0
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: x87
+              long_name: "XCR0.X87 (bit 0)"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.X87 (bit 0): This bit 0 must be 1. An attempt to write 0
+                  to this bit causes a #GP exception.
+                  "
+
+            - name: "SSE"
+              long_name: "XCR0.SSE (bit 1)"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.SSE (bit 1): If 1, the XSAVE feature set can be used to
+                  manage MXCSR and the XMM registers (XMM0- XMM15 in 64-bit
+                  mode; otherwise XMM0-XMM7)
+                  "
+
+            - name: "AVX"
+              long_name: "XCR0.AVX (bit 2)"
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.AVX (bit 2): If 1, AVX instructions can be executed and
+                  the XSAVE feature set can be used to manage the upper halves
+                  of the YMM registers (YMM0-YMM15 in 64-bit mode; otherwise
+                  YMM0-YMM7)
+                  "
+
+            - name: "BNDREG"
+              long_name: "XCR0.BNDREG (bit 3)"
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.BNDREG (bit 3): If 1, MPX instructions can be executed
+                  and the XSAVE feature set can be used to manage the bounds
+                  registers BND0–BND3
+                  "
+
+            - name: "BNDCSR"
+              long_name: "XCR0.BNDCSR (bit 4)"
+              lsb: 4
+              msb: 4
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.BNDCSR (bit 4): If 1, MPX instructions can be executed
+                  and the XSAVE feature set can be used to manage the BNDCFGU
+                  and BNDSTATUS registers
+                  "
+
+            - name: "opmask"
+              long_name: "XCR0.opmask (bit 5)"
+              lsb: 5
+              msb: 5
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.opmask (bit 5): If 1, AVX-512 instructions can be
+                  executed and the XSAVE feature set can be used to manage the
+                  opmask registers k0–k7
+                  "
+
+            - name: "ZMM_Hi256"
+              long_name: "XCR0.ZMM_Hi256 (bit 6)"
+              lsb: 6
+              msb: 6
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.ZMM_Hi256 (bit 6): If 1, AVX-512 instructions can be
+                  executed and the XSAVE feature set can be used to manage the
+                  upper halves of the lower ZMM registers (ZMM0-ZMM15 in 64-bit
+                  mode; otherwise ZMM0-ZMM7)
+                  "
+
+            - name: "Hi16_ZMM"
+              long_name: "XCR0.Hi16_ZMM (bit 7)"
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.Hi16_ZMM (bit 7): If 1, AVX-512 instructions can be
+                  executed and the XSAVE feature set can be used to manage the
+                  upper ZMM registers (ZMM16-ZMM31, only in 64-bit mode)
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 8
+              msb: 8
+              reserved0: True
+
+            - name: "PKRU"
+              long_name: "XCR0.PKRU (bit 9)"
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+              description: |
+                  "
+                  XCR0.PKRU (bit 9): If 1, the XSAVE feature set can be used to
+                  manage the PKRU register (see Section 2.7).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 10
+              msb: 63
+              reserved0: True

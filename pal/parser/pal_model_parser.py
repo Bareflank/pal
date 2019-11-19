@@ -113,6 +113,18 @@ class PalModelParser(AbstractParser):
                 am.encoding = am_yml["encoding"]
                 register.access_mechanisms["vmwrite"].append(am)
 
+            elif am_yml["name"] == "xgetbv":
+                am = pal.model.x86_64.access_mechanism.XGETBV()
+                am.name = am_yml["name"]
+                am.register = am_yml["register"]
+                register.access_mechanisms["xgetbv"].append(am)
+
+            elif am_yml["name"] == "xsetbv":
+                am = pal.model.x86_64.access_mechanism.XSETBV()
+                am.name = am_yml["name"]
+                am.register = am_yml["register"]
+                register.access_mechanisms["xsetbv"].append(am)
+
             elif am_yml["name"] == "mrs_register":
                 am = pal.model.armv8a.access_mechanism.MRSRegister()
                 am.name = am_yml["name"]

@@ -46,4 +46,6 @@ class x86_64Register(Register):
             "wrmsr": [],
             "vmread": [],
             "vmwrite": [],
+            "xgetbv": [],
+            "xsetbv": [],
         })

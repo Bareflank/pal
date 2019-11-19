@@ -22,6 +22,9 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "vmread":
             self._call_vmread_access_mechanism(outfile, register,
                                                access_mechanism, result)
+        elif access_mechanism.name == "xgetbv":
+            self._call_xgetbv_access_mechanism(outfile, register,
+                                               access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "Intel x86_64 gas att assembler syntax"
@@ -41,6 +44,9 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "vmwrite":
             self._call_vmwrite_access_mechanism(outfile, register,
                                                 access_mechanism, value)
+        elif access_mechanism.name == "xsetbv":
+            self._call_xsetbv_access_mechanism(outfile, register,
+                                               access_mechanism, value)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "Intel x86_64 gas att assembler syntax"
@@ -100,6 +106,19 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
             clobbers='"rdi"'
         )
 
+    def _call_xgetbv_access_mechanism(self, outfile, register,
+                                      access_mechanism, result):
+        self._write_inline_assembly(outfile, [
+                "mov $" + str(hex(access_mechanism.register)) + ", %%rcx",
+                "xgetbv",
+                "shl $32, %%rdx",
+                "or %%rdx, %%rax",
+                "mov %%rax, %[v]",
+            ],
+            outputs='[v] "=r"(' + str(result) + ')',
+            clobbers='"rax", "rcx", "rdx"'
+        )
+
     def _call_mov_write_access_mechanism(self, outfile, register,
                                          access_mechanism, value):
         self._write_inline_assembly(outfile, [
@@ -129,6 +148,19 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
             ],
             inputs='[v] "r"(' + value + ')',
             clobbers='"rdi"'
+        )
+
+    def _call_xsetbv_access_mechanism(self, outfile, register,
+                                       access_mechanism, value):
+        self._write_inline_assembly(outfile, [
+                "mov $" + str(hex(access_mechanism.register)) + ", %%rcx",
+                "mov %[v], %%rax",
+                "mov %[v], %%rdx",
+                "shr $32, %%rdx",
+                "xsetbv",
+            ],
+            inputs='[v] "r"(' + value + ')',
+            clobbers='"rax", "rcx", "rdx"'
         )
 
     def _write_inline_assembly(self, outfile, statements, outputs="",
