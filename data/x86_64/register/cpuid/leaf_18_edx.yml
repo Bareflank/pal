@@ -1,0 +1,136 @@
+- name: leaf_18_edx
+  long_name: |
+      "
+      Returns Deterministic Address Translation Parameters Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 18H, the processor returns
+      information about the Deterministic Address Translation Parameters. See
+      Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x18
+        output: edx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "Translation cache type"
+              long_name: "Translation cache type"
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bits 04 - 00: Translation cache type field
+                  "
+
+            - name: "Translation cache level"
+              long_name: "Translation cache level"
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 05: Translation cache level (starts at 1)
+                  "
+
+            - name: "Fully associative structure"
+              long_name: "Fully associative structure"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Bit 08: Fully associative structure
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 9
+              msb: 13
+              reserved0: True
+
+            - name: "Bits 25- 14"
+              long_name: "Bits 25- 14"
+              lsb: 14
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Bits 25- 14: Maximum number of addressable IDs for logical
+                  processors sharing this translation cache
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 26
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_n
+        condition: "Fieldset valid for subleaf (ECX) >= 1"
+        size: 32
+
+        fields:
+            - name: "Translation cache type"
+              long_name: "Translation cache type"
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bits 04 - 00: Translation cache type field
+                  "
+
+            - name: "Translation cache level"
+              long_name: "Translation cache level"
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 05: Translation cache level (starts at 1)
+                  "
+
+            - name: "Fully associative structure"
+              long_name: "Fully associative structure"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Bit 08: Fully associative structure
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 9
+              msb: 13
+              reserved0: True
+
+            - name: "Bits 25- 14"
+              long_name: "Bits 25- 14"
+              lsb: 14
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Bits 25- 14: Maximum number of addressable IDs for logical
+                  processors sharing this translation cache
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 26
+              msb: 31
+              reserved0: True

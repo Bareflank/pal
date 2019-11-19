@@ -1,0 +1,176 @@
+- name: leaf_18_ebx
+  long_name: |
+      "
+      Returns Deterministic Address Translation Parameters Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 18H, the processor returns
+      information about the Deterministic Address Translation Parameters. See
+      Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x18
+        output: ebx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "Bit 00"
+              long_name: "Bit 00"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: 4K page size entries supported by this structure
+                  "
+
+            - name: "Bit 01"
+              long_name: "Bit 01"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: 2MB page size entries supported by this structure
+                  "
+
+            - name: "Bit 02"
+              long_name: "Bit 02"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: 4MB page size entries supported by this structure
+                  "
+
+            - name: "Bit 03"
+              long_name: "Bit 03"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: 1 GB page size entries supported by this structure
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 7
+              reserved0: True
+
+            - name: "Partitioning"
+              long_name: "Partitioning"
+              lsb: 8
+              msb: 10
+              readable: True
+              description: |
+                  "
+                  Bits 10 - 08: Partitioning (0: Soft partitioning between the
+                  logical processors sharing this structure)
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 11
+              msb: 15
+              reserved0: True
+
+            - name: "W"
+              long_name: "W"
+              lsb: 16
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 16: W = Ways of associativity
+                  "
+
+      - name: subleaf_n
+        condition: "Fieldset valid for subleaf (ECX) >= 1"
+        size: 32
+
+        fields:
+            - name: "Bit 00"
+              long_name: "Bit 00"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: 4K page size entries supported by this structure
+                  "
+
+            - name: "Bit 01"
+              long_name: "Bit 01"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: 2MB page size entries supported by this structure
+                  "
+
+            - name: "Bit 02"
+              long_name: "Bit 02"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: 4MB page size entries supported by this structure
+                  "
+
+            - name: "Bit 03"
+              long_name: "Bit 03"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: 1 GB page size entries supported by this structure
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 7
+              reserved0: True
+
+            - name: "Partitioning"
+              long_name: "Partitioning"
+              lsb: 8
+              msb: 10
+              readable: True
+              description: |
+                  "
+                  Bits 10 - 08: Partitioning (0: Soft partitioning between the
+                  logical processors sharing this structure)
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 11
+              msb: 15
+              reserved0: True
+
+            - name: "W"
+              long_name: "W"
+              lsb: 16
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 16: W = Ways of associativity
+                  "

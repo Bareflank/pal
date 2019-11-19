@@ -1,0 +1,71 @@
+- name: leaf_0D_edx
+  long_name: "Processor Extended State Enumeration"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 0DH and ECX = 0, the processor
+      returns information about the bit-vector representation of all processor
+      state extensions that are supported in the processor and storage size
+      requirements of the XSAVE/XRSTOR area. See Table 3-8.  When CPUID
+      executes with EAX set to 0DH and ECX = n (n > 1, and is a valid sub-leaf
+      index), the processor returns information about the size and offset of
+      each processor extended state save area within the XSAVE/XRSTOR area.
+      See Table 3-8. Software can use the forward-extendable technique depicted
+      below to query the valid sub-leaves and obtain size and offset
+      information for each processor extended state save area: For i = 2 to 62
+      // sub-leaf 1 is reserved IF (CPUID.(EAX=0DH, ECX=0):VECTOR[i] = 1 ) //
+      VECTOR is the 64-bit value of EDX:EAX Execute CPUID.(EAX=0DH, ECX = i) to
+      examine size and offset for sub-leaf i; FI;
+      "
+  size: 32
+  arch: x86_64
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0xd
+        output: edx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "Bit 31 - 00"
+              long_name: "Bit 31 - 00"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bit 31 - 00: Reports the supported bits of the upper 32 bits
+                  of XCR0. XCR0[n+32] can be set to 1 only if EDX[n] is 1
+                  "
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: "Bits 31 - 00"
+              long_name: "Bits 31 - 00"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 00: Reports the supported bits of the upper 32 bits
+                  of the IA32_XSS MSR. IA32_XSS[n+32] can be set to 1 only if
+                  EDX[n] is 1
+                  "
+
+      - name: subleaf_n
+        condition: "Fieldset valid for subleaf (ECX) > 1"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True

@@ -1,0 +1,29 @@
+- name: leaf_16_edx
+  long_name: |
+      "
+      Returns Processor Frequency Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 16H, the processor returns
+      information about Processor Frequency Information. See Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x16
+        output: edx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True

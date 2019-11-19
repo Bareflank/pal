@@ -1,0 +1,29 @@
+- name: leaf_1A_ebx
+  long_name: |
+      "
+      Returns Hybrid Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 1AH, the processor returns
+      information about hybrid capabilities. See Table 3-8.
+      "
+  size: 32
+  arch: x86_64
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x1a
+        output: ebx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True

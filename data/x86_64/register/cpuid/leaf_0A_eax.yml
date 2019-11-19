@@ -18,7 +18,7 @@
   
   access_mechanisms:
       - name: cpuid
-        leaf: 0x7
+        leaf: 0xa
         output: eax
 
   fieldsets:
