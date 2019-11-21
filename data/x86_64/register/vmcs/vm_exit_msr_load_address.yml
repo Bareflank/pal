@@ -1,5 +1,12 @@
 - name: vm_exit_msr_load_address
   long_name: "VM-exit MSR-load address (full)"
+  purpose: |
+      "
+      This field contains the physical address of the VM-exit MSR-load area.
+      The area is a table of entries, 16 bytes per entry, where the number of
+      entries is given by the VM-exit MSR-load count (see Table 24-12). If the
+      VM-exit MSR-load count is not zero, the address must be 16-byte aligned.
+      "
   size: 64
   arch: x86_64
 

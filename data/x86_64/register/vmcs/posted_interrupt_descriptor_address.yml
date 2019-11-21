@@ -1,5 +1,12 @@
 - name: posted_interrupt_descriptor_address
   long_name: "Posted-interrupt descriptor address (full)"
+  purpose: |
+      "
+      This field is supported only on processors that support the 1-setting of
+      the “process posted interrupts” VM-execution control. It is the physical
+      address of a 64-byte aligned posted interrupt descriptor. See Section
+      29.6 for more information on the use of this field.
+      "
   size: 64
   arch: x86_64
 

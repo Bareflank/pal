@@ -1,5 +1,11 @@
 - name: vm_exit_controls
   long_name: "VM-exit controls"
+  purpose: |
+      "
+      The VM-exit controls constitute a 32-bit vector that governs the basic
+      operation of VM exits. Table 24-11 lists the controls supported. See
+      Chapter 27 for complete details of how these controls affect VM exits 
+      "
   size: 32
   arch: x86_64
 
@@ -9,3 +15,290 @@
 
       - name: vmwrite
         encoding: 0x0000400c
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "reserved_1_0"
+              long_name: "Reserved bits 1:0"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 0
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: "Save debug controls"
+              long_name: "Save debug controls"
+              description: |
+                  "
+                  This control determines whether DR7 and the IA32_DEBUGCTL
+                  MSR are saved on VM exit.  The first processors to support
+                  the virtual-machine extensions supported only the 1- setting
+                  of this control.
+                  "
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: "reserved_8_3"
+              long_name: "Reserved bits 8:3"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 3
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: "Host address-space size"
+              long_name: "Host address-space size"
+              description: |
+                  "
+                  On processors that support Intel 64 architecture, this
+                  control determines whether a logical processor is in 64-bit
+                  mode after the next VM exit. Its value is loaded into CS.L,
+                  IA32_EFER.LME, and IA32_EFER.LMA on every VM exit.1 This
+                  control must be 0 on processors that do not support Intel 64
+                  architecture.
+                  "
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+
+            - name: "reserved_12_10"
+              long_name: "Reserved bits 12:10"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 10
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: " Load IA32_PERF_GLOBAL_CTRL"
+              long_name: " Load IA32_PERF_GLOBAL_CTRL"
+              description: |
+                  "
+                  This control determines whether the IA32_PERF_GLOBAL_CTRL MSR
+                  is loaded on VM exit.
+                  "
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: "reserved_14_13"
+              long_name: "Reserved bits 14:13"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 13
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: " Acknowledge interrupt on exit"
+              long_name: " Acknowledge interrupt on exit"
+              description: |
+                  "
+                  This control affects VM exits due to external interrupts: •
+                  If such a VM exit occurs and this control is 1, the logical
+                  processor acknowledges the interrupt controller, acquiring
+                  the interrupt’s vector. The vector is stored in the VM-exit
+                  interruption-information field, which is marked valid.  • If
+                  such a VM exit occurs and this control is 0, the interrupt is
+                  not acknowledged and the VM-exit interruption-information
+                  field is marked invalid.
+                  "
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: "reserved_17_16"
+              long_name: "Reserved bits 17:16"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 16
+              msb: 17
+              readable: True
+              writable: True
+
+            - name: "Save IA32_PAT"
+              long_name: "Save IA32_PAT"
+              description: |
+                  "
+                  This control determines whether the IA32_PAT MSR is saved on
+                  VM exit
+                  "
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+
+            - name: "Load IA32_PAT"
+              long_name: "Load IA32_PAT"
+              description: |
+                  "
+                  This control determines whether the IA32_PAT MSR is loaded on
+                  VM exit.
+                  "
+              lsb: 19
+              msb: 19
+              readable: True
+              writable: True
+
+            - name: "Save IA32_EFER"
+              long_name: "Save IA32_EFER"
+              description: |
+                  "
+                  This control determines whether the IA32_EFER MSR is saved on
+                  VM exit.
+                  "
+              lsb: 20
+              msb: 20
+              readable: True
+              writable: True
+
+            - name: "Load IA32_EFER"
+              long_name: "Load IA32_EFER"
+              description: |
+                  "
+                  This control determines whether the IA32_EFER MSR is loaded
+                  on VM exit
+                  "
+              lsb: 21
+              msb: 21
+              readable: True
+              writable: True
+
+            - name: "Save VMXpreemption timer value"
+              long_name: "Save VMXpreemption timer value"
+              description: |
+                  "
+                  This control determines whether the value of the
+                  VMX-preemption timer is saved on VM exit.
+                  "
+              lsb: 22
+              msb: 22
+              readable: True
+              writable: True
+
+            - name: "Clear IA32_BNDCFGS"
+              long_name: "Clear IA32_BNDCFGS"
+              description: |
+                  "
+                  This control determines whether the IA32_BNDCFGS MSR is
+                  cleared on VM exit.
+                  "
+              lsb: 23
+              msb: 23
+              readable: True
+              writable: True
+
+            - name: "Conceal VMX from PT"
+              long_name: "Conceal VMX from PT"
+              description: |
+                  "
+                  If this control is 1, Intel Processor Trace does not produce
+                  a paging information packet (PIP) on a VM exit or a VMCS
+                  packet on an SMM VM exit (see Chapter 35).
+                  "
+              lsb: 24
+              msb: 24
+              readable: True
+              writable: True
+
+            - name: "Clear IA32_RTIT_CTL"
+              long_name: "Clear IA32_RTIT_CTL"
+              description: |
+                  "
+                  This control determines whether the IA32_RTIT_CTL MSR is
+                  cleared on VM exit.
+                  "
+              lsb: 25
+              msb: 25
+              readable: True
+              writable: True
+
+            - name: "reserved_27_26"
+              long_name: "Reserved bits 27:26"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 26
+              msb: 27
+              readable: True
+              writable: True
+
+            - name: "Load CET state"
+              long_name: "Load CET state"
+              description: |
+                  "
+                  This control determines whether CET-related MSRs and SPP are
+                  loaded on VM exit
+                  "
+              lsb: 28
+              msb: 28
+              readable: True
+              writable: True
+
+            - name: "reserved_31_29"
+              long_name: "Reserved bits 31:29"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_EXIT_CTLS and IA32_VMX_TRUE_EXIT_CTLS (see Appendix
+                  A.4) to determine how it should set the reserved bits.
+                  Failure to set reserved bits properly causes subsequent VM
+                  entries to fail (see Section 26.2.1.2).
+                  "
+              lsb: 29
+              msb: 31
+              readable: True
+              writable: True

@@ -1,5 +1,12 @@
 - name: vm_exit_instruction_length
   long_name: "VM-exit instruction length"
+  purpose: |
+      "
+      For VM exits resulting from instruction execution, this field receives
+      the length in bytes of the instruction whose execution led to the VM
+      exit.1 See Section 27.2.5 for details of when and how this field is
+      used.
+      "
   size: 32
   arch: x86_64
 

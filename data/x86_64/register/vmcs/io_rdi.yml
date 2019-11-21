@@ -1,5 +1,9 @@
 - name: io_rdi
   long_name: "I/O RDI"
+  purpose: |
+      "
+      The value of RDI before the I/O instruction started.
+      "
   size: 64
   arch: x86_64
 

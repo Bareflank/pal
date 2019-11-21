@@ -1,5 +1,14 @@
 - name: guest_pdpte3
   long_name: "Guest PDPTE3 (full)"
+  purpose: |
+      "
+      These four (4) fields (PDPTE0, PDPTE1, PDPTE2, and PDPTE3) are supported
+      only on processors that support the 1-setting of the “enable EPT”
+      VMexecution control. They correspond to the PDPTEs referenced by CR3 when
+      PAE paging is in use (see Section 4.4 in the Intel® 64 and IA-32
+      Architectures Software Developer’s Manual, Volume 3A). They are used only
+      if the “enable EPT” VM-execution control is 1.
+      "
   size: 64
   arch: x86_64
 

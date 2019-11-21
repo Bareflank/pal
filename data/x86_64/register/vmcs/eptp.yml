@@ -1,5 +1,12 @@
 - name: eptp
   long_name: "EPT pointer (EPTP; full)"
+  purpose: |
+      "
+      The extended-page-table pointer (EPTP) contains the address of the base
+      of EPT PML4 table (see Section 28.2.2), as well as other EPT
+      configuration information. The format of this field is shown in Table
+      24-8.
+      "
   size: 64
   arch: x86_64
 
@@ -9,3 +16,77 @@
 
       - name: vmwrite
         encoding: 0x0000201A
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: "EPT paging-structure memory type"
+              long_name: "EPT paging-structure memory type"
+              description: |
+                  "
+                  EPT paging-structure memory type (see Section 28.2.7): 0 =
+                  Uncacheable (UC) 6 = Write-back (WB) Other values are
+                  reserved.1
+                  "
+              lsb: 0
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: "EPT page-walk length"
+              long_name: "EPT page-walk length"
+              description: |
+                  "
+                  This value is 1 less than the EPT page-walk length (see
+                  Section 28.2.2)
+                  "
+              lsb: 3
+              msb: 5
+              readable: True
+              writable: True
+
+            - name: "Bit 6"
+              long_name: "accessed and dirty flags for EPT"
+              description: |
+                  "
+                  Setting this control to 1 enables accessed and dirty flags
+                  for EPT (see Section 28.2.5)
+                  "
+              lsb: 6
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: "Bit 7"
+              long_name: "access rights for supervisor shadow-stack pages"
+              description: |
+                  "
+                  Setting this control to 1 enables enforcement of access
+                  rights for supervisor shadow-stack pages (see Section
+                  28.2.3.2)
+                  "
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              long_name: "Reserved"
+              lsb: 8
+              msb: 11
+              reserved0: True
+
+            - name: "EPT PML4 table"
+              long_name: "EPT PML4 table"
+              description: |
+                  "
+                  Bits N–1:12 of the physical address of the 4-KByte aligned
+                  EPT PML4 table
+                  "
+              lsb: 12
+              msb: 63
+              readable: True
+              writable: True

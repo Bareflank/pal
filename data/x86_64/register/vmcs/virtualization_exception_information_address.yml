@@ -1,5 +1,12 @@
 - name: virtualization_exception_information_address
   long_name: "Virtualization-exception information address (full)"
+  purpose: |
+      "
+      This field contains the physical address of the virtualization-exception
+      information area. When a logical processor encounters a virtualization
+      exception, it saves virtualization-exception information at the
+      virtualization-exception information address; see Section 25.5.6.2.
+      "
   size: 64
   arch: x86_64
 

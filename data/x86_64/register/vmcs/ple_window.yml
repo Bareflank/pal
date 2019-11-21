@@ -1,5 +1,10 @@
 - name: ple_window
   long_name: "PLE_Window"
+  purpose: |
+      "
+      Software can configure this field as an upper bound on the amount of time
+      a guest is allowed to execute in a PAUSE loop.
+      "
   size: 32
   arch: x86_64
 

@@ -1,5 +1,22 @@
 - name: virtual_apic_address
   long_name: "Virtual-APIC address (full)"
+  purpose: |
+      "
+      This field contains the physical address of the 4-KByte virtual-APIC
+      page.  The processor uses the virtual-APIC page to virtualize certain
+      accesses to APIC registers and to manage virtual interrupts; see Chapter
+      29.  Depending on the setting of the controls indicated earlier, the
+      virtual-APIC page may be accessed by the following operations: — The MOV
+      CR8 instructions (see Section 29.3).  — Accesses to the APIC-access page
+      if, in addition, the “virtualize APIC accesses” VM-execution control is
+      1 (see Section 29.4).  — The RDMSR and WRMSR instructions if, in
+      addition, the value of ECX is in the range 800H–8FFH (indicating an APIC
+      MSR) and the “virtualize x2APIC mode” VM-execution control is 1 (see
+      Section 29.5).  If the “use TPR shadow” VM-execution control is 1, VM
+      entry ensures that the virtual-APIC address is 4-KByte aligned. The
+      virtual-APIC address exists only on processors that support the
+      1-setting of the “use TPR shadow” VM-execution control.
+      "
   size: 64
   arch: x86_64
 
