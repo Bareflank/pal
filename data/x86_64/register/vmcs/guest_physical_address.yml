@@ -1,5 +1,11 @@
 - name: guest_physical_address
   long_name: "Guest-physical address (full)"
+  purpose: |
+      "
+      This field is used VM exits due to EPT violations and EPT
+      misconfigurations.  See Section 27.2.1 for details of when and how this
+      field is used.
+      "
   size: 64
   arch: x86_64
 

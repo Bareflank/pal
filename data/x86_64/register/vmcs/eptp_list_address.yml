@@ -1,5 +1,13 @@
 - name: eptp_list_address
   long_name: "EPTP-list address (full)"
+  purpose: |
+      "
+      Processors that support the 1-setting of the “EPTP switching” VM-function
+      control also support a 64-bit field called the EPTP-list address. This
+      field contains the physical address of the 4-KByte EPTP list. The EPTP
+      list comprises 512 8-Byte entries (each an EPTP value) and is used by the
+      EPTP-switching VM function (see Section 25.5.5.3).
+      "
   size: 64
   arch: x86_64
 

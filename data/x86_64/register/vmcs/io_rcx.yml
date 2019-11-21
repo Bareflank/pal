@@ -1,5 +1,9 @@
 - name: io_rcx
   long_name: "I/O RCX"
+  purpose: |
+      "
+      The value of RCX before the I/O instruction started.
+      "
   size: 64
   arch: x86_64
 

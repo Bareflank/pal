@@ -16,16 +16,3 @@
 
       - name: vmwrite
         encoding: 0x00000000
-
-  fieldsets:
-      - name: latest
-        condition: "Fieldset valid on latest version of the Intel architecture"
-        size: 16
-
-        fields:
-            - name: vpid
-              long_name: "Virtual Processor Identifier"
-              lsb: 0
-              msb: 16
-              readable: True
-              writable: True

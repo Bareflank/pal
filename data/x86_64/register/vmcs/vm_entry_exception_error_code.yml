@@ -1,5 +1,11 @@
 - name: vm_entry_exception_error_code
   long_name: "VM-entry exception error code"
+  purpose: |
+      "
+      This field is used if and only if the valid bit (bit 31) and the
+      delivererror-code bit (bit 11) are both set in the VM-entry
+      interruption-information field.
+      "
   size: 32
   arch: x86_64
 

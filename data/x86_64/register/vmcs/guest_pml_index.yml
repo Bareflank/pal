@@ -1,5 +1,14 @@
 - name: pml_index
   long_name: "PML index"
+  purpose: |
+      "
+      This field is supported only on processors that support the 1-setting of
+      the “enable PML” VM-execution control. It contains the logical index of
+      the next entry in the page-modification log. Because the
+      page-modification log comprises 512 entries, the PML index is typically a
+      value in the range 0–511. Details of the page-modification log and use of
+      the PML index are given in Section 28.2.6.
+      "
   size: 16
   arch: x86_64
 

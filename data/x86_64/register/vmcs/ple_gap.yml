@@ -1,5 +1,10 @@
 - name: ple_gap
   long_name: "PLE_Gap"
+  purpose: |
+      "
+      Software can configure this field as an upper bound on the amount of
+      time between two successive executions of PAUSE in a loop.
+      "
   size: 32
   arch: x86_64
 

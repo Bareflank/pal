@@ -1,5 +1,11 @@
 - name: vm_exit_msr_store_count
   long_name: "VM-exit MSR-store count"
+  purpose: |
+      "
+      This field specifies the number of MSRs to be stored on VM exit. It is
+      recommended that this count not exceed 512. Otherwise, unpredictable
+      processor behavior (including a machine check) may result during VM exit.
+      "
   size: 32
   arch: x86_64
 

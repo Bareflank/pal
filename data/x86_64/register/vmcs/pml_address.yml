@@ -1,5 +1,15 @@
 - name: pml_address
   long_name: "PML address (full)"
+  purpose: |
+      "
+      The PML address is a 64-bit field. It is the 4-KByte aligned address of
+      the page-modification log. The pagemodification log consists of 512
+      64-bit entries. It is used for the page-modification logging feature.
+      Details of the page-modification logging are given in Section 28.2.6.  If
+      the “enable PML” VM-execution control is 1, VM entry ensures that the PML
+      address is 4-KByte aligned. The PML address exists only on processors
+      that support the 1-setting of the “enable PML” VM-execution control.
+      "
   size: 64
   arch: x86_64
 

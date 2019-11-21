@@ -1,5 +1,22 @@
 - name: cr0_read_shadow
   long_name: "CR0 read shadow"
+  purpose: |
+      "
+      VM-execution control fields include guest/host masks and read shadows for
+      the CR0 and CR4 registers. These fields control executions of
+      instructions that access those registers (including CLTS, LMSW, MOV CR,
+      and SMSW).  They are 64 bits on processors that support Intel 64
+      architecture and 32 bits on processors that do not.  In general, bits
+      set to 1 in a guest/host mask correspond to bits “owned” by the host: •
+      Guest attempts to set them (using CLTS, LMSW, or MOV to CR) to values
+      differing from the corresponding bits in the corresponding read shadow
+      cause VM exits.  • Guest reads (using MOV from CR or SMSW) return values
+      for these bits from the corresponding read shadow.  Bits cleared to 0
+      correspond to bits “owned” by the guest; guest attempts to modify them
+      succeed and guest reads return values for these bits from the control
+      register itself.  See Chapter 27 for details regarding how these fields
+      affect VMX non-root operation.
+      "
   size: 64
   arch: x86_64
 

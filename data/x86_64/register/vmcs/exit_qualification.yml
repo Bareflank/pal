@@ -1,5 +1,16 @@
 - name: exit_qualification
   long_name: "Exit qualification"
+  purpose: |
+      "
+      (64 bits; 32 bits on processors that do not support Intel 64
+      architecture). This field contains additional information about the cause
+      of VM exits due to the following: debug exceptions; page-fault
+      exceptions; start-up IPIs (SIPIs); task switches; INVEPT; INVLPG;INVVPID;
+      LGDT; LIDT; LLDT; LTR; SGDT; SIDT; SLDT; STR; VMCLEAR; VMPTRLD; VMPTRST;
+      VMREAD; VMWRITE; VMXON; XRSTORS; XSAVES; controlregister accesses; MOV
+      DR; I/O instructions; and MWAIT. The format of the field depends on the
+      cause of the VM exit. See Section 27.2.1 for details.
+      "
   size: 64
   arch: x86_64
 
