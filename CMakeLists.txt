@@ -3,10 +3,7 @@ project(pal NONE)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/colors.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/config/default.cmake)
-include(${PAL_SOURCE_CMAKE_DIR}/macros/print_banner.cmake)
-include(${PAL_SOURCE_CMAKE_DIR}/macros/print_usage.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/init_project.cmake)
 
 set(PYTHONPATH ${CMAKE_CURRENT_LIST_DIR})
 
@@ -44,6 +41,10 @@ install(
     DIRECTORY ${CMAKE_BINARY_DIR}/pal
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 )
+
+if(ENABLE_TEST)
+    add_subdirectory(test)
+endif()
 
 print_banner()
 print_usage()

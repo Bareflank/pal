@@ -11,5 +11,8 @@ class UniqueFieldsetNames(AbstractTransform):
         if len(reg.fieldsets) > 1:
             for idx, fs in enumerate(reg.fieldsets):
                 for f in fs.fields:
-                    f.name = "fieldset_" + str(idx + 1) + "_" + f.name
+                    if fs.name:
+                        f.name = fs.name.lower() + "_" + f.name
+                    else:
+                        f.name = "fieldset_" + str(idx + 1) + "_" + f.name
         return reg
