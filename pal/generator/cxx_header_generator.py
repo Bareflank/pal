@@ -26,7 +26,9 @@ class CxxHeaderGenerator(AbstractGenerator):
                 include_guard = "PAL_" + reg.name.upper() + "_H"
                 self.gadgets["pal.include_guard"].name = include_guard
                 self.gadgets["pal.header_depends"].includes = [
-                    "<stdint.h>"
+                    "<stdint.h>",
+                    "<stdio.h>",
+                    "<inttypes.h>"
                 ]
 
                 outfile_path = os.path.join(outpath, reg.name.lower() + ".h")
@@ -74,15 +76,9 @@ class CxxHeaderGenerator(AbstractGenerator):
 
     @pal.gadget.cxx.namespace
     def _generate_register_accessors(self, outfile, reg):
-        self.writer.declare_register_constants(outfile, reg)
-        self.writer.declare_access_mechanism_dependencies(outfile, reg)
+        self.writer.declare_register_accessors(outfile, reg)
 
-        if reg.is_readable():
-            self.writer.declare_register_get(outfile, reg)
-        if reg.is_writeable():
-            self.writer.declare_register_set(outfile, reg)
         fieldsets = reg.fieldsets
-
         for idx, fieldset in enumerate(fieldsets):
             if len(fieldsets) > 1:
                 self.writer.declare_comment(outfile, fieldset.condition)
@@ -108,10 +104,9 @@ class CxxHeaderGenerator(AbstractGenerator):
             self.writer.write_newline(outfile)
 
         if reg.is_readable():
-            self.writer.declare_fieldset_printer(outfile, reg, fieldset)
+            self.writer.declare_fieldset_printers(outfile, reg, fieldset)
 
     @pal.gadget.cxx.namespace
     def _generate_register_field(self, outfile, reg, field):
-        self.writer.declare_field_constants(outfile, reg, field)
         self.writer.declare_field_accessors(outfile, reg, field)
-        self.writer.declare_field_printer(outfile, reg, field)
+        self.writer.declare_field_printers(outfile, reg, field)

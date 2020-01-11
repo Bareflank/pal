@@ -7,6 +7,7 @@ from pal.parser import parse_registers
 from pal.transform import transforms
 from pal.writer.writer_factory import make_writer
 
+from pal.generator.c_header_generator import CHeaderGenerator
 from pal.generator.cxx_header_generator import CxxHeaderGenerator
 from pal.generator.yaml_data_generator import YamlDataGenerator
 
@@ -93,12 +94,14 @@ def pal_main():
         config.arch,
         config.language,
         config.access_mechanism,
-        config.print_style,
+        config.print_mechanism,
         config.file_format
     )
 
     if config.generator == "c++_header":
         generator = CxxHeaderGenerator(writer)
+    elif config.generator == "c_header":
+        generator = CHeaderGenerator(writer)
     elif config.generator == "yaml":
         generator = YamlDataGenerator(writer)
     else:

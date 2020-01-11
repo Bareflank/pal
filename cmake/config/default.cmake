@@ -47,7 +47,7 @@ add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL c++11
     DESCRIPTION "The target programming language"
-    OPTIONS c++11 yaml none
+    OPTIONS c c++11 yaml none
 )
 
 add_config(
@@ -59,7 +59,7 @@ add_config(
 )
 
 add_config(
-    CONFIG_NAME PRINT_STYLE
+    CONFIG_NAME PRINT_MECHANISM
     CONFIG_TYPE STRING
     DEFAULT_VAL printf_utf8
     DESCRIPTION "The target function printing style"
@@ -79,7 +79,7 @@ add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL c++_header
     DESCRIPTION "The target code generator"
-    OPTIONS c++_header
+    OPTIONS c_header c++_header
 )
 
 add_config(

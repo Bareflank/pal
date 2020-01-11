@@ -57,9 +57,10 @@ def enum(decorated):
             outfile.write(" ")
         elif len(lines) > 1:
             writer.write_newline(outfile)
-            writer.write_indent(outfile, count=properties.indent + 1)
-            outfile.write(line)
-            writer.write_newline(outfile)
+            for line in lines:
+                writer.write_indent(outfile, count=properties.indent + 1)
+                outfile.write(line)
+                writer.write_newline(outfile)
 
         outfile.write("}")
         if properties.name:

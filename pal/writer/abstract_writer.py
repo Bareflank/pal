@@ -3,13 +3,13 @@ from typing import List
 from pal.writer.language.language import LanguageWriter
 from pal.writer.access_mechanism.access_mechanism \
         import AccessMechanismWriter
-from pal.writer.printer.printer import PrinterWriter
+from pal.writer.print_mechanism.print_mechanism import PrintMechanismWriter
 from pal.writer.file_format.file_format import FileFormatWriter
 
 from pal.gadget.gadget_properties import GadgetProperties
 from pal.gadget import create_gadget_properties
 
-class AbstractWriter(LanguageWriter, AccessMechanismWriter, PrinterWriter,
+class AbstractWriter(LanguageWriter, AccessMechanismWriter, PrintMechanismWriter,
                      FileFormatWriter):
 
     @property

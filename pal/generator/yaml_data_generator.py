@@ -21,8 +21,8 @@ class YamlDataGenerator(AbstractGenerator):
             raise PalGeneratorException(msg)
 
     def _generate(self, outfile, reg):
-        self.writer.declare_register_constants(outfile, reg)
-        self.writer.declare_access_mechanism_dependencies(outfile, reg)
+        self.writer.declare_register_accessors(outfile, reg)
+        self.writer.declare_register_accessors(outfile, reg)
         self._generate_register_fieldsets(outfile, reg)
 
     def _generate_register_fieldsets(self, outfile, reg):
@@ -63,7 +63,7 @@ class YamlDataGenerator(AbstractGenerator):
         self.writer.write_indent(outfile, count=4)
         outfile.write("fields:\n")
         for idx, f in enumerate(fs.fields):
-            self.writer.declare_field_constants(outfile, reg, f)
+            self.writer.declare_field_accessors(outfile, reg, f)
 
             if idx != len(fs.fields) - 1:
                 self.writer.write_newline(outfile)

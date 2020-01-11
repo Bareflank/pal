@@ -5,9 +5,6 @@ from pal.writer.access_mechanism.access_mechanism \
 
 class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
 
-    def declare_access_mechanism_dependencies(self, outfile, register):
-        pass
-
     def call_readable_access_mechanism(self, outfile, register,
                                        access_mechanism, result):
         if access_mechanism.name == "mrc":
@@ -62,7 +59,7 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
 
     def _call_mrc_access_mechanism(self, outfile, register,
                                    access_mechanism, result):
-        mrc_mnemonic = "mrc p{coproc} #{opc1} %[v] c{crn} c{crm} #{opc2}".format(
+        mrc_mnemonic = "mrc p{coproc}, #{opc1}, %[v], c{crn}, c{crm}, #{opc2}".format(
             coproc=access_mechanism.coproc,
             opc1=access_mechanism.opc1,
             opc2=access_mechanism.opc2,
@@ -79,7 +76,7 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
                                     access_mechanism, result):
         self._declare_variable(outfile, "r1", 0, keywords=["volatile", "uint32_t"])
         self._declare_variable(outfile, "r2", 0, keywords=["volatile", "uint32_t"])
-        mrrc_mnemonic = "mrrc p{coproc} #{opc1} %[v1] %[v2] c{crm}".format(
+        mrrc_mnemonic = "mrrc p{coproc}, #{opc1}, %[v1], %[v2], c{crm}".format(
             coproc=access_mechanism.coproc,
             opc1=access_mechanism.opc1,
             crm=access_mechanism.crm,
@@ -110,7 +107,7 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
 
     def _call_mcr_access_mechanism(self, outfile, register,
                                    access_mechanism, value):
-        mcr_mnemonic = "mcr p{coproc} #{opc1} %[v] c{crn} c{crm} #{opc2}".format(
+        mcr_mnemonic = "mcr p{coproc}, #{opc1}, %[v], c{crn}, c{crm}, #{opc2}".format(
             coproc=access_mechanism.coproc,
             opc1=access_mechanism.opc1,
             opc2=access_mechanism.opc2,
@@ -130,7 +127,7 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
         outfile.write("r1 = (uint64_t)" + str(value) + " & 0x00000000FFFFFFFF;")
         outfile.write("r2 = ((uint64_t)" + str(value) + " & 0xFFFFFFFF00000000) >> 32;")
         self.write_newline(outfile)
-        mrrc_mnemonic = "mrrc p{coproc} #{opc1} %[v1] %[v2] c{crm}".format(
+        mrrc_mnemonic = "mrrc p{coproc}, #{opc1}, %[v1], %[v2], c{crm}".format(
             coproc=access_mechanism.coproc,
             opc1=access_mechanism.opc1,
             crm=access_mechanism.crm,
