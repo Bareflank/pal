@@ -4,10 +4,39 @@ from pal.writer.language.language import LanguageWriter
 
 class YamlLanguageWriter(LanguageWriter):
 
+    def declare_comment(self, outfile, comment, wrap=79):
+        # Wrap at (wrap - 2) to account for "# "characters
+        wrapped = textwrap.wrap(comment, width=(wrap - 2))
+        for line in wrapped:
+            outfile.write("# " + str(line))
+            self.write_newline(outfile)
+
     def declare_register_dependencies(self, outfile, register):
         pass
 
-    def declare_register_constants(self, outfile, register):
+    def declare_register_accessors(self, outfile, register):
+        self._declare_register_constants(outfile, register)
+
+    def declare_field_accessors(self, outfile, register, field):
+        self._declare_field_constants(outfile, register, field)
+
+    def declare_field_printers(outfile, register, field):
+        pass
+
+    def declare_fieldset_printers(outfile, register, fieldset):
+        pass
+
+    def call_register_get(self, outfile, register, destination, index="index"):
+        pass
+
+    def call_field_get(self, outfile, register, field, destination,
+                       register_value):
+        pass
+
+    # -------------------------------------------------------------------------
+    # private
+    # -------------------------------------------------------------------------
+    def _declare_register_constants(self, outfile, register):
         outfile.write("- name: " + str(register.name))
         self.write_newline(outfile)
 
@@ -65,20 +94,7 @@ class YamlLanguageWriter(LanguageWriter):
 
         self.write_newline(outfile)
 
-    def declare_comment(self, outfile, comment, wrap=79):
-        # Wrap at (wrap - 2) to account for "# "characters
-        wrapped = textwrap.wrap(comment, width=(wrap - 2))
-        for line in wrapped:
-            outfile.write("# " + str(line))
-            self.write_newline(outfile)
-
-    def declare_register_get(self, outfile, register):
-        pass
-
-    def declare_register_set(self, outfile, register):
-        pass
-
-    def declare_field_constants(self, outfile, register, field):
+    def _declare_field_constants(self, outfile, register, field):
         self.write_indent(outfile, count=5)
         outfile.write("- name: " + str(field.name))
         self.write_newline(outfile)
@@ -140,12 +156,3 @@ class YamlLanguageWriter(LanguageWriter):
             self.write_indent(outfile, count=6)
             outfile.write("preserved: True")
             self.write_newline(outfile)
-
-    def declare_field_accessors(self, outfile, register, field):
-        pass
-
-    def call_register_get(self, outfile, register, destination, index="index"):
-        pass
-
-    def call_field_get(self, outfile, register_value, field, destination):
-        pass

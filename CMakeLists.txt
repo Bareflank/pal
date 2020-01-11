@@ -19,7 +19,7 @@ add_custom_command(
         --arch=${ARCH}
         --language=${LANGUAGE}
         --access_mechanism=${ACCESS_MECHANISM}
-        --print_style=${PRINT_STYLE}
+        --print_mechanism=${PRINT_MECHANISM}
         --file_format=${FILE_FORMAT}
         --generator=${GENERATOR}
         --register_read_function=${REGISTER_READ_FUNCTION}

@@ -7,11 +7,6 @@ from pal.model.access_mechanism import AbstractAccessMechanism
 class AccessMechanismWriter(abc.ABC):
 
     @abc.abstractmethod
-    def declare_access_mechanism_dependencies(self, outfile: TextIO,
-                                           register: Register) -> None:
-        pass
-
-    @abc.abstractmethod
     def call_readable_access_mechanism(
             self,
             outfile: TextIO,

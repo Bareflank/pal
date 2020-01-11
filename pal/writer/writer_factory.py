@@ -1,6 +1,7 @@
 from pal.writer.abstract_writer import AbstractWriter
 
-from pal.writer.language.cxx11 import Cxx11LanguageWriter
+from pal.writer.language.c.language_writer import CLanguageWriter
+from pal.writer.language.cxx11.language_writer import Cxx11LanguageWriter
 from pal.writer.language.yaml import YamlLanguageWriter
 from pal.writer.language.none import NoneLanguageWriter
 
@@ -14,13 +15,15 @@ from pal.writer.access_mechanism.gas_aarch32 import \
     GasAarch32AccessMechanismWriter
 from pal.writer.access_mechanism.cxx_test import \
     CxxTestAccessMechanismWriter
+from pal.writer.access_mechanism.c_test import \
+    CTestAccessMechanismWriter
 from pal.writer.access_mechanism.yaml import \
     YamlAccessMechanismWriter
 from pal.writer.access_mechanism.none import \
     NoneAccessMechanismWriter
 
-from pal.writer.printer.printf_utf8 import PrintfUtf8PrinterWriter
-from pal.writer.printer.none import NonePrinterWriter
+from pal.writer.print_mechanism.printf_utf8 import PrintfUtf8PrintMechanismWriter
+from pal.writer.print_mechanism.none import NonePrintMechanismWriter
 
 from pal.writer.file_format.unix import UnixFileFormatWriter
 from pal.writer.file_format.windows import WindowsFileFormatWriter
@@ -28,6 +31,7 @@ from pal.writer.file_format.yaml import YamlFileFormatWriter
 from pal.writer.file_format.none import NoneFileFormatWriter
 
 language_options = {
+    "c": CLanguageWriter,
     "c++11": Cxx11LanguageWriter,
     "yaml": YamlLanguageWriter,
     "none": NoneLanguageWriter,
@@ -43,9 +47,9 @@ access_mechanism_options = [
     "none",
 ]
 
-printer_options = {
-    "printf_utf8": PrintfUtf8PrinterWriter,
-    "none": NonePrinterWriter,
+print_mechanism_options = {
+    "printf_utf8": PrintfUtf8PrintMechanismWriter,
+    "none": NonePrintMechanismWriter,
 }
 
 file_format_options = {
@@ -67,13 +71,15 @@ def get_access_mechanism_writer(arch, language, access_mechanism):
         return GasAarch32AccessMechanismWriter
     elif access_mechanism == "test" and language == "c++11":
         return CxxTestAccessMechanismWriter
+    elif access_mechanism == "test" and language == "c":
+        return CTestAccessMechanismWriter
     elif access_mechanism == "yaml":
         return YamlAccessMechanismWriter
     else:
         return NoneAccessMechanismWriter
 
 
-def make_writer(arch, language, access_mechanism, printer, file_format):
+def make_writer(arch, language, access_mechanism, print_mechanism, file_format):
 
     if language not in language_options:
         raise Exception("invalid language option: " + str(language))
@@ -81,8 +87,9 @@ def make_writer(arch, language, access_mechanism, printer, file_format):
     if access_mechanism not in access_mechanism_options:
         raise Exception("invalid access mechanism option: " + str(access_mechanism))
 
-    if printer not in printer_options:
-        raise Exception("invalid printer option: " + str(printer))
+    if print_mechanism not in print_mechanism_options:
+        raise Exception("invalid print_mechanism option: " +
+                        str(print_mechanism))
 
     if file_format not in file_format_options:
         raise Exception("invalid file_format option: " + str(file_format))
@@ -93,7 +100,7 @@ def make_writer(arch, language, access_mechanism, printer, file_format):
             AbstractWriter,
             language_options[language],
             am_writer,
-            printer_options[printer],
+            print_mechanism_options[print_mechanism],
             file_format_options[file_format]
           ):
         pass

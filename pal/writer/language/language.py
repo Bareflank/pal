@@ -19,20 +19,7 @@ class LanguageWriter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def declare_register_constants(self, outfile: TextIO, register: Register) -> None:
-        pass
-
-    @abc.abstractmethod
-    def declare_register_get(self, outfile: TextIO, register: Register) -> None:
-        pass
-
-    @abc.abstractmethod
-    def declare_register_set(self, outfile: TextIO, register: Register) -> None:
-        pass
-
-    @abc.abstractmethod
-    def declare_field_constants(self, outfile: TextIO, register: Register,
-                                field: Field) -> None:
+    def declare_register_accessors(self, outfile: TextIO, register: Register) -> None:
         pass
 
     @abc.abstractmethod
@@ -41,11 +28,21 @@ class LanguageWriter(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def declare_field_printers(outfile: TextIO, register: Register,
+                                  field: Field):
+        pass
+
+    @abc.abstractmethod
+    def declare_fieldset_printers(outfile: TextIO, register: Register,
+                                  fieldset: Fieldset):
+        pass
+
+    @abc.abstractmethod
     def call_register_get(self, outfile: TextIO, register: Register,
                           destination: str, index: str=None) -> None:
         pass
 
     @abc.abstractmethod
-    def call_field_get(self, outfile: TextIO, register_value: str, field: Field,
-                          destination: str) -> None:
+    def call_field_get(self, outfile: TextIO, register: Register, field: Field,
+                          destination: str, register_value: str) -> None:
         pass

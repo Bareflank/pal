@@ -5,9 +5,6 @@ from pal.logger import logger
 
 class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
 
-    def declare_access_mechanism_dependencies(self, outfile, register):
-        pass
-
     def call_readable_access_mechanism(self, outfile, register,
                                        access_mechanism, result):
         if access_mechanism.name == "mov_read":
