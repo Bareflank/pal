@@ -81,8 +81,8 @@
                   Bits 07 - 05: AVX-512 state
                   "
 
-            - name: "IA32_XSS"
-              long_name: "IA32_XSS"
+            - name: "Bit 08"
+              long_name: "Bit 8"
               lsb: 8
               msb: 8
               readable: True
@@ -107,8 +107,8 @@
               msb: 12
               reserved0: True
 
-            - name: "IA32_XSS"
-              long_name: "IA32_XSS"
+            - name: "Bit 13"
+              long_name: "Bit 13"
               lsb: 13
               msb: 13
               readable: True

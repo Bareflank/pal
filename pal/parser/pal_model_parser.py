@@ -291,4 +291,5 @@ class PalModelParser(AbstractParser):
         elif string.endswith("\ "):
             return self._strip_string(string[:-1])
 
+        string = string.replace("\n", "")
         return string
