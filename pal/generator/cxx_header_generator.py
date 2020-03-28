@@ -19,6 +19,7 @@ class CxxHeaderGenerator(AbstractGenerator):
             regs = transforms["remove_reserved_1"].transform(regs)
             regs = transforms["remove_preserved"].transform(regs)
             regs = transforms["special_to_underscore"].transform(regs)
+            regs = transforms["insert_valid_first_character"].transform(regs)
 
             logger.info("Generating outputs to: " + str(outpath))
 

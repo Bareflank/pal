@@ -12,7 +12,7 @@
 # @param OPTIONS Possible values for the the variable. Only applies to STRING
 #    type variables.
 #
-macro(add_config)
+macro(pal_add_config)
     set(options ADVANCED SKIP_VALIDATION)
     set(oneVal CONFIG_NAME CONFIG_TYPE DEFAULT_VAL DESCRIPTION)
     set(multiVal OPTIONS)
@@ -61,4 +61,4 @@ macro(add_config)
     if(ARG_ADVANCED)
         mark_as_advanced(${ARG_CONFIG_NAME})
     endif()
-endmacro(add_config)
+endmacro(pal_add_config)

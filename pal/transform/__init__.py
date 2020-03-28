@@ -1,5 +1,6 @@
 import collections
 
+from .insert_valid_first_character import InsertValidFirstCharacter
 from .make_read_only import MakeReadOnly
 from .make_write_only import MakeWriteOnly
 from .quirks import Quirks
@@ -30,6 +31,7 @@ from .unique_fieldset_names import UniqueFieldsetNames
 
 transforms = collections.OrderedDict()
 
+transforms["insert_valid_first_character"] = InsertValidFirstCharacter()
 transforms["make_read_only"] = MakeReadOnly()
 transforms["make_write_only"] = MakeWriteOnly()
 transforms["quirks"] = Quirks()

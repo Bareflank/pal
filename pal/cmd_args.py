@@ -13,6 +13,9 @@ long_opts = []
 for key, val in config.items():
     long_opts.append(str(key) + "=")
 
+truthy_opts = ["true", "on", "1", "y", "yes"]
+falsey_opts = ["false", "off", "0", "n", "no"]
+
 def print_usage():
     usage = "Usage:\n\tpal -i <path_to_register_spec> -o <outpath> [--config=value]"
     print(usage)
@@ -45,7 +48,11 @@ def parse_cmd_args(args: List[str]) -> config:
                 config.pal_output_dir = str(arg)
             else:
                 opt_name = opt[2:]
-                if config[opt_name]:
+                if arg.lower() in truthy_opts:
+                    config[opt_name] = True
+                elif arg.lower() in falsey_opts:
+                    config[opt_name] = False
+                else:
                     config[opt_name] = arg
 
     except getopt.GetoptError:
