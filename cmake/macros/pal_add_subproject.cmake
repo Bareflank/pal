@@ -9,7 +9,7 @@
 # @param DEPENDS list of CMake targets this subproject depends on
 #
 #
-function(add_subproject NAME)
+function(pal_add_subproject NAME)
     set(oneVal SOURCE_DIR BINARY_DIR TOOLCHAIN INSTALL_PREFIX)
     set(multiVal DEPENDS)
     cmake_parse_arguments(ARG "" "${oneVal}" "${multiVal}" ${ARGN})
@@ -17,7 +17,7 @@ function(add_subproject NAME)
     if(ARG_SOURCE_DIR)
         set(SOURCE_DIR ${ARG_SOURCE_DIR})
     else()
-        message(FATAL_ERROR "add_subproject: SOURCE_DIR not provided")
+        message(FATAL_ERROR "pal_add_subproject: SOURCE_DIR not provided")
     endif()
 
     if(ARG_BINARY_DIR)
@@ -66,4 +66,4 @@ function(add_subproject NAME)
         UPDATE_COMMAND  ${CMAKE_COMMAND} -E echo "-- checking for updates"
     )
 
-endfunction(add_subproject)
+endfunction(pal_add_subproject)

@@ -17,6 +17,7 @@ class CHeaderGenerator(AbstractGenerator):
             regs = transforms["remove_reserved_sign_extended"].transform(regs)
             regs = transforms["remove_implementation_defined"].transform(regs)
             regs = transforms["special_to_underscore"].transform(regs)
+            regs = transforms["insert_valid_first_character"].transform(regs)
             regs = transforms["remove_redundant_am"].transform(regs)
             regs = transforms["remove_redundant_fields"].transform(regs)
             regs = transforms["unique_fieldset_names"].transform(regs)

@@ -209,6 +209,14 @@ c.description = "Prefix to place in front of generated C functions"
 config.add_configuration(c)
 
 # -----------------------------------------------------------------------------
+# Peripheral options
+# -----------------------------------------------------------------------------
+
+c = Configuration("acpi", False)
+c.description = "Set to True to generate accessors for ACPI"
+config.add_configuration(c)
+
+# -----------------------------------------------------------------------------
 # Paths
 # -----------------------------------------------------------------------------
 

@@ -14,4 +14,5 @@ foreach (_var ${_vars})
     set(${_var} ${${_var}})
 endforeach()
 
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
 set(PYTHONPATH ${PAL_SOURCE_ROOT_DIR})

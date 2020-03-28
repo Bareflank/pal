@@ -6,6 +6,7 @@ from pal.cmd_args import parse_cmd_args
 from pal.parser import parse_registers
 from pal.transform import transforms
 from pal.writer.writer_factory import make_writer
+from pal.logger import logger
 
 from pal.generator.c_header_generator import CHeaderGenerator
 from pal.generator.cxx_header_generator import CxxHeaderGenerator
@@ -86,9 +87,24 @@ def main_armv8a(config, generator):
     generator.generate(copy.deepcopy(regs), outdir)
 
 
+def main_acpi(config, generator):
+    data_path = config.pal_data_dir
+
+    from pal.logger import logger
+    acpi_top_dir = os.path.join(data_path, "acpi")
+    acpi_sub_dirs = next(os.walk(acpi_top_dir))[1]
+    for subdir in acpi_sub_dirs:
+        indir = os.path.join(acpi_top_dir, subdir)
+        outdir = os.path.join(config.pal_output_dir, "acpi", subdir)
+        os.makedirs(outdir, exist_ok=True)
+        regs = parse_registers(indir)
+        generator.generate(copy.deepcopy(regs), outdir)
+
+
 def pal_main():
     config = parse_cmd_args(sys.argv[1:])
     config.validate()
+    logger.set_log_level(config.log_level)
 
     writer = make_writer(
         config.arch,
@@ -114,5 +130,7 @@ def pal_main():
     else:
         raise Exception("Invalid architecture: " + str(config.arch))
 
+    if config.acpi:
+        main_acpi(config, generator)
 
 pal_main()

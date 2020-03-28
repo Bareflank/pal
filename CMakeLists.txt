@@ -10,41 +10,55 @@ set(PYTHONPATH ${CMAKE_CURRENT_LIST_DIR})
 file(GLOB_RECURSE PAL_SRC_FILES "pal/*.py" "data/*.yml")
 set(PAL_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
 
+if(PAL_QUIET_CMAKE)
+    set(PAL_LOG_LEVEL "error")
+else()
+    set(PAL_LOG_LEVEL "info")
+endif()
+
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
-        -o ${CMAKE_BINARY_DIR}/pal
-        --arch=${ARCH}
-        --language=${LANGUAGE}
-        --access_mechanism=${ACCESS_MECHANISM}
-        --print_mechanism=${PRINT_MECHANISM}
-        --file_format=${FILE_FORMAT}
-        --generator=${GENERATOR}
-        --register_read_function=${REGISTER_READ_FUNCTION}
-        --register_write_function=${REGISTER_WRITE_FUNCTION}
-        --field_read_function=${FIELD_READ_FUNCTION}
-        --field_write_function=${FIELD_WRITE_FUNCTION}
-        --bit_set_function=${BIT_SET_FUNCTION}
-        --bit_is_set_function=${BIT_IS_SET_FUNCTION}
-        --bit_clear_function=${BIT_CLEAR_FUNCTION}
-        --bit_is_clear_function=${BIT_IS_CLEAR_FUNCTION}
-        --print_function=${PRINT_FUNCTION}
+        -o ${PAL_OUTPUT_DIR}/pal
+        --arch=${PAL_TARGET_ARCH}
+        --language=${PAL_TARGET_LANGUAGE}
+        --access_mechanism=${PAL_ACCESS_MECHANISM}
+        --print_mechanism=${PAL_PRINT_MECHANISM}
+        --file_format=${PAL_FILE_FORMAT}
+        --generator=${PAL_GENERATOR}
+        --register_read_function=${PAL_REGISTER_READ_FUNCTION}
+        --register_write_function=${PAL_REGISTER_WRITE_FUNCTION}
+        --field_read_function=${PAL_FIELD_READ_FUNCTION}
+        --field_write_function=${PAL_FIELD_WRITE_FUNCTION}
+        --bit_set_function=${PAL_BIT_SET_FUNCTION}
+        --bit_is_set_function=${PAL_BIT_IS_SET_FUNCTION}
+        --bit_clear_function=${PAL_BIT_CLEAR_FUNCTION}
+        --bit_is_clear_function=${PAL_BIT_IS_CLEAR_FUNCTION}
+        --print_function=${PAL_PRINT_FUNCTION}
+        --acpi=${PAL_ENABLE_ACPI}
+        --log_level=${PAL_LOG_LEVEL}
     COMMAND cmake -E touch ${PAL_OUTPUT_STAMP}
     OUTPUT ${PAL_OUTPUT_STAMP}
     DEPENDS ${PAL_SRC_FILES}
     COMMENT "Generating PAL outputs"
 )
 
-add_custom_target(generate ALL DEPENDS ${PAL_OUTPUT_STAMP})
+add_custom_target(pal_generate ALL DEPENDS ${PAL_OUTPUT_STAMP})
+
+add_library(pal INTERFACE)
+add_dependencies(pal pal_generate)
+target_include_directories(pal INTERFACE ${PAL_OUTPUT_DIR})
 
 set(CMAKE_INSTALL_MESSAGE NEVER)
 install(
-    DIRECTORY ${CMAKE_BINARY_DIR}/pal
+    DIRECTORY ${PAL_OUTPUT_DIR}/pal
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 )
 
-if(ENABLE_TEST)
+if(PAL_ENABLE_TEST)
     add_subdirectory(test)
 endif()
 
-print_banner()
-print_usage()
+if(NOT PAL_QUIET_CMAKE)
+    pal_print_banner()
+    pal_print_usage()
+endif()
