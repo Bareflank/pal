@@ -213,7 +213,7 @@ config.add_configuration(c)
 # -----------------------------------------------------------------------------
 
 c = Configuration("acpi", False)
-c.description = "Set to True to generate accessors for ACPI"
+c.description = "EXPERIMENTAL: Set to True to generate accessors for ACPI"
 config.add_configuration(c)
 
 # -----------------------------------------------------------------------------

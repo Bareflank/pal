@@ -170,5 +170,5 @@ pal_add_config(
     CONFIG_NAME PAL_ENABLE_ACPI
     CONFIG_TYPE BOOL
     DEFAULT_VAL OFF
-    DESCRIPTION "Set to ON to include ACPI in the generated PAL output"
+    DESCRIPTION "EXPERIMENTAL: Set to ON to include ACPI in the generated PAL output"
 )
