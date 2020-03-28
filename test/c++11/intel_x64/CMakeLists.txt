@@ -10,6 +10,7 @@ set(SOURCES
     leaf_04.cpp
     leaf_0D.cpp
     eptp.cpp
+    facs.cpp
     main.cpp
 )
 
@@ -27,6 +28,7 @@ add_custom_command(
         --print_mechanism=printf_utf8
         --file_format=unix
         --generator=c++_header
+        --acpi=ON
     COMMAND cmake -E touch ${INTEL_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${INTEL_SYNTAX_OUTPUT_STAMP}
     DEPENDS ${PAL_SRC_FILES}
@@ -63,6 +65,7 @@ add_custom_command(
         --print_mechanism=printf_utf8
         --file_format=unix
         --generator=c++_header
+        --acpi=ON
     COMMAND cmake -E touch ${ATT_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${ATT_SYNTAX_OUTPUT_STAMP}
     DEPENDS ${PAL_SRC_FILES}
