@@ -1,0 +1,24 @@
+- name: century
+  long_name: "CENTURY"
+  purpose: |
+       "
+       The RTC CMOS RAM index to the century of data value (hundred and
+       thousand year decimals). If this field contains a zero, then the RTC
+       centenary feature is not supported. If this field has a non-zero value,
+       then this field contains an index into RTC RAM space that OSPM can use
+       to program the centenary field.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 108
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 108
+

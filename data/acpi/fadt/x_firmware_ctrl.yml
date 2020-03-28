@@ -1,0 +1,24 @@
+- name: x_firmware_ctrl
+  long_name: "X_FIRMWARE_CTRL"
+  purpose: |
+       "
+       Extended physical address of the FACS. If this field contains a nonzero
+       value which can be used by the OSPM, then the FIRMWARE_CTRL field must
+       be ignored by the OSPM. If the HARDWARE_REDUCED_ACPI flag is set, and
+       both this field and the FIRMWARE_CTRL field are zero, there is no FACS
+       available.
+       "
+  size: 64
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 132
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 132
+

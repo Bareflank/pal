@@ -1,0 +1,22 @@
+- name: major_revision
+  long_name: "FADT Major Version"
+  purpose: |
+       "
+       6 Major Version of this FADT structure, in \"Major.Minor\" form, where
+       'Minor' is the value in the Minor Version Field (Byte offset 131 in this
+       table)
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 8
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 8
+

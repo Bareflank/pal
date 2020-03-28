@@ -1,0 +1,25 @@
+- name: gpe1_blk
+  long_name: "GPE1_BLK"
+  purpose: |
+       "
+       System port address of General-Purpose Event 1 Register Block. See
+       Section 4.8.4.1, “General-Purpose Event Register Blocks,” for a hardware
+       description of this register block. This is an optional field; if this
+       register block is not supported, this field contains zero. If the
+       X_GPE1_BLK field contains a nonzero value which can be used by the OSPM,
+       then this field must be ignored by the OSPM.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 84
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 84
+

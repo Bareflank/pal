@@ -1,0 +1,21 @@
+- name: signature
+  long_name: "Signature"
+  purpose: |
+       "
+       ‘FACP’. Signature for the Fixed ACPI Description Table. (This signature
+       predates ACPI 1.0, explaining the mismatch with this table's name.)
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 0
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 0
+

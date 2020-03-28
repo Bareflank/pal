@@ -1,0 +1,21 @@
+- name: pm1_evt_len
+  long_name: "PM1_EVT_LEN"
+  purpose: |
+       "
+       Number of bytes decoded by PM1a_EVT_BLK and, if supported, PM1b_
+       EVT_BLK. This value is >= 4.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 88
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 88
+

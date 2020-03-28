@@ -1,0 +1,25 @@
+- name: reset_reg
+  long_name: "RESET_REG"
+  purpose: |
+       "
+       The address of the reset register represented in Generic Address
+       Structure format (See Section 4.8.3.6, “Reset Register,” for a
+       description of the reset mechanism.) Note: Only System I/O space, System
+       Memory space and PCI Configuration space (bus #0) are valid for values
+       for Address_Space_ID.  Also, Register_Bit_Width must be 8 and
+       Register_Bit_Offset must be 0.
+       "
+  size: 96
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 116
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 116
+

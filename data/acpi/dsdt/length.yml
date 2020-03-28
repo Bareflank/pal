@@ -1,0 +1,19 @@
+- name: length
+  long_name: "Length"
+  purpose: |
+       "
+       Length, in bytes, of the entire DSDT (including the header).
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: dsdt
+        offset: 4
+
+      - name: write
+        is_write: True
+        component: dsdt
+        offset: 4

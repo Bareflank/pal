@@ -1,0 +1,42 @@
+- name: version
+  long_name: "Version"
+  purpose: |
+       "
+       2–Version of this table
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 32
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 32
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the ACPI specification"
+        size: 32
+
+        fields:
+            - name: "version"
+              long_name: "Version"
+              description: |
+                  "
+                  2–Version of this table
+                  "
+              lsb: 0
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              long_name: "Reserved"
+              lsb: 8
+              msb: 31
+              reserved0: True

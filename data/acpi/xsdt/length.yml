@@ -1,0 +1,21 @@
+- name: length
+  long_name: "Length"
+  purpose: |
+       "
+       Length, in bytes, of the entire table. The length implies the number of
+       Entry fields (n) at the end of the table.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: xsdt
+        offset: 4
+
+      - name: write
+        is_write: True
+        component: xsdt
+        offset: 4
+

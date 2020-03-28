@@ -1,0 +1,25 @@
+- name: x_pm1a_cnt_blk
+  long_name: "X_PM1A_CNT_BLK"
+  purpose: |
+       "
+       Extended address of the PM1a Control Register Block, represented in
+       Generic Address Structure format. See Section 4.8.3.2, “PM1 Control
+       Grouping,” for a hardware description layout of this register block.
+       This is a required field. If this field contains a nonzero value which
+       can be used by the OSPM, then the PM1a_CNT_BLK field must be ignored by
+       the OSPM.
+       "
+  size: 96
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 172
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 172
+

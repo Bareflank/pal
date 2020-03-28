@@ -1,0 +1,27 @@
+- name: flush_stride
+  long_name: "FLUSH_STRIDE"
+  purpose: |
+       "
+       If WBINVD=0, the value of this field is the cache line width, in bytes,
+       of the processor’s memory caches. This value is typically the smallest
+       cache line width on any of the processor’s caches. For more information,
+       see the description of the FLUSH_SIZE field.  This value is ignored if
+       WBINVD=1.  This field is maintained for ACPI 1.0 processor compatibility
+       on existing systems. Processors in new ACPI-compatible systems are
+       required to support the WBINVD function and indicate this to OSPM by
+       setting the WBINVD field = 1.
+       "
+  size: 16
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 102
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 102
+

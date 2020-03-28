@@ -1,0 +1,60 @@
+- name: flags
+  long_name: "Flags"
+  purpose: |
+       "
+       Firmware control structure flags. See Table 5-38 for a description of
+       this field.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 20
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 20
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the ACPI specification"
+        size: 32
+
+        fields:
+            - name: "S4BIOS_F"
+              long_name: "S4BIOS_F"
+              description: |
+                  "
+                  Indicates whether the platform supports S4BIOS_REQ. If
+                  S4BIOS_REQ is not supported, OSPM must be able to save and
+                  restore the memory state in order to use the S4 state.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: "64BIT_WAKE_SUPPORTED_F"
+              long_name: "64BIT_WAKE_SUPPORTED_F"
+              description: |
+                  "
+                  Indicates that the platform firmware supports a 64 bit
+                  execution environment for the waking vector. When set and the
+                  OSPM additionally set 64BIT_WAKE_F, the platform firmware
+                  will create a 64 bit execution environment before
+                  transferring control to the X_Firmware_Waking_Vector.
+                  "
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              long_name: "Reserved"
+              lsb: 2
+              msb: 31
+              reserved0: True

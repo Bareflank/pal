@@ -1,0 +1,21 @@
+- name: oem_table_id
+  long_name: "OEM Table ID"
+  purpose: |
+       "
+       For the XSDT, the table ID is the manufacture model ID. This field must
+       match the OEM Table ID in the FADT.
+       "
+  size: 64
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: xsdt
+        offset: 16
+
+      - name: write
+        is_write: True
+        component: xsdt
+        offset: 16
+

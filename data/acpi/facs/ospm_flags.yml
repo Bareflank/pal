@@ -1,0 +1,48 @@
+- name: ospm_flags
+  long_name: "OSPM Flags"
+  purpose: |
+       "
+       OSPM enabled firmware control structure flags. Platform firmware must
+       initialize this field to zero. See Table 5-39 for a description of the
+       OSPM control structure feature flags.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 36
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 36
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the ACPI specification"
+        size: 32
+
+        fields:
+            - name: "64BIT_WAKE_F"
+              description: |
+                  "
+                  OSPM sets this bit to indicate to platform firmware that the
+                  X_Firmware_Waking_Vector requires a 64 bit execution
+                  environment.  This flag can only be set if platform firmware
+                  sets 64BIT_WAKE_SUPPORTED_F in the FACS flags field.  This
+                  bit field has no affect on ItaniumTM Processor Family (IPF) -
+                  based platforms, which require a 64 bit execution
+                  environment.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              lsb: 1
+              msb: 31
+              reserved0: True

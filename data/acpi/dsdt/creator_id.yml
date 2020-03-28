@@ -1,0 +1,19 @@
+- name: creator_id
+  long_name: "Creator ID"
+  purpose: |
+       "
+       Vendor ID for the ASL Compiler.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: dsdt
+        offset: 28
+
+      - name: write
+        is_write: True
+        component: dsdt
+        offset: 28

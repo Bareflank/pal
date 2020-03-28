@@ -1,0 +1,19 @@
+- name: signature
+  long_name: "Signature"
+  purpose: |
+       "
+       ‘FACS’
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 0
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 0

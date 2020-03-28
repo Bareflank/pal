@@ -1,0 +1,59 @@
+- name: arm_boot_arch
+  long_name: "ARM_BOOT_ARCH"
+  purpose: |
+       "
+       ARM Boot Architecture Flags.
+
+       These flags are used by an OS at boot time (before the OS is capable of
+       providing an operating environment suitable for parsing the ACPI
+       namespace) to determine the code paths to take during boot. For the PSCI
+       flags, specifically, the flags describe if the platform is compliant
+       with the PSCI specification.
+       The PSCI specification is found at Links to ACPI-Related Document
+       (http://uefi.org/acpi) under the heading PSCI Specification.  The ARM
+       Architecture boot flags are described in Table 5-36
+       "
+  size: 16
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 129
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 129
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the ACPI specification"
+        size: 16
+
+        fields:
+            - name: "PSCI_COMPLIANT"
+              description: |
+                  "
+                  1 if PSCI is implemented.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: "PSCI_USE_HVC"
+              description: |
+                  "
+                  1 if HVC must be used as the PSCI conduit.instead of SMC.
+                  "
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              lsb: 2
+              msb: 15
+              reserved0: True

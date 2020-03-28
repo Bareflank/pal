@@ -1,0 +1,20 @@
+- name: reserved_2
+  long_name: "Reserved"
+  purpose: |
+       "
+       Must be 0.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 111
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 111
+

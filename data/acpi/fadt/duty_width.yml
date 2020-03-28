@@ -1,0 +1,27 @@
+- name: duty_width
+  long_name: "DUTY_WIDTH"
+  purpose: |
+       "
+       The bit width of the processor’s duty cycle setting value in the P_CNT
+       register. Each processor’s duty cycle setting allows the software to
+       select a nominal processor frequency below its absolute frequency as
+       defined by: THTL_EN = 1 BF * DC/(2DUTY_WIDTH) Where: BF–Base frequency
+       DC–Duty cycle setting When THTL_EN is 0, the processor runs at its
+       absolute BF. A DUTY_WIDTH value of 0 indicates that processor duty cycle
+       is not supported and the processor continuously runs at its base
+       frequency.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 105
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 105
+

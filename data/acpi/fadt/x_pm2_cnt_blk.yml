@@ -1,0 +1,26 @@
+- name: x_pm2_cnt_blk
+  long_name: "X_PM2_CNT_BLK"
+  purpose: |
+       "
+       Extended address of the PM2 Control Register Block, represented in
+       Generic Address Structure format. See Section 4.8.3.4 “PM2 Control
+       (PM2_CNT),” for a hardware description layout of this register block.
+       This field is optional; if this register block is not supported, this
+       field contains zero. If this field contains a nonzero value which can be
+       used by the OSPM, then the PM2_CNT_BLK field must be ignored by the
+       OSPM.
+       "
+  size: 96
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 196
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 196
+

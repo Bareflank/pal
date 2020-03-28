@@ -1,0 +1,25 @@
+- name: x_pm1a_evt_blk
+  long_name: "X_PM1A_EVT_BLK"
+  purpose: |
+       "
+       Extended address of the PM1a Event Register Block, represented in
+       Generic Address Structure format. See Section 4.8.3.1, “PM1 Event
+       Grouping,” for a hardware description layout of this register block.
+       This is a required field. If this field contains a nonzero value which
+       can be used by the OSPM, then the PM1a_EVT_BLK field must be ignored by
+       the OSPM.
+       "
+  size: 96
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 148
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 148
+

@@ -1,0 +1,35 @@
+- name: flush_size
+  long_name: "FLUSH_SIZE"
+  purpose: |
+       "
+       If WBINVD=0, the value of this field is the number of flush strides that
+       need to be read (using cacheable addresses) to completely flush dirty
+       lines from any processor’s memory caches. Notice that the value in
+       FLUSH_STRIDE is typically the smallest cache line width on any of the
+       processor’s caches (for more information, see the FLUSH_STRIDE field
+       definition). If the system does not support a method for flushing the
+       processor’s caches, then FLUSH_SIZE and WBINVD are set to zero. Notice
+       that this method of flushing the processor caches has limitations, and
+       WBINVD=1 is the preferred way to flush the processors caches. This value
+       is typically at least 2 times the cache size. The maximum allowed value
+       for FLUSH_SIZE multiplied by FLUSH_STRIDE is 2 MB for a typical maximum
+       supported cache size of 1 MB. Larger cache sizes are supported using
+       WBINVD=1.  This value is ignored if WBINVD=1.  This field is maintained
+       for ACPI 1.0 processor compatibility on existing systems. Processors in
+       new ACPI-compatible systems are required to support the WBINVD function
+       and indicate this to OSPM by setting the WBINVD field = 1.
+       "
+  size: 16
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 100
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 100
+

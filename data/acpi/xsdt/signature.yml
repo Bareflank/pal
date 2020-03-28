@@ -1,0 +1,20 @@
+- name: signature
+  long_name: "Signature"
+  purpose: |
+       "
+       ‘XSDT’ Signature for the Extended System Description Table.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: xsdt
+        offset: 0
+
+      - name: write
+        is_write: True
+        component: xsdt
+        offset: 0
+

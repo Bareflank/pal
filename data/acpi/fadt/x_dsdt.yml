@@ -1,0 +1,22 @@
+- name: x_dsdt
+  long_name: "X_DSDT"
+  purpose: |
+       "
+       Extended physical address of the DSDT. If this field contains a nonzero
+       value which can be used by the OSPM, then the DSDT field must be ignored
+       by the OSPM.
+       "
+  size: 64
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 140
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 140
+

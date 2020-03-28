@@ -1,0 +1,19 @@
+- name: oem_table_id
+  long_name: "OEM Table ID"
+  purpose: |
+       "
+       The manufacture model ID.
+       "
+  size: 64
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: dsdt
+        offset: 16
+
+      - name: write
+        is_write: True
+        component: dsdt
+        offset: 16

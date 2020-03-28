@@ -1,0 +1,21 @@
+- name: creator_id
+  long_name: "Creator ID"
+  purpose: |
+       "
+       Vendor ID of utility that created the table. For tables containing
+       Definition Blocks, this is the ID for the ASL Compiler.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: rsdt
+        offset: 28
+
+      - name: write
+        is_write: True
+        component: rsdt
+        offset: 28
+

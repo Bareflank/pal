@@ -1,0 +1,20 @@
+- name: length
+  long_name: "Length"
+  purpose: |
+       "
+       Length, in bytes, of the entire FADT.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 4
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 4
+

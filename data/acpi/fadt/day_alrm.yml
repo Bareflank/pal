@@ -1,0 +1,25 @@
+- name: day_alrm
+  long_name: "DAY_ALRM"
+  purpose: |
+       "
+       The RTC CMOS RAM index to the day-of-month alarm value. If this field
+       contains a zero, then the RTC day of the month alarm feature is not
+       supported. If this field has a non-zero value, then this field contains
+       an index into RTC RAM space that OSPM can use to program the day of the
+       month alarm. See Section 4.8.2.4 “Real Time Clock Alarm,” for a
+       description of how the hardware works.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 106
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 106
+

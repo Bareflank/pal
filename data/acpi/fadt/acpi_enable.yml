@@ -1,0 +1,25 @@
+- name: acpi_enable
+  long_name: "ACPI_ENABLE"
+  purpose: |
+       "
+       The value to write to SMI_CMD to disable SMI ownership of the ACPI
+       hardware registers. The last action SMI does to relinquish ownership is
+       to set the SCI_EN bit. During the OS initialization process, OSPM will
+       synchronously wait for the transfer of SMI ownership to complete, so the
+       ACPI system releases SMI ownership as quickly as possible. This field is
+       reserved and must be zero on systems that do not support Legacy Mode.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 52
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 52
+

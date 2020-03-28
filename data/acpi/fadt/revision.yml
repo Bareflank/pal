@@ -1,0 +1,20 @@
+- name: revision
+  long_name: "Revision"
+  purpose: |
+       "
+       1
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 8
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 8
+

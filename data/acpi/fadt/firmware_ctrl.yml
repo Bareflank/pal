@@ -1,0 +1,26 @@
+- name: firmware_ctrl
+  long_name: "FIRMWARE_CTRL"
+  purpose: |
+       "
+       Physical memory address of the FACS, where OSPM and Firmware exchange
+       control information. See Section 5.2.6, “Root System Description Table,”
+       for a description of the FACS. If the X_FIRMWARE_CTRL field contains a
+       non zero value which can be used by the OSPM, then this field must be
+       ignored by the OSPM. If the HARDWARE_REDUCED_ACPI flag is set, and both
+       this field and the X_FIRMWARE_CTRL field are zero, there is no FACS
+       available.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 36
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 36
+

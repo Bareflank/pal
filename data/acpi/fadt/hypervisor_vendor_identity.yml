@@ -1,0 +1,28 @@
+- name: hypervisor_vendor_identity
+  long_name: "Hypervisor Vendor Identity"
+  purpose: |
+       "
+       64-bit identifier of hypervisor vendor. All bytes in this field are
+       considered part of the vendor identity.  These identifiers are defined
+       independently by the vendors themselves, usually following the name of
+       the hypervisor product.  Version information should NOT be included in
+       this field - this shall simply denote the vendor's name or identifier.
+       Version information can be communicated through a supplemental
+       vendor-specific hypervisor API.  Firmware implementers would place zero
+       bytes into this field, denoting that no hypervisor is present in the
+       actual firmware.
+       "
+  size: 64
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 268
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 268
+

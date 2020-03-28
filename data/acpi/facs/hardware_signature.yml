@@ -1,0 +1,32 @@
+- name: hardware_signature
+  long_name: "Hardware Signature"
+  purpose: |
+       "
+       The value of the system's 'hardware signature' at last boot. This value
+       is calculated by the platform boot firmware on a best effort basis to
+       indicate the base hardware configuration of the system such that
+       different base hardware configurations can have different hardware
+       signature values. Although memory described using or EfiPersistentMemory
+       (Section 15) iis not saved/restored by OS during S4, any change to
+       persistent memory that impacts any OS visible firmware interfaces must
+       change hardware signature. Any change to the data in Persistent Memory
+       itself should not be included in computing the hardware signature.  OSPM
+       uses this information in waking from an S4 state, by comparing the
+       current hardware signature to the signature values saved in the
+       non-volatile sleep image. If the values are not the same, OSPM assumes
+       that the saved non-volatile image is from a different hardware
+       configuration and cannot be restored.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 8
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 8

@@ -1,0 +1,21 @@
+- name: gpe0_blk_len
+  long_name: "PM_GPE0_BLK_LEN"
+  purpose: |
+       "
+       Number of bytes decoded by GPE0_BLK. The value is a non-negative
+       multiple of 2.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 92
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 92
+

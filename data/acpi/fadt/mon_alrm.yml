@@ -1,0 +1,25 @@
+- name: mon_alrm
+  long_name: "MON_ALRM"
+  purpose: |
+       "
+       The RTC CMOS RAM index to the month of year alarm value. If this field
+       contains a zero, then the RTC month of the year alarm feature is not
+       supported. If this field has a non-zero value, then this field contains
+       an index into RTC RAM space that OSPM can use to program the month of
+       the year alarm. If this feature is supported, then the DAY_ALRM feature
+       must be supported also.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 107
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 107
+

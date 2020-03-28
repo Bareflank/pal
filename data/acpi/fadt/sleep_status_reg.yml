@@ -1,0 +1,25 @@
+- name: sleep_status_reg
+  long_name: "SLEEP_STATUS_REG"
+  purpose: |
+       "
+       The address of the Sleep status register, represented in Generic Address
+       Structure format (See Section 4.8.3.7, \"Sleep Control and Status
+       Registers,\" for a description of the sleep mechanism.) Note: Only
+       System I/O space, System Memory space and PCI Configuration space (bus
+       #0) are valid for values for Address_Space_ID. Also, Register_Bit_Width
+       must be 8 and Register_Bit_Offset must be 0.
+       "
+  size: 96
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 256
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 256
+

@@ -1,0 +1,25 @@
+- name: pm_tmr_blk
+  long_name: "PM_TMR_BLK"
+  purpose: |
+       "
+       System port address of the Power Management Timer Control Register
+       Block. See Section 4.8.3.3, “Power Management Timer (PM_TMR),” for a
+       hardware description layout of this register block. This is an optional
+       field; if this register block is not supported, this field contains
+       zero. If the X_PM2_CNT_BLK field contains a non-zero value which can be
+       used by the OSPM, then this field must be ignored by the OSPM.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 76
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 76
+

@@ -1,0 +1,27 @@
+- name: sci_cmd
+  long_name: "SCI_CMD"
+  purpose: |
+       "
+       System port address of the SMI Command Port. During ACPI OS
+       initialization, OSPM can determine that the ACPI hardware registers are
+       owned by SMI (by way of the SCI_EN bit), in which case the ACPI OS
+       issues the ACPI_ENABLE command to the SMI_CMD port. The SCI_EN bit
+       effectively tracks the ownership of the ACPI hardware registers. OSPM
+       issues commands to the SMI_CMD port synchronously from the boot
+       processor. This field is reserved and must be zero on system that does
+       not support System Management mode.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 48
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 48
+
