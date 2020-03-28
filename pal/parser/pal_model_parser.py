@@ -2,6 +2,8 @@ from pal.parser.abstract_parser import AbstractParser
 from pal.logger import logger
 from pal.exception import PalParserException
 import pal.model
+import pal.model.generic
+import pal.model.generic.access_mechanism
 import pal.model.armv8a
 import pal.model.armv8a.access_mechanism
 import pal.model.x86_64
@@ -29,8 +31,10 @@ class PalModelParser(AbstractParser):
                         register = pal.model.x86_64.register.x86_64Register()
                     elif arch == "armv8-a":
                         register = pal.model.armv8a.register.ARMv8ARegister()
+                    elif arch == "generic":
+                        register = pal.model.generic.register.GenericRegister()
                     else:
-                        raise Exception("register definition missing architecutre (arch)")
+                        raise Exception("register definition: missing or unknown architecutre (arch)")
 
                     self._parse_register(register, item)
                     self._parse_access_mechanisms(register, item)
@@ -70,7 +74,17 @@ class PalModelParser(AbstractParser):
             return
 
         for am_yml in yml["access_mechanisms"]:
-            if am_yml["name"] == "mov_read":
+            if am_yml["name"] == "read":
+                am = pal.model.generic.access_mechanism.Read()
+                am.component = am_yml["component"]
+                am.offset = am_yml["offset"]
+                register.access_mechanisms["read"].append(am)
+            elif am_yml["name"] == "write":
+                am = pal.model.generic.access_mechanism.Write()
+                am.component = am_yml["component"]
+                am.offset = am_yml["offset"]
+                register.access_mechanisms["write"].append(am)
+            elif am_yml["name"] == "mov_read":
                 am = pal.model.x86_64.access_mechanism.MOVRead()
                 am.name = am_yml["name"]
                 am.source_mnemonic = am_yml["source_mnemonic"]
