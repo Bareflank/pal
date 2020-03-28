@@ -1,0 +1,21 @@
+- name: pm1_cnt_len
+  long_name: "PM1_CNT_LEN"
+  purpose: |
+       "
+       Number of bytes decoded by PM1a_CNT_BLK and, if supported, PM1b_CNT_BLK.
+       This value is >= 2.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 89
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 89
+

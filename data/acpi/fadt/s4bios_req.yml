@@ -1,0 +1,23 @@
+- name: s4bios_req
+  long_name: "S4BIOS_REQ"
+  purpose: |
+       "
+       The value to write to SMI_CMD to enter the S4BIOS state. The S4BIOS
+       state provides an alternate way to enter the S4 state where the firmware
+       saves and restores the memory context. A value of zero in S4BIOS_F
+       indicates S4BIOS_REQ is not supported. (See Table 5-37)
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 54
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 54
+

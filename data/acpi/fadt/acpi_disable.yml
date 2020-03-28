@@ -1,0 +1,26 @@
+- name: acpi_disable
+  long_name: "ACPI_DISABLE"
+  purpose: |
+       "
+       The value to write to SMI_CMD to re-enable SMI ownership of the ACPI
+       hardware registers. This can only be done when ownership was originally
+       acquired from SMI by OSPM using ACPI_ENABLE. An OS can hand ownership
+       back to SMI by relinquishing use to the ACPI hardware registers, masking
+       off all SCI interrupts, clearing the SCI_EN bit and then writing
+       ACPI_DISABLE to the SMI_CMD port from the boot processor. This field is
+       reserved and must be zero on systems that do not support Legacy Mode.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 53
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 53
+

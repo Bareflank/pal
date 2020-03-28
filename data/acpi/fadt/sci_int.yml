@@ -1,0 +1,23 @@
+- name: sci_int
+  long_name: "SCI_INT"
+  purpose: |
+       "
+       System vector the SCI interrupt is wired to in 8259 mode. On systems
+       that do not contain the 8259, this field contains the Global System
+       interrupt number of the SCI interrupt. OSPM is required to treat the
+       ACPI SCI interrupt as a sharable, level, active low interrupt.
+       "
+  size: 16
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 46
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 46
+

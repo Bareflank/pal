@@ -1,0 +1,45 @@
+- name: x_firmware_waking_vector
+  long_name: "X Firmware Waking Vector"
+  purpose: |
+       "
+       64-bit physical address of OSPM’s Waking Vector.  Before transitioning
+       the system into a global sleeping state, OSPM fills in this field and
+       the OSPM Flags field to describe the waking vector. OSPM populates this
+       field with the physical memory address of an OS-specific wake function.
+       During POST, the platform firmware checks if the value of this field is
+       non-zero and if so transfers control to OSPM by jumping to this address
+       after creating the appropriate execution environment, which must be
+       configured as follows: For 64-bit ItaniumTM Processor Family (IPF)
+       -based platforms: Interrupts must be disabled The processor must have
+       psr.i set to 0. See the Intel® ItaniumTM Architecture Software
+       Developer’s Manual for more information.  Memory address translation
+       must be disabled The processor must have psr.it, psr.dt, and psr.rt set
+       to 0. See the Intel® ItaniumTM Architecture Software Developer’s Manual
+       for more information.  For IA 32 and x64 platforms, platform firmware is
+       required to support a 32 bit execution environment.  Platform firmware
+       can additionally support a 64 bit execution environment. If platform
+       firmware supports a 64 bit execution environment, firmware inspects the
+       OSPM Flags during POST. If the 64BIT_WAKE_F flag is set, the platform
+       firmware creates a 64 bit execution environment. Otherwise, the platform
+       firmware creates a 32 bit execution environment.  For 64 bit execution
+       environment: Interrupts must be disabled EFLAGS.IF set to 0 Long mode
+       enabled Paging mode is enabled and physical memory for waking vector is
+       identity mapped (virtual address equals physical address) Waking vector
+       must be contained within one physical page Selectors are set to be flat
+       and are otherwise not used For 32 bit execution environment: Interrupts
+       must be disabled EFLAGS.IF set to 0 Memory address translation / paging
+       must be disabled 4 GB flat address space for all segment registers
+       "
+  size: 64
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 24
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 24

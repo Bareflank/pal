@@ -1,0 +1,19 @@
+- name: signature
+  long_name: "Signature"
+  purpose: |
+       "
+       ‘DSDT’ Signature for the Differentiated System Description Table.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: dsdt
+        offset: 0
+
+      - name: write
+        is_write: True
+        component: dsdt
+        offset: 0

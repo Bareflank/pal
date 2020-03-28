@@ -1,0 +1,21 @@
+- name: creator_revision
+  long_name: "Creator Revision"
+  purpose: |
+       "
+       Revision of utility that created the table. For tables containing
+       Definition Blocks, this is the revision for the ASL Compiler.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: rsdt
+        offset: 32
+
+      - name: write
+        is_write: True
+        component: rsdt
+        offset: 32
+

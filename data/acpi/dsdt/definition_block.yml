@@ -1,0 +1,36 @@
+- name: definition_block
+  long_name: "Definition Block"
+  purpose: |
+       "
+       n bytes of AML code (see Section 5.4, “Definition Block Encoding”)
+       "
+  size: 8
+  arch: generic
+  is_indexed: True
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: dsdt
+        offset: 36
+
+      - name: write
+        is_write: True
+        component: dsdt
+        offset: 36
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the ACPI specification"
+        size: 8
+
+        fields:
+            - name: "asl_byte"
+              description: |
+                  "
+                  One byte of ASL bytecode
+                  "
+              lsb: 0
+              msb: 7
+              readable: True
+              writable: True

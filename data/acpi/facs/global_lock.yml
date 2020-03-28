@@ -1,0 +1,61 @@
+- name: global_lock
+  long_name: "Global Lock"
+  purpose: |
+       "
+       This field contains the Global Lock used to synchronize access to shared
+       hardware resources between the OSPM environment and an external
+       controller environment (for example, the SMI environment). This lock is
+       owned exclusively by either OSPM or the firmware at any one time. When
+       ownership of the lock is attempted, it might be busy, in which case the
+       requesting environment exits and waits for the signal that the lock has
+       been released. For example, the Global Lock can be used to protect an
+       embedded controller interface such that only OSPM or the firmware will
+       access the embedded controller interface at any one time. See Section
+       5.2.10.1, “Global Lock,” for more information on acquiring and releasing
+       the Global Lock.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 16
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 16
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the ACPI specification"
+        size: 32
+
+        fields:
+            - name: "Pending"
+              description: |
+                  "
+                  Non-zero indicates that a request for ownership of the Global
+                  Lock is pending.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: "Owned"
+              description: |
+                  "
+                  Non-zero indicates that the Global Lock is Owned.
+                  "
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              lsb: 2
+              msb: 31
+              reserved0: True

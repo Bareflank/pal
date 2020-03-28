@@ -1,0 +1,27 @@
+- name: x_gpe0_blk
+  long_name: "X_GPE0_BLK"
+  purpose: |
+       "
+       Extended address of the General-Purpose Event 0 Register Block,
+       represented in Generic Address Structure format. See Section 4.8.4.1
+       “General-Purpose Event Register Blocks,” for a hardware description of
+       this register block. This is an optional field; if this register block
+       is not supported, this field contains zero. If this field contains a
+       nonzero value which can be used by the OSPM, then the GPE0_BLK field
+       must be ignored by the OSPM.ns a non-zero value then this field must be
+       zero.
+       "
+  size: 96
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 220
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 220
+

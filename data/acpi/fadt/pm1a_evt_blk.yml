@@ -1,0 +1,24 @@
+- name: pm1a_evt_blk
+  long_name: "PM1a_EVT_BLK"
+  purpose: |
+       "
+       System port address of the PM1a Event Register Block. See Section
+       4.8.3.1, “PM1 Event Grouping,” for a hardware description layout of this
+       register block. This is a required field. If the X_PM1a_CNT_BLK field
+       contains a non zero value which can be used by the OSPM, then this field
+       must be ignored by the OSPM.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 56
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 56
+

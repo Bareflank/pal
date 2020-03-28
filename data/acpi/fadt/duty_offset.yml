@@ -1,0 +1,21 @@
+- name: duty_offset
+  long_name: "DUTY_OFFSET"
+  purpose: |
+       "
+       The zero-based index of where the processor’s duty cycle setting is
+       within the processor’s P_CNT register.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 104
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 104
+

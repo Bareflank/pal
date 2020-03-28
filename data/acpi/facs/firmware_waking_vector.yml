@@ -1,0 +1,39 @@
+- name: firmware_waking_vector
+  long_name: "Firmware Waking Vector"
+  purpose: |
+       "
+       This field is superseded by the X_Firmware_Waking_Vector field.  The
+       32-bit address field where OSPM puts its waking vector. Before
+       transitioning the system into a global sleeping state, OSPM fills in
+       this field with the physical memory address of an OS-specific wake
+       function. During POST, the platform firmware first checks if the value
+       of the X_Firmware_Waking_Vector field is non-zero and if so transfers
+       control to OSPM as outlined in the X_Firmware_Waking_vector field
+       description below. If the X_Firmware_Waking_Vector field is zero then
+       the platform firmware checks the value of this field and if it is
+       non-zero, transfers control to the specified address.  On PCs, the wake
+       function address is in memory below 1 MB and the control is transferred
+       while in real mode. OSPM’s wake function restores the processors’
+       context.  For IA-PC platforms, the following example shows the
+       relationship between the physical address in the Firmware Waking Vector
+       and the real mode address the BIOS jumps to. If, for example, the
+       physical address is 0x12345, then the BIOS must jump to real mode
+       address 0x1234:0x0005. In general this relationship is Real-mode address
+       = Physical address>>4 : Physical address and 0x000F Notice that on IA-PC
+       platforms, A20 must be enabled when the BIOS jumps to the real mode
+       address derived from the physical address stored in the Firmware Waking
+       Vector.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 12
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 12

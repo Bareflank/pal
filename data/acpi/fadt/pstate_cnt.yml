@@ -1,0 +1,21 @@
+- name: pstate_cnt
+  long_name: "PSTATE_CNT"
+  purpose: |
+       "
+       If non-zero, this field contains the value OSPM writes to the SMI_CMD
+       register to assume processor performance state control responsibility.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 55
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 55
+

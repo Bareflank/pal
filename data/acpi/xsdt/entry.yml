@@ -1,0 +1,24 @@
+- name: entry
+  long_name: "Entry"
+  purpose: |
+       "
+       An array of 64-bit physical addresses that point to other
+       DESCRIPTION_HEADERs. OSPM assumes at least the DESCRIPTION_HEADER is
+       addressable, and then can further address the table based upon its
+       Length field.
+       "
+  size: 64
+  arch: generic
+  is_indexed: True
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: xsdt
+        offset: 36
+
+      - name: write
+        is_write: True
+        component: xsdt
+        offset: 36
+

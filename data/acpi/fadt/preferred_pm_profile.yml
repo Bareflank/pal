@@ -1,0 +1,32 @@
+- name: preferred_pm_profile
+  long_name: "Preferred_PM_Profile"
+  purpose: |
+       "
+       This field is set by the OEM to convey the preferred power management
+       profile to OSPM. OSPM can use this field to set default power management
+       policy parameters during OS installation.  Field Values:
+           0 Unspecified
+           1 Desktop
+           2 Mobile
+           3 Workstation
+           4 Enterprise Server
+           5 SOHO Server
+           6 Appliance PC
+           7 Performance Server
+           8) Tablet
+           >8 Reserved
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 45
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 45
+

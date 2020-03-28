@@ -1,0 +1,22 @@
+- name: cst_cnt
+  long_name: "PM_CST_CNT"
+  purpose: |
+       "
+       If non-zero, this field contains the value OSPM writes to the SMI_CMD
+       register to indicate OS support for the _CST object and C States Changed
+       notification.
+       "
+  size: 8
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 95
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 95
+

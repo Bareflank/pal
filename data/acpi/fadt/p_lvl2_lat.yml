@@ -1,0 +1,21 @@
+- name: p_lvl2_lat
+  long_name: "P_LVL2_LAT"
+  purpose: |
+       "
+       The worst-case hardware latency, in microseconds, to enter and exit a C2
+       state. A value > 100 indicates the system does not support a C2 state.
+       "
+  size: 16
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 96
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 96
+

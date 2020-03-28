@@ -1,0 +1,25 @@
+- name: pm1b_cnt_blk
+  long_name: "PM1b_CNT_BLK"
+  purpose: |
+       "
+       System port address of the PM1b Control Register Block. See Section
+       4.8.3.2, “PM1 Control Grouping,” for a hardware description layout of
+       this register block. This field is optional; if this register block is
+       not supported, this field contains zero. If the X_PM1b_CNT_BLK field
+       contains a non zero value which can be used by the OSPM, then this field
+       must be ignored by the OSPM.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: fadt
+        offset: 68
+
+      - name: write
+        is_write: True
+        component: fadt
+        offset: 68
+

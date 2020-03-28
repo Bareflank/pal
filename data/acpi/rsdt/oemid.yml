@@ -1,0 +1,20 @@
+- name: oemid
+  long_name: "OEMID"
+  purpose: |
+       "
+       OEM ID
+       "
+  size: 48
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: rsdt
+        offset: 10
+
+      - name: write
+        is_write: True
+        component: rsdt
+        offset: 10
+

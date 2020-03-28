@@ -1,0 +1,20 @@
+- name: length
+  long_name: "Length"
+  purpose: |
+       "
+       Length, in bytes, of the entire Firmware ACPI Control Structure. This
+       value is 64 bytes or larger.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: facs
+        offset: 4
+
+      - name: write
+        is_write: True
+        component: facs
+        offset: 4

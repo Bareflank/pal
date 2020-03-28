@@ -1,0 +1,20 @@
+- name: oem_revision
+  long_name: "OEM Revision"
+  purpose: |
+       "
+       OEM revision of XSDT table for supplied OEM Table ID.
+       "
+  size: 32
+  arch: generic
+
+  access_mechanisms:
+      - name: read
+        is_read: True
+        component: xsdt
+        offset: 24
+
+      - name: write
+        is_write: True
+        component: xsdt
+        offset: 24
+
