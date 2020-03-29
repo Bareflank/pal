@@ -17,7 +17,7 @@ else()
 endif()
 
 add_custom_command(
-    COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/pal.py
         -o ${PAL_OUTPUT_DIR}/pal
         --arch=${PAL_TARGET_ARCH}
         --language=${PAL_TARGET_LANGUAGE}
