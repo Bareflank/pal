@@ -12,7 +12,7 @@ Is your software so tightly coupled to your CPU that unit testing seems impossib
 
 The Bareflank **P**rocessor **A**bstraction **L**ayer transforms facts about your CPU into a software support library. This lets you access and manipulate the low-level details of your hardware through a convinient software API. Supose you are working on a C++ project for the Intel platform, and compiling/assembling with a GNU toolchain:
 
-0. Install Python > 3.6 and ```pip install lxml dataclasses colorama pyyaml```
+0. Install Python > 3.6, and then ```pip3 install lxml dataclasses colorama pyyaml```
 
 1. Generate a PAL for your project:
 
@@ -60,6 +60,10 @@ mkdir build && cd build
 cmake ../pal -DPAL_TARGET_ARCH=armv8-a -DPAL_ACCESS_MECHANISM=gas_aarch64
 make
 ```
+
+If you would like to build PAL using CMake on Windows, install the 
+[ninja](https://github.com/ninja-build/ninja/releases)
+build tool first.
 
 ## Does PAL generate *everything* from the \<insert_vendor_name\> manual?
 Not yet, but it does support a whole lot. Is the project missing something that you need? Help us add it! There are a few different ways you can contribute new defintions to the project:

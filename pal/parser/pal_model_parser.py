@@ -21,7 +21,7 @@ class PalModelParser(AbstractParser):
             if "__template__" in path:
                 return []
 
-            with open(path, "r") as infile:
+            with open(path, "r", encoding="utf8") as infile:
                 data = load(infile, Loader)
 
                 for item in data:
