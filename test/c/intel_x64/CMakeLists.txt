@@ -10,7 +10,8 @@ set(SOURCES
     leaf_04.c
     leaf_0D.c
     eptp.c
-    facs.c
+    guest_interrupt_status.c
+    # facs.c
     main.c
 )
 
