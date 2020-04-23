@@ -30,10 +30,14 @@ class CHeaderGenerator(AbstractGenerator):
                 include_guard = "PAL_" + reg.name.upper() + "_H"
                 self.gadgets["pal.include_guard"].name = include_guard
                 self.gadgets["pal.header_depends"].includes = [
-                    "<stdint.h>",
-                    "<stdio.h>",
-                    "<inttypes.h>"
+                    "<stdint.h>"
                 ]
+
+                if config.print_mechanism == "printf_utf8":
+                    self.gadgets["pal.header_depends"].includes.extend([
+                        "<stdio.h>",
+                        "<inttypes.h>"
+                    ])
 
                 outfile_path = os.path.join(outpath, reg.name.lower() + ".h")
                 outfile_path = os.path.abspath(outfile_path)
