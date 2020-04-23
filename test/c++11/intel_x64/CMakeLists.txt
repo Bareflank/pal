@@ -10,7 +10,8 @@ set(SOURCES
     leaf_04.cpp
     leaf_0D.cpp
     eptp.cpp
-    facs.cpp
+    guest_interrupt_status.cpp
+    # facs.cpp
     main.cpp
 )
 

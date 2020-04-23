@@ -97,7 +97,7 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
                                       access_mechanism, result):
         self._write_inline_assembly(outfile, [
                 "mov $" + str(hex(access_mechanism.encoding)) + ", %%rdi",
-                "vmread %%rdi, %[v]",
+                "vmread %%rdi, %q[v]",
             ],
             outputs='[v] "=r"(' + str(result) + ')',
             clobbers='"rdi"'
@@ -141,7 +141,7 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
                                        access_mechanism, value):
         self._write_inline_assembly(outfile, [
                 "mov $" + str(hex(access_mechanism.encoding)) + ", %%rdi",
-                "vmwrite %[v], %%rdi",
+                "vmwrite %q[v], %%rdi",
             ],
             inputs='[v] "r"(' + value + ')',
             clobbers='"rdi"'
