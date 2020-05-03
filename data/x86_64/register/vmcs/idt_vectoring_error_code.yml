@@ -1,8 +1,8 @@
-- name: id_vectoring_error_code
+- name: idt_vectoring_error_code
   long_name: "IDT-vectoring error code"
   purpose: |
       "
-      For VM exits the occur during delivery of hardware exceptions that would
+      For VM exits that occur during delivery of hardware exceptions that would
       have delivered an error code on the stack, this field receives that
       error code.
       "

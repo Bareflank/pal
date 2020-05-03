@@ -1,4 +1,4 @@
-- name: id_vectoring_information_field
+- name: idt_vectoring_information_field
   long_name: "IDT-vectoring information field"
   purpose: |
       "
@@ -12,7 +12,7 @@
   access_mechanisms:
       - name: vmread
         encoding: 0x00004408
-        
+
   fieldsets:
       - name: latest
         condition: "Fieldset valid on latest version of the Intel architecture"
