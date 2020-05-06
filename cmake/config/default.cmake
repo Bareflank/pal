@@ -17,17 +17,6 @@ set(PAL_SOURCE_CONFIG_DIR ${CMAKE_CURRENT_LIST_DIR}
     "PAL cmake configuration directory"
 )
 
-
-set(CMAKE_BUILD_TYPE "Release"
-    CACHE INTERNAL
-    "Defines the build type"
-)
-
-set(CMAKE_VERBOSE_MAKEFILE OFF
-    CACHE INTERNAL
-    "Enables verbose output"
-)
-
 # ------------------------------------------------------------------------------
 # Configs
 # ------------------------------------------------------------------------------
