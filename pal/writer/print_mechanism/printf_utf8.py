@@ -5,7 +5,7 @@ class PrintfUtf8PrintMechanismWriter(PrintMechanismWriter):
 
     def print_value_as_register(self, outfile, register, value):
         hex_format = self._get_hex_format_string(register.size)
-        outfile.write('printf("0x%016' + hex_format + ' ", ')
+        outfile.write('printf("' + hex_format + ' ", ')
         outfile.write(str(value) + ');')
         self.write_newline(outfile)
 
@@ -41,7 +41,7 @@ class PrintfUtf8PrintMechanismWriter(PrintMechanismWriter):
 
         else:
             hex_format = self._get_hex_format_string(register.size)
-            outfile.write('printf("0x%016' + hex_format + ' ", ')
+            outfile.write('printf("' + hex_format + ' ", ')
             outfile.write(str(value))
             outfile.write(');')
             self.write_newline(outfile)
@@ -58,7 +58,11 @@ class PrintfUtf8PrintMechanismWriter(PrintMechanismWriter):
         self.write_newline(outfile)
 
     def _get_hex_format_string(self, size):
-        if size == 64:
-            return "\" PRIx64 \""
+        if size == 8:
+            return "0x%016\" PRIx8 \""
+        elif size == 16:
+            return "0x%016\" PRIx16 \""
+        elif size == 32:
+            return "0x%016\" PRIx32 \""
         else:
-            return "016x"
+            return "0x%016\" PRIx64 \""
