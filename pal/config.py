@@ -121,7 +121,7 @@ config.add_configuration(c)
 c = Configuration("access_mechanism", "gas_att")
 c.description = "The target access mechanism type"
 c.options = ["gas_att", "gas_intel", "gas_aarch64", "gas_aarch32", "test",
-             "yaml", "none"]
+             "libpal", "yaml", "none"]
 config.add_configuration(c)
 
 c = Configuration("print_mechanism", "printf_utf8")

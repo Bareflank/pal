@@ -13,6 +13,8 @@ from pal.writer.access_mechanism.gas_aarch64 import \
     GasAarch64AccessMechanismWriter
 from pal.writer.access_mechanism.gas_aarch32 import \
     GasAarch32AccessMechanismWriter
+from pal.writer.access_mechanism.libpal import \
+    LibpalAccessMechanismWriter
 from pal.writer.access_mechanism.cxx_test import \
     CxxTestAccessMechanismWriter
 from pal.writer.access_mechanism.c_test import \
@@ -42,6 +44,7 @@ access_mechanism_options = [
     "gas_att",
     "gas_aarch64",
     "gas_aarch32",
+    "libpal",
     "test",
     "yaml",
     "none",
@@ -75,6 +78,8 @@ def get_access_mechanism_writer(arch, language, access_mechanism):
         return CTestAccessMechanismWriter
     elif access_mechanism == "yaml":
         return YamlAccessMechanismWriter
+    elif access_mechanism == "libpal":
+        return LibpalAccessMechanismWriter
     else:
         return NoneAccessMechanismWriter
 
