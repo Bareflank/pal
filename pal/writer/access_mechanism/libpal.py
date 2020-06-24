@@ -7,7 +7,8 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def call_readable_access_mechanism(self, outfile, register,
                                        access_mechanism, result):
         access_mechanisms = {
-            'cpuid': self.__call_cpuid_access_mechanism
+            'cpuid': self.__call_cpuid_access_mechanism,
+            'rdmsr': self.__call_rdmsr_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -57,3 +58,10 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
         self.write_newline(outfile);
 
         self.write_newline(outfile);
+
+    def __call_rdmsr_access_mechanism(self, outfile, reigster,
+                                      access_mechanism, result):
+        self.write_newline(outfile)
+        outfile.write('{} = pal_execute_rdmsr({});'.format(result, hex(access_mechanism.address)))
+        self.write_newline(outfile)
+        self.write_newline(outfile)

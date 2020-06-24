@@ -39,4 +39,9 @@ extern "C"
 #endif
 pal_cpuid_register_values pal_execute_cpuid(uint32_t eax, uint32_t ecx);
 
+#ifdef __cplusplus
+extern "C"
+#endif
+uint64_t pal_execute_rdmsr(uintptr_t ecx);
+
 #endif
