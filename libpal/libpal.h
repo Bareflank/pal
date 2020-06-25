@@ -44,4 +44,9 @@ extern "C"
 #endif
 uint64_t pal_execute_rdmsr(uintptr_t ecx);
 
+#ifdef __cplusplus
+extern "C"
+#endif
+uint32_t pal_execute_vmread(uintptr_t addr);
+
 #endif
