@@ -10,6 +10,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'cpuid': self.__call_cpuid_access_mechanism,
             'rdmsr': self.__call_rdmsr_access_mechanism,
             'vmread': self.__call_vmread_access_mechanism,
+            'mov_read': self.__call_mov_read_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -71,5 +72,12 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                                        access_mechanism, result):
         self.write_newline(outfile)
         outfile.write('{} = pal_execute_vmread({});'.format(result, hex(access_mechanism.encoding)))
+        self.write_newline(outfile)
+        self.write_newline(outfile)
+
+    def __call_mov_read_access_mechanism(self, outfile, register,
+                                         access_mechanism, result):
+        self.write_newline(outfile)
+        outfile.write('{} = pal_execute_{}_read();'.format(result, access_mechanism.source_mnemonic))
         self.write_newline(outfile)
         self.write_newline(outfile)
