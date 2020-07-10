@@ -41,7 +41,8 @@ class CHeaderGenerator(AbstractGenerator):
 
                 if config.access_mechanism == "libpal":
                     self.gadgets["pal.header_depends"].includes.extend([
-                        "<libpal.h>"
+                        "<libpal.h>",
+                        "<string.h>", # for memset
                     ])
 
                 outfile_path = os.path.join(outpath, reg.name.lower() + ".h")
