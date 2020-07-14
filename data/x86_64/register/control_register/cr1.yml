@@ -6,14 +6,9 @@
       "
   size: 64
   arch: x86_64
-  
+
   access_mechanisms:
-      - name: mov_read
-        source_mnemonic: cr1
-
-      - name: mov_write
-        destination_mnemonic: cr1
-
+  
   fieldsets:
       - name: latest
         condition: "Fieldset valid on latest version of the Intel architecture"
