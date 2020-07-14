@@ -11,6 +11,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'rdmsr': self.__call_rdmsr_access_mechanism,
             'vmread': self.__call_vmread_access_mechanism,
             'mov_read': self.__call_mov_read_access_mechanism,
+            'xgetbv': self.__call_xgetbv_read_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -87,4 +88,12 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def __call_mov_write_access_mechanism(self, outfile, register,
                                           access_mechanism, value):
         outfile.write('pal_execute_{}_write({});'.format(access_mechanism.destination_mnemonic, value))
+        self.write_newline(outfile)
+
+    def __call_xgetbv_read_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+
+        self.write_newline(outfile)
+        outfile.write('{} = pal_execute_xgetbv({});'.format(result, hex(access_mechanism.register)))
+        self.write_newline(outfile)
         self.write_newline(outfile)
