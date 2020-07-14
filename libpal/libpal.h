@@ -46,6 +46,8 @@ pal_cpuid_register_values pal_execute_cpuid(uint32_t eax, uint32_t ecx);
 
 uint64_t pal_execute_rdmsr(uintptr_t ecx);
 
+void pal_execute_wrmsr(uintptr_t addr, uint64_t value);
+
 uint32_t pal_execute_vmread(uintptr_t addr);
 
 void pal_execute_vmwrite(uintptr_t addr, uint64_t value);

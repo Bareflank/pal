@@ -8,6 +8,7 @@ if(${CMAKE_GENERATOR} MATCHES "Visual Studio")
 	    rdmsr_x64.asm
 	    vmread_x64.asm
 	    vmwrite_x64.asm
+	    wrmsr_x64.asm
     )
     set_target_properties(libpal PROPERTIES OUTPUT_NAME pal)
     target_include_directories(libpal PUBLIC ${CMAKE_CURRENT_LIST_DIR})

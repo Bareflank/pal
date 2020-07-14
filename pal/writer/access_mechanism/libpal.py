@@ -28,6 +28,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                                        access_mechanism, value):
         access_mechanisms = {
             'mov_write': self.__call_mov_write_access_mechanism,
+            'wrmsr': self.__call_wrmsr_access_mechanism,
             'vmwrite': self.__call_vmwrite_access_mechanism,
             'xsetbv': self.__call_xsetbv_access_mechansim,
         }
@@ -90,6 +91,11 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def __call_mov_write_access_mechanism(self, outfile, register,
                                           access_mechanism, value):
         outfile.write('pal_execute_{}_write({});'.format(access_mechanism.destination_mnemonic, value))
+        self.write_newline(outfile)
+
+    def __call_wrmsr_access_mechanism(self, outfile, register,
+                                      access_mechanism, value):
+        outfile.write('pal_execute_wrmsr({},{});'.format(hex(access_mechanism.address),value))
         self.write_newline(outfile)
 
     def __call_vmwrite_access_mechanism(self, outfile, register,
