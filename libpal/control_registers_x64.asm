@@ -25,4 +25,29 @@ pal_execute_cr8_read proc
     ret;
 pal_execute_cr8_read endp
 
+pal_execute_cr0_write proc
+    mov cr0, rcx;
+    ret;
+pal_execute_cr0_write endp
+
+pal_execute_cr2_write proc
+    mov cr2, rcx;
+    ret;
+pal_execute_cr2_write endp
+
+pal_execute_cr3_write proc
+    mov cr3, rcx;
+    ret;
+pal_execute_cr3_write endp
+
+pal_execute_cr4_write proc
+    mov cr4, rcx;
+    ret;
+pal_execute_cr4_write endp
+
+pal_execute_cr8_write proc
+    mov cr8, rcx;
+    ret;
+pal_execute_cr8_write endp
+
 end

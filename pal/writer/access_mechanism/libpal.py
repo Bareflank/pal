@@ -25,7 +25,9 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
 
     def call_writable_access_mechanism(self, outfile, register,
                                        access_mechanism, value):
-        access_mechanisms = {}
+        access_mechanisms = {
+            'mov_write': self.__call_mov_write_access_mechanism,
+        }
 
         if access_mechanism.name not in access_mechanisms:
             msg = "Access mechnism {am} is not supported using libpal"
@@ -35,7 +37,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             return
 
         access_mechanisms[access_mechanism.name](outfile,register,
-                                                 access_mechanism, result)
+                                                 access_mechanism, value)
 
     def __call_cpuid_access_mechanism(self, outfile, register,
                                       access_mechanism, result):
@@ -80,4 +82,9 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
         self.write_newline(outfile)
         outfile.write('{} = pal_execute_{}_read();'.format(result, access_mechanism.source_mnemonic))
         self.write_newline(outfile)
+        self.write_newline(outfile)
+
+    def __call_mov_write_access_mechanism(self, outfile, register,
+                                          access_mechanism, value):
+        outfile.write('pal_execute_{}_write({});'.format(access_mechanism.destination_mnemonic, value))
         self.write_newline(outfile)

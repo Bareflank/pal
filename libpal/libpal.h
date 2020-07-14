@@ -58,6 +58,16 @@ uint64_t pal_execute_cr4_read();
 
 uint64_t pal_execute_cr8_read();
 
+void pal_execute_cr0_write(uint64_t value);
+
+void pal_execute_cr2_write(uint64_t value);
+
+void pal_execute_cr3_write(uint64_t value);
+
+void pal_execute_cr4_write(uint64_t value);
+
+void pal_execute_cr8_write(uint64_t value);
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
