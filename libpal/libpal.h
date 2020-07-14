@@ -50,6 +50,8 @@ uint32_t pal_execute_vmread(uintptr_t addr);
 
 uint64_t pal_execute_xgetbv(uintptr_t reg);
 
+void pal_execute_xsetbv(uintptr_t reg, uint64_t value);
+
 uint64_t pal_execute_cr0_read();
 
 uint64_t pal_execute_cr2_read();

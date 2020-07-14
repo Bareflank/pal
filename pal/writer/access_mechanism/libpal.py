@@ -28,6 +28,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                                        access_mechanism, value):
         access_mechanisms = {
             'mov_write': self.__call_mov_write_access_mechanism,
+            'xsetbv': self.__call_xsetbv_access_mechansim,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -96,4 +97,9 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
         self.write_newline(outfile)
         outfile.write('{} = pal_execute_xgetbv({});'.format(result, hex(access_mechanism.register)))
         self.write_newline(outfile)
+        self.write_newline(outfile)
+
+    def __call_xsetbv_access_mechansim(self, outfile, register,
+                                       access_mechanism, value):
+        outfile.write('pal_execute_xsetbv({},{});'.format(hex(access_mechanism.register),value))
         self.write_newline(outfile)
