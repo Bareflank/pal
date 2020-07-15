@@ -34,9 +34,50 @@ typedef struct pal_cpuid_register_values {
     uint32_t edx;
 } pal_cpuid_register_values;
 
+/* 
+ * Make sure that extern functions build for
+ * C and C++ 
+*/
 #ifdef __cplusplus
-extern "C"
+extern "C" {
 #endif
+
 pal_cpuid_register_values pal_execute_cpuid(uint32_t eax, uint32_t ecx);
 
+uint64_t pal_execute_rdmsr(uintptr_t ecx);
+
+void pal_execute_wrmsr(uintptr_t addr, uint64_t value);
+
+uint32_t pal_execute_vmread(uintptr_t addr);
+
+void pal_execute_vmwrite(uintptr_t addr, uint64_t value);
+
+uint64_t pal_execute_xgetbv(uintptr_t reg);
+
+void pal_execute_xsetbv(uintptr_t reg, uint64_t value);
+
+uint64_t pal_execute_cr0_read();
+
+uint64_t pal_execute_cr2_read();
+
+uint64_t pal_execute_cr3_read();
+
+uint64_t pal_execute_cr4_read();
+
+uint64_t pal_execute_cr8_read();
+
+void pal_execute_cr0_write(uint64_t value);
+
+void pal_execute_cr2_write(uint64_t value);
+
+void pal_execute_cr3_write(uint64_t value);
+
+void pal_execute_cr4_write(uint64_t value);
+
+void pal_execute_cr8_write(uint64_t value);
+
+#ifdef __cplusplus
+} /* extern "C" */
 #endif
+
+#endif /* LIBPAL_H */
