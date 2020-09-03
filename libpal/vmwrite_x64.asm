@@ -1,7 +1,7 @@
 .code
 
 pal_execute_vmwrite proc
-    vmwrite rdx, rcx;
+    vmwrite rcx, rdx;
     ret;
 pal_execute_vmwrite endp
 
