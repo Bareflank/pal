@@ -1,0 +1,219 @@
+- name: cr0
+  long_name: "Control Register 0"
+  purpose: |
+    "
+      CR0—Provides operating-mode controls and some processor-feature controls.
+    "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr0
+
+      - name: mov_write
+        destination_mnemonic: cr0
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the amd architecture"
+        size: 64
+
+        fields:
+            - name: pe
+              long_name: "Protected Enable"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Bit 0. Software enables protected mode by setting PE to 1, 
+                  and disables protected mode by clearing PE to 0. When the 
+                  processor is running in protected mode, segment-protection 
+                  mechanisms are enabled.
+                  "
+
+            - name: mp
+              long_name: "Monitor Coprocessor"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Software uses the MP bit with the task-switched control bit 
+                  (CR0.TS) to control whether execution of the WAIT/FWAIT instruction causes a device-not-available 
+                  exception (#NM) to occur
+                  "
+
+            - name: em
+              long_name: "Emulate Coprocessor"
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Software forces all x87 instructions to cause a device-not-
+                  available exception (#NM) by setting EM to 1. Likewise, setting EM to 1 forces an invalid-opcode
+                  exception (#UD) when an attempt is made to execute any of the 64-bit or 128-bit media instructions 
+                  except the FXSAVE and FXRSTOR instructions. Attempting to execute these instructions when EM is 
+                  set results in an NM exception instead.The exception handlers can emulate these instruction types if 
+                  desired. Setting the EM bit to 1 does not cause an NM exception when the WAIT/FWAIT instruction  
+                  is executed.
+                  "
+
+            - name: ts
+              long_name: "Task Switch"
+              lsb: 3
+              msb: 3
+              readable: True
+              Writable: True
+              description: |
+                  "
+                  When an attempt is made to execute an x87 or media instruction 
+                  while TS=1, a device-not-available exception (#NM) occurs. Software can use this mechanism— 
+                  sometimes referred to as “lazy context-switching”—to save the unit contexts before executing the next 
+                  instruction of those types. As a result, the x87 and media instruction-unit contexts are saved only when 
+                  necessary as a result of a task switch.
+
+                  When a hardware task switch occurs, TS is automatically set to 1. System software that implements 
+                  software task-switching rather than using the hardware task-switch mechanism can still use the TS bit 
+                  to control x87 and media instruction-unit context saves. In this case, the task-management software 
+                  uses a MOV CR0 instruction to explicitly set the TS bit to 1 during a task switch. Software can clear 
+                  the TS bit by either executing the CLTS instruction or by writing to the CR0 register directly. Long- 
+                  mode system software can use this approach even though the hardware task-switch mechanism is not 
+                  supported in long mode.
+                  "
+
+            - name: et
+              long_name: Extension Type
+              lsb: 4
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bit 4, read-only. In some early x86 processors, software set ET to 1 to 
+                  indicate support of the 387DX math-coprocessor instruction set. This bit is now reserved and forced to 
+                  1 by the processor. Software cannot clear this bit to 0.
+                  "
+
+            - name: ne
+              long_name: "Numeric Error"
+              lsb: 5
+              msb: 5
+              readable: 
+              writable: 
+              description: |
+                  "
+                  Clearing the NE bit to 0 disables internal control of x87 floating-point 
+                  exceptions and enables external control. When NE is cleared to 0, the IGNNE# input signal controls  
+                  whether x87 floating-point exceptions are ignored:
+
+                  When IGNNE# is 1, x87 floating-point exceptions are ignored. 
+                  When IGNNE# is 0, x87 floating-point exceptions are reported by setting the FERR# input signal
+                  to 1. External logic can use the FERR# signal as an external interrupt.
+
+                  When NE is set to 1, internal control over x87 floating-point exception reporting is enabled and the 
+                  external reporting mechanism is disabled. It is recommended that software set NE to 1. This enables 
+                  optimal performance in handling x87 floating-point exceptions.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 6
+              msb: 15
+              preserved: True
+
+            - name: wp
+              long_name: "Write Protect"
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Read-only pages are protected from supervisor-level writes when the 
+                  WP bit is set to 1. When WP is cleared to 0, supervisor software can write into read-only pages.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 17
+              msb: 17
+              preserved: True
+
+            - name: am
+              long_name: ""
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+              description: | 
+                  "
+                  Software enables automatic alignment checking by setting the 
+                  AM bit to 1 when RFLAGS.AC=1. Alignment checking can be disabled by clearing either AM or 
+                  RFLAGS.AC to 0. When automatic alignment checking is enabled and CPL=3, a memory reference to 
+                  an unaligned operand causes an alignment-check exception (#AC).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 19
+              msb: 28
+              preserved: True
+
+            - name: nw
+              long_name: "Not Writethrough"
+              lsb: 29
+              msb: 29
+              readable: True
+              writable: True
+              description: | 
+                  "
+                  Ignored. This bit can be set to 1 or cleared to 0, but its value is 
+                  ignored. The NW bit exists only for legacy purposes.
+                  "
+
+            - name: cd
+              long_name: "Cache Disable"
+              lsb: 30
+              msb: 30
+              readable: True
+              writable: True
+              description: | 
+                  "
+                  When CD is cleared to 0, the internal caches are enabled. When CD 
+                  is set to 1, no new data or instructions are brought into the internal caches. However, the processor still  
+                  accesses the internal caches when CD = 1 under the following situations:
+
+                  Reads that hit in an internal cache cause the data to be read from the internal cache that reported the 
+                  hit. 
+
+                  Writes that hit in an internal cache cause the cache line that reported the hit to be written back to 
+                  memory and invalidated in the cache.
+
+                  Cache misses do not affect the internal caches when CD = 1. Software can prevent cache access by 
+                  setting CD to 1 and invalidating the caches.
+                  "
+
+            - name: pg
+              long_name: "Paging Enable"
+              lsb: 31
+              msb: 31
+              readable: True
+              writable: True
+              description: | 
+                  "
+                  Software enables page translation by setting PG to 1, and disables 
+                  page translation by clearing PG to 0. Page translation cannot be enabled unless the processor is in 
+                  protected mode (CR0.PE=1). If software attempts to set PG to 1 when PE is cleared to 0, the processor 
+                  causes a general-protection exception (#GP).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 32
+              msb: 63
+              reserved0: True
