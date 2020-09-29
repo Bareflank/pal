@@ -1,0 +1,45 @@
+- name: CR0
+  long_name: "Control Register 2"
+  purpose: |
+    "
+    This register is used by the page-translation mechanism. It is loaded by the processor with 
+    the page-fault virtual address when a page-fault exception occurs.
+
+
+    The virtual (linear) address that caused the #PF is stored in the CR2 register. The 
+    legacy CR2 register is 32 bits long. The CR2 register in the AMD64 architecture is 64 bits long, as 
+    shown in Figure 8-1 on page 234. In AMD64 implementations, when either software or a page fault 
+    causes a write to the CR2 register, only the low-order 32 bits of CR2 are used in legacy mode; the 
+    processor clears the high-order 32 bits.
+    "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr2
+
+      - name: mov_write
+        destination_mnemonic: cr2
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the amd architecture"
+        size: 64
+
+        fields:
+            - name: page_fault_virtual_address
+              long_name: "Page-Fault Virtual Address"
+              lsb: 0
+              msb: 63
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Error Code Returned. The page-fault error code is pushed onto the page-fault exception-handler 
+                  stack. See Section “Page-Fault Error Code” on page 239 for a description of this error code. 
+                  
+                  Program Restart. \#PF is a fault-type exception. In most cases, the saved instruction pointer points to 
+                  the instruction that caused the \#PF. See Section “Exceptions During a Task Switch” on page 238 for a 
+                  description of what can happen if this exception occurs during a task switch.
+                  "

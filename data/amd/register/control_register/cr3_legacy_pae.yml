@@ -1,0 +1,73 @@
+- name: cr3
+  long_name: "Control Register 3 (CR3)—Legacy-Mode PAE Paging"
+  purpose: |
+    "
+    Control Register 3 (CR3)—Legacy-Mode Non-PAE Paging
+
+    The CR3 register is used to point to the base address of the highest-level page-translation table. The 
+    base address is either the page-directory pointer table or the page directory table. The CR3 register  
+    format depends on the form of paging being used.
+    "
+  size: 32
+  arch: amd64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr3
+
+      - name: mov_write
+        destination_mnemonic: cr3
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the amd architecture"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 2
+              preserved: True
+
+            - name: pwt
+              long_name: "Page-Level Writethrough"
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Bit 3. Page-level writethrough indicates whether the highest- 
+                  level page-translation table has a writeback or writethrough caching policy. When PWT=0, the table 
+                  has a writeback caching policy. When PWT=1, the table has a writethrough caching policy.
+                  "
+
+            - name: pcd
+              long_name: "Page-Level Cache Disable"
+              lsb: 4
+              msb: 4
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Bit 4. Page-level cache disable indicates whether the highest- 
+                  level page-translation table is cacheable. When PCD=0, the table is cacheable. When PCD=1, the table  
+                  is not cacheable.
+                  "
+
+            - name: page_directory_pointer_table
+              long_name: "page_directory_pointer_table"
+              lsb: 5
+              msb: 31
+              readable: True
+              writable: True
+              description: |
+                  " 
+                  This field points to the starting physical address of the highest-level 
+                  page-translation table. The size of this field depends on the form of paging used: 
+                  
+                  • This field is 27 bits and occupies bits 31:5. The CR3 register points to 
+                  the base address of the page-directory-pointer table. The page-directory-pointer table is aligned on 
+                  a 32-byte boundary, with the low 5 address bits 4:0 assumed to be 0. 
+                  "
