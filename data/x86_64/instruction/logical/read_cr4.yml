@@ -1,0 +1,9 @@
+- name: read_cr4
+  long_name: "Read from Control Register 4"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_outputs:
+            - name: value
+              type: uint64
