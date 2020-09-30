@@ -43,8 +43,8 @@ pal_add_config(
     CONFIG_NAME PAL_ACCESS_MECHANISM
     CONFIG_TYPE STRING
     DEFAULT_VAL gas_att
-    DESCRIPTION "The target access mechnism type"
-    OPTIONS gas_att gas_intel gas_aarch64 gas_aarch32 test yaml none
+    DESCRIPTION "The target access mechanism type"
+    OPTIONS gas_att gas_intel gas_aarch64 gas_aarch32 libpal test yaml none
 )
 
 pal_add_config(
