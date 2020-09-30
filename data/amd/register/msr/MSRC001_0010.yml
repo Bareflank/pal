@@ -1,0 +1,65 @@
+- name: MSRC001_0010
+  long_name: "System Configuration"
+  purpose: |
+       "
+        MSRC001_0010 [System Configuration] (Core::X86::Msr::SYS_CFG)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010010
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010010 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: MtrrFixDramEn
+              long_name: "MTRR fixed RdDram and WrDram attributes enable"
+              lsb: 18
+              msb: 18
+              readable: True 
+              writable: True
+
+            - name: MtrrFixDramModEn
+              long_name: "MTRR fixed RdDram and WrDram modification enable"
+              lsb: 19
+              msb: 19
+              readable: True 
+              writable: True
+ 
+            - name: MtrrVarDramEn
+              long_name: "MTRR variable DRAM enable"
+              lsb: 20
+              msb: 20
+              readable: True 
+              writable: True
+ 
+            - name: MtrrTom2En
+              long_name: "MTRR top of memory 2 enable"
+              lsb: 21
+              msb: 21
+              readable: True 
+              writable: True
+
+            - name: Tom2ForceMemTypeWB
+              long_name: "top of memory 2 memory type write back"
+              lsb: 22
+              msb: 22
+              readable: True 
+              writable: True
+
+            - name: SMEE
+              long_name: "secure memory encryption enable"
+              lsb: 23
+              msb: 23
+              readable: True 
+              writable: True

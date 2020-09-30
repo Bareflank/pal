@@ -2,6 +2,8 @@
   long_name: "Time Stamp Counter"
   purpose: |
        "
+       MSR0000_0010 [Time Stamp Counter] (Core::X86::Msr::TSC)
+       
        The TSC uses a common reference for all sockets, cores and threads. 
 
        TSC: time stamp counter. Read-write,Volatile. Reset: 0000_0000_0000_0000h. The TSC increments at the P0 
@@ -20,4 +22,18 @@
       - name: wrmsr
         is_write: True
         address: 0x10
+
+ fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TSC
+              long_name: "time stamp counter"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True
+
 

@@ -1,0 +1,33 @@
+- name: MSRC000_0083
+  long_name: "Compatibility Mode SYSCALL Target Address"
+  purpose: |
+       "
+        MSRC000_0083 [Compatibility Mode SYSCALL Target Address] (Core::X86::Msr::STARCOMPAT)
+
+        CSTAR: compatibility mode target address. Read-write. Reset: 0000_0000_0000_0000h. Target address for 
+        compatibility mode. The address stored in this register must be in canonical form (if not canonical, a #GP fault Occurs
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0000083
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0000083 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: CSTAR
+              long_name: "compatibility mode target address"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True

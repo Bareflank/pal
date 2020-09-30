@@ -1,0 +1,50 @@
+- name: MSRC001_1033
+  long_name: "IBS Execution Control"
+  purpose: |
+       "
+        The IBS execution sampling engine is described as follows for IbsOpCntCtl == 1. If IbsOpCntCtl == 1n then references 
+        to “periodic op counter" mean “periodic cycle counter". 
+        • The periodic op counter is an internal 27-bit counter: 
+        • It is set to IbsOpCurCnt[26:0] when IbsOpEn is changed from 0 to 1. 
+        • It increments every dispatched op when IbsOpEn == 1 and IbsOpVal == 0. 
+        • The periodic op counter is undefined when IbsOpEn == 0 or IbsOpVal == 1. 
+        • When IbsOpCurCnt[26:0] is read then it returns the current value of the periodic micro-op counter 
+        [26:0]. 
+        • When the periodic micro-op counter reaches IbsOpMaxCnt: 
+        • The next dispatched micro-op is tagged if IbsOpCntCtl == 1. A valid op in the next dispatched line is 
+        tagged if IbsOpCntCtl == 0. See IbsOpCntCtl. 
+        • The periodic micro-op counter [26:7]=0; [6:0] is randomized by hardware. 
+        • The periodic micro-op counter is not modified when a tagged micro-op is flushed. 
+        • When a tagged micro-op is retired: 
+        • IbsOpVal is set to 1. 
+        • Drivers can't assume that IbsOpCurCnt is 0 when IbsOpVal == 1. 
+        • The status of the operation is written to the IBS execution registers (this register, Core::X86::Msr::IBS_OP_RIP, 
+        Core::X86::Msr::IBS_OP_DATA, Core::X86::Msr::IBS_OP_DATA2, Core::X86::Msr::IBS_OP_DATA3, 
+        Core::X86::Msr::IBS_DC_LINADDR and Core::X86::Msr::IBS_DC_PHYSADDR). 
+        • An interrupt is generated as specified by Core::X86::Msr::IBS_CTL. The interrupt service routine associated 
+        with this interrupt is responsible for saving the performance information stored in IBS execution registers.
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011033
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011033 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IbsFetchPhysAd
+              long_name: "instruction fetch physical address"
+              lsb: 0
+              msb: 47
+              readable: True 
+              writable: True

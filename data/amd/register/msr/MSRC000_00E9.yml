@@ -1,0 +1,33 @@
+- name: MSRC000_00E9
+  long_name: "Instructions Retired Performance Count"
+  purpose: |
+       "
+        MSRC000_00E9 [Instructions Retired Performance Count] (Core::X86::Msr::IRPerfCount)
+        
+        0000_0000_0000_0000h. Dedicated Instructions Retired
+        register increments on once for every instruction retired. See Core::X86::Msr::HWCR[IRPerfEn].
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC00000E9
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC00000E9 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IRPerfCount
+              long_name: "instructions retired counter"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True

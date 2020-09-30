@@ -1,0 +1,30 @@
+- name: MSRC001_101B
+  long_name: "Address Mask For DR3 Breakpoint"
+  purpose: |
+       "
+        MSRC001_101B [Address Mask For DR3 Breakpoint] (Core::X86::Msr::DR3_ADDR_MASK)
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC001101B
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC001101B 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: AddrMask
+              long_name: "mask for DR linear address data breakpoint DR3"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: True

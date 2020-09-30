@@ -1,0 +1,47 @@
+- name: MSRC001_0231
+  long_name: "L3 Performance Event Counter [5:0]"
+  purpose: |
+       "
+        MSRC001_023[1...B] [L3 Performance Event Counter [5:0]] (Core::X86::Msr::ChL3Pmc)
+
+       Also can be read via x86 instructions RDPMC ECX=[0F:0A].
+       "
+  size: 64
+  arch: amd64
+  is_indexed: True
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010231
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010231
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: CountLo
+              long_name: "CountLo"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: True
+
+            - name: CountHi
+              long_name: "CountHi"
+              lsb: 32
+              msb: 47
+              readable: True 
+              writable: True
+
+            - name: Overflow
+              long_name: "Overflow"
+              lsb: 48
+              msb: 48
+              readable: True 
+              writable: True

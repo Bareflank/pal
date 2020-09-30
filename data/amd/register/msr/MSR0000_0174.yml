@@ -1,0 +1,32 @@
+- name: MSR0000_0174
+  long_name: "SYSENTER CS"
+  purpose: |
+       "
+       MSR0000_0174 [SYSENTER CS] (Core::X86::Msr::SYSENTER_CS)
+
+       Holds the called procedure code segment.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x0174
+
+      - name: wrmsr
+        is_write: True
+        address: 0x0174 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: SysEnterCS
+              long_name: "SYSENTER target CS"
+              lsb: 0
+              msb: 15
+              readable: True 
+              writable: True
