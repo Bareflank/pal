@@ -1,6 +1,6 @@
 .code
 
-pal_execute_rdmsr proc
+rdmsr_x64_64bit_none_ms64 proc
     ; The argument to pass to rdmsr via ecx is already
     ; there, since it is the first integer passed here.
     rdmsr;
@@ -12,6 +12,6 @@ pal_execute_rdmsr proc
 
     ret;
 
-pal_execute_rdmsr endp
+rdmsr_x64_64bit_none_ms64 endp
 
 end

@@ -6,7 +6,7 @@
 ;
 ; A struct pointer is given in rcx. The first and second integer
 ; arguments are passed into rdx and r8, respectively.
-pal_execute_cpuid proc
+cpuid_x64_64bit_none_ms64  proc
 	push rcx;
 
 	mov eax, edx;
@@ -24,6 +24,6 @@ pal_execute_cpuid proc
 
 	ret;
 
-pal_execute_cpuid endp
+cpuid_x64_64bit_none_ms64  endp
 
 end

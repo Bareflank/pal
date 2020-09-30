@@ -1,11 +1,11 @@
 .code
 
-pal_execute_vmread proc
+vmread_x64_64bit_none_ms64 proc
    ; The VMCS address was given in rcx
    vmread rax, rcx;
 
    ret;
 
-pal_execute_vmread endp
+vmread_x64_64bit_none_ms64 endp
 
 end
