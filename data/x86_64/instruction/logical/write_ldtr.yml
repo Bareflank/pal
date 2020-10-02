@@ -1,0 +1,9 @@
+- name: write_ldtr
+  long_name: "Write to Local Descriptor Table Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: segment_selector
+              type: uint16

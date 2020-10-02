@@ -1,0 +1,23 @@
+- name: vmwrite
+  long_name: "Write Field to Virtual-Machine Control Structure"
+  purpose: |
+      "
+      Write Field to Virtual-Machine Control Structure
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: encoding
+              type: uint64
+
+            - name: value
+              type: uint64
+
+        register_operands:
+            - name: rax
+              input: true
+
+            - name: rcx
+              input: true

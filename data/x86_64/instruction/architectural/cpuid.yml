@@ -1,0 +1,46 @@
+- name: cpuid
+  long_name: "CPU Identification"
+  purpose: |
+      "
+      Returns processor identification and feature information to the EAX, EBX,
+      ECX, and EDX registers, as determined by input entered in EAX (in some
+      cases, ECX as well).
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: leaf
+              type: uint32
+
+            - name: subleaf
+              type: uint32
+
+        logical_outputs:
+            - name: eax
+              type: uint32
+
+            - name: ebx
+              type: uint32
+
+            - name: ecx
+              type: uint32
+
+            - name: edx
+              type: uint32
+
+        register_operands:
+            - name: eax
+              input: true
+              output: true
+
+            - name: ebx
+              output: true
+
+            - name: ecx
+              input: true
+              output: true
+
+            - name: edx
+              output: true

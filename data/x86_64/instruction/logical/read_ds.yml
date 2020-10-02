@@ -1,0 +1,9 @@
+- name: read_ds
+  long_name: "Read from the DS Segment Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_outputs:
+            - name: value
+              type: uint16

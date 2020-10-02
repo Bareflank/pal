@@ -1,0 +1,9 @@
+- name: write_cr8
+  long_name: "Write to Control Register 8"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: value
+              type: uint64

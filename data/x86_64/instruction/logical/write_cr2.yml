@@ -1,0 +1,9 @@
+- name: write_cr2
+  long_name: "Write to Control Register 2"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: value
+              type: uint64

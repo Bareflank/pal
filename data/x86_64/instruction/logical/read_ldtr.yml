@@ -1,0 +1,9 @@
+- name: read_ldtr
+  long_name: "Read from the Local Descriptor Table Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_ouputs:
+            - name: segment_selector
+              type: uint16

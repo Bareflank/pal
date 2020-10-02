@@ -1,0 +1,19 @@
+- name: popcnt
+  long_name: "Return the Count of Number of Bits Set to 1"
+  purpose: |
+      "
+      This instruction calculates the number of bits set to 1 in the second
+      operand (source) and returns the count in the first operand (a
+      destination register).
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: value
+              type: uint64
+
+        logical_outputs:
+            - name: result
+              type: uint64

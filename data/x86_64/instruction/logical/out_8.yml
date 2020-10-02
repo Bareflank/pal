@@ -1,0 +1,12 @@
+- name: out_8
+  long_name: "Ouput 8 Bits to Port"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: address
+              type: uint16
+
+            - name: value
+              type: uint8

@@ -1,0 +1,18 @@
+- name: vmxon
+  long_name: "Enter VMX Operation"
+  purpose: |
+      "
+      Puts the logical processor in VMX operation with no current VMCS, blocks
+      INIT signals, disables A20M, and clears any address-range monitoring
+      established by the MONITOR instruction. The operand of this instruction
+      is a 4KB-aligned physical address (the VMXON pointer) that references the
+      VMXON region, which the logical processor may use to support VMX
+      operation. This operand is always 64 bits and is always in memory.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: vmxon_pointer
+              type: uint64

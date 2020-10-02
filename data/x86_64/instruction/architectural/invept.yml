@@ -1,0 +1,35 @@
+- name: invept
+  long_name: "Invalidate Translations Derived from EPT"
+  purpose: |
+      "
+      Invalidates mappings in the translation lookaside buffers (TLBs) and
+      paging-structure caches that were derived from extended page tables
+      (EPT). (See Chapter 28, “VMX Support for Address Translation”.)
+      Invalidation is based on the INVEPT type specified in the register
+      operand and the INVEPT descriptor specified in the memory operand.
+      Outside IA-32e mode, the register operand is always 32 bits, regardless
+      of the value of CS.D; in 64-bit mode, the register operand has 64 bits
+      (the instruction cannot be executed in compatibility mode). The INVEPT
+      types supported by a logical processors are reported in the
+      IA32_VMX_EPT_VPID_CAP MSR (see Appendix A, “VMX Capability Reporting
+      Facility”). There are two INVEPT types currently defined: •
+      Single-context invalidation. If the INVEPT type is 1, the logical
+      processor invalidates all mappings associated with bits 51:12 of the EPT
+      pointer (EPTP) specified in the INVEPT descriptor. It may invalidate
+      other mappings as well. • Global invalidation: If the INVEPT type is 2,
+      the logical processor invalidates mappings associated with all EPTPs. If
+      an unsupported INVEPT type is specified, the instruction fails. INVEPT
+      invalidates all the specified mappings for the indicated EPTP(s)
+      regardless of the VPID and PCID values with which those mappings may be
+      associated.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: invept_type
+              type: uint64
+
+            - name: invept_descriptor
+              type: uint64
