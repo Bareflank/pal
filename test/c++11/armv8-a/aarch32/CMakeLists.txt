@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 project(c++11-arm-linux-gnueabihf-gcc CXX)
-include(${PAL_SOURCE_CMAKE_DIR}/init_subproject.cmake)
 
 set(PROJECT_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
 

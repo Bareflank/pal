@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 project(c-x86_64-linux-gnu-gcc C)
-include(${PAL_SOURCE_CMAKE_DIR}/init_subproject.cmake)
 
 set(SOURCES
     cr3.c
