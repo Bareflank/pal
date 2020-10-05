@@ -1,0 +1,34 @@
+name: CMake
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y nasm build-essential g++-arm-linux-gnueabihf g++-aarch64-linux-gnu python3
+        sudo pip3 install lxml colorama dataclasses pyyaml
+
+    - name: Create Build Environment
+      shell: bash
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DPAL_ENABLE_TEST=ON
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build .
