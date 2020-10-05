@@ -1,0 +1,45 @@
+- name: MSR0000_02FF
+  long_name: "MTRR Default Memory Type"
+  purpose: |
+        "
+        MSR0000_02FF [MTRR Default Memory Type] (Core::X86::Msr::MTRRdefType)
+        "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x02FF
+
+      - name: wrmsr
+        is_write: False
+        address: 0x02FF
+
+ fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: MemType
+              long_name: "memory type"
+              lsb: 0
+              msb: 7
+              readable: True 
+              writable: True
+
+            - name: MtrrDefTypeFixEn
+              long_name: "fixed MTRR enable"
+              lsb: 10
+              msb: 10
+              readable: True 
+              writable: True
+
+            - name: MtrrDefTypeEn
+              long_name: "variable and fixed MTRR enable"
+              lsb: 11
+              msb: 11
+              readable: True 
+              writable: True
+

@@ -1,0 +1,69 @@
+- name: MSRC001_0116
+  long_name: "SMM Control"
+  purpose: |
+       "
+       MSRC001_0116 [SMM Control] (Core::X86::Msr::SMM_CTL)
+       
+       The bits in this register are processed in the order of: SmmEnter, SmiCycle, SmmDismiss, RsmCycle and SmmExit. 
+       However, only the following combination of bits may be set in a single write (all other combinations result in undefined 
+       behavior): 
+       
+       • SmmEnter and SmiCycle. 
+       • SmmEnter and SmmDismiss. 
+       • SmmEnter, SmiCycle and SmmDismiss. 
+       • SmmExit and RsmCycle. 
+       
+       Software is responsible for ensuring that SmmEnter and SmmExit operations are properly matched and are not nested.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010116
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010116
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: SmmDismiss
+              long_name: "clear SMI"
+              lsb: 0
+              msb: 0
+              readable: True 
+              writable: True
+
+            - name: SmmEnter
+              long_name: "enter SMI"
+              lsb: 1
+              msb: 1
+              readable: True 
+              writable: True
+
+            - name: SmiCycle
+              long_name: "send SMI special cycle"
+              lsb: 2
+              msb: 2
+              readable: True 
+              writable: True
+
+            - name: SmmExit
+              long_name: "exit SMM"
+              lsb: 3
+              msb: 3
+              readable: True 
+              writable: True
+
+            - name: RsmCycle
+              long_name: "send RSM special cycle"
+              lsb: 4
+              msb: 4
+              readable: True 
+              writable: True

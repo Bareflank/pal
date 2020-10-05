@@ -1,0 +1,54 @@
+- name: MSRC001_0016
+  long_name: "IO Range Base"
+  purpose: |
+       "
+        MSRC001_001[6...8] [IO Range Base] (Core::X86::Msr::IORR_BASE)
+
+        Core::X86::Msr::IORR_BASE and Core::X86::Msr::IORR_MASK combine to specify the two sets of base and mask 
+        pairs for two IORR ranges. A core access, with address CPUAddr, is determined to be within IORR address range if the 
+        following equation is true: 
+        
+        CPUAddr[47:12] & PhyMask[47:12] == PhyBase[47:12] & PhyMask[47:12]. 
+        BIOS can use the IORRs to create an IO hole within a range of addresses that would normally be mapped to DRAM. It 
+        can also use the IORRs to re-assert a DRAM destination for a range of addresses that fall within a bigger IO hole that 
+        overlays DRAM.
+       "
+  size: 64
+  arch: amd64
+  is_indexed: True
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010016
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010016 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: WrMem
+              long_name: "write to memory"
+              lsb: 3
+              msb: 3
+              readable: True 
+              writable: True
+
+            - name: RdMem
+              long_name: "read from memory"
+              lsb: 4
+              msb: 4
+              readable: True 
+              writable: True
+
+            - name: PhyBase
+              long_name: "physical base address"
+              lsb: 12
+              msb: 47
+              readable: True 
+              writable: True

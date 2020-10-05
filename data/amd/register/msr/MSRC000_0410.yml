@@ -1,0 +1,37 @@
+- name: MSRC000_0410
+  long_name: "MCA Interrupt Configuration"
+  purpose: |
+       "
+        MSRC000_0410 [MCA Interrupt Configuration] (Core::X86::Msr::McaIntrCfg)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0000410
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0000410 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: DeferredLvtOffset
+              long_name: "DeferredLvtOffset"
+              lsb: 4
+              msb: 7
+              readable: True 
+              writable: True
+
+            - name: ThresholdLvtOffset
+              long_name: "ThresholdLvtOffset"
+              lsb: 12
+              msb: 15
+              readable: True 
+              writable: True

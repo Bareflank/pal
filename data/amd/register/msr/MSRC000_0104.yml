@@ -1,0 +1,50 @@
+- name: MSRC000_0104
+  long_name: "Time Stamp Counter Ratio"
+  purpose: |
+       "
+        MSRC000_0104 [Time Stamp Counter Ratio] (Core::X86::Msr::TscRateMsr)
+        
+        Core::X86::Msr::TscRateMsr allows the hypervisor to control the guest's view of the Time Stamp Counter. It provides a
+        multiplier that scales the value returned when Core::X86::Msr::TSC[TSC], Core::X86::Msr::MPERF[MPERF], and
+        Core::X86::Msr::MPerfReadOnly[MPerfReadOnly] are read by a guest running under virtualization. This allows the
+        hypervisor to provide a consistent TSC, MPERF, and MPerfReadOnly rate for a guest process when moving that process
+        between cores that have a differing P0 rate. The TSC Ratio MSR does not affect the value read from the TSC, MPERF,
+        and MPerfReadOnly MSRs when read when in host mode or when virtualization is not being used or when accessed by
+        code executed in system management mode (SMM) unless the SMM code is executed within a guest container. The TSC
+        Ratio value does not affect the rate of the underlying TSC, MPERF, and MPerfReadOnly counters, or the value that gets
+        written to the TSC, MPERF, and MPerfReadOnly MSRs counters on a write by either the host or the guest. The TSC
+        Ratio MSR contains a fixed-point number in 8.32 format, which is 8 bits of integer and 32 bits of fraction. This number
+        is the ratio of the desired P0 frequency to the P0 frequency of the core. The reset value of the TSC Ratio MSR is 1.0,
+        which results in a guest frequency matches the core P0 frequency.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0000104
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0000104 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TscRateMsrFrac
+              long_name: "time stamp counter rate fraction"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: True
+
+            - name: TscRateMsrInt
+              long_name: "time stamp counter rate integer"
+              lsb: 32
+              msb: 39
+              readable: True 
+              writable: True

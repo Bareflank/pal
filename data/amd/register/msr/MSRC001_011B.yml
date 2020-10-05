@@ -1,0 +1,34 @@
+- name: MSRC001_011B
+  long_name: "AVIC Doorbell"
+  purpose: |
+       "
+       MSRC001_011B [AVIC Doorbell] (Core::X86::Msr::AvicDoorbell)
+
+       MSRC001_011B [AVIC Doorbell] (Core::X86::Msr::AvicDoorbell)
+       The ApicId is a physical APIC Id; not valid for logical APIC ID.  
+       Enable: (Core::X86::Cpuid::SvmRevFeatIdEdx[AVIC]==1).
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: False
+        address: 0xC001011B
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC001011B
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: ApicId
+              long_name: "APIC ID"
+              lsb: 0
+              msb: 7
+              readable: False 
+              writable: True
