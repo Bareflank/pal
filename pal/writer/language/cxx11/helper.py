@@ -49,29 +49,25 @@ class Cxx11HelperWriter():
                       str(value) + '";')
 
     def _register_read_function_name(self, register):
-        return "{reg_name}::{read}{indexed}".format(
+        return "{reg_name}::get{indexed}".format(
             reg_name=register.name.lower(),
-            read=config.register_read_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 
     def _register_write_function_name(self, register):
-        return "{reg_name}::{write}{indexed}".format(
+        return "{reg_name}::set{indexed}".format(
             reg_name=register.name.lower(),
-            write=config.register_write_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_is_set_function_name(self, register, field):
-        return "{field_name}::{read}{indexed}".format(
+        return "{field_name}::is_enabled{indexed}".format(
             field_name=field.name.lower(),
-            read=config.bit_is_set_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 
     def _field_read_function_name(self, register, field):
-        return "{field_name}::{read}{indexed}".format(
+        return "{field_name}::get{indexed}".format(
             field_name=field.name.lower(),
-            read=config.field_read_function,
             indexed="_at_index" if register.is_indexed else ""
         )

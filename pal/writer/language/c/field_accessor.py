@@ -1,5 +1,4 @@
 import pal.gadget
-from pal.config import config
 
 
 class CFieldAccessorWriter():
@@ -29,9 +28,9 @@ class CFieldAccessorWriter():
     def call_field_get(self, outfile, register, field, destination,
                        register_value):
         if field.msb == field.lsb:
-            field_read_function = str(config.bit_is_set_function),
+            field_read_function = "is_enabled",
         else:
-            field_read_function = str(config.field_read_function),
+            field_read_function = "get",
 
         call = "{size} {dest} = pal_{reg_name}_{field_name}_{read}_from_value({reg_val});".format(
             size=self._register_size_type(register),
@@ -85,9 +84,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = []
-        gadget.name = prefix + "{name}".format(
-            name=config.bit_is_set_function
-        )
+        gadget.name = prefix + "is_enabled"
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -117,9 +114,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = [(size_type, "value")]
-        gadget.name = prefix + "{name}_from_value".format(
-            name=config.bit_is_set_function
-        )
+        gadget.name = prefix + "is_enabled_from_value"
 
         self._declare_bitfield_is_set_val_details(outfile, register, field)
 
@@ -138,9 +133,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = []
-        gadget.name = prefix + "{name}".format(
-            name=config.bit_is_clear_function
-        )
+        gadget.name = prefix + "is_disabled"
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -170,9 +163,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = [(size_type, "value")]
-        gadget.name = prefix + "{name}_from_value".format(
-            name=config.bit_is_clear_function
-        )
+        gadget.name = prefix + "is_disabled_from_value"
 
         self._declare_bitfield_is_clear_val_details(outfile, register, field)
 
@@ -189,9 +180,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = "void"
         gadget.args = []
-        gadget.name = prefix + "{name}".format(
-            name=config.bit_set_function
-        )
+        gadget.name = prefix + "enable"
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -223,9 +212,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = [(size_type, "value")]
-        gadget.name = prefix + "{name}_from_value".format(
-            name=config.bit_set_function
-        )
+        gadget.name = prefix + "enable_from_value"
 
         self._declare_bitfield_set_val_details(outfile, register, field)
 
@@ -241,9 +228,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = "void"
         gadget.args = []
-        gadget.name = prefix + "{name}".format(
-            name=config.bit_clear_function
-        )
+        gadget.name = prefix + "disable"
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -275,9 +260,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = [(size_type, "value")]
-        gadget.name = prefix + "{name}_from_value".format(
-            name=config.bit_clear_function
-        )
+        gadget.name = prefix + "disable_from_value"
 
         self._declare_bitfield_clear_val_details(outfile, register, field)
 
@@ -295,9 +278,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = []
-        gadget.name = prefix + "{name}".format(
-            name=config.field_read_function
-        )
+        gadget.name = prefix + "get"
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -328,9 +309,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = [(size_type, "value")]
-        gadget.name = prefix + "{name}_from_value".format(
-            name=config.field_read_function
-        )
+        gadget.name = prefix + "get_from_value"
 
         self._declare_field_get_val_details(outfile, register, field)
 
@@ -351,9 +330,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = "void"
         gadget.args = [(size_type, "value")]
-        gadget.name = prefix + "{name}".format(
-            name=config.field_write_function
-        )
+        gadget.name = prefix + "set"
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -396,9 +373,7 @@ class CFieldAccessorWriter():
         gadget = self.gadgets["pal.c.function_definition"]
         gadget.return_type = size_type
         gadget.args = [(size_type, "field_value"), (size_type, "register_value")]
-        gadget.name = prefix + "{name}_from_value".format(
-            name=config.field_write_function
-        )
+        gadget.name = prefix + "set_from_value"
 
         self._declare_field_set_val_details(outfile, register, field)
 

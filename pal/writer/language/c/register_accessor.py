@@ -71,7 +71,7 @@ class CRegisterAccessorWriter():
     def _declare_register_get(self, outfile, register):
         prefix = self._register_prefix(register)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + config.register_read_function
+        gadget.name = prefix + "get"
         gadget.return_type = self._register_size_type(register)
         gadget.args = []
 
@@ -125,7 +125,7 @@ class CRegisterAccessorWriter():
         prefix = self._register_prefix(register)
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + config.register_write_function
+        gadget.name = prefix + "set"
         gadget.return_type = "void"
         gadget.args = [(size_type, "value")]
 

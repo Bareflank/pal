@@ -153,62 +153,6 @@ c.description = "Use colored output for Pal logger messages"
 config.add_configuration(c)
 
 # -----------------------------------------------------------------------------
-# Function generation options
-# -----------------------------------------------------------------------------
-
-c = Configuration("register_read_function", "get")
-c.description = "Name of generated functions for reading registers"
-config.add_configuration(c)
-
-c = Configuration("register_write_function", "set")
-c.description = "Name of generated functions for writing registers"
-config.add_configuration(c)
-
-c = Configuration("field_read_function", "get")
-c.description = "Name of generated functions for reading a register field"
-config.add_configuration(c)
-
-c = Configuration("field_write_function", "set")
-c.description = "Name of generated functions for writing a register field"
-config.add_configuration(c)
-
-c = Configuration("bit_set_function", "enable")
-c.description = "Name of generated functions for setting a bit to the value 1"
-config.add_configuration(c)
-
-c = Configuration("bit_clear_function", "disable")
-c.description = "Name of generated functions for setting a bit to the value 0"
-config.add_configuration(c)
-
-c = Configuration("bit_is_set_function", "is_enabled")
-c.description = "Name of generated functions for checking if a bit is set to 1"
-config.add_configuration(c)
-
-c = Configuration("bit_is_clear_function", "is_disabled")
-c.description = "Name of generated functions for checking if a bit is set to 0"
-config.add_configuration(c)
-
-c = Configuration("print_function", "dump")
-c.description = "Name of generated functions for printing information"
-config.add_configuration(c)
-
-# -----------------------------------------------------------------------------
-# C++ options
-# -----------------------------------------------------------------------------
-
-c = Configuration("cxx_namespace", "pal")
-c.description = "Top namespace to place generated c++ functions into"
-config.add_configuration(c)
-
-# -----------------------------------------------------------------------------
-# C options
-# -----------------------------------------------------------------------------
-
-c = Configuration("c_prefix", "pal")
-c.description = "Prefix to place in front of generated C functions"
-config.add_configuration(c)
-
-# -----------------------------------------------------------------------------
 # Peripheral options
 # -----------------------------------------------------------------------------
 

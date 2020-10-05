@@ -68,7 +68,7 @@ class Cxx11RegisterAccessorWriter():
 
     def _declare_register_get(self, outfile, register):
         gadget = self.gadgets["pal.cxx.function_definition"]
-        gadget.name = config.register_read_function
+        gadget.name = "get"
         gadget.return_type = self._register_size_type(register)
         gadget.args = []
 
@@ -116,7 +116,7 @@ class Cxx11RegisterAccessorWriter():
     def _declare_register_set(self, outfile, register):
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.cxx.function_definition"]
-        gadget.name = config.register_write_function
+        gadget.name = "set"
         gadget.return_type = "void"
         gadget.args = [(size_type, "value")]
 

@@ -51,32 +51,28 @@ class CHelperWriter():
                       str(value) + '";')
 
     def _register_read_function_name(self, register):
-        return "pal_{reg_name}_{read}{indexed}".format(
+        return "pal_{reg_name}_get{indexed}".format(
             reg_name=register.name.lower(),
-            read=config.register_read_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 
     def _register_write_function_name(self, register):
-        return "pal_{reg_name}_{write}{indexed}".format(
+        return "pal_{reg_name}_set{indexed}".format(
             reg_name=register.name.lower(),
-            write=config.register_write_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_is_set_function_name(self, register, field):
-        return "pal_{reg_name}_{field_name}_{read}{indexed}".format(
+        return "pal_{reg_name}_{field_name}_is_enabled{indexed}".format(
             reg_name=register.name.lower(),
             field_name=field.name.lower(),
-            read=config.bit_is_set_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 
     def _field_read_function_name(self, register, field):
-        return "pal_{reg_name}_{field_name}_{read}{indexed}".format(
+        return "pal_{reg_name}_{field_name}_get{indexed}".format(
             reg_name=register.name.lower(),
             field_name=field.name.lower(),
-            read=config.field_read_function,
             indexed="_at_index" if register.is_indexed else ""
         )
 

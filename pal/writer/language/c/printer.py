@@ -1,5 +1,4 @@
 import pal.gadget
-from pal.config import config
 
 
 class CPrinterWriter():
@@ -23,7 +22,7 @@ class CPrinterWriter():
             prefix = prefix + fieldset.name.lower() + "_"
 
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + config.print_function
+        gadget.name = prefix + "dump"
         gadget.return_type = "void"
         gadget.args = []
 
@@ -41,7 +40,7 @@ class CPrinterWriter():
 
         self.call_register_get(outfile, register, "register_value")
 
-        outfile.write(prefix + config.print_function + "_from_value(register_value);")
+        outfile.write(prefix + "dump_from_value(register_value);")
 
     def _declare_fieldset_print_value(self, outfile, register, fieldset):
         prefix = self._register_prefix(register)
@@ -51,7 +50,7 @@ class CPrinterWriter():
 
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + config.print_function + "_from_value"
+        gadget.name = prefix + "dump_from_value"
         gadget.return_type = "void"
         gadget.args = [(size_type, "value")]
 
@@ -62,13 +61,13 @@ class CPrinterWriter():
         self.print_value_as_register(outfile, register, "value")
         for field in fieldset.fields:
             prefix = self._field_prefix(register, field)
-            outfile.write(prefix + config.print_function + "_from_value(value);")
+            outfile.write(prefix + "dump_from_value(value);")
             self.write_newline(outfile)
 
     def _declare_field_print(self, outfile, register, field):
         prefix = self._field_prefix(register, field)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + config.print_function
+        gadget.name = prefix + "dump"
         gadget.return_type = "void"
         gadget.args = []
 
@@ -85,13 +84,13 @@ class CPrinterWriter():
                             "register_value")
 
         prefix = self._field_prefix(register, field)
-        outfile.write(prefix + config.print_function + "_from_value(field_value);")
+        outfile.write(prefix + "dump_from_value(field_value);")
 
     def _declare_field_print_value(self, outfile, register, field):
         prefix = self._field_prefix(register, field)
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + config.print_function + "_from_value"
+        gadget.name = prefix + "dump_from_value"
         gadget.return_type = "void"
         gadget.args = [(size_type, "register_value")]
 
