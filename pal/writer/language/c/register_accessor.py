@@ -69,15 +69,13 @@ class CRegisterAccessorWriter():
         self.write_newline(outfile)
 
     def _declare_register_get(self, outfile, register):
-        prefix = self._register_prefix(register)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + "get"
+        gadget.name = self._register_read_function_name(register)
         gadget.return_type = self._register_size_type(register)
         gadget.args = []
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
-            gadget.name = gadget.name + "_at_index"
 
         self._declare_register_get_details(outfile, register)
 
@@ -122,16 +120,14 @@ class CRegisterAccessorWriter():
                     return
 
     def _declare_register_set(self, outfile, register):
-        prefix = self._register_prefix(register)
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.c.function_definition"]
-        gadget.name = prefix + "set"
+        gadget.name = self._register_write_function_name(register)
         gadget.return_type = "void"
         gadget.args = [(size_type, "value")]
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
-            gadget.name = gadget.name + "_at_index"
 
         self._declare_register_set_details(outfile, register)
 

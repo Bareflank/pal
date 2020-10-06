@@ -51,29 +51,119 @@ class CHelperWriter():
                       str(value) + '";')
 
     def _register_read_function_name(self, register):
-        return "pal_{reg_name}_get{indexed}".format(
+        return "pal_get_{reg_name}{at_index}".format(
             reg_name=register.name.lower(),
-            indexed="_at_index" if register.is_indexed else ""
+            at_index="_at_index" if register.is_indexed else ""
         )
 
     def _register_write_function_name(self, register):
-        return "pal_{reg_name}_set{indexed}".format(
+        return "pal_set_{reg_name}{at_index}".format(
             reg_name=register.name.lower(),
-            indexed="_at_index" if register.is_indexed else ""
+            at_index="_at_index" if register.is_indexed else ""
         )
 
-    def _bitfield_is_set_function_name(self, register, field):
-        return "pal_{reg_name}_{field_name}_is_enabled{indexed}".format(
+    def _bitfield_enable_function_name(self, register, field):
+        return "pal_enable_{reg_name}_{field_name}{at_index}".format(
             reg_name=register.name.lower(),
             field_name=field.name.lower(),
-            indexed="_at_index" if register.is_indexed else ""
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _bitfield_enable_in_value_function_name(self, register, field):
+        return "pal_enable_{reg_name}_{field_name}_in_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
+        )
+
+    def _bitfield_is_enabled_function_name(self, register, field):
+        return "pal_{reg_name}_{field_name}_is_enabled{at_index}".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower(),
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _bitfield_is_enabled_in_value_function_name(self, register, field):
+        return "pal_{reg_name}_{field_name}_is_enabled_in_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
+        )
+
+    def _bitfield_disable_function_name(self, register, field):
+        return "pal_disable_{reg_name}_{field_name}{at_index}".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower(),
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _bitfield_disable_in_value_function_name(self, register, field):
+        return "pal_disable_{reg_name}_{field_name}_in_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
+        )
+
+    def _bitfield_is_disabled_function_name(self, register, field):
+        return "pal_{reg_name}_{field_name}_is_disabled{at_index}".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower(),
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _bitfield_is_disabled_in_value_function_name(self, register, field):
+        return "pal_{reg_name}_{field_name}_is_disabled_in_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
         )
 
     def _field_read_function_name(self, register, field):
-        return "pal_{reg_name}_{field_name}_get{indexed}".format(
+        return "pal_get_{reg_name}_{field_name}{at_index}".format(
             reg_name=register.name.lower(),
             field_name=field.name.lower(),
-            indexed="_at_index" if register.is_indexed else ""
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _field_read_from_value_function_name(self, register, field):
+        return "pal_get_{reg_name}_{field_name}_from_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
+        )
+
+    def _field_write_function_name(self, register, field):
+        return "pal_set_{reg_name}_{field_name}{at_index}".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower(),
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _field_write_in_value_function_name(self, register, field):
+        return "pal_set_{reg_name}_{field_name}_in_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
+        )
+
+    def _field_print_function_name(self, register, field):
+        return "pal_print_{reg_name}_{field_name}{at_index}".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower(),
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _field_print_from_value_function_name(self, register, field):
+        return "pal_print_{reg_name}_{field_name}_from_value".format(
+            reg_name=register.name.lower(),
+            field_name=field.name.lower()
+        )
+
+    def _fieldset_print_function_name(self, register, fieldset):
+        return "pal_print_{reg_name}{fieldset_name}{at_index}".format(
+            reg_name=register.name.lower(),
+            fieldset_name="_" + fieldset.name.lower() if len(register.fieldsets) > 1 else "",
+            at_index="_at_index" if register.is_indexed else ""
+        )
+
+    def _fieldset_print_from_value_function_name(self, register, fieldset):
+        return "pal_print_{reg_name}{fieldset_name}_from_value".format(
+            reg_name=register.name.lower(),
+            fieldset_name="_" + fieldset.name.lower() if len(register.fieldsets) > 1 else ""
         )
 
     def _register_prefix(self, register):
