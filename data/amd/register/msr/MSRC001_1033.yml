@@ -2,6 +2,8 @@
   long_name: "IBS Execution Control"
   purpose: |
        "
+       MSRC001_1033 [IBS Execution Control] (Core::X86::Msr::IBS_OP_CTL)
+
         The IBS execution sampling engine is described as follows for IbsOpCntCtl == 1. If IbsOpCntCtl == 1n then references 
         to “periodic op counter" mean “periodic cycle counter". 
         • The periodic op counter is an internal 27-bit counter: 
@@ -42,9 +44,44 @@
         size: 64
 
         fields:
-            - name: IbsFetchPhysAd
-              long_name: "instruction fetch physical address"
+            - name: IbsOpMaxCnt
+              long_name: "periodic op counter maximum count"
               lsb: 0
-              msb: 47
+              msb: 15
+              readable: True 
+              writable: True
+
+            - name: IbsOpEn
+              long_name: "micro-op sampling enable"
+              lsb: 17
+              msb: 17
+              readable: True 
+              writable: True
+
+            - name: IbsOpVal
+              long_name: "micro-op sample valid"
+              lsb: 18
+              msb: 18
+              readable: True 
+              writable: True
+
+            - name: IbsOpCntCtl
+              long_name: "periodic op counter count control"
+              lsb: 19
+              msb: 19
+              readable: True 
+              writable: True
+
+            - name: IbsOpMaxCnt
+              long_name: "periodic op counter maximum count"
+              lsb: 20
+              msb: 26
+              readable: True 
+              writable: True
+
+            - name: IbsOpCurCnt
+              long_name: "periodic op counter current count"
+              lsb: 32
+              msb: 58
               readable: True 
               writable: True

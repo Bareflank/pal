@@ -1,0 +1,52 @@
+- name: MSR0000_0200
+  long_name: "Variable-Size MTRRs Base"
+  purpose: |
+        "
+        MSR0000_020[0...E] [Variable-Size MTRRs Base] (Core::X86::Msr::MtrrVarBase)
+
+        Each MTRR (Core::X86::Msr::MtrrVarBase, Core::X86::Msr::MtrrFix_64K through Core::X86::Msr::MtrrFix_4K_7, or 
+        Core::X86::Msr::MTRRdefType) specifies a physical address range and a corresponding memory type (MemType) 
+        associated with that range. Setting the memory type to an unsupported value results in a #GP. 
+        The variable-size MTRRs come in pairs of base and mask registers (MSR0000_0200 and MSR0000_0201 are the first 
+        pair, etc.). Variables MTRRs are enabled through Core::X86::Msr::MTRRdefType[MtrrDefTypeEn]. A core access--with
+        address CPUAddr--is determined to be within the address range of a variable-size MTRR if the following equation is
+        
+        true: CPUAddr[47:12] & PhyMask[47:12] == PhyBase[47:12] & PhyMask[47:12].
+        
+        For example, if the variable MTRR spans 256 KB and starts at the 1 MB address the PhyBase would be set to
+        0_0010_0000h and the PhyMask to F_FFFC_0000h (with zeros filling in for bits[11:0]). This results in a range from
+        0_0010_0000h to 0_0013_FFFFh.
+        "
+  size: 64
+  arch: amd64
+  is_indexed: True
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x0200
+
+      - name: wrmsr
+        is_write: True
+        address: 0x0200
+
+ fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: MemType
+              long_name: "memory type"
+              lsb: 0
+              msb: 2
+              readable: True 
+              writable: True
+
+            - name: PhyBase
+              long_name: "base address"
+              lsb: 12
+              msb: 47
+              readable: True 
+              writable: True
+

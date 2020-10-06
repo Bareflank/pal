@@ -1,0 +1,59 @@
+- name: MSRC001_0230
+  long_name: "L3 Performance Event Select"
+  purpose: |
+        "
+        MSRC001_023[0...A] [L3 Performance Event Select [5:0]] (Core::X86::Msr::ChL3PmcCfg)
+        "
+  size: 64
+  arch: amd64
+  is_indexed: True
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010230
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010230
+
+ fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: EventSelect
+              long_name: "event select"
+              lsb: 0
+              msb: 7
+              readable: True 
+              writable: True
+
+            - name: UnitMask
+              long_name: "event qualification"
+              lsb: 8
+              msb: 15
+              readable: True 
+              writable: True
+
+            - name: Enable
+              long_name: "Enable L3 performance counter"
+              lsb: 22
+              msb: 22
+              readable: True 
+              writable: True
+
+            - name: sliceMask
+              long_name: "SliceMask"
+              lsb: 48
+              msb: 51
+              readable: True 
+              writable: True
+
+            - name: ThreadMask
+              long_name: "ThreadMask"
+              lsb: 56
+              msb: 63
+              readable: True 
+              writable: True
