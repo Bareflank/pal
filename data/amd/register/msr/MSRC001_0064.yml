@@ -1,0 +1,71 @@
+- name: MSRC001_0064
+  long_name: "P-state [7:0]"
+  purpose: |
+        "
+        MSRC001_006[4...B] [P-state [7:0]] (Core::X86::Msr::PStateDef)
+
+        Each of these registers specify the frequency and voltage associated with each of the core P-states.
+        The CpuVid field in these registers is required to be programmed to the same value in all cores of a processor, but are
+        allowed to be different between processors in a multi-processor system. All other fields in these registers are required to
+        be programmed to the same value in each core of the coherent fabric.
+        "
+  size: 64
+  arch: amd64
+  is_indexed: True
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010064
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010064
+
+ fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: CpuFid
+              long_name: "core frequency ID"
+              lsb: 7
+              msb: 0
+              readable: True 
+              writable: True
+
+            - name: CpuDfsId
+              long_name: "core divisor ID"
+              lsb: 8
+              msb: 13
+              readable: True 
+              writable: True
+
+            - name: CpuVid
+              long_name: "core VID"
+              lsb: 14
+              msb: 21
+              readable: True 
+              writable: True
+
+            - name: IddValue
+              long_name: "current value"
+              lsb: 22
+              msb: 29
+              readable: True 
+              writable: True
+
+            - name: IddDiv
+              long_name: "current divisor"
+              lsb: 30
+              msb: 31
+              readable: True 
+              writable: True
+
+            - name: PstateEn
+              long_name: "PstateEn"
+              lsb: 63
+              msb: 63
+              readable: True 
+              writable: True
