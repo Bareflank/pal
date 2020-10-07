@@ -16,6 +16,8 @@
         For example, if the variable MTRR spans 256 KB and starts at the 1 MB address the PhyBase would be set to
         0_0010_0000h and the PhyMask to F_FFFC_0000h (with zeros filling in for bits[11:0]). This results in a range from
         0_0010_0000h to 0_0013_FFFFh.
+
+        MSR0000_020[1...F] [Variable-Size MTRRs Mask] (Core::X86::Msr::MtrrVarMask)
         "
   size: 64
   arch: amd64
