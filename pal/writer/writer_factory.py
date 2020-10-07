@@ -36,6 +36,8 @@ from pal.writer.comment.c_multiline import CMultilineCommentWriter
 from pal.writer.comment.yaml import YamlCommentWriter
 from pal.writer.comment.none import NoneCommentWriter
 
+from pal.writer.instruction.none import NoneInstructionWriter
+
 language_options = [
     "c",
     "c++11",
@@ -98,6 +100,11 @@ def get_register_writer(language):
     else:
         return NoneRegisterWriter
 
+
+def get_instruction_writer(language):
+    return NoneInstructionWriter
+
+
 def get_comment_writer(language):
     if language == "c" or language == "c++11":
         return CMultilineCommentWriter
@@ -124,11 +131,13 @@ def make_writer(arch, language, access_mechanism, print_mechanism, file_format):
 
     access_mechanism_writer = get_access_mechanism_writer(arch, language, access_mechanism)
     register_writer = get_register_writer(language)
+    instruction_writer = get_instruction_writer(language)
     comment_writer = get_comment_writer(language)
 
     class Writer(
             AbstractWriter,
             register_writer,
+            instruction_writer,
             access_mechanism_writer,
             print_mechanism_options[print_mechanism],
             file_format_options[file_format],
