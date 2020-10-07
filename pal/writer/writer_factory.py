@@ -1,9 +1,9 @@
 from pal.writer.abstract_writer import AbstractWriter
 
-from pal.writer.language.c.language_writer import CLanguageWriter
-from pal.writer.language.cxx11.language_writer import Cxx11LanguageWriter
-from pal.writer.language.yaml import YamlLanguageWriter
-from pal.writer.language.none import NoneLanguageWriter
+from pal.writer.register.c.register_writer import CRegisterWriter
+from pal.writer.register.cxx11.register_writer import Cxx11RegisterWriter
+from pal.writer.register.yaml import YamlRegisterWriter
+from pal.writer.register.none import NoneRegisterWriter
 
 from pal.writer.access_mechanism.gas_x86_64_intel_syntax import \
     GasX86_64IntelSyntaxAccessMechanismWriter
@@ -36,12 +36,12 @@ from pal.writer.comment.c_multiline import CMultilineCommentWriter
 from pal.writer.comment.yaml import YamlCommentWriter
 from pal.writer.comment.none import NoneCommentWriter
 
-language_options = {
-    "c": CLanguageWriter,
-    "c++11": Cxx11LanguageWriter,
-    "yaml": YamlLanguageWriter,
-    "none": NoneLanguageWriter,
-}
+language_options = [
+    "c",
+    "c++11",
+    "yaml",
+    "none",
+]
 
 access_mechanism_options = [
     "gas_intel",
@@ -87,6 +87,17 @@ def get_access_mechanism_writer(arch, language, access_mechanism):
     else:
         return NoneAccessMechanismWriter
 
+
+def get_register_writer(language):
+    if language == "c":
+        return CRegisterWriter
+    elif language == "c++11":
+        return Cxx11RegisterWriter
+    elif language == "yaml":
+        return YamlRegisterWriter
+    else:
+        return NoneRegisterWriter
+
 def get_comment_writer(language):
     if language == "c" or language == "c++11":
         return CMultilineCommentWriter
@@ -111,13 +122,14 @@ def make_writer(arch, language, access_mechanism, print_mechanism, file_format):
     if file_format not in file_format_options:
         raise Exception("invalid file_format option: " + str(file_format))
 
-    am_writer = get_access_mechanism_writer(arch, language, access_mechanism)
+    access_mechanism_writer = get_access_mechanism_writer(arch, language, access_mechanism)
+    register_writer = get_register_writer(language)
     comment_writer = get_comment_writer(language)
 
     class Writer(
             AbstractWriter,
-            language_options[language],
-            am_writer,
+            register_writer,
+            access_mechanism_writer,
             print_mechanism_options[print_mechanism],
             file_format_options[file_format],
             comment_writer

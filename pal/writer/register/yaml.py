@@ -1,8 +1,8 @@
 import textwrap
-from pal.writer.language.language import LanguageWriter
+from pal.writer.register.register import RegisterWriter
 
 
-class YamlLanguageWriter(LanguageWriter):
+class YamlRegisterWriter(RegisterWriter):
 
     def declare_register_dependencies(self, outfile, register):
         pass

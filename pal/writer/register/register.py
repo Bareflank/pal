@@ -8,7 +8,7 @@ from pal.model.fieldset import Fieldset
 from pal.model.field import Field
 
 
-class LanguageWriter(abc.ABC):
+class RegisterWriter(abc.ABC):
 
     @abc.abstractmethod
     def declare_register_dependencies(self, outfile: TextIO, register: Register) -> None:

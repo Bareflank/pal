@@ -1,6 +1,6 @@
 from typing import List
 
-from pal.writer.language.language import LanguageWriter
+from pal.writer.register.register import RegisterWriter
 from pal.writer.access_mechanism.access_mechanism \
         import AccessMechanismWriter
 from pal.writer.print_mechanism.print_mechanism import PrintMechanismWriter
@@ -10,7 +10,7 @@ from pal.writer.comment.comment import CommentWriter
 from pal.gadget.gadget_properties import GadgetProperties
 from pal.gadget import create_gadget_properties
 
-class AbstractWriter(LanguageWriter, AccessMechanismWriter, PrintMechanismWriter,
+class AbstractWriter(RegisterWriter, AccessMechanismWriter, PrintMechanismWriter,
                      FileFormatWriter, CommentWriter):
 
     @property
