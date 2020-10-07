@@ -72,7 +72,7 @@ class CHeaderGenerator(AbstractGenerator):
 
         for idx, fieldset in enumerate(reg.fieldsets):
             if fieldset.condition:
-                self.writer.declare_comment(outfile, fieldset.condition)
+                self.writer.declare_comment(outfile, fieldset.condition, 79)
 
             for field in fieldset.fields:
                 self.writer.declare_field_accessors(outfile, reg, field)
@@ -88,4 +88,4 @@ class CHeaderGenerator(AbstractGenerator):
             separator=" - " if reg.purpose else "",
             purpose=str(reg.purpose)
         )
-        self.writer.declare_comment(outfile, comment, wrap=75)
+        self.writer.declare_comment(outfile, comment, 75)

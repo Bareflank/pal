@@ -11,10 +11,6 @@ from pal.model.field import Field
 class LanguageWriter(abc.ABC):
 
     @abc.abstractmethod
-    def declare_comment(self, outfile: TextIO, comment: str) -> None:
-        pass
-
-    @abc.abstractmethod
     def declare_register_dependencies(self, outfile: TextIO, register: Register) -> None:
         pass
 

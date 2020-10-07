@@ -4,13 +4,6 @@ from pal.writer.language.language import LanguageWriter
 
 class YamlLanguageWriter(LanguageWriter):
 
-    def declare_comment(self, outfile, comment, wrap=79):
-        # Wrap at (wrap - 2) to account for "# "characters
-        wrapped = textwrap.wrap(comment, width=(wrap - 2))
-        for line in wrapped:
-            outfile.write("# " + str(line))
-            self.write_newline(outfile)
-
     def declare_register_dependencies(self, outfile, register):
         pass
 

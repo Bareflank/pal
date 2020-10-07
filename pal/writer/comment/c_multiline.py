@@ -1,9 +1,11 @@
+from pal.writer.comment.comment import CommentWriter
+
 import textwrap
 
 
-class Cxx11CommentWriter():
+class CMultilineCommentWriter(CommentWriter):
 
-    def declare_comment(self, outfile, comment, wrap=79):
+    def declare_comment(self, outfile, comment, wrap):
         # Wrap at (wrap - 3) to account for " * "characters
         wrapped = textwrap.wrap(comment, width=(wrap - 3))
         outfile.write("/*")

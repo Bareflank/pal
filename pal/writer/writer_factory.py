@@ -32,6 +32,10 @@ from pal.writer.file_format.windows import WindowsFileFormatWriter
 from pal.writer.file_format.yaml import YamlFileFormatWriter
 from pal.writer.file_format.none import NoneFileFormatWriter
 
+from pal.writer.comment.c_multiline import CMultilineCommentWriter
+from pal.writer.comment.yaml import YamlCommentWriter
+from pal.writer.comment.none import NoneCommentWriter
+
 language_options = {
     "c": CLanguageWriter,
     "c++11": Cxx11LanguageWriter,
@@ -83,6 +87,14 @@ def get_access_mechanism_writer(arch, language, access_mechanism):
     else:
         return NoneAccessMechanismWriter
 
+def get_comment_writer(language):
+    if language == "c" or language == "c++11":
+        return CMultilineCommentWriter
+    elif language == "yaml":
+        return YamlCommentWriter
+    else:
+        return NoneCommentWriter
+
 
 def make_writer(arch, language, access_mechanism, print_mechanism, file_format):
 
@@ -100,13 +112,15 @@ def make_writer(arch, language, access_mechanism, print_mechanism, file_format):
         raise Exception("invalid file_format option: " + str(file_format))
 
     am_writer = get_access_mechanism_writer(arch, language, access_mechanism)
+    comment_writer = get_comment_writer(language)
 
     class Writer(
             AbstractWriter,
             language_options[language],
             am_writer,
             print_mechanism_options[print_mechanism],
-            file_format_options[file_format]
+            file_format_options[file_format],
+            comment_writer
           ):
         pass
 
