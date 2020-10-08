@@ -14,7 +14,7 @@ class ExecutionContext():
     logical_inputs: List[LogicalOperand] = datafield(default_factory= lambda: [])
     """ List of logical values this instruction takes as inputs """
 
-    logical_ouputs: List[LogicalOperand] = datafield(default_factory= lambda: [])
+    logical_outputs: List[LogicalOperand] = datafield(default_factory= lambda: [])
     """ List of logical values this instruction produces as outputs """
 
     register_operands: List[RegisterOperand] = datafield(default_factory= lambda: [])
