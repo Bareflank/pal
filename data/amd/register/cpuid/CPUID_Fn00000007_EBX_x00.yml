@@ -1,0 +1,123 @@
+- name: CPUID_Fn00000007_EBX_x00
+  long_name: "Structured Extended Feature Identifiers"
+  purpose: |
+    "
+    CPUID_Fn00000007_EBX_x00 [Structured Extended Feature Identifiers] (Core::X86::Cpuid::StructExtFeatIdEbx0)
+
+    Read-only. Reset: 209C_01A9h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ebx
+        output: ebx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: FSGSBASE
+              long_name: FS and GS base read write instruction support
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  read-only. Reset: Fixed,1.
+                  "
+
+            - name: BMI1
+              long_name: bit manipulation group 1 instruction support
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: AVX2
+              long_name: AVX extension support
+              lsb: 5
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: SMEP
+              long_name: Supervisor Mode Execution protection.
+              lsb: 7
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  read-only. Reset: Fixed,1.
+                  "
+
+            - name: BMI2
+              long_name: bit manipulation group 2 instruction support 
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: RDSEED
+              long_name: RDSEED is present
+              lsb: 18
+              msb: 18
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: !Core::X86::Msr::HWCR[MonMwaitDis].
+                  "
+
+            - name: ADX
+              long_name: ADCX and ADOX are present
+              lsb: 19
+              msb: 19
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+
+            - name: SMAP
+              long_name: Secure Mode Access Prevention is supported
+              lsb: 20
+              msb: 20
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: CLFSHOPT
+              long_name: CLFSHOPT
+              lsb: 23
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: SHA
+              long_name: SHA
+              lsb: 29
+              msb: 29
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "

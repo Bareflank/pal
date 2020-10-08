@@ -1,0 +1,27 @@
+- name: CPUID_Fn00000006_EDX
+  long_name: "Thermal and Power Management"
+  purpose: |
+    "
+    CPUID_Fn00000006_EDX [Thermal and Power Management] (Core::X86::Cpuid::ThermalPwrMgmtEdx)
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: edx
+        output: edx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: Reserved
+              long_name: Reserved
+              lsb: 0
+              msb: 31
+              

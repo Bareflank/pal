@@ -1,0 +1,33 @@
+- name: CPUID_Fn00000005_EBX
+  long_name: "Monitor/MWait"
+  purpose: |
+    "
+    CPUID_Fn00000005_EBX [Monitor/MWait] (Core::X86::Cpuid::MonMWaitEbx)
+
+    read-only. Reset: 0000_0040h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ebx
+        output: ebx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: MonLineSizeMax
+              long_name: largest monitor-line size in bytes
+              lsb: 0
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0040h.
+                  "

@@ -1,0 +1,34 @@
+- name: CPUID_Fn00000006_EAX
+  long_name: "Thermal and Power Management"
+  purpose: |
+    "
+    CPUID_Fn00000006_EAX [Thermal and Power Management] (Core::X86::Cpuid::ThermalPwrMgmtEax)
+
+    Read-only. Reset: 0000_0004h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: eax
+        output: eax
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: ARAT
+              long_name: always running APIC timer
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Indicates support for APIC timer always
+                  running feature.
+                  "

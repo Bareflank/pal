@@ -1,0 +1,33 @@
+- name: CPUID_Fn0000000D_EBX_x01
+  long_name: "Processor Extended State Enumeration"
+  purpose: |
+    "
+    CPUID_Fn0000000D_EBX_x01 [Processor Extended State Enumeration] (Core::X86::Cpuid::ProcExtStateEnumEbx01)
+
+    Read-only,Volatile. Reset: XXXX_XXXXh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: eax
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: XFeatureEnabledSizeMax
+              long_name: XFeatureEnabledSizeMax
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only,Volatile. Reset: XXXX_XXXXh. Reset is 512 + ((XCR0[AVX]) ? 256 :0).
+                  "
+              
