@@ -36,6 +36,7 @@ from pal.writer.comment.c_multiline import CMultilineCommentWriter
 from pal.writer.comment.yaml import YamlCommentWriter
 from pal.writer.comment.none import NoneCommentWriter
 
+from pal.writer.instruction.libpal_c import LibpalCInstructionWriter
 from pal.writer.instruction.none import NoneInstructionWriter
 
 language_options = [
@@ -102,7 +103,10 @@ def get_register_writer(language):
 
 
 def get_instruction_writer(language):
-    return NoneInstructionWriter
+    if language == "c":
+        return LibpalCInstructionWriter
+    else:
+        return NoneInstructionWriter
 
 
 def get_comment_writer(language):

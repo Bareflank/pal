@@ -4,6 +4,7 @@ import copy
 
 from pal.cmd_args import parse_cmd_args
 from pal.parser import parse_registers
+from pal.parser import parse_instructions
 from pal.transform import transforms
 from pal.writer.writer_factory import make_writer
 from pal.logger import logger
@@ -11,9 +12,10 @@ from pal.logger import logger
 from pal.generator.c_header_generator import CHeaderGenerator
 from pal.generator.cxx_header_generator import CxxHeaderGenerator
 from pal.generator.yaml_data_generator import YamlDataGenerator
+from pal.generator.libpal_c_header_generator import LibpalCHeaderGenerator
 
 
-def main_intel_x64(config, generator):
+def main_intel_x64(config, register_generator, instruction_generator):
 
     data_path = config.pal_data_dir
 
@@ -21,28 +23,41 @@ def main_intel_x64(config, generator):
     outdir = os.path.join(config.pal_output_dir, "control_register")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+    register_generator.generate(copy.deepcopy(regs), outdir)
 
     indir = os.path.join(data_path, "x86_64/register/cpuid")
     outdir = os.path.join(config.pal_output_dir, "cpuid")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+    register_generator.generate(copy.deepcopy(regs), outdir)
 
     indir = os.path.join(data_path, "x86_64/register/msr")
     outdir = os.path.join(config.pal_output_dir, "msr")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+    register_generator.generate(copy.deepcopy(regs), outdir)
 
     indir = os.path.join(data_path, "x86_64/register/vmcs")
     outdir = os.path.join(config.pal_output_dir, "vmcs")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+    register_generator.generate(copy.deepcopy(regs), outdir)
+
+    indir = os.path.join(data_path, "x86_64/instruction/architectural")
+    outdir = os.path.join(config.pal_output_dir, "instruction")
+    os.makedirs(outdir, exist_ok=True)
+    instructions = parse_instructions(indir)
+    instruction_generator.generate_instructions(copy.deepcopy(instructions), outdir)
+
+    indir = os.path.join(data_path, "x86_64/instruction/logical")
+    outdir = os.path.join(config.pal_output_dir, "instruction")
+    os.makedirs(outdir, exist_ok=True)
+    instructions = parse_instructions(indir)
+    instruction_generator.generate_instructions(copy.deepcopy(instructions), outdir)
 
 
-def main_armv8a(config, generator):
+
+def main_armv8a(config, register_generator):
     data_path = config.pal_data_dir
 
     if config.access_mechanism == "gas_aarch64" \
@@ -57,7 +72,7 @@ def main_armv8a(config, generator):
         # access mechanisms (which aren't compilable with an aarch64 toolchain)
         regs = transforms["remove_coprocessor_am"].transform(regs)
 
-        generator.generate(copy.deepcopy(regs), outdir)
+        register_generator.generate(copy.deepcopy(regs), outdir)
 
     if config.access_mechanism == "gas_aarch32" \
        or config.access_mechanism == "test":
@@ -65,29 +80,29 @@ def main_armv8a(config, generator):
         outdir = os.path.join(config.pal_output_dir, "aarch32")
         os.makedirs(outdir, exist_ok=True)
         regs = parse_registers(indir)
-        generator.generate(copy.deepcopy(regs), outdir)
+        register_generator.generate(copy.deepcopy(regs), outdir)
 
     if config.access_mechanism == "yaml":
         indir = os.path.join(data_path, "armv8-a/register/aarch64")
         outdir = os.path.join(config.pal_output_dir, "aarch64")
         os.makedirs(outdir, exist_ok=True)
         regs = parse_registers(indir)
-        generator.generate(copy.deepcopy(regs), outdir)
+        register_generator.generate(copy.deepcopy(regs), outdir)
 
         indir = os.path.join(data_path, "armv8-a/register/aarch32")
         outdir = os.path.join(config.pal_output_dir, "aarch32")
         os.makedirs(outdir, exist_ok=True)
         regs = parse_registers(indir)
-        generator.generate(copy.deepcopy(regs), outdir)
+        register_generator.generate(copy.deepcopy(regs), outdir)
 
     indir = os.path.join(data_path, "armv8-a/register/external")
     outdir = os.path.join(config.pal_output_dir, "external")
     os.makedirs(outdir, exist_ok=True)
     regs = parse_registers(indir)
-    generator.generate(copy.deepcopy(regs), outdir)
+    register_generator.generate(copy.deepcopy(regs), outdir)
 
 
-def main_acpi(config, generator):
+def main_acpi(config, register_generator):
     data_path = config.pal_data_dir
 
     from pal.logger import logger
@@ -98,7 +113,8 @@ def main_acpi(config, generator):
         outdir = os.path.join(config.pal_output_dir, "acpi", subdir)
         os.makedirs(outdir, exist_ok=True)
         regs = parse_registers(indir)
-        generator.generate(copy.deepcopy(regs), outdir)
+        register_generator.generate(copy.deepcopy(regs), outdir)
+
 
 
 def pal_main():
@@ -114,23 +130,25 @@ def pal_main():
         config.file_format
     )
 
-    if config.generator == "c++_header":
-        generator = CxxHeaderGenerator(writer)
-    elif config.generator == "c_header":
-        generator = CHeaderGenerator(writer)
-    elif config.generator == "yaml":
-        generator = YamlDataGenerator(writer)
+    if config.language == "c++11":
+        register_generator = CxxHeaderGenerator(writer)
+    elif config.language == "c":
+        register_generator = CHeaderGenerator(writer)
+    elif config.language == "yaml":
+        register_generator = YamlDataGenerator(writer)
     else:
-        raise Exception("Invalid generator: " + str(config.generator))
+        raise Exception("Invalid language: " + str(config.language))
+
+    instruction_generator = LibpalCHeaderGenerator(writer)
 
     if config.arch == "intel_x64":
-        main_intel_x64(config, generator)
+        main_intel_x64(config, register_generator, instruction_generator)
     elif config.arch == "armv8-a":
-        main_armv8a(config, generator)
+        main_armv8a(config, register_generator)
     else:
         raise Exception("Invalid architecture: " + str(config.arch))
 
     if config.acpi:
-        main_acpi(config, generator)
+        main_acpi(config, register_generator)
 
 pal_main()

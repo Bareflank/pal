@@ -64,14 +64,6 @@ pal_add_config(
 )
 
 pal_add_config(
-    CONFIG_NAME PAL_GENERATOR
-    CONFIG_TYPE STRING
-    DEFAULT_VAL c++_header
-    DESCRIPTION "The target code generator"
-    OPTIONS c_header c++_header
-)
-
-pal_add_config(
     CONFIG_NAME PAL_ENABLE_TEST
     CONFIG_TYPE BOOL
     DEFAULT_VAL OFF

@@ -24,7 +24,6 @@ add_custom_command(
         --access_mechanism=${PAL_ACCESS_MECHANISM}
         --print_mechanism=${PAL_PRINT_MECHANISM}
         --file_format=${PAL_FILE_FORMAT}
-        --generator=${PAL_GENERATOR}
         --acpi=${PAL_ENABLE_ACPI}
         --log_level=${PAL_LOG_LEVEL}
     COMMAND cmake -E touch ${PAL_OUTPUT_STAMP}

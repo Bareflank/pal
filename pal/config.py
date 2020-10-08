@@ -134,11 +134,6 @@ c.description = "The target output file format"
 c.options = ["unix", "windows", "yaml", "none"]
 config.add_configuration(c)
 
-c = Configuration("generator", "c++_header")
-c.description = "The target generator"
-c.options = ["c_header", "c++_header", "yaml"]
-config.add_configuration(c)
-
 # -----------------------------------------------------------------------------
 # Logging options
 # -----------------------------------------------------------------------------

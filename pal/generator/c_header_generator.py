@@ -10,7 +10,7 @@ import pal.gadget
 
 
 class CHeaderGenerator(AbstractGenerator):
-    def generate(self, regs, outpath):
+    def generate_registers(self, regs, outpath):
         try:
             regs = transforms["remove_reserved_0"].transform(regs)
             regs = transforms["remove_reserved_1"].transform(regs)
@@ -24,7 +24,7 @@ class CHeaderGenerator(AbstractGenerator):
 
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
 
-            logger.info("Generating outputs to: " + str(outpath))
+            logger.info("Generating C header file registers to: " + str(outpath))
 
             for reg in regs:
                 include_guard = "PAL_" + reg.name.upper() + "_H"
@@ -59,6 +59,30 @@ class CHeaderGenerator(AbstractGenerator):
                 exception=e)
             raise PalGeneratorException(msg)
 
+    def generate_instructions(self, instructions, outpath):
+        try:
+            logger.info("Generating C header file instructions to: " + str(outpath))
+
+            for inst in instructions:
+                include_guard = "PAL_EXECUTE_" + inst.name.upper() + "_H"
+                self.gadgets["pal.include_guard"].name = include_guard
+                self.gadgets["pal.header_depends"].includes = [
+                    "<stdint.h>"
+                ]
+
+                outfile_path = os.path.join(outpath, inst.name.lower() + ".h")
+                outfile_path = os.path.abspath(outfile_path)
+
+                with open(outfile_path, "w") as outfile:
+                    self._generate_instruction(outfile, inst)
+
+        except Exception as e:
+            msg = "{g} failed to generate output {out}: {exception}".format(
+                g=str(type(self).__name__),
+                out=outpath,
+                exception=e)
+            raise PalGeneratorException(msg)
+
     @pal.gadget.license
     @pal.gadget.include_guard
     @pal.gadget.header_depends
@@ -80,6 +104,13 @@ class CHeaderGenerator(AbstractGenerator):
 
             if reg.is_readable():
                 self.writer.declare_fieldset_printers(outfile, reg, fieldset)
+
+    @pal.gadget.license
+    @pal.gadget.include_guard
+    @pal.gadget.header_depends
+    def _generate_instruction(self, outfile, inst):
+        self.writer.declare_instruction_accessor(outfile, inst)
+        self.writer.write_newline(outfile)
 
     def _generate_register_comment(self, outfile, reg):
         comment = "{name} ({long_name}){separator}{purpose}".format(
