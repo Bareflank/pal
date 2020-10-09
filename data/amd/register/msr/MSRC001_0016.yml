@@ -12,6 +12,9 @@
         BIOS can use the IORRs to create an IO hole within a range of addresses that would normally be mapped to DRAM. It 
         can also use the IORRs to re-assert a DRAM destination for a range of addresses that fall within a bigger IO hole that 
         overlays DRAM.
+
+        MSRC001_001[7...9] [IO Range Mask] (Core::X86::Msr::IORR_MASK)
+
        "
   size: 64
   arch: amd64
@@ -27,7 +30,7 @@
         address: 0xC0010016 
 
   fieldsets:
-      - name: latest
+      - name: base
         condition: "Fieldset valid on latest version of the AMD architecture"
         size: 64
 
@@ -48,6 +51,25 @@
 
             - name: PhyBase
               long_name: "physical base address"
+              lsb: 12
+              msb: 47
+              readable: True 
+              writable: True
+
+      - name: Mask
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: Valid
+              long_name: "Valid"
+              lsb: 11
+              msb: 11
+              readable: True 
+              writable: True
+
+            - name: PhyMask
+              long_name: "physical address mask"
               lsb: 12
               msb: 47
               readable: True 

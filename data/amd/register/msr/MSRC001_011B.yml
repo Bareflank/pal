@@ -4,7 +4,6 @@
        "
        MSRC001_011B [AVIC Doorbell] (Core::X86::Msr::AvicDoorbell)
 
-       MSRC001_011B [AVIC Doorbell] (Core::X86::Msr::AvicDoorbell)
        The ApicId is a physical APIC Id; not valid for logical APIC ID.  
        Enable: (Core::X86::Cpuid::SvmRevFeatIdEdx[AVIC]==1).
        "
