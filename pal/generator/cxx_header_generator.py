@@ -12,7 +12,7 @@ from pal.writer.writer_factory import make_writer
 
 class CxxHeaderGenerator(AbstractGenerator):
 
-    def generate(self, regs, outpath):
+    def generate_registers(self, regs, outpath):
         try:
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
             regs = transforms["remove_reserved_0"].transform(regs)
@@ -57,6 +57,10 @@ class CxxHeaderGenerator(AbstractGenerator):
                 out=outpath,
                 exception=e)
             raise PalGeneratorException(msg)
+
+    def generate_instructions(self, instructions, outpath):
+        # TODO: Implement C++ instruction API generation
+        pass
 
     # -------------------------------------------------------------------------
     # private

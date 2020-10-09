@@ -5,7 +5,7 @@ from pal.exception import PalGeneratorException
 
 
 class YamlDataGenerator(AbstractGenerator):
-    def generate(self, regs, outpath):
+    def generate_registers(self, regs, outpath):
         try:
             for reg in regs:
                 outfile = reg.name.lower() + ".yml"
@@ -19,6 +19,10 @@ class YamlDataGenerator(AbstractGenerator):
                 out=outpath,
                 exception=e)
             raise PalGeneratorException(msg)
+
+    def generate_instructions(self, instructions, outpath):
+        # TODO: Implement YAML instruction generation
+        pass
 
     def _generate(self, outfile, reg):
         self.writer.declare_register_accessors(outfile, reg)

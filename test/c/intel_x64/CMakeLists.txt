@@ -22,12 +22,11 @@ set(INTEL_SYNTAX_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/intel_output.stamp)
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
         -o ${CMAKE_INSTALL_PREFIX}/intel_asm/pal
-        --arch=intel_x64
+        --execution_state=intel_64bit
         --language=c
         --access_mechanism=gas_intel
         --print_mechanism=printf_utf8
         --file_format=unix
-        --generator=c_header
         --acpi=ON
     COMMAND cmake -E touch ${INTEL_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${INTEL_SYNTAX_OUTPUT_STAMP}
@@ -59,12 +58,11 @@ set(ATT_SYNTAX_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/att_output.stamp)
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
         -o ${CMAKE_INSTALL_PREFIX}/att_asm/pal
-        --arch=intel_x64
+        --execution_state=intel_64bit
         --language=c
         --access_mechanism=gas_att
         --print_mechanism=printf_utf8
         --file_format=unix
-        --generator=c_header
         --acpi=ON
     COMMAND cmake -E touch ${ATT_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${ATT_SYNTAX_OUTPUT_STAMP}

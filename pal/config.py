@@ -108,9 +108,9 @@ config  = PalConfig()
 # General options
 # -----------------------------------------------------------------------------
 
-c = Configuration("arch", "intel_x64")
+c = Configuration("execution_state", "intel_64bit")
 c.description = "The target architecture"
-c.options = ["armv8-a", "intel_x64"]
+c.options = ["armv8a_aarch64", "armv8a_aarch32", "intel_64bit", "amd_64bit"]
 config.add_configuration(c)
 
 c = Configuration("language", "c++11")
@@ -132,11 +132,6 @@ config.add_configuration(c)
 c = Configuration("file_format", "unix")
 c.description = "The target output file format"
 c.options = ["unix", "windows", "yaml", "none"]
-config.add_configuration(c)
-
-c = Configuration("generator", "c++_header")
-c.description = "The target generator"
-c.options = ["c_header", "c++_header", "yaml"]
 config.add_configuration(c)
 
 # -----------------------------------------------------------------------------
