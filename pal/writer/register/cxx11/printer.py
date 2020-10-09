@@ -1,5 +1,4 @@
 import pal.gadget
-from pal.config import config
 
 
 class Cxx11PrinterWriter():
@@ -18,7 +17,7 @@ class Cxx11PrinterWriter():
 
     def _declare_fieldset_print(self, outfile, register, fieldset):
         gadget = self.gadgets["pal.cxx.function_definition"]
-        gadget.name = config.print_function
+        gadget.name = "dump"
         gadget.return_type = "void"
         gadget.args = []
 
@@ -38,12 +37,12 @@ class Cxx11PrinterWriter():
         name = "register_value"
         self._declare_variable(outfile, name, value=reg_get, keywords=keywords)
 
-        outfile.write(config.print_function + "(register_value);")
+        outfile.write("dump(register_value);")
 
     def _declare_fieldset_print_value(self, outfile, register, fieldset):
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.cxx.function_definition"]
-        gadget.name = config.print_function
+        gadget.name = "dump"
         gadget.return_type = "void"
         gadget.args = [(size_type, "value")]
 
@@ -53,12 +52,12 @@ class Cxx11PrinterWriter():
     def _declare_fieldset_print_value_details(self, outfile, register, fieldset):
         self.print_value_as_register(outfile, register, "value")
         for field in fieldset.fields:
-            outfile.write(field.name.lower() + "::" + config.print_function + "(value);")
+            outfile.write(field.name.lower() + "::dump(value);")
             self.write_newline(outfile)
 
     def _declare_field_print(self, outfile, register, field):
         gadget = self.gadgets["pal.cxx.function_definition"]
-        gadget.name = config.print_function
+        gadget.name = "dump"
         gadget.return_type = "void"
         gadget.args = []
 
@@ -89,12 +88,12 @@ class Cxx11PrinterWriter():
         name = "field_value"
         self._declare_variable(outfile, name, value=field_get,
                                keywords=keywords)
-        outfile.write(config.print_function + "(field_value);")
+        outfile.write("dump(field_value);")
 
     def _declare_field_print_value(self, outfile, register, field):
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.cxx.function_definition"]
-        gadget.name = config.print_function
+        gadget.name = "dump"
         gadget.return_type = "void"
         gadget.args = [(size_type, "register_value")]
 

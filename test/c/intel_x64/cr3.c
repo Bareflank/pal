@@ -3,28 +3,28 @@
 void test_cr3_compile(void)
 {
     // Register accessors
-    pal_cr3_set(0xA55A5AA5);
-    uint64_t value = pal_cr3_get();
+    pal_set_cr3(0xA55A5AA5);
+    uint64_t value = pal_get_cr3();
 
     // Field accessors
-    pal_cr3_pcd_enable();
-    pal_cr3_pcd_enable_from_value(value);
-    pal_cr3_pcd_disable();
-    pal_cr3_pcd_disable_from_value(value);
+    pal_enable_cr3_pcd();
+    pal_enable_cr3_pcd_in_value(value);
+    pal_disable_cr3_pcd();
+    pal_disable_cr3_pcd_in_value(value);
     pal_cr3_pcd_is_enabled();
-    pal_cr3_pcd_is_enabled_from_value(value);
+    pal_cr3_pcd_is_enabled_in_value(value);
     pal_cr3_pcd_is_disabled();
-    pal_cr3_pcd_is_disabled_from_value(value);
-    pal_cr3_page_directory_base_get();
-    pal_cr3_page_directory_base_get_from_value(value);
-    pal_cr3_page_directory_base_set(0x0);
-    pal_cr3_page_directory_base_set_from_value(0x0, value);
+    pal_cr3_pcd_is_disabled_in_value(value);
+    pal_get_cr3_page_directory_base();
+    pal_get_cr3_page_directory_base_from_value(value);
+    pal_set_cr3_page_directory_base(0x0);
+    pal_set_cr3_page_directory_base_in_value(0x0, value);
 
     // Printers
-    pal_cr3_dump();
-    pal_cr3_dump_from_value(value);
-    pal_cr3_pcd_dump();
-    pal_cr3_pcd_dump_from_value(value);
-    pal_cr3_page_directory_base_dump();
-    pal_cr3_page_directory_base_dump_from_value(value);
+    pal_print_cr3();
+    pal_print_cr3_from_value(value);
+    pal_print_cr3_pcd();
+    pal_print_cr3_pcd_from_value(value);
+    pal_print_cr3_page_directory_base();
+    pal_print_cr3_page_directory_base_from_value(value);
 }

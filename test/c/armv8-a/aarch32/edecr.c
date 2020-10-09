@@ -3,22 +3,22 @@
 void test_edecr_compile(void)
 {
     // Register accessors
-    pal_edecr_set(0xA55A5AA5);
-    uint32_t value = pal_edecr_get();
+    pal_set_edecr(0xA55A5AA5);
+    uint32_t value = pal_get_edecr();
 
     // Field accessors
-    pal_edecr_rce_enable();
-    pal_edecr_rce_enable_from_value(value);
-    pal_edecr_rce_disable();
-    pal_edecr_rce_disable_from_value(value);
+    pal_enable_edecr_rce();
+    pal_enable_edecr_rce_in_value(value);
+    pal_disable_edecr_rce();
+    pal_disable_edecr_rce_in_value(value);
     pal_edecr_rce_is_enabled();
-    pal_edecr_rce_is_enabled_from_value(value);
+    pal_edecr_rce_is_enabled_in_value(value);
     pal_edecr_rce_is_disabled();
-    pal_edecr_rce_is_disabled_from_value(value);
+    pal_edecr_rce_is_disabled_in_value(value);
 
     // Printers
-    pal_edecr_dump();
-    pal_edecr_dump_from_value(value);
-    pal_edecr_rce_dump();
-    pal_edecr_rce_dump_from_value(value);
+    pal_print_edecr();
+    pal_print_edecr_from_value(value);
+    pal_print_edecr_rce();
+    pal_print_edecr_rce_from_value(value);
 }

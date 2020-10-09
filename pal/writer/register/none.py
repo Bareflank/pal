@@ -1,8 +1,8 @@
 from pal.config import config
-from pal.writer.language.language import LanguageWriter
+from pal.writer.register.register import RegisterWriter
 
 
-class NoneLanguageWriter(LanguageWriter):
+class NoneRegisterWriter(RegisterWriter):
 
     def declare_comment(self, outfile, comment, wrap=79):
         pass

@@ -72,69 +72,6 @@ pal_add_config(
 )
 
 pal_add_config(
-    CONFIG_NAME PAL_REGISTER_READ_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL get
-    DESCRIPTION "Name of generated functions for reading registers"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_REGISTER_WRITE_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL set
-    DESCRIPTION "Name of generated functions for writing registers"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_FIELD_READ_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL get
-    DESCRIPTION "Name of generated functions for reading a register field"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_FIELD_WRITE_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL set
-    DESCRIPTION "Name of generated functions for writing a register field"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_BIT_SET_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL enable
-    DESCRIPTION "Name of generated functions for setting a bit to the value 1"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_BIT_CLEAR_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL disable
-    DESCRIPTION "Name of generated functions for setting a bit to the value 0"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_BIT_IS_SET_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL is_enabled
-    DESCRIPTION "Name of generated functions for checking if a bit is set to 1"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_BIT_IS_CLEAR_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL is_disabled
-    DESCRIPTION "Name of generated functions for checking if a bit is set to 0"
-)
-
-pal_add_config(
-    CONFIG_NAME PAL_PRINT_FUNCTION
-    CONFIG_TYPE STRING
-    DEFAULT_VAL dump
-    DESCRIPTION "Name of generated functions for printing information"
-)
-
-pal_add_config(
     CONFIG_NAME PAL_ENABLE_TEST
     CONFIG_TYPE BOOL
     DEFAULT_VAL OFF

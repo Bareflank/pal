@@ -1,15 +1,8 @@
 import textwrap
-from pal.writer.language.language import LanguageWriter
+from pal.writer.register.register import RegisterWriter
 
 
-class YamlLanguageWriter(LanguageWriter):
-
-    def declare_comment(self, outfile, comment, wrap=79):
-        # Wrap at (wrap - 2) to account for "# "characters
-        wrapped = textwrap.wrap(comment, width=(wrap - 2))
-        for line in wrapped:
-            outfile.write("# " + str(line))
-            self.write_newline(outfile)
+class YamlRegisterWriter(RegisterWriter):
 
     def declare_register_dependencies(self, outfile, register):
         pass
