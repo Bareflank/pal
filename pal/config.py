@@ -108,9 +108,9 @@ config  = PalConfig()
 # General options
 # -----------------------------------------------------------------------------
 
-c = Configuration("arch", "intel_x64")
+c = Configuration("execution_state", "intel_64bit")
 c.description = "The target architecture"
-c.options = ["armv8-a", "intel_x64"]
+c.options = ["armv8a_aarch64", "armv8a_aarch32", "intel_64bit", "amd_64bit"]
 config.add_configuration(c)
 
 c = Configuration("language", "c++11")

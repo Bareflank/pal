@@ -24,11 +24,11 @@ set(PAL_SOURCE_CONFIG_DIR ${CMAKE_CURRENT_LIST_DIR}
 include(${PAL_SOURCE_CMAKE_DIR}/macros/pal_add_config.cmake)
 
 pal_add_config(
-    CONFIG_NAME PAL_TARGET_ARCH
+    CONFIG_NAME PAL_TARGET_EXECUTION_STATE
     CONFIG_TYPE STRING
-    DEFAULT_VAL intel_x64
-    DESCRIPTION "The target architecture"
-    OPTIONS armv8-a intel_x64
+    DEFAULT_VAL intel_64bit
+    DESCRIPTION "The target architecture + execution state"
+    OPTIONS armv8a_aarch64 armv8a_aarch32 intel_64bit
 )
 
 pal_add_config(

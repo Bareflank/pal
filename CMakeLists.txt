@@ -19,7 +19,7 @@ endif()
 add_custom_command(
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/pal.py
         -o ${PAL_OUTPUT_DIR}/pal
-        --arch=${PAL_TARGET_ARCH}
+        --execution_state=${PAL_TARGET_EXECUTION_STATE}
         --language=${PAL_TARGET_LANGUAGE}
         --access_mechanism=${PAL_ACCESS_MECHANISM}
         --print_mechanism=${PAL_PRINT_MECHANISM}
