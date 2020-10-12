@@ -1,0 +1,22 @@
+- name: vmfunc
+  long_name: "Invoke VM function"
+  purpose: |
+      "
+      This instruction allows software in VMX non-root operation to invoke a VM
+      function, which is processor functionality enabled and configured by
+      software in VMX root operation. The value of EAX selects the specific VM
+      function being invoked. The behavior of each VM function (including any
+      additional fault checking) is specified in Section 25.5.5, “VM
+      Functions”.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: function
+              type: uint32
+
+        register_operands:
+            - name: eax
+              input: true

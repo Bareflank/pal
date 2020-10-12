@@ -1,0 +1,10 @@
+- name: vmxoff
+  long_name: "Leave VMX Operation"
+  purpose: |
+      "
+      Takes the logical processor out of VMX operation, unblocks INIT signals,
+      conditionally re-enables A20M, and clears any address-range monitoring.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit

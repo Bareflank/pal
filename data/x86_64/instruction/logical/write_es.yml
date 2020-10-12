@@ -1,0 +1,9 @@
+- name: write_es
+  long_name: "Write to ES Segment Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: value
+              type: uint16

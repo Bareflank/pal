@@ -1,0 +1,9 @@
+- name: read_es
+  long_name: "Read from the ES Segment Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_outputs:
+            - name: value
+              type: uint16

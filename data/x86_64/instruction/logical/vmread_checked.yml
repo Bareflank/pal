@@ -1,0 +1,27 @@
+- name: vmread_checked
+  long_name: "Error checked vmread"
+  purpose: |
+      "
+      Read Field from Virtual-Machine Control Structure
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: encoding
+              type: uint64
+
+        logical_outputs:
+            - name: value
+              type: uint64
+
+            - name: error
+              type: boolean
+
+        register_operands:
+            - name: rax
+              output: true
+
+            - name: rcx
+              input: true

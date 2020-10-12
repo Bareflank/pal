@@ -1,0 +1,24 @@
+- name: vmread
+  long_name: "Read Field from Virtual-Machine Control Structure"
+  purpose: |
+      "
+      Read Field from Virtual-Machine Control Structure
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: encoding
+              type: uint64
+
+        logical_outputs:
+            - name: value
+              type: uint64
+
+        register_operands:
+            - name: rax
+              output: true
+
+            - name: rcx
+              input: true

@@ -6,18 +6,18 @@
 void test_leaf_01_compile(void)
 {
     // Register accessors
-    uint32_t eax = pal_leaf_01_eax_get();
-    uint32_t ebx = pal_leaf_01_ebx_get();
-    uint32_t ecx = pal_leaf_01_ecx_get();
-    uint32_t edx = pal_leaf_01_edx_get();
+    uint32_t eax = pal_get_leaf_01_eax();
+    uint32_t ebx = pal_get_leaf_01_ebx();
+    uint32_t ecx = pal_get_leaf_01_ecx();
+    uint32_t edx = pal_get_leaf_01_edx();
 
     // Field accessors
-    pal_leaf_01_eax_model_get();
-    pal_leaf_01_eax_model_get_from_value(eax);
+    pal_get_leaf_01_eax_model();
+    pal_get_leaf_01_eax_model_from_value(eax);
 
     // Printers
-    pal_leaf_01_eax_dump();
-    pal_leaf_01_eax_dump_from_value(eax);
-    pal_leaf_01_eax_model_dump();
-    pal_leaf_01_eax_model_dump_from_value(eax);
+    pal_print_leaf_01_eax();
+    pal_print_leaf_01_eax_from_value(eax);
+    pal_print_leaf_01_eax_model();
+    pal_print_leaf_01_eax_model_from_value(eax);
 }

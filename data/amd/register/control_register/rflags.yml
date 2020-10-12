@@ -1,0 +1,337 @@
+- name: rflags
+  long_name: "rflags"
+  purpose: |
+    "
+    This register contains processor-status and processor-control fields. The status and 
+    control fields are used primarily in the management of virtual-8086 mode, hardware multitasking, 
+    and interrupts.
+
+    The RFLAGS register contains two different types of information: 
+    
+    - Control bits provide system-software controls and directional information for string operations. 
+    Some of these bits can have privilege-level restrictions. 
+    - Status bits provide information resulting from logical and arithmetic operations. These are written 
+    by the processor and can be read by software running at any privilege level.
+    "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: rflags
+
+      - name: mov_write
+        destination_mnemonic: rflags
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the amd architecture"
+        size: 64
+
+        fields:
+            - name: cf 
+              long_name: "Carry Flag"
+              lsb: 0
+              msb: 0
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 1
+              msb: 1
+              preserved: True
+
+            - name: pf 
+              long_name: "parity flag"
+              lsb: 2
+              msb: 2
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 3
+              msb: 3
+              preserved: True
+
+            - name: af 
+              long_name: "Auxiliary Flag"
+              lsb: 4
+              msb: 4
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 5
+              msb: 5
+              preserved: True
+
+            - name: zf 
+              long_name: "Zero Flag"
+              lsb: 6
+              msb: 6
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: sf 
+              long_name: "Sign Flag"
+              lsb: 7
+              msb: 7
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: tf
+              long_name: "Trap Flag"
+              lsb: 8
+              msb: 8
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 8. Software sets the TF bit to 1 to enable single-step mode during software 
+                  debug. Clearing this bit to 0 disables single-step mode. 
+                  
+                  When single-step mode is enabled at the start of an instruction's execution, a debug exception (#DB) 
+                  occurs immediately after the instruction completes execution. Single stepping is automatically 
+                  disabled (TF is set to 0) when the #DB exception occurs or when any exception or interrupt occurs. 
+                  
+                  See Section 13.1.4 “Single Stepping,” on page 368 for information on using the single-step mode 
+                  during debugging.
+                  "
+
+            - name: if
+              long_name: "Interrupt Flag"
+              lsb: 9
+              msb: 9
+              readable: true
+              writable: true
+              description: |
+                  " 
+                  Bit 9. Software sets the IF bit to 1 to enable maskable interrupts. Clearing this 
+                  bit to 0 causes the processor to ignore maskable interrupts. The state of the IF bit does not affect the 
+                  response of a processor to non-maskable interrupts, software-interrupt instructions, or exceptions. 
+                  The ability to modify the IF bit depends on several factors: 
+                  
+                  - The current privilege-level (CPL) 
+                  - The I/O privilege level (RFLAGS.IOPL) 
+                  - Whether or not virtual-8086 mode extensions are enabled (CR4.VME=1) 
+                  - Whether or not protected-mode virtual interrupts are enabled (CR4.PVI=1) 
+                  
+                  See Section 8.1.4 “Masking External Interrupts,” on page 221 for information on interrupt masking. 
+                  See Section 6.2.3 “Accessing the RFLAGS Register,” on page 162 for information on the specific 
+                  instructions used to modify the IF bit.
+                  "
+
+            - name: df 
+              long_name: "Direction FLag"
+              lsb: 10
+              msb: 10
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: of 
+              long_name: "Overflow Flag"
+              lsb: 11
+              msb: 11
+              readable: true
+              writable: true
+              description: |
+                  "
+                  "
+
+            - name: iopl 
+              long_name: "I/O Privilege Level"
+              lsb: 12
+              msb: 13
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bits 13:12. The IOPL field specifies the privilege level 
+                  required to execute I/O address-space instructions (i.e., instructions that address the I/O space rather 
+                  than memory-mapped I/O, such as IN, OUT, INS, OUTS, etc.). For software to execute these 
+                  instructions, the current privilege-level (CPL) must be equal to or higher than (lower numerical value 
+                  than) the privilege specified by IOPL (CPL <= IOPL). If the CPL is lower than (higher numerical 
+                  value than) that specified by the IOPL (CPL > IOPL), the processor causes a general-protection 
+                  exception (#GP) when software attempts to execute an I/O instruction. See “Protected-Mode I/O” in 
+                  Volume 1 for information on how IOPL controls access to address-space I/O. 
+                  
+                  Virtual-8086 mode uses IOPL to control virtual interrupts and the IF bit when virtual-8086 mode 
+                  extensions are enabled (CR4.VME=1). The protected-mode virtual-interrupt mechanism (PVI) also 
+                  uses IOPL to control virtual interrupts and the IF bit when PVI is enabled (CR4.PVI=1). See 
+                  Section 8.10 “Virtual Interrupts,” on page 262 for information on how IOPL is used by the virtual 
+                  interrupt mechanism.
+                  "
+
+            - name: nt
+              long_name: "Nested Task"
+              lsb: 14
+              msb: 14
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 14, IRET reads the NT bit to determine whether the current task is nested 
+                  within another task. When NT is set to 1, the current task is nested within another task. When NT is 
+                  cleared to 0, the current task is at the top level (not nested). 
+                  
+                  The processor sets the NT bit during a task switch resulting from a CALL, interrupt, or exception 
+                  through a task gate. When an IRET is executed from legacy mode while the NT bit is set, a task switch 
+                  occurs. See Section 12.3.3 “Task Switches Using Task Gates,” on page 351 for information on 
+                  switching tasks using task gates, and Section 12.3.4 “Nesting Tasks,” on page 353 for information on 
+                  task nesting.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 15
+              msb: 15
+              preserved: True
+
+            - name: rf 
+              long_name: "Resume Flag"
+              lsb: 16
+              msb: 16
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 16. The RF bit, when set to 1, temporarily disables instruction breakpoint 
+                  reporting to prevent repeated debug exceptions (#DB) from occurring. This allows an instruction 
+                  which had been inhibited by an instruction-breakpoint debug exception to be restarted by the debug 
+                  exception handler. 
+                  
+                  The processor clears the RF bit after every instruction is successfully executed, except when the 
+                  instruction is: 
+                  
+                  - An IRET that sets the RF bit.
+                  - JMP, CALL, or INTn through a task gate. 
+                  
+                  In both of the above cases, RF is not cleared to 0 until the next instruction successfully executes. 
+                  
+                  When an exception occurs (or when a string instruction is interrupted), the processor normally sets 
+                  RF=1 in the RFLAGS image saved on the interrupt stack. However, when a #DB exception occurs as a 
+                  result of an instruction breakpoint, the processor clears the RF bit to 0 in the interrupt-stack RFLAGS 
+                  image. 
+                  
+                  For instruction restart to work properly following an instruction breakpoint, the #DB exception 
+                  handler must set RF to 1 in the interrupt-stack RFLAGS image. When an IRET is later executed to 
+                  return to the instruction that caused the instruction-breakpoint #DB exception, the set RF bit (RF=1) is 
+                  loaded from the interrupt-stack RFLAGS image. RF is not cleared by the processor until the 
+                  instruction causing the #DB exception successfully executes.
+                  "
+
+            - name: vm 
+              long_name: "Virtual-8086 Mode"
+              lsb: 17
+              msb: 17
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 17. Software sets the VM bit to 1 to enable virtual-8086 mode. 
+                  Software clears the VM bit to 0 to disable virtual-8086 mode. System software can only change this bit 
+                  using a task switch or an IRET. It cannot modify the bit using the POPFD instruction
+                  "
+
+            - name: ac
+              long_name: "Alignment Check"
+              lsb: 18
+              msb: 18
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 18. Software enables automatic alignment checking by setting the 
+                  AC bit to 1 when CR0.AM=1. Alignment checking can be disabled by clearing either AC or CR0.AM 
+                  to 0. When automatic alignment checking is enabled and the current privilege-level (CPL) is 3 (least 
+                  privileged), a memory reference to an unaligned operand causes an alignment-check exception (#AC).
+                  "
+
+            - name: vif
+              long_name: "Virtual Interrupt"
+              lsb: 19
+              msb: 19
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 19. The VIF bit is a virtual image of the RFLAGS.IF bit. It is enabled 
+                  when either virtual-8086 mode extensions are enabled (CR4.VME=1) or protected-mode virtual 
+                  interrupts are enabled (CR4.PVI=1), and the RFLAGS.IOPL field is less than 3. When enabled, 
+                  instructions that ordinarily would modify the IF bit actually modify the VIF bit with no effect on the 
+                  RFLAGS.IF bit. 
+                  
+                  System software that supports virtual-8086 mode should enable the VIF bit using CR4.VME. This 
+                  allows 8086 software to execute instructions that can set and clear the RFLAGS.IF bit without causing 
+                  an exception. With VIF enabled in virtual-8086 mode, those instructions set and clear the VIF bit 
+                  instead, giving the appearance to the 8086 software that it is modifying the RFLAGS.IF bit. System 
+                  software reads the VIF bit to determine whether or not to take the action desired by the 8086 software 
+                  (enabling or disabling interrupts by setting or clearing the RFLAGS.IF bit). 
+                  In long mode, the use of the VIF bit is supported when CR4.PVI=1. See Section 8.10 “Virtual 
+                  Interrupts,” on page 262 for more information on virtual interrupts.
+                  "
+
+            - name: vip
+              long_name: "Virtual Interrupt Pending"
+              lsb: 20
+              msb: 20
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 20. The VIP bit is provided as an extension to both virtual- 
+                  8086 mode and protected mode. It is used by system software to indicate that an external, maskable 
+                  interrupt is pending (awaiting) execution by either a virtual-8086 mode or protected-mode interrupt- 
+                  service routine. Software must enable virtual-8086 mode extensions (CR4.VME=1) or protected- 
+                  mode virtual interrupts (CR4.PVI=1) before using VIP. 
+                  
+                  VIP is normally set to 1 by a protected-mode interrupt-service routine that was entered from virtual- 
+                  8086 mode as a result of an external, maskable interrupt. Before returning to the virtual-8086 mode 
+                  application, the service routine sets VIP to 1 if EFLAGS.VIF=1. When the virtual-8086 mode 
+                  application attempts to enable interrupts by clearing EFLAGS.VIF to 0 while VIP=1, a general- 
+                  protection exception (#GP) occurs. The #GP service routine can then decide whether to allow the 
+                  virtual-8086 mode service routine to handle the pending external, maskable interrupt. (EFLAGS is 
+                  specifically referred to in this case because virtual-8086 mode is supported only from legacy mode.) 
+                  In long mode, the use of the VIP bit is supported when CR4.PVI=1. See Section 8.10 “Virtual 
+                  Interrupts,” on page 262 for more information on virtual-8086 mode interrupts and the VIP bit.
+                  "
+
+            - name: id
+              long_name: "Processor Feature Identification"
+              lsb: 21
+              msb: 21
+              readable: true
+              writable: true
+              description: |
+                  "
+                  Bit 21. The ability of software to modify this bit 
+                  indicates that the processor implementation supports the CPUID instruction. See Section 3.3 
+                  “Processor Feature Identification,” on page 64 for more information on the CPUID instruction.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 22
+              msb: 63
+              preserved: True

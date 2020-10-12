@@ -1,0 +1,51 @@
+- name: cr8
+  long_name: "Control Register 8"
+  purpose: |
+    "
+    The AMD64 architecture allows software to define up to 15 external interrupt-priority classes. Priority 
+    classes are numbered from 1 to 15, with priority-class 1 being the lowest and priority-class 15 the 
+    highest. The organization of these priority classes is implementation dependent. A typical method is to 
+    use the upper four bits of the interrupt vector number to define the priority. Thus, interrupt vector 53h 
+    has a priority of 5 and interrupt vector 37h has a priority of 3. 
+
+    A new control register (CR8) is introduced by the AMD64 architecture for managing priority classes. 
+    This register, called the task-priority register (TPR), uses its four low-order bits to specify a task 
+    priority. The remaining 60 bits are reserved and must be written with zeros. Figure 8-4 shows the 
+    format of the TPR. 
+    
+    The TPR is available only in 64-bit mode
+    "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr8
+
+      - name: mov_write
+        destination_mnemonic: cr8
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the amd architecture"
+        size: 64
+
+        fields:
+            - name: tpr 
+              long_name: "Task Priority"
+              lsb: 0
+              msb: 3
+              readable: true
+              writable: true
+              description: |
+                  "
+                  System software can use the TPR register to temporarily block low-priority interrupts from 
+                  interrupting a high-priority task. This is accomplished by loading TPR with a value corresponding to 
+                  the highest-priority interrupt that is to be blocked.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 61
+              preserved: True

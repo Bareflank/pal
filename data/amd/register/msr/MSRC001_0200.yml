@@ -1,11 +1,16 @@
 - name: MSRC001_0200
-  long_name: "Performance Event Select"
+  long_name: "Performance Event"
   purpose: |
         "
         MSRC001_020[0...A] [Performance Event Select [5:0]] (Core::X86::Msr::PERF_CTL)
 
         See 2.1.11 [Performance Monitor Counters]. Core::X86::Msr::PERF_LEGACY_CTL is an alias of
         MSRC001_020[6,4,2,0].
+
+        MSRC001_020[1...B] [Performance Event Counter [5:0]] (Core::X86::Msr::PERF_CTR)
+
+        See Core::X86::Msr::PERF_CTL. Core::X86::Msr::PERF_LEGACY_CTR is an alias of MSRC001_020[7,5,3,1]. Also 
+        can be read via x86 instructions RDPMC ECX=[05:00].
         "
   size: 64
   arch: amd64
@@ -21,8 +26,8 @@
         address: 0xC0010200
 
  fieldsets:
-      - name: latest
-        condition: "Fieldset valid on latest version of the AMD architecture"
+      - name: select
+        condition: "Fieldset valid for performance event select registers"
         size: 64
 
         fields:
@@ -95,3 +100,16 @@
               msb: 41
               readable: True 
               writable: True
+
+      - name: counter
+        condition: "Fieldset valid for performance event counter registers"
+        size: 64
+
+        fields:
+            - name: CTR
+              long_name: "performance counter value"
+              lsb: 0
+              msb: 47
+              readable: True 
+              writable: True
+              

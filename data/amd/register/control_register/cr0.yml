@@ -2,7 +2,7 @@
   long_name: "Control Register 0"
   purpose: |
     "
-      CR0—Provides operating-mode controls and some processor-feature controls.
+    CR0—Provides operating-mode controls and some processor-feature controls.
     "
   size: 64
   arch: amd64
@@ -88,7 +88,7 @@
                   "
 
             - name: et
-              long_name: Extension Type
+              long_name: "Extension Type"
               lsb: 4
               msb: 4
               readable: True
@@ -145,7 +145,7 @@
               preserved: True
 
             - name: am
-              long_name: ""
+              long_name: "Alignment Mask"
               lsb: 18
               msb: 18
               readable: True

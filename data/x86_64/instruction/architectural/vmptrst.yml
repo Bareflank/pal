@@ -1,0 +1,14 @@
+- name: vmptrst
+  long_name: "Store Pointer to Virtual-Machine Control Structure"
+  purpose: |
+      "
+      Stores the current-VMCS pointer into a specified memory address. The
+      operand of this instruction is always 64 bits and is always in memory.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: store_pointer
+              type: uint64
