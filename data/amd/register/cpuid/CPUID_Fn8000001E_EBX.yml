@@ -1,0 +1,49 @@
+- name: CPUID_Fn8000001E_EBX
+  long_name: "Core Identifiers"
+  purpose: |
+    "
+    CPUID_Fn8000001E_EBX [Core Identifiers] (Core::X86::Cpuid::CoreId)
+    
+    Read-only. Reset: 0000_XXXXh.
+
+    See Core::X86::Cpuid::ExtApicId.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ebx
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CoreId
+              long_name: core ID
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,XXh.
+
+                  For Family 17, Model 1, Revision 1 and later:
+                  CoreId = ({2'b0, DieId[1:0], LogicalComplexId[0], LogicalThreadId[2:0]} >> SMT).
+                  "
+
+            - name: ThreadsPerCore
+              long_name: threads per core
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXh. The number of threads per core is
+                  ThreadsPerCore+1.
+                  "
+          

@@ -1,0 +1,32 @@
+- name: CPUID_Fn8000001F_EDX
+  long_name: "Minimum ASID"
+  purpose: |
+    "
+    CPUID_Fn8000001F_EDX [Minimum ASID] (Core::X86::Cpuid::SecureEncryptionEdx)
+    
+    Read-only. Reset: 0000_000Xh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: edx
+        output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: MinimumSEVASID
+              long_name: Minimum SEV enabled, SEV-ES disabled ASID
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 0000_000Xh. Indicates the minimum ASID value that must be used for an SEV-enabled, SEV-ES-disabled guest.
+                  "

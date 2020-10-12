@@ -1,0 +1,62 @@
+- name: CPUID_Fn8000001F_EAX
+  long_name: "AMD Secure Encryption EAX"
+  purpose: |
+    "
+    CPUID_Fn8000001F_EAX [AMD Secure Encryption EAX] (Core::X86::Cpuid::SecureEncryptionEax)
+    
+    Read-only. Reset: 0000_000Fh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: eax
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: SME
+              long_name: Secure Memory Encryption supported
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: SEV
+              long_name: Secure Encrypted Virtualization supported 
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: VmPgFlush
+              long_name: VM Page Flush MSR is supported
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. See Core::X86::Msr::VMPAGE_FLUSH.
+                  "
+
+            - name: SevEs
+              long_name: sevEs
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "

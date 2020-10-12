@@ -1,0 +1,158 @@
+- name: CPUID_Fn8000001D_EDX
+  long_name: "Cache Properties Null"
+  purpose: |
+    "
+    CPUID_Fn8000001D_EDX_x00 [Cache Properties (DC)] (Core::X86::Cpuid::CachePropEdx0)
+    Read-only. Reset: 0000_0000h.
+    Core::X86::Cpuid::CachePropEdx1 reports topology information for the IC. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EDX_x01 [Cache Properties (IC)] (Core::X86::Cpuid::CachePropEdx1)
+    Read-only. Reset: 0000_0000h.
+    Core::X86::Cpuid::CachePropEdx1 reports topology information for the IC. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EDX_x02 [Cache Properties (L2)] (Core::X86::Cpuid::CachePropEdx2)
+    Read-only. Reset: 0000_0002h.
+    Core::X86::Cpuid::CachePropEdx2 reports topology information for the L2. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EDX_x03 [Cache Properties (L3)] (Core::X86::Cpuid::CachePropEdx3)
+    Read-only. Reset: 0000_0001h.
+    Core::X86::Cpuid::CachePropEdx3 reports reports topology information for the L3. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EDX_x04 [Cache Properties Null] (Core::X86::Cpuid::CachePropEdx4)
+    Read-only. Reset: 0000_0000h.
+    Core::X86::Cpuid::CachePropEax3 reports done/null. See Core::X86::Cpuid::CachePropEax0.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: edx
+        output: edx
+
+  fieldsets:
+      - name: index_0
+        condition: "Fieldset valid on index_0 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: WBINVD
+              long_name: Write-Back Invalidate/Invalidate
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. 0=WBINVD/INVD invalidates all
+                  lower level caches of non-originating cores sharing this cache. 1=WBINVD/INVD not ensured to invalidate all
+                  lower level caches of non-originating cores sharing this cache.
+                  "
+
+            - name: CacheInclusive
+              long_name: cache inclusive
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. 0=Cache is not inclusive of lower cache levels.
+                  1=Cache is inclusive of lower cache levels.
+                  "
+
+      - name: index_1
+        condition: "Fieldset valid on index_1 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: WBINVD
+              long_name: Write-Back Invalidate/Invalidate
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. 0=WBINVD/INVD invalidates all
+                  lower level caches of non-originating cores sharing this cache. 1=WBINVD/INVD not guaranteed to invalidate
+                  all lower level caches of non-originating cores sharing this cache. See
+                  Core::X86::Cpuid::CachePropEdx0[WBINVD].
+                  "
+
+            - name: CacheInclusive
+              long_name: cache inclusive
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. See Core::X86::Cpuid::CachePropEdx0[CacheInclusive].
+                  "
+
+      - name: index_2
+        condition: "Fieldset valid on index_2 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: WBINVD
+              long_name: Write-Back Invalidate/Invalidate
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. 0=WBINVD/INVD invalidates all
+                  lower level caches of non-originating cores sharing this cache. 1=WBINVD/INVD not guaranteed to invalidate
+                  all lower level caches of non-originating cores sharing this cache.
+                  "
+
+            - name: CacheInclusive
+              long_name: cache inclusive
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. See Core::X86::Cpuid::CachePropEdx0[CacheInclusive].
+                  "
+
+      - name: index_3
+        condition: "Fieldset valid on index_3 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+             - name: WBINVD
+              long_name: Write-Back Invalidate/Invalidate
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 0=WBINVD/INVD invalidates all
+                  lower level caches of non-originating cores sharing this cache. 1=WBINVD/INVD not guaranteed to invalidate
+                  all lower level caches of non-originating cores sharing this cache.
+                  "
+
+            - name: CacheInclusive
+              long_name: cache inclusive
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. See Core::X86::Cpuid::CachePropEdx0[CacheInclusive].
+                  "
+
+      - name: index_4
+        condition: "Fieldset valid on index_4 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: Reserved
+              long_name: Reserved
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_0000h.
+                  "

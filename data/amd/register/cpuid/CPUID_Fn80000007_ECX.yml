@@ -1,0 +1,33 @@
+- name: CPUID_Fn80000007_ECX
+  long_name: "Advanced Power Management Information"
+  purpose: |
+    "
+    CPUID_Fn80000007_ECX [Advanced Power Management Information] (Core::X86::Cpuid::ApmInfoEcx)
+
+    Read-only. Reset: 0000_0000h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ecx
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CmpUnitPwrSampleTimeRatio
+              long_name: CmpUnitPwrSampleTimeRatio
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_0000h.
+                  "
+            

@@ -1,0 +1,32 @@
+- name: CPUID_Fn80000007_EAX
+  long_name: "Reserved"
+  purpose: |
+    "
+    CPUID_Fn80000007_EAX [Reserved] (Core::X86::Cpuid::ProcFeedbackCap)
+    
+    Read-only. Reset: 0000_0000h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: eax
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: reserved 
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_0000h.
+                  "

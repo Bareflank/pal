@@ -1,0 +1,55 @@
+- name: CPUID_Fn80000008_ECX
+  long_name: "Extended Feature Extensions ID EBX"
+  purpose: |
+    "
+    CPUID_Fn80000008_ECX [Size Identifiers] (Core::X86::Cpuid::SizeId)
+
+    Read-only. Reset: 0000_X0XXh.
+
+    This provides information about the number of threads supported by the processor.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ebx
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: NC
+              long_name: number of threads
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXh. The number of threads in the package is NC+1 (eg., if NC=0, then there is one thread)
+                  "
+
+            - name: ApicIdSize
+              long_name: APIC ID size
+              lsb: 12
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Xh. The number of bits in the initial 
+                  Core::X86::Apic::ApicId[ApicId] value that indicate thread ID within a package.
+                  "
+
+            - name: PerfTscSize
+              long_name: performance time-stamp counter size
+              lsb: 16
+              msb: 17
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0h.
+                  "

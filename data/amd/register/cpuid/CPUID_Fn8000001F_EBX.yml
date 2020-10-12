@@ -1,0 +1,43 @@
+- name: CPUID_Fn8000001F_EBX
+  long_name: "AMD Secure Encryption EBX"
+  purpose: |
+    "
+    CPUID_Fn8000001F_EBX [AMD Secure Encryption EBX] (Core::X86::Cpuid::SecureEncryptionEbx)
+    
+    Read-only. Reset: 0000_016Fh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ebx
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CBit
+              long_name: CBit
+              lsb: 0
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 2Fh. Page table bit number used to enable memory encryption.
+                  "
+
+            - name: MemEncryptPhysAddWidth
+              long_name: MemEncryptPhysAddWidth
+              lsb: 6
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 05h. Reduction of physical address space in bits when memory
+                  encryption is enabled (0 indicates no reduction).
+                  "

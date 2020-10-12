@@ -1,0 +1,68 @@
+- name: CPUID_Fn80000006_EAX
+  long_name: "L2 TLB 2M/4M Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000006_EAX [L2 TLB 2M/4M Identifiers] (Core::X86::Cpuid::L2Tlb2M4M)
+    
+    Read-only
+
+    This function provides the processor's second level cache and TLB characteristics for each core.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: eax
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L2ITlb2and4MSize
+              long_name: L2 instruction TLB number of entries for 2 MB and 4 MB pages
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 
+                  Fixed,1024. The value returned is for the number of entries available for the 2 MB page size; 4 MB pages require 
+                  two 2 MB entries, so the number of entries available for the 4 MB page size is one-half the returned value
+                  "
+            
+            - name: L2ITlb2and4MAssoc
+              long_name: L2 instruction TLB associativity for 2 MB and 4 MB pages
+              lsb: 12
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,6.
+                  "
+            
+            - name: L2DTlb2and4MSize
+              long_name: L2 data TLB number of entries for 2 MB and 4 MB page
+              lsb: 16
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 
+                  Fixed,1536. The value returned is for the number of entries available for the 2 MB page size; 4 MB pages require 
+                  two 2 MB entries, so the number of entries available for the 4 MB page size is one-half the returned value
+                  "
+            
+            - name: L2DTlb2and4MAssoc
+              long_name: L2 data TLB associativity for 2 MB and 4 MB pages
+              lsb: 28
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Xh.
+                  "

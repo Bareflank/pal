@@ -1,0 +1,76 @@
+- name: CPUID_Fn80000001_EAX
+  long_name: "Processor Vendor and Largest Standard Function Number"
+  purpose: |
+    "
+    CPUID_Fn80000001_EAX [Family, Model, Stepping Identifiers] (Core::X86::Cpuid::FamModStepExt)
+
+    Read-only. Reset: 0080_0FX2h.
+
+    Core::X86::Cpuid::FamModStep and Core::X86::Cpuid::FamModStepExt return the same value. See
+    Core::X86::Cpuid::FamModStep.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: eax
+        output: eax
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: stepping
+              long_name: stepping
+              lsb: 0
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 2h.
+                  "
+
+            - name: BaseModel
+              long_name: BaseModel
+              lsb: 4
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Xh. Model numbers vary with product.
+                  "
+
+            - name: BaseFamily
+              long_name: BaseFamily
+              lsb: 8
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fh.
+                  "
+
+            - name: ExtModel
+              long_name: extended model
+              lsb: 16
+              msb: 19
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 0h.
+                  "
+
+            - name: ExtFamily
+              long_name: extended family
+              lsb: 20
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 08h.
+                  "

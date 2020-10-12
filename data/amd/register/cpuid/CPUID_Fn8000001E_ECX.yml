@@ -1,0 +1,42 @@
+- name: CPUID_Fn8000001E_ECX
+  long_name: "Node Identifiers"
+  purpose: |
+    "
+    CPUID_Fn8000001E_ECX [Node Identifiers] (Core::X86::Cpuid::NodeId)
+    
+    Read-only. Reset: 0000_0XXXh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ecx
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: NodeId
+              long_name: Node ID
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,XXh.
+                  "
+
+            - name: NodesPerProcessor
+              long_name: Node per processor
+              lsb: 8
+              msb: 10
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXXb.
+                  "
