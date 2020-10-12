@@ -1,0 +1,9 @@
+- name: write_cs
+  long_name: "Write to CS Segment Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: value
+              type: uint16

@@ -1,0 +1,9 @@
+- name: write_tr
+  long_name: "Write to Task Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: segment_selector
+              type: uint16

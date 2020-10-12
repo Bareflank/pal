@@ -1,8 +1,12 @@
 - name: MSRC001_0230
-  long_name: "L3 Performance Event Select"
+  long_name: "L3 Performance Event"
   purpose: |
         "
         MSRC001_023[0...A] [L3 Performance Event Select [5:0]] (Core::X86::Msr::ChL3PmcCfg)
+
+        MSRC001_023[1...B] [L3 Performance Event Counter [5:0]] (Core::X86::Msr::ChL3Pmc)
+
+        Also can be read via x86 instructions RDPMC ECX=[0F:0A].
         "
   size: 64
   arch: amd64
@@ -18,8 +22,8 @@
         address: 0xC0010230
 
  fieldsets:
-      - name: latest
-        condition: "Fieldset valid on latest version of the AMD architecture"
+      - name: select
+        condition: "Fieldset valid for L3 Performance Event select registers"
         size: 64
 
         fields:
@@ -55,5 +59,31 @@
               long_name: "ThreadMask"
               lsb: 56
               msb: 63
+              readable: True 
+              writable: True
+
+      - name: counter
+        condition: "Fieldset valid for L3 Performance Event counter registers"
+        size: 64
+
+        fields:
+            - name: CountLo
+              long_name: "CountLo"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: True
+
+            - name: CountHi
+              long_name: "CountHi"
+              lsb: 32
+              msb: 47
+              readable: True 
+              writable: True
+
+            - name: Overflow
+              long_name: "Overflow"
+              lsb: 48
+              msb: 48
               readable: True 
               writable: True

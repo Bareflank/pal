@@ -1,0 +1,25 @@
+- name: vmlaunch_checked
+  long_name: "Error checked vmlaunch"
+  purpose: |
+      "
+      Effects a VM entry managed by the current VMCS.  • VMLAUNCH fails if the
+      launch state of current VMCS is not “clear”. If the instruction is
+      successful, it sets the launch state to “launched.” • VMRESUME fails if
+      the launch state of the current VMCS is not “launched.” If VM entry is
+      attempted, the logical processor performs a series of consistency checks
+      as detailed in Chapter 26, “VM Entries”. Failure to pass checks on the
+      VMX controls or on the host-state area passes control to the instruction
+      following the VMLAUNCH or VMRESUME instruction. If these pass but checks
+      on the guest-state area fail, the logical processor loads state from the
+      host-state area of the VMCS, passing control to the instruction
+      referenced by the RIP field in the host-state area.  VM entry is not
+      allowed when events are blocked by MOV SS or POP SS. Neither VMLAUNCH nor
+      VMRESUME should be used immediately after either MOV to SS or POP to SS.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_outputs:
+            - name: error
+              type: boolean

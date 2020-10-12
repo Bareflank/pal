@@ -30,24 +30,13 @@ function(pal_add_subproject NAME)
         set(ARG_INSTALL_PREFIX ${BINARY_DIR})
     endif()
 
-    # generate_flags(aarch64)
-
-    get_cmake_property(_vars CACHE_VARIABLES)
-    foreach (_var ${_vars})
-        STRING(REGEX MATCH "^CMAKE" is_cmake_var ${_var})
-        if(NOT is_cmake_var)
-            list(APPEND CMAKE_ARGS -D${_var}=${${_var}})
-        endif()
-    endforeach()
-
     list(APPEND CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${ARG_INSTALL_PREFIX}
         -DCMAKE_INSTALL_MESSAGE=LAZY
         -DCMAKE_TARGET_MESSAGES=OFF
         -DCMAKE_VERBOSE_MAKEFILE=${CMAKE_VERBOSE_MAKEFILE}
-        -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-        -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DPython3_EXECUTABLE=${Python3_EXECUTABLE}
+        -DPYTHONPATH=${PYTHONPATH}
     )
 
     if(ARG_TOOLCHAIN)

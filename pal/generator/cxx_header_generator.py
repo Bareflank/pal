@@ -12,7 +12,7 @@ from pal.writer.writer_factory import make_writer
 
 class CxxHeaderGenerator(AbstractGenerator):
 
-    def generate(self, regs, outpath):
+    def generate_registers(self, regs, outpath):
         try:
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
             regs = transforms["remove_reserved_0"].transform(regs)
@@ -58,6 +58,10 @@ class CxxHeaderGenerator(AbstractGenerator):
                 exception=e)
             raise PalGeneratorException(msg)
 
+    def generate_instructions(self, instructions, outpath):
+        # TODO: Implement C++ instruction API generation
+        pass
+
     # -------------------------------------------------------------------------
     # private
     # -------------------------------------------------------------------------
@@ -83,7 +87,7 @@ class CxxHeaderGenerator(AbstractGenerator):
             separator=" - " if reg.purpose else "",
             purpose=str(reg.purpose)
         )
-        self.writer.declare_comment(outfile, comment, wrap=75)
+        self.writer.declare_comment(outfile, comment, 75)
 
     @pal.gadget.cxx.namespace
     def _generate_register_accessors(self, outfile, reg):
@@ -92,7 +96,7 @@ class CxxHeaderGenerator(AbstractGenerator):
         fieldsets = reg.fieldsets
         for idx, fieldset in enumerate(fieldsets):
             if len(fieldsets) > 1:
-                self.writer.declare_comment(outfile, fieldset.condition)
+                self.writer.declare_comment(outfile, fieldset.condition, 79)
                 if fieldset.name:
                     self.gadgets["pal.cxx.namespace"].name = str(fieldset.name)
                 else:
@@ -108,7 +112,7 @@ class CxxHeaderGenerator(AbstractGenerator):
     def _generate_fieldset(self, outfile, reg, fieldset):
         for idx, field in enumerate(fieldset.fields):
             if field.description:
-                self.writer.declare_comment(outfile, field.description, wrap=71)
+                self.writer.declare_comment(outfile, field.description, 71)
 
             self.gadgets["pal.cxx.namespace"].name = field.name.lower()
             self._generate_register_field(outfile, reg, field)

@@ -1,0 +1,9 @@
+- name: read_ss
+  long_name: "Read from the SS Segment Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_outputs:
+            - name: value
+              type: uint16

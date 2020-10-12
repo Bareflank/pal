@@ -1,0 +1,5 @@
+- name: rdtsc_fenced
+  long_name: "Read Time-Stamp Counter (Fenced)"
+
+  execution_contexts:
+      - execution_state: 64bit

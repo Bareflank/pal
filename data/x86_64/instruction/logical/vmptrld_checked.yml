@@ -1,0 +1,23 @@
+- name: vmptrld_checked
+  long_name: "Error checked vmptrld"
+  purpose: |
+      "
+      Marks the current-VMCS pointer valid and loads it with the physical
+      address in the instruction operand. The instruction fails if its
+      operand is not properly aligned, sets unsupported physical-address bits,
+      or is equal to the VMXON pointer. In addition, the instruction fails if
+      the 32 bits in memory referenced by the operand do not match the VMCS
+      revision identifier supported by this processor. The operand of this
+      instruction is always 64 bits and is always in memory.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: vmcs_pointer
+              type: uint64
+
+        logical_outputs:
+            - name: error
+              type: boolean

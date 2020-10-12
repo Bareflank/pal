@@ -1,0 +1,24 @@
+- name: vmclear
+  long_name: "Clear Virtual-Machine Control Structure"
+  purpose: |
+      "
+      This instruction applies to the VMCS whose VMCS region resides at the
+      physical address contained in the instruction operand. The instruction
+      ensures that VMCS data for that VMCS (some of these data may be currently
+      maintained on the processor) are copied to the VMCS region in memory. It
+      also initializes parts of the VMCS region (for example, it sets the
+      launch state of that VMCS to clear). See Chapter 24, “Virtual-Machine
+      Control Structures”. The operand of this instruction is always 64 bits
+      and is always in memory. If the operand is the current-VMCS pointer, then
+      that pointer is made invalid (set to FFFFFFFF_FFFFFFFFH). Note that the
+      VMCLEAR instruction might not explicitly write any VMCS data to memory;
+      the data may be already resident in memory before the VMCLEAR is
+      executed.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: vmcs_pointer
+              type: uint64

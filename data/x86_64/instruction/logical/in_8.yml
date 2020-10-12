@@ -1,0 +1,13 @@
+- name: in_8
+  long_name: "Input 8 Bits from Port"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: address
+              type: uint16
+
+        logical_outputs:
+            - name: value
+              type: uint8

@@ -1,0 +1,9 @@
+- name: read_cs
+  long_name: "Read from the CS Segment Register"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_outputs:
+            - name: value
+              type: uint16

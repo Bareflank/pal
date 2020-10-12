@@ -1,0 +1,142 @@
+- name: cr3
+  long_name: "Control Register 3 long mode"
+  purpose: |
+    "
+    Control Register 3 (CR3)—Legacy-Mode Non-PAE Paging
+
+    The CR3 register is used to point to the base address of the highest-level page-translation table. The 
+    base address is either the page-directory pointer table or the page directory table. The CR3 register  
+    format depends on the form of paging being used.
+    "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr3
+
+      - name: mov_write
+        destination_mnemonic: cr3
+
+  fieldsets:
+      - name: pcide_enabled
+        condition: "Fieldset valid on latest version of the amd architecture cr4.pcide=1"
+        size: 64
+
+        fields:
+          - name: processor_context_identifier
+            long_name: "Processor Context Identifier"
+            lsb: 0
+            msb: 11
+            readable: True
+            writable: True
+            description: |
+                "
+                The Process Context Identifier (PCID) feature allows a logical processor to cache TLB mappings
+                concurrently for multiple virtual address spaces. When enabled (by setting CR4.PCIDE=1), the 
+                processor associates the current 12-bit PCID with each TLB mapping it creates. Only entries matching 
+                the current PCID are used when performing address translations. In this way, the processor may retain 
+                cached TLB mappings for multiple contexts. 
+                
+                The current PCID is the value in CR3[11:0]. When PCIDs are enabled the system software can store 
+                12-bit Process Context Identifiers in CR3 for different address spaces. Subsequently, when system 
+                software switches address spaces (by writing the page table base pointer in CR3[62:12]), the processor 
+                may use TLB mappings previously stored for that address space and PCID. A MOV to CR4 that clears 
+                CR4.PCIDE causes all cached entries in the TLB for the logical processor to be invalidated. When 
+                PCIDs are not enabled (CR4.PCIDE=0) the current PCID is always zero and all TLB mappings are 
+                associated with PCID=0. 
+                
+                Attempting to set CR4.PCIDE with a MOV to CR4 if EFER.LMA = 0 or CR3[11:0] <> 0 causes in a 
+                #GP exception. Attempting to clear CR0.PG with a MOV to CR0 if CR4.PCIDE is set causes a #GP 
+                exception. The presence of PCID functionality is indicated by CPUID Function 1, ECX[PCID]=1.
+                "
+
+          - name: page-map_level-4_table_base_address
+            long_name: "Page-Map Level-4 Table Base Address"
+            lsb: 12
+            msb: 51
+            readable: True
+            writable: True
+            description: |
+                "
+                Bits 51:12. This 40-bit field points to the PML4 base address. The PML4 
+                table is aligned on a 4-Kbyte boundary with the low-order 12 address bits (11:0) assumed to be 0. This 
+                yields a total base-address size of 52 bits. System software running on processor implementations 
+                supporting less than the full 52-bit physical-address space must clear the unimplemented upper base- 
+                address bits to 0.
+                "
+
+          - name: reserved
+            long_name: "Reserved, MBZ"
+            lsb: 51
+            msb: 61
+            preserved: True
+        
+
+
+    fieldsets:
+      - name: pcide_disabled
+        condition: "Fieldset valid on latest version of the amd architecture cr4.pcide=0"
+        size: 64
+
+        fields:
+          - name: reserved
+            long_name: "Reserved"
+            lsb: 0
+            msb: 2
+            preserved: True
+
+          - name: pwt
+            long_name: "Page-Level Writethrough"
+            lsb: 3
+            msb: 3
+            readable: True
+            writable: True
+            description: |
+                "
+                Bit 3. Page-level writethrough indicates whether the highest- 
+                level page-translation table has a writeback or writethrough caching policy. When PWT=0, the table 
+                has a writeback caching policy. When PWT=1, the table has a writethrough caching policy.
+                "
+
+          - name: pcd
+            long_name: "Page-Level Cache Disable"
+            lsb: 4
+            msb: 4
+            readable: True
+            writable: True
+            description: |
+                "
+                Bit 4. Page-level cache disable indicates whether the highest- 
+                level page-translation table is cacheable. When PCD=0, the table is cacheable. When PCD=1, the table 
+                is not cacheable.
+                "
+
+          - name: reserved
+            long_name: "Reserved"
+            lsb: 5
+            msb: 11
+            preserved: True
+
+
+          - name: page-map_level-4_table_base_address
+            long_name: "Page-Map Level-4 Table Base Address"
+            lsb: 12
+            msb: 51
+            readable: True
+            writable: True
+            description: |
+                "
+                Bits 51:12. This 40-bit field points to the PML4 base address. The PML4 
+                table is aligned on a 4-Kbyte boundary with the low-order 12 address bits (11:0) assumed to be 0. This 
+                yields a total base-address size of 52 bits. System software running on processor implementations 
+                supporting less than the full 52-bit physical-address space must clear the unimplemented upper base- 
+                address bits to 0.
+                "
+
+          - name: reserved
+            long_name: "Reserved, MBZ"
+            lsb: 51
+            msb: 61
+            preserved: True
+          

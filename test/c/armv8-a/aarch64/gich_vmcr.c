@@ -6,28 +6,28 @@ uintptr_t pal_gic_virtual_interface_control_base_address(void)
 void test_gich_vmcr_compile(void)
 {
     // Register accessors
-    pal_gich_vmcr_set(0xA55A5AA5);
-    uint64_t value = pal_gich_vmcr_get();
+    pal_set_gich_vmcr(0xA55A5AA5);
+    uint64_t value = pal_get_gich_vmcr();
 
     // Field accessors
-    pal_gich_vmcr_veng1_enable();
-    pal_gich_vmcr_veng1_enable_from_value(value);
-    pal_gich_vmcr_veng1_disable();
-    pal_gich_vmcr_veng1_disable_from_value(value);
+    pal_enable_gich_vmcr_veng1();
+    pal_enable_gich_vmcr_veng1_in_value(value);
+    pal_disable_gich_vmcr_veng1();
+    pal_disable_gich_vmcr_veng1_in_value(value);
     pal_gich_vmcr_veng1_is_enabled();
-    pal_gich_vmcr_veng1_is_enabled_from_value(value);
+    pal_gich_vmcr_veng1_is_enabled_in_value(value);
     pal_gich_vmcr_veng1_is_disabled();
-    pal_gich_vmcr_veng1_is_disabled_from_value(value);
-    pal_gich_vmcr_vbpr1_get();
-    pal_gich_vmcr_vbpr1_get_from_value(value);
-    pal_gich_vmcr_vbpr1_set(0x0);
-    pal_gich_vmcr_vbpr1_set_from_value(0x0, value);
+    pal_gich_vmcr_veng1_is_disabled_in_value(value);
+    pal_get_gich_vmcr_vbpr1();
+    pal_get_gich_vmcr_vbpr1_from_value(value);
+    pal_set_gich_vmcr_vbpr1(0x0);
+    pal_set_gich_vmcr_vbpr1_in_value(0x0, value);
 
     // Printers
-    pal_gich_vmcr_dump();
-    pal_gich_vmcr_dump_from_value(value);
-    pal_gich_vmcr_veng1_dump();
-    pal_gich_vmcr_veng1_dump_from_value(value);
-    pal_gich_vmcr_vbpr1_dump();
-    pal_gich_vmcr_vbpr1_dump_from_value(value);
+    pal_print_gich_vmcr();
+    pal_print_gich_vmcr_from_value(value);
+    pal_print_gich_vmcr_veng1();
+    pal_print_gich_vmcr_veng1_from_value(value);
+    pal_print_gich_vmcr_vbpr1();
+    pal_print_gich_vmcr_vbpr1_from_value(value);
 }

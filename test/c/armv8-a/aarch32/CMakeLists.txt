@@ -1,18 +1,16 @@
 cmake_minimum_required(VERSION 3.12)
 project(c-aarch32-linux-gnu-gcc C)
-include(${PAL_SOURCE_CMAKE_DIR}/init_subproject.cmake)
 
 set(PROJECT_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
 
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
         -o ${CMAKE_INSTALL_PREFIX}/pal
-        --arch=armv8-a
+        --execution_state=armv8a_aarch32
         --language=c
         --access_mechanism=gas_aarch32
         --print_mechanism=printf_utf8
         --file_format=unix
-        --generator=c_header
     COMMAND cmake -E touch ${PROJECT_OUTPUT_STAMP}
     OUTPUT ${PROJECT_OUTPUT_STAMP}
     DEPENDS ${PAL_SRC_FILES}
