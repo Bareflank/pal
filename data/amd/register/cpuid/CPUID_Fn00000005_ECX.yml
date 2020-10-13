@@ -1,0 +1,43 @@
+- name: CPUID_Fn00000005_ECX
+  long_name: "Monitor/MWait"
+  purpose: |
+    "
+    CPUID_Fn00000005_ECX [Monitor/MWait] (Core::X86::Cpuid::MonMWaitEcx)
+
+    Read-only. Reset: 0000_0003h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x00000005
+        output: ecx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: EMX
+              long_name: enumerate MONITOR/MWAIT extensions
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: IBE
+              long_name: interrupt break-event
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "

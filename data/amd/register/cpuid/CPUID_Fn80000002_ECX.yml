@@ -1,0 +1,64 @@
+- name: CPUID_Fn80000002_ECX
+  long_name: "Processor Name String Identifier (Bytes [11:8])"
+  purpose: |
+    "
+    CPUID_Fn80000002_ECX [Processor Name String Identifier (Bytes [11:8])] (Core::X86::Cpuid::ProcNameStr0Ecx)
+    
+    Read-only
+
+    Is an alias of Core::X86::Msr::ProcNameString_n1.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000002
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: ProcNameByte8
+              long_name: processor name, byte8
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString0].
+                  "
+            
+            - name: ProcNameByte9
+              long_name: processor name, byte9
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString1].
+                  "
+            
+            - name: ProcNameByte10
+              long_name: processor name, byte10
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString2].
+                  "
+            
+            - name: ProcNameByte11
+              long_name: processor name, byte11
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString3].
+                  "

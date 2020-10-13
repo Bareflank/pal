@@ -1,0 +1,64 @@
+- name: CPUID_Fn80000005_EBX
+  long_name: "L1 TLB 4K Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000005_EBX [L1 TLB 4K Identifiers] (Core::X86::Cpuid::L1Tlb4K)
+    
+    Read-only
+
+    See Core::X86::Cpuid::L1Tlb2M4M.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000005
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L1ITlb4KSize
+              long_name: instruction TLB number of entries for 4 KB pages
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+            
+            - name: L1ITlb4KAssoc
+              long_name: instruction TLB associativity for 4 KB pages
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,FFh. See Core::X86::Cpuid::L1DcId[L1DcAssoc].
+                  "
+            
+            - name: L1DTlb4KSize
+              long_name: data TLB number of entries for 4 KB pages
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+            
+            - name: L1DTlb4KAssoc 
+              long_name: data TLB associativity for 4 KB pages
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,FFh. See Core::X86::Cpuid::L1DcId[L1DcAssoc].
+                  "

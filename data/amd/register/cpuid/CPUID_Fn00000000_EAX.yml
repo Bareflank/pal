@@ -2,6 +2,8 @@
   long_name: "Processor Vendor and Largest Standard Function Number"
   purpose: |
     "
+    CPUID_Fn00000000_EAX [Processor Vendor and Largest Standard Function Number] (Core::X86::Cpuid::LargFuncNum)
+
     Processor Vendor and Largest Standard Function Number
     "
   size: 32
@@ -10,7 +12,7 @@
   
   access_mechanisms:
       - name: cpuid
-        function: eax
+        function: 0x00000000
         output: eax
 
 

@@ -1,0 +1,108 @@
+- name: CPUID_Fn8000001D_ECX
+  long_name: "Cache Properties"
+  purpose: |
+    "
+    CPUID_Fn8000001D_ECX_x00 [Cache Properties (DC)] (Core::X86::Cpuid::CachePropEcx0)
+    Read-only. Reset: 0000_003Fh.
+    Core::X86::Cpuid::CachePropEcx0 reports topology information for the DC. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_ECX_x01 [Cache Properties (IC)] (Core::X86::Cpuid::CachePropEcx1)
+    Read-only. Reset: 0000_00FFh.
+    Core::X86::Cpuid::CachePropEcx1 reports topology information for the IC. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_ECX_x02 [Cache Properties (L2)] (Core::X86::Cpuid::CachePropEcx2)
+    Read-only. Reset: 0000_03FFh.
+    Core::X86::Cpuid::CachePropEcx2 reports topology information for the L2. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_ECX_x03 [Cache Properties (L3)] (Core::X86::Cpuid::CachePropEcx3)
+    Read-only. Reset: 0000_XXXXh.
+    Core::X86::Cpuid::CachePropEcx3 reports topology information for the L3.
+
+    CPUID_Fn8000001D_ECX_x04 [Cache Properties Null] (Core::X86::Cpuid::CachePropEcx4)
+    Read-only. Reset: 0000_0000h.
+    Core::X86::Cpuid::CachePropEax3 reports done/null. See Core::X86::Cpuid::CachePropEax0.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x8000001D
+        output: ecx
+
+  fieldsets:
+      - name: index_0
+        condition: "Fieldset valid on index_0 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheNumSets
+              long_name: cache number of sets
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_003Fh. Cache number of sets is CacheNumSets+1.
+                  "
+
+      - name: index_1
+        condition: "Fieldset valid on index_1 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheNumSets
+              long_name: cache number of sets
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_00FFh. See Core::X86::Cpuid::CachePropEcx0[CacheNumSets].
+                  "
+
+      - name: index_2
+        condition: "Fieldset valid on index_2 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheNumSets
+              long_name: cache number of sets
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_03FFh. See Core::X86::Cpuid::CachePropEcx0[CacheNumSets].
+                  "
+
+      - name: index_3
+        condition: "Fieldset valid on index_3 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheNumSets
+              long_name: cache number of sets
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 0000_XXXXh. See Core::X86::Cpuid::CachePropEcx0[CacheNumSets].
+                  "
+
+      - name: index_4
+        condition: "Fieldset valid on index_4 of CPUID_Fn8000001D_ECX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheNumSets
+              long_name: cache number of sets
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_0000h.
+                  "

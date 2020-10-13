@@ -1,0 +1,64 @@
+- name: CPUID_Fn80000005_EDX
+  long_name: "L1 Instruction Cache Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000005_EDX [L1 Instruction Cache Identifiers] (Core::X86::Cpuid::L1IcId)
+    
+    Read-only
+
+    This function provides first level cache characteristics for each core.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000005
+        output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L1IcLineSize
+              long_name: L1 instruction cache line size in bytes
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+            
+            - name: L1IcLinesPerTag
+              long_name: L1 instruction cache lines per tag
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,01h
+                  "
+            
+            - name: L1IcAssoc
+              long_name: L1 instruction cache associativity
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,4.
+                  "
+            
+            - name: L1IcSize
+              long_name: L1 instruction cache size KB
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "

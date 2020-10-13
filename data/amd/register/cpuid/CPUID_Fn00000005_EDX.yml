@@ -1,0 +1,43 @@
+- name: CPUID_Fn00000005_EDX
+  long_name: "Monitor/MWait"
+  purpose: |
+    "
+    CPUID_Fn00000005_EDX [Monitor/MWait] (Core::X86::Cpuid::MonMWaitEdx)
+
+    Read-only. Reset: 0000_0011h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x00000005
+        output: edx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: MWaitC0SubStates
+              long_name: number of C0 sub-cstates supported by MWAIT
+              lsb: 0
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1h.
+                  "
+
+            - name: MWaitC1SubStates
+              long_name: number of C1 sub-cstates supported by MWAIT
+              lsb: 4
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1h.
+                  "
