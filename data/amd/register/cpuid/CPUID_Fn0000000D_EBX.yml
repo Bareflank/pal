@@ -1,0 +1,68 @@
+- name: CPUID_Fn0000000D_EBX
+  long_name: "Processor Extended State Enumeration"
+  purpose: |
+    "
+    CPUID_Fn0000000D_EBX_x00 [Processor Extended State Enumeration] (Core::X86::Cpuid::ProcExtStateEnumEbx00)
+    Read-only,Volatile. Reset: XXXX_XXXXh.
+
+    CPUID_Fn0000000D_EBX_x01 [Processor Extended State Enumeration] (Core::X86::Cpuid::ProcExtStateEnumEbx01)
+    Read-only,Volatile. Reset: XXXX_XXXXh.
+
+    CPUID_Fn0000000D_EBX_x02 [Processor Extended State Enumeration] (Core::X86::Cpuid::ProcExtStateEnumEbx02)
+    Read-only. Reset: 0000_0240h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: ebx
+        output: ebx
+
+  fieldsets:
+      - name: index_0
+        condition: "Fieldset valid on index_0 of CPUID_Fn0000000D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: XFeatureEnabledSizeMax
+              long_name: XFeatureEnabledSizeMax
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only,Volatile. Reset: XXXX_XXXXh.
+                  "
+
+      - name: index_1
+        condition: "Fieldset valid on index_1 of CPUID_Fn0000000D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: XFeatureEnabledSizeMax
+              long_name: XFeatureEnabledSizeMax
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only,Volatile. Reset: XXXX_XXXXh. Reset is 512 + ((XCR0[AVX]) ? 256 :0).
+                  "
+
+      - name: index_2
+        condition: "Fieldset valid on index_2 of CPUID_Fn0000000D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: YmmSaveStateOffset
+              long_name: YMM save state byte offset
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_0240h.
+                  "
+              
