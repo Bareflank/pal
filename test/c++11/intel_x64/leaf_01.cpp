@@ -16,8 +16,8 @@ void test_leaf_01_compile(void)
     pal::leaf_01_eax::model::get(eax);
 
     // Printers
-    pal::leaf_01_eax::dump();
-    pal::leaf_01_eax::dump(eax);
-    pal::leaf_01_eax::model::dump();
-    pal::leaf_01_eax::model::dump(eax);
+    pal::leaf_01_eax::print();
+    pal::leaf_01_eax::print(eax);
+    pal::leaf_01_eax::model::print();
+    pal::leaf_01_eax::model::print(eax);
 }

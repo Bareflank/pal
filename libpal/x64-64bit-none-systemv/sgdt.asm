@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global sgdt_x64_64bit_none_systemv 
-sgdt_x64_64bit_none_systemv :
+global pal_execute_sgdt
+pal_execute_sgdt :
     sgdt [rdi]
     ret

@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global write_ldtr_x64_64bit_none_systemv 
-write_ldtr_x64_64bit_none_systemv :
+global pal_execute_write_ldtr
+pal_execute_write_ldtr :
     lldt di
     ret

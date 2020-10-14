@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global out_8_x64_64bit_none_systemv 
-out_8_x64_64bit_none_systemv :
+global pal_execute_out_8
+pal_execute_out_8 :
     mov rdx, rdi
     mov rax, rsi
     out dx, al

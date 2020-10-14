@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global vmwrite_x64_64bit_none_systemv 
-vmwrite_x64_64bit_none_systemv :
+global pal_execute_vmwrite 
+pal_execute_vmwrite :
     vmwrite rdi, rsi
     ret

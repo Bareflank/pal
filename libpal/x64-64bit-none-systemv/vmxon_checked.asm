@@ -3,13 +3,13 @@ default rel
 
 section .text
 
-global vmxon_checked_x64_64bit_none_systemv 
-vmxon_checked_x64_64bit_none_systemv :
+global pal_execute_vmxon_checked
+pal_execute_vmxon_checked :
     vmxon [rdi]
-    jbe _vmxon_checked_x64_64bit_none_systemv_failure
+    jbe pal_execute_vmxon_checked_failure
     mov rax, 0x1
     ret
 
-_vmxon_checked_x64_64bit_none_systemv_failure:
+pal_execute_vmxon_checked_failure :
     mov rax, 0x0
     ret

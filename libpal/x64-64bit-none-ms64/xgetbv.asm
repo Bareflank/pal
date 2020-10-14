@@ -1,6 +1,6 @@
 .code
 
-xgetbv_x64_64bit_none_ms64 proc
+pal_execute_xgetbv proc
     ; The argument to pass to xgetbv via ecx is already
     ; there, since it is the first integer passed here.
     xgetbv;
@@ -12,6 +12,6 @@ xgetbv_x64_64bit_none_ms64 proc
 
     ret;
 
-xgetbv_x64_64bit_none_ms64 endp
+pal_execute_xgetbv endp
 
 end

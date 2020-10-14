@@ -6,7 +6,11 @@ from typing import TextIO
 
 class LibpalCInstructionWriter(InstructionWriter):
 
-    def declare_instruction_accessor(self, outfile: TextIO, instruction: Instruction) -> None:
+    def declare_instruction_dependencies(self, outfile, instruction):
+        outfile.write("#include <stdint.h>")
+        self.write_newline(outfile)
+
+    def declare_instruction_accessor(self, outfile, instruction):
         self._declare_accessor_comment(outfile, instruction)
 
         for execution_context in instruction.execution_contexts:

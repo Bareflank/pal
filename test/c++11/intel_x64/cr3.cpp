@@ -21,10 +21,10 @@ void test_cr3_compile(void)
     pal::cr3::page_directory_base::set(0x0, value);
 
     // Printers
-    pal::cr3::dump();
-    pal::cr3::dump(value);
-    pal::cr3::pcd::dump();
-    pal::cr3::pcd::dump(value);
-    pal::cr3::page_directory_base::dump();
-    pal::cr3::page_directory_base::dump(value);
+    pal::cr3::print();
+    pal::cr3::print(value);
+    pal::cr3::pcd::print();
+    pal::cr3::pcd::print(value);
+    pal::cr3::page_directory_base::print();
+    pal::cr3::page_directory_base::print(value);
 }

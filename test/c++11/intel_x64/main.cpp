@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 int main(int argc, char * argv[])
 { }
 
@@ -21,5 +23,8 @@ void __stack_chk_guard(void)
 
 void __stack_chk_fail(void)
 {}
+
+void *memset(void *str, int c, size_t n)
+{ return 0; }
 
 }

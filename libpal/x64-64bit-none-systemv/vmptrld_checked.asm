@@ -3,13 +3,13 @@ default rel
 
 section .text
 
-global vmptrld_checked_x64_64bit_none_systemv 
-vmptrld_checked_x64_64bit_none_systemv :
+global pal_execute_vmptrld_checked
+pal_execute_vmptrld_checked :
     vmptrld [rdi]
-    jbe _vmptrld_checked_x64_64bit_none_systemv_failure
+    jbe pal_execute_vmptrld_checked_failure
     mov rax, 0x1
     ret
 
-_vmptrld_checked_x64_64bit_none_systemv_failure:
+pal_execute_vmptrld_checked_failure :
     mov rax, 0x0
     ret

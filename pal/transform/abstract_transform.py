@@ -17,7 +17,7 @@ class AbstractTransform(abc.ABC):
         """
         Transform the given list of registers
         """
-        logger.info("Applying transform: {d}".format(d = str(self)))
+        logger.debug("Applying transform: {d}".format(d = str(self)))
         return list(map(self.do_transform, registers))
 
     def __str__(self):

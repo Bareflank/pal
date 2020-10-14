@@ -17,8 +17,8 @@ void test_xcr0_compile(void)
     pal::xcr0::sse::is_disabled(value);
 
     // Printers
-    pal::xcr0::dump();
-    pal::xcr0::dump(value);
-    pal::xcr0::sse::dump();
-    pal::xcr0::sse::dump(value);
+    pal::xcr0::print();
+    pal::xcr0::print(value);
+    pal::xcr0::sse::print();
+    pal::xcr0::sse::print(value);
 }

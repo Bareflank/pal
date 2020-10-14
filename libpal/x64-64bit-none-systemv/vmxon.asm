@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global vmxon_x64_64bit_none_systemv 
-vmxon_x64_64bit_none_systemv :
+global pal_execute_vmxon
+pal_execute_vmxon :
     vmxon [rdi]
     ret

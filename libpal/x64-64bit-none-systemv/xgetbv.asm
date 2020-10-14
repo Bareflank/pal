@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global xgetbv_x64_64bit_none_systemv 
-xgetbv_x64_64bit_none_systemv :
+global pal_execute_xgetbv 
+pal_execute_xgetbv :
     mov rcx, 0
     xgetbv
     shl rdx, 32

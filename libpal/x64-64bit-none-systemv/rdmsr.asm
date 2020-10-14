@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global rdmsr_x64_64bit_none_systemv 
-rdmsr_x64_64bit_none_systemv :
+global pal_execute_rdmsr 
+pal_execute_rdmsr :
     mov rcx, rdi
     rdmsr
     shl rdx, 32

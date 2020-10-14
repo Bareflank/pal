@@ -1,15 +1,15 @@
-# Add Sub Project
+# Add Compilation Test
 #
-# Adds a sub-project to the build
+# Adds a compilation test to the build
 #
-# @param SOURCE_DIR path to the sub-project's top-level source directory,
+# @param SOURCE_DIR path to the test project's top-level source directory,
 #       conaining a CMakeLists.txt file
-# @param BINARY_DIR path to the sub-project's top-level binary directory
+# @param BINARY_DIR path to the test project's top-level binary directory
 # @param TOOLCHAIN path to a cmake toolchain file
-# @param DEPENDS list of CMake targets this subproject depends on
+# @param DEPENDS list of CMake targets this compilation test depends on
 #
 #
-function(pal_add_subproject NAME)
+function(pal_add_compilation_test NAME)
     set(oneVal SOURCE_DIR BINARY_DIR TOOLCHAIN INSTALL_PREFIX)
     set(multiVal DEPENDS)
     cmake_parse_arguments(ARG "" "${oneVal}" "${multiVal}" ${ARGN})
@@ -17,7 +17,7 @@ function(pal_add_subproject NAME)
     if(ARG_SOURCE_DIR)
         set(SOURCE_DIR ${ARG_SOURCE_DIR})
     else()
-        message(FATAL_ERROR "pal_add_subproject: SOURCE_DIR not provided")
+        message(FATAL_ERROR "pal_add_compilation_test: SOURCE_DIR not provided")
     endif()
 
     if(ARG_BINARY_DIR)
@@ -37,6 +37,8 @@ function(pal_add_subproject NAME)
         -DCMAKE_VERBOSE_MAKEFILE=${CMAKE_VERBOSE_MAKEFILE}
         -DPython3_EXECUTABLE=${Python3_EXECUTABLE}
         -DPYTHONPATH=${PYTHONPATH}
+        -DPAL_SOURCE_DIR=${CMAKE_SOURCE_DIR}
+        -DPAL_QUIET_CMAKE=ON
     )
 
     if(ARG_TOOLCHAIN)
@@ -55,4 +57,4 @@ function(pal_add_subproject NAME)
         UPDATE_COMMAND  ${CMAKE_COMMAND} -E echo "-- checking for updates"
     )
 
-endfunction(pal_add_subproject)
+endfunction(pal_add_compilation_test)

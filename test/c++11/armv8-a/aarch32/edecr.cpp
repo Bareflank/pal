@@ -17,8 +17,8 @@ void test_edecr_compile(void)
     pal::edecr::rce::is_disabled(value);
 
     // Printers
-    pal::edecr::dump();
-    pal::edecr::dump(value);
-    pal::edecr::rce::dump();
-    pal::edecr::rce::dump(value);
+    pal::edecr::print();
+    pal::edecr::print(value);
+    pal::edecr::rce::print();
+    pal::edecr::rce::print(value);
 }

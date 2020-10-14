@@ -3,13 +3,13 @@ default rel
 
 section .text
 
-global vmwrite_checked_x64_64bit_none_systemv 
-vmwrite_checked_x64_64bit_none_systemv :
+global pal_execute_vmwrite_checked
+pal_execute_vmwrite_checked :
     vmwrite rdi, rsi
-    jbe _vmwrite_checked_x64_64bit_none_systemv_failure
+    jbe pal_execute_vmwrite_checked_failure
     mov rax, 0x1
     ret
 
-_vmwrite_checked_x64_64bit_none_systemv_failure:
+pal_execute_vmwrite_checked_failure :
     mov rax, 0x0
     ret

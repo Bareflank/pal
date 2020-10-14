@@ -21,10 +21,10 @@ void test_cpacr_compile(void)
     pal::cpacr::cp10::set(0x0, value);
 
     // Printers
-    pal::cpacr::dump();
-    pal::cpacr::dump(value);
-    pal::cpacr::trcdis::dump();
-    pal::cpacr::trcdis::dump(value);
-    pal::cpacr::cp10::dump();
-    pal::cpacr::cp10::dump(value);
+    pal::cpacr::print();
+    pal::cpacr::print(value);
+    pal::cpacr::trcdis::print();
+    pal::cpacr::trcdis::print(value);
+    pal::cpacr::cp10::print();
+    pal::cpacr::cp10::print(value);
 }

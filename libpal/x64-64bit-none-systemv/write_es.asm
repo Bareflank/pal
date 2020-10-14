@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global write_es_x64_64bit_none_systemv 
-write_es_x64_64bit_none_systemv :
+global pal_execute_write_es
+pal_execute_write_es :
     xor rax, rax
     mov es, di
     ret

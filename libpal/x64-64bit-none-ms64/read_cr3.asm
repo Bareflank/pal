@@ -1,8 +1,8 @@
 .code
 
-read_cr3_x64_64bit_none_ms64 proc
+pal_execute_read_cr3 proc
     mov rax, cr3;
     ret;
-read_cr3_x64_64bit_none_ms64 endp
+pal_execute_read_cr3 endp
 
 end

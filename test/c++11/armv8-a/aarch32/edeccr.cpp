@@ -19,8 +19,8 @@ void test_edeccr_compile(void)
     pal::edeccr::fieldset_1::nse_n_::set(0x0, value);
 
     // Printers
-    pal::edeccr::fieldset_1::dump();
-    pal::edeccr::fieldset_1::dump(value);
-    pal::edeccr::fieldset_1::nse_n_::dump();
-    pal::edeccr::fieldset_1::nse_n_::dump(value);
+    pal::edeccr::fieldset_1::print();
+    pal::edeccr::fieldset_1::print(value);
+    pal::edeccr::fieldset_1::nse_n_::print();
+    pal::edeccr::fieldset_1::nse_n_::print(value);
 }

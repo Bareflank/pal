@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global lidt_x64_64bit_none_systemv 
-lidt_x64_64bit_none_systemv :
+global pal_execute_lidt
+pal_execute_lidt :
     lidt [rdi]
     ret

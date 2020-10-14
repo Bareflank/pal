@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global write_cs_x64_64bit_none_systemv 
-write_cs_x64_64bit_none_systemv :
+global pal_execute_write_cs
+pal_execute_write_cs :
     ; The added 0x48 is an undocumented issue with NASM. Basically, even though
     ; BITS 64 is used, and we are compiling for 64bit, NASM does not add the
     ; REX prefix to the retf instruction. As a result, we need to hand jam it

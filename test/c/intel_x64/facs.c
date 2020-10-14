@@ -25,11 +25,11 @@ void test_facs_compile(void)
     pal_facs_version_version_set_from_value(0x0, value);
 
     // Printers
-    pal_facs_version_dump();
-    pal_facs_version_dump_from_value(value);
-    pal_facs_flags_s4bios_f_dump();
-    pal_facs_flags_s4bios_f_dump_from_value(value);
-    pal_facs_version_version_dump();
-    pal_facs_version_version_dump_from_value(value);
+    pal_facs_version_print();
+    pal_facs_version_print_from_value(value);
+    pal_facs_flags_s4bios_f_print();
+    pal_facs_flags_s4bios_f_print_from_value(value);
+    pal_facs_version_version_print();
+    pal_facs_version_version_print_from_value(value);
 }
 

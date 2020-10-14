@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global read_cs_x64_64bit_none_systemv 
-read_cs_x64_64bit_none_systemv :
+global pal_execute_read_cs
+pal_execute_read_cs :
     xor rax, rax
     mov ax, cs
     ret

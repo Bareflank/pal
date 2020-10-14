@@ -55,17 +55,12 @@ def namespace(decorated):
 
         lines = contents.getvalue().splitlines()
 
-        if len(lines) == 1:
-            outfile.write(" ")
-            outfile.write(lines[0])
-            outfile.write(" ")
-
-        elif len(lines) > 1:
-            for line in lines:
-                writer.write_indent(outfile, count=properties.indent)
-                if properties.indent_contents:
-                    outfile.write("    ")
-                outfile.write(line + "\n")
+        for line in lines:
+            writer.write_indent(outfile, count=properties.indent)
+            if properties.indent_contents:
+                writer.write_indent(outfile)
+            outfile.write(line)
+            writer.write_newline(outfile)
 
         writer.write_indent(outfile, count=properties.indent)
         outfile.write("}")

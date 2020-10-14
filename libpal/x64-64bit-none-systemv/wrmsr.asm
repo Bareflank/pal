@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global wrmsr_x64_64bit_none_systemv 
-wrmsr_x64_64bit_none_systemv :
+global pal_execute_wrmsr 
+pal_execute_wrmsr :
     mov rax, rsi
     mov rdx, rsi
     shr rdx, 32

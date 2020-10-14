@@ -21,10 +21,10 @@ void test_ia32_feature_control_compile(void)
     pal::ia32_feature_control::senter_local_function_enable::set(0x0, value);
 
     // Printers
-    pal::ia32_feature_control::dump();
-    pal::ia32_feature_control::dump(value);
-    pal::ia32_feature_control::enable_vmx_inside_smx::dump();
-    pal::ia32_feature_control::enable_vmx_inside_smx::dump(value);
-    pal::ia32_feature_control::senter_local_function_enable::dump();
-    pal::ia32_feature_control::senter_local_function_enable::dump(value);
+    pal::ia32_feature_control::print();
+    pal::ia32_feature_control::print(value);
+    pal::ia32_feature_control::enable_vmx_inside_smx::print();
+    pal::ia32_feature_control::enable_vmx_inside_smx::print(value);
+    pal::ia32_feature_control::senter_local_function_enable::print();
+    pal::ia32_feature_control::senter_local_function_enable::print(value);
 }

@@ -1,8 +1,8 @@
 .code
 
-write_cr8_x64_64bit_none_ms64  proc
+pal_execute_write_cr8 proc
     mov cr8, rcx;
     ret;
-write_cr8_x64_64bit_none_ms64  endp
+pal_execute_write_cr8 endp
 
 end

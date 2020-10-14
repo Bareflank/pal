@@ -20,10 +20,10 @@ void test_leaf_04_compile(void)
     pal::leaf_04_eax::cache_type::get(eax);
 
     // Printers
-    pal::leaf_04_eax::dump_at_index(1);
-    pal::leaf_04_eax::dump(eax);
-    pal::leaf_04_eax::self_initializing_cache_level::dump_at_index(1);
-    pal::leaf_04_eax::self_initializing_cache_level::dump(eax);
-    pal::leaf_04_eax::cache_type::dump_at_index(1);
-    pal::leaf_04_eax::cache_type::dump(eax);
+    pal::leaf_04_eax::print_at_index(1);
+    pal::leaf_04_eax::print(eax);
+    pal::leaf_04_eax::self_initializing_cache_level::print_at_index(1);
+    pal::leaf_04_eax::self_initializing_cache_level::print(eax);
+    pal::leaf_04_eax::cache_type::print_at_index(1);
+    pal::leaf_04_eax::cache_type::print(eax);
 }

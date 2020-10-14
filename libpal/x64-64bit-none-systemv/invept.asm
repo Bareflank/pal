@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global invept_x64_64bit_none_systemv
-invept_x64_64bit_none_systemv :
+global pal_execute_invept
+pal_execute_invept :
     invept rdi, [rsi]
     ret

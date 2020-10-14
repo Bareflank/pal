@@ -7,15 +7,3 @@
         logical_outputs:
             - name: value
               type: uint64
-
-      - execution_state: compatibility
-
-        logical_outputs:
-            - name: value
-              type: uint32
-
-      - execution_state: protected
-
-        logical_outputs:
-            - name: value
-              type: uint32

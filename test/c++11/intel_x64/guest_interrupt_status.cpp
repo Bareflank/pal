@@ -13,8 +13,8 @@ void test_guest_interrupt_status_compile(void)
     pal::guest_interrupt_status::rvi::set(0x0, value);
 
     // Printers
-    pal::guest_interrupt_status::dump();
-    pal::guest_interrupt_status::dump(value);
-    pal::guest_interrupt_status::rvi::dump();
-    pal::guest_interrupt_status::rvi::dump(value);
+    pal::guest_interrupt_status::print();
+    pal::guest_interrupt_status::print(value);
+    pal::guest_interrupt_status::rvi::print();
+    pal::guest_interrupt_status::rvi::print(value);
 }

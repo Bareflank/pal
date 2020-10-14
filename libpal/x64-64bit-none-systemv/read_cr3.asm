@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global read_cr3_x64_64bit_none_systemv 
-read_cr3_x64_64bit_none_systemv :
+global pal_execute_read_cr3 
+pal_execute_read_cr3 :
     mov rax, cr3
     ret
