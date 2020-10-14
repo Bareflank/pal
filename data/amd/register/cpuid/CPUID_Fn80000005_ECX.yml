@@ -1,0 +1,64 @@
+- name: CPUID_Fn80000005_ECX
+  long_name: "L1 Data Cache Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000005_ECX [L1 Data Cache Identifiers] (Core::X86::Cpuid::L1DcId)
+    
+    Read-only
+
+    This function provides first level cache characteristics for each core.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000005
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L1DcLineSize
+              long_name: L1 data cache line size in bytes
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+            
+            - name: L1DcLinesPerTag
+              long_name: L1 data cache lines per tag
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,01h
+                  "
+            
+            - name: L1DcAssoc
+              long_name: L1 data cache associativity
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,8.
+                  "
+            
+            - name: L1DcSize 
+              long_name: L1 data cache size in KB
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,32.
+                  "

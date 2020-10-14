@@ -1,0 +1,32 @@
+- name: CPUID_Fn8000001F_ECX
+  long_name: "AMD Secure Encryption ECX"
+  purpose: |
+    "
+    CPUID_Fn8000001F_ECX [AMD Secure Encryption ECX] (Core::X86::Cpuid::SecureEncryptionEcx)
+    
+    Read-only. Reset: 0000_000Fh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x8000001F
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: NumEncryptedGuests
+              long_name: NumEncryptedGuests
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 0000_000Fh. Number of encrypted guests supported simultaneously.
+                  "

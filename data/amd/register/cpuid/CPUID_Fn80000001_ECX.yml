@@ -1,0 +1,267 @@
+- name: CPUID_Fn80000001_ECX
+  long_name: "Feature Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000001_ECX [Feature Identifiers] (Core::X86::Cpuid::FeatureExtIdEcx)
+    
+    Read-only.
+
+    These values can be over-written by Core::X86::Msr::CPUID_ExtFeatures.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000001
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: LahfSahf
+              long_name: LAHF/SAHF instructions
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: CmpLegacy
+              long_name: core multi-processing legacy mode
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,(Core::X86::Cpuid::SizeId[NC] > 0).
+
+                  0=Single core product (Core::X86::Cpuid::SizeId[NC] == 0). 1=Multi core product
+                  (Core::X86::Cpuid::SizeId[NC] !=0 ).
+                  "
+
+            - name: SVM
+              long_name: Secure Virtual Mode feature
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. Indicates support for: VMRUN, VMLOAD,
+                  VMSAVE, CLGI, VMMCALL, and INVLPGA.
+                  "
+
+            - name: ExtApicSpace
+              long_name: extended APIC register space
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: AltMovCr8
+              long_name: LOCK MOV CR0 means MOV CR8
+              lsb: 4
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1
+                  "
+
+            - name: ABM
+              long_name: advanced bit manipulation
+              lsb: 5
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. LZCNT instruction support.
+                  "
+
+            - name: SSE4A
+              long_name: EXTRQ, INSERTQ, MOVNTSS, and MOVNTSD instruction support
+              lsb: 6
+              msb: 6
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: MisAlignSse
+              long_name: Misaligned SSE Mode
+              lsb: 7
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: ThreeDNowPrefetch
+              long_name: Prefetch and PrefetchW instructions
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: OSVW
+              long_name: OS Visible Work-around support
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: IBS
+              long_name: Instruction Based Sampling
+              lsb: 10
+              msb: 10
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 0.
+                  "
+
+            - name: XOP
+              long_name: extended operation support
+              lsb: 11
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+
+            - name: SKINIT
+              long_name: SKINIT and STGI support
+              lsb: 12
+              msb: 12
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: WDT
+              long_name: watchdog timer support
+              lsb: 13
+              msb: 13
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: LWP
+              long_name: lightweight profiling support
+              lsb: 15
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+
+            - name: FMA4
+              long_name: 4-operand FMA instruction support
+              lsb: 16
+              msb: 16
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+
+            - name: TCE
+              long_name: translation cache extension
+              lsb: 17
+              msb: 17
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: TopologyExtensions
+              long_name: topology extensions support
+              lsb: 22
+              msb: 22
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Indicates support for
+                  Core::X86::Cpuid::CachePropEax0 and Core::X86::Cpuid::ExtApicId.
+                  "
+
+            - name: PerfCtrExtCore
+              long_name: core performance counter extensions support
+              lsb: 23
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Indicates
+                  support for Core::X86::Msr::PERF_CTL and Core::X86::Msr::PERF_CTR. See See 2.1.11.3 [Core Performance
+                  Monitor Counters] and 2.1.11 [Performance Monitor Counters].
+                  "
+
+            - name: DataBreakpointExtension
+              long_name: DataBreakpointExtension
+              lsb: 26
+              msb: 26
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Indicates data breakpoint support for
+                  Core::X86::Msr::DR0_ADDR_MASK, Core::X86::Msr::DR1_ADDR_MASK,
+                  Core::X86::Msr::DR2_ADDR_MASK and Core::X86::Msr::DR3_ADDR_MASK.
+                  "
+
+            - name: PerfTsc
+              long_name: performance time-stamp counter supported
+              lsb: 27
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0
+                  "
+
+            - name: PerfCtrExtLLC
+              long_name: Last Level Cache performance counter extensions
+              lsb: 28
+              msb: 28
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Indicates
+                  support for Core::X86::Msr::ChL3PmcCfg and Core::X86::Msr::ChL3Pmc L3 performance counter extensions.
+                  L3 performance counter extensions support. See 2.1.11.4 [L3 Cache Performance Monitor Counters] and 2.1.11
+                  [Performance Monitor Counters]
+                  "
+
+            - name: MwaitExtended
+              long_name: MwaitExtended
+              lsb: 29
+              msb: 29
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: !Core::X86::Msr::HWCR[MonMwaitDis]. 1=MWAITX and MONITORX
+                  capability is supported
+                  "

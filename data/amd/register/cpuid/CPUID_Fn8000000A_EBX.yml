@@ -1,0 +1,35 @@
+- name: CPUID_Fn8000000A_EBX
+  long_name: "SVM Revision and Feature Identification"
+  purpose: |
+    "
+    CPUID_Fn8000000A_EBX [SVM Revision and Feature Identification] (Core::X86::Cpuid::SvmRevFeatIdEbx)
+
+    Read-only. Reset: 0000_0001h.
+
+    This provides SVM revision. If (Core::X86::Cpuid::FeatureExtIdEcx[SVM] == 0) then 
+    Core::X86::Cpuid::SvmRevFeatIdEax is reserved.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x8000000A
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: NASID
+              long_name: umber of address space identifiers (ASID)
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only,Volatile. Reset: 0000_8000h.
+                  "

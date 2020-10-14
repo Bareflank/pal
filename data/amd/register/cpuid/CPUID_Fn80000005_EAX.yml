@@ -1,0 +1,68 @@
+- name: CPUID_Fn80000005_EAX
+  long_name: "L1 TLB 2M/4M Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000005_EAX [L1 TLB 2M/4M Identifiers] (Core::X86::Cpuid::L1Tlb2M4M)
+    
+    Read-only
+
+    This function provides the processor's first level cache and TLB characteristics for each core.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000005
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L1ITlb2and4MSize
+              long_name: instruction TLB number of entries for 2 MB and 4 MB pages
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: 
+                  Fixed,64. The value returned is for the number of entries available for the 2 MB page size; 4 MB pages require 
+                  two 2 MB entries, so the number of entries available for the 4 MB page size is one-half the returned value.
+                  "
+            
+            - name: L1ITlb2and4MAssoc
+              long_name: instruction TLB associativity for 2 MB and 4 MB pages
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,FFh. See Core::X86::Cpuid::L1DcId[L1DcAssoc].
+                  "
+            
+            - name: L1DTlb2and4MSize
+              long_name: data TLB number of entries for 2 MB and 4 MB pages.
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64. 
+                  The value returned is for the number of entries available for the 2 MB page size; 4 MB pages require two 2 MB 
+                  entries, so the number of entries available for the 4 MB page size is one-half the returned value.
+                  "
+            
+            - name: L1DTlb2and4MAssoc 
+              long_name: data TLB associativity for 2 MB and 4 MB pages
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,FFh. See Core::X86::Cpuid::L1DcId[L1DcAssoc].
+                  "

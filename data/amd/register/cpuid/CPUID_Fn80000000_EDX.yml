@@ -1,0 +1,35 @@
+- name: CPUID_Fn80000000_EDX
+  long_name: "Processor Vendor (ASCII Bytes [7:4])"
+  purpose: |
+    "
+    CPUID_Fn80000000_EDX [Processor Vendor (ASCII Bytes [7:4])] (Core::X86::Cpuid::ProcVendExtEdx)
+
+    Read-only. Reset: 6974_6E65h.
+
+    Core::X86::Cpuid::ProcVendEdx and Core::X86::Cpuid::ProcVendExtEdx return the same value.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000000
+        output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: vender
+              long_name: vendor
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,6974_6E65h. ASCII Bytes [7:4] (“i t n e") of the string “AuthenticAMD".
+                  "
+              

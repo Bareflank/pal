@@ -1,0 +1,64 @@
+- name: CPUID_Fn80000006_EDX
+  long_name: "L3 Cache Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000006_EDX [L3 Cache Identifiers] (Core::X86::Cpuid::L3CacheId)
+    
+    Read-only
+
+    This function provides third level cache characteristics shared by all cores of a processor.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000006
+        output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L3LineSize
+              long_name: L3 cache line size in bytes
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+            
+            - name: L3LinesPerTag
+              long_name: L3 cache lines per tag
+              lsb: 8
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1h.
+                  "
+            
+            - name: L3Assoc
+              long_name: L3 cache associativity
+              lsb: 12
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Xh.
+                  "
+            
+            - name: L3Size
+              long_name: L3 cache size
+              lsb: 18
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXXXh. The L3 cache size in 512 KB units.
+                  "

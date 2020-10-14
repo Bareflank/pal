@@ -1,0 +1,27 @@
+- name: CPUID_Fn00000007_EDX
+  long_name: "Structured Extended Feature Identifiers"
+  purpose: |
+    "
+    CPUID_Fn00000007_EDX_x00 [Structured Extended Feature Identifiers] (Core::X86::Cpuid::StructExtFeatIdEdx0)
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x00000007
+        output: edx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: Reserved
+              long_name: Reserved
+              lsb: 0
+              msb: 31
+              
