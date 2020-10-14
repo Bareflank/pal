@@ -37,6 +37,7 @@ from pal.writer.comment.yaml import YamlCommentWriter
 from pal.writer.comment.none import NoneCommentWriter
 
 from pal.writer.instruction.libpal_c import LibpalCInstructionWriter
+from pal.writer.instruction.libpal_cxx11 import LibpalCxx11InstructionWriter
 from pal.writer.instruction.none import NoneInstructionWriter
 
 language_options = [
@@ -105,6 +106,8 @@ def get_register_writer(config):
 def get_instruction_writer(config):
     if config.language == "c":
         return LibpalCInstructionWriter
+    elif config.language == "c++11":
+        return LibpalCxx11InstructionWriter
     else:
         return NoneInstructionWriter
 
