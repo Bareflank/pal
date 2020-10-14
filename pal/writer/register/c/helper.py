@@ -43,11 +43,11 @@ class CHelperWriter():
         self.write_newline(outfile)
 
     def _declare_hex_integer_constant(self, outfile, name, value):
-        outfile.write("const uintptr_t " + str(name) + " = " +
+        outfile.write("static const uintptr_t " + str(name) + " = " +
                       str(hex(value)) + ";")
 
     def _declare_string_constant(self, outfile, name, value):
-        outfile.write('const char *' + str(name) + ' = "' +
+        outfile.write('static const char *' + str(name) + ' = "' +
                       str(value) + '";')
 
     def _register_read_function_name(self, register):

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(pal NONE)
+project(pal C CXX)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
@@ -39,6 +39,7 @@ add_subdirectory(libpal)
 add_library(pal INTERFACE)
 add_dependencies(pal pal_generate)
 target_include_directories(pal INTERFACE ${PAL_OUTPUT_DIR})
+target_link_libraries(pal INTERFACE libpal)
 
 set(CMAKE_INSTALL_MESSAGE NEVER)
 install(

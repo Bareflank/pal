@@ -21,26 +21,11 @@ class CxxHeaderGenerator(AbstractGenerator):
             regs = transforms["special_to_underscore"].transform(regs)
             regs = transforms["insert_valid_first_character"].transform(regs)
 
-            logger.info("Generating outputs to: " + str(outpath))
+            logger.info("Generating C++ header file registers to: " + str(outpath))
 
             for reg in regs:
                 include_guard = "PAL_" + reg.name.upper() + "_H"
                 self.gadgets["pal.include_guard"].name = include_guard
-                self.gadgets["pal.header_depends"].includes = [
-                    "<stdint.h>"
-                ]
-
-                if config.print_mechanism == "printf_utf8":
-                    self.gadgets["pal.header_depends"].includes.extend([
-                        "<stdio.h>",
-                        "<inttypes.h>"
-                    ])
-
-                if config.access_mechanism == "libpal":
-                    self.gadgets["pal.header_depends"].includes.extend([
-                        "<libpal.h>",
-                        "<string.h>", # for memset
-                    ])
 
                 outfile_path = os.path.join(outpath, reg.name.lower() + ".h")
                 outfile_path = os.path.abspath(outfile_path)
@@ -59,8 +44,26 @@ class CxxHeaderGenerator(AbstractGenerator):
             raise PalGeneratorException(msg)
 
     def generate_instructions(self, instructions, outpath):
-        # TODO: Implement C++ instruction API generation
-        pass
+        try:
+            logger.info("Generating C++ header file instructions to: " + str(outpath))
+
+            for inst in instructions:
+                include_guard = "PAL_EXECUTE_" + inst.name.upper() + "_H"
+                self.gadgets["pal.include_guard"].name = include_guard
+
+                outfile_path = os.path.join(outpath, inst.name.lower() + ".h")
+                outfile_path = os.path.abspath(outfile_path)
+
+                with open(outfile_path, "w") as outfile:
+                    self.gadgets["pal.cxx.namespace"].name = "pal"
+                    self._generate_instruction(outfile, inst)
+
+        except Exception as e:
+            msg = "{g} failed to generate output {out}: {exception}".format(
+                g=str(type(self).__name__),
+                out=outpath,
+                exception=e)
+            raise PalGeneratorException(msg)
 
     # -------------------------------------------------------------------------
     # private
@@ -68,17 +71,36 @@ class CxxHeaderGenerator(AbstractGenerator):
 
     @pal.gadget.license
     @pal.gadget.include_guard
-    @pal.gadget.header_depends
-    @pal.gadget.cxx.namespace
     def _generate_register(self, outfile, reg):
         self.writer.declare_register_dependencies(outfile, reg)
-        self.writer.write_newline(outfile)
+        self.writer.declare_print_mechanism_dependencies(outfile, reg)
 
+        for am_key, am_list in reg.access_mechanisms.items():
+            for am in am_list:
+                self.writer.declare_access_mechanism_dependencies(outfile, reg, am)
+
+        self.writer.write_newline(outfile)
+        self._generate_register_namespace(outfile, reg)
+
+    @pal.gadget.cxx.namespace
+    def _generate_register_namespace(self, outfile, reg):
         self._generate_register_comment(outfile, reg)
 
         self.gadgets["pal.cxx.namespace"].name = reg.name.lower()
         self.gadgets["pal.cxx.namespace"].indent_contents = True
         self._generate_register_accessors(outfile, reg)
+
+    @pal.gadget.license
+    @pal.gadget.include_guard
+    def _generate_instruction(self, outfile, inst):
+        self.writer.declare_instruction_dependencies(outfile, inst)
+        self.writer.write_newline(outfile)
+        self._generate_instruction_namespace(outfile, inst)
+
+    @pal.gadget.cxx.namespace
+    def _generate_instruction_namespace(self, outfile, inst):
+        self.writer.declare_instruction_accessor(outfile, inst)
+        self.writer.write_newline(outfile)
 
     def _generate_register_comment(self, outfile, reg):
         comment = "{name} ({long_name}){separator}{purpose}".format(
