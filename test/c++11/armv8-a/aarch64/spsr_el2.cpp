@@ -21,10 +21,10 @@ void test_spsr_el2_compile(void)
     pal::spsr_el2::fieldset_1::ge::set(0x0, value);
 
     // Printers
-    pal::spsr_el2::fieldset_1::dump();
-    pal::spsr_el2::fieldset_1::dump(value);
-    pal::spsr_el2::fieldset_1::t::dump();
-    pal::spsr_el2::fieldset_1::t::dump(value);
-    pal::spsr_el2::fieldset_1::ge::dump();
-    pal::spsr_el2::fieldset_1::ge::dump(value);
+    pal::spsr_el2::fieldset_1::print();
+    pal::spsr_el2::fieldset_1::print(value);
+    pal::spsr_el2::fieldset_1::t::print();
+    pal::spsr_el2::fieldset_1::t::print(value);
+    pal::spsr_el2::fieldset_1::ge::print();
+    pal::spsr_el2::fieldset_1::ge::print(value);
 }

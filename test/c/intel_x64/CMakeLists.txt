@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(c-x86_64-linux-gnu-gcc C)
 
-set(SOURCES
+set(REGISTER_SOURCES
     cr3.c
     xcr0.c
     ia32_feature_control.c
@@ -12,6 +12,13 @@ set(SOURCES
     guest_interrupt_status.c
     # facs.c
     main.c
+)
+
+set(INSTRUCTION_SOURCES
+    cpuid.c
+    rdmsr.c
+    read_cr3.c
+    write_cr3.c
 )
 
 # -----------------------------------------------------------------------------
@@ -30,12 +37,12 @@ add_custom_command(
         --acpi=ON
     COMMAND cmake -E touch ${INTEL_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${INTEL_SYNTAX_OUTPUT_STAMP}
-    DEPENDS ${PAL_SRC_FILES}
+    DEPENDS ${REGISTER_SOURCES}
 )
 add_custom_target(test_generate_x86_64_intel_asm ALL DEPENDS ${INTEL_SYNTAX_OUTPUT_STAMP})
 
 add_executable(test_compile_x86_64_intel_asm
-    ${SOURCES}
+    ${REGISTER_SOURCES}
 )
 
 target_include_directories(test_compile_x86_64_intel_asm
@@ -66,12 +73,12 @@ add_custom_command(
         --acpi=ON
     COMMAND cmake -E touch ${ATT_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${ATT_SYNTAX_OUTPUT_STAMP}
-    DEPENDS ${PAL_SRC_FILES}
+    DEPENDS ${REGISTER_SOURCES}
 )
 add_custom_target(test_generate_x86_64_att_asm ALL DEPENDS ${ATT_SYNTAX_OUTPUT_STAMP})
 
 add_executable(test_compile_x86_64_att_asm
-    ${SOURCES}
+    ${REGISTER_SOURCES}
 )
 
 target_include_directories(test_compile_x86_64_att_asm
@@ -86,3 +93,37 @@ target_compile_options(test_compile_x86_64_att_asm
 
 install(TARGETS test_compile_x86_64_att_asm DESTINATION bin)
 add_dependencies(test_compile_x86_64_att_asm test_generate_x86_64_att_asm)
+
+# -----------------------------------------------------------------------------
+# Generate and compile using libpal
+# -----------------------------------------------------------------------------
+set(LIBPAL_SYNTAX_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/libpal_output.stamp)
+add_custom_command(
+    COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
+        -o ${CMAKE_INSTALL_PREFIX}/libpal/pal
+        --execution_state=intel_64bit
+        --language=c
+        --access_mechanism=libpal
+        --print_mechanism=printf_utf8
+        --file_format=unix
+        COMMAND cmake -E touch ${LIBPAL_SYNTAX_OUTPUT_STAMP}
+        OUTPUT ${LIBPAL_SYNTAX_OUTPUT_STAMP}
+        DEPENDS ${REGISTER_SOURCES}
+)
+add_custom_target(test_generate_x86_64_libpal ALL DEPENDS ${LIBPAL_SYNTAX_OUTPUT_STAMP})
+
+add_executable(test_compile_x86_64_libpal
+    ${REGISTER_SOURCES}
+    ${INSTRUCTION_SOURCES}
+)
+
+target_include_directories(test_compile_x86_64_libpal
+    PRIVATE
+        ${CMAKE_INSTALL_PREFIX}/libpal
+)
+
+add_subdirectory(${PAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/libpal)
+target_link_libraries(test_compile_x86_64_libpal libpal)
+
+install(TARGETS test_compile_x86_64_libpal DESTINATION bin)
+add_dependencies(test_compile_x86_64_libpal test_generate_x86_64_libpal)

@@ -21,10 +21,10 @@ void test_eptp_compile(void)
     pal::eptp::ept_pml4_table::set(0x0, value);
 
     // Printers
-    pal::eptp::dump();
-    pal::eptp::dump(value);
-    pal::eptp::bit_6::dump();
-    pal::eptp::bit_6::dump(value);
-    pal::eptp::ept_pml4_table::dump();
-    pal::eptp::ept_pml4_table::dump(value);
+    pal::eptp::print();
+    pal::eptp::print(value);
+    pal::eptp::bit_6::print();
+    pal::eptp::bit_6::print(value);
+    pal::eptp::ept_pml4_table::print();
+    pal::eptp::ept_pml4_table::print(value);
 }

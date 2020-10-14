@@ -20,10 +20,10 @@ void test_leaf_0d_compile(void)
     pal::leaf_0d_eax::subleaf_0::mpx_state::get(eax);
 
     // Printers
-    pal::leaf_0d_eax::subleaf_0::dump_at_index(1);
-    pal::leaf_0d_eax::subleaf_0::dump(eax);
-    pal::leaf_0d_eax::subleaf_0::sse_state::dump_at_index(1);
-    pal::leaf_0d_eax::subleaf_0::sse_state::dump(eax);
-    pal::leaf_0d_eax::subleaf_0::mpx_state::dump_at_index(1);
-    pal::leaf_0d_eax::subleaf_0::mpx_state::dump(eax);
+    pal::leaf_0d_eax::subleaf_0::print_at_index(1);
+    pal::leaf_0d_eax::subleaf_0::print(eax);
+    pal::leaf_0d_eax::subleaf_0::sse_state::print_at_index(1);
+    pal::leaf_0d_eax::subleaf_0::sse_state::print(eax);
+    pal::leaf_0d_eax::subleaf_0::mpx_state::print_at_index(1);
+    pal::leaf_0d_eax::subleaf_0::mpx_state::print(eax);
 }

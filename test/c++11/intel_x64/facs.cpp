@@ -28,10 +28,10 @@ void test_facs_compile(void)
     pal::facs_version::version::set(0x0, value);
 
     // Printers
-    pal::facs_version::dump();
-    pal::facs_version::dump(value);
-    pal::facs_flags::s4bios_f::dump();
-    pal::facs_flags::s4bios_f::dump(value);
-    pal::facs_version::version::dump();
-    pal::facs_version::version::dump(value);
+    pal::facs_version::print();
+    pal::facs_version::print(value);
+    pal::facs_flags::s4bios_f::print();
+    pal::facs_flags::s4bios_f::print(value);
+    pal::facs_version::version::print();
+    pal::facs_version::version::print(value);
 }

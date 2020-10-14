@@ -27,10 +27,10 @@ void test_gich_vmcr_compile(void)
     pal::gich_vmcr::vbpr1::set(0x0, value);
 
     // Printers
-    pal::gich_vmcr::dump();
-    pal::gich_vmcr::dump(value);
-    pal::gich_vmcr::veng1::dump();
-    pal::gich_vmcr::veng1::dump(value);
-    pal::gich_vmcr::vbpr1::dump();
-    pal::gich_vmcr::vbpr1::dump(value);
+    pal::gich_vmcr::print();
+    pal::gich_vmcr::print(value);
+    pal::gich_vmcr::veng1::print();
+    pal::gich_vmcr::veng1::print(value);
+    pal::gich_vmcr::vbpr1::print();
+    pal::gich_vmcr::vbpr1::print(value);
 }
