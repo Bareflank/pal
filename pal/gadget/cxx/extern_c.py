@@ -6,48 +6,40 @@ from pal.gadget.gadget_properties import GadgetProperties
 
 @dataclass
 class properties(GadgetProperties):
-    """ Properties of the namespace gadget """
+    """ Properties of the extern_c gadget """
 
-    gadget_name: str = "pal.cxx.namespace"
+    gadget_name: str = "pal.cxx.extern_c"
     """ Name of the gadget these properties apply to """
-
-    name: str = "pal"
-    """ The name of the C++ namespace to generate """
 
     indent: int = 0
     """ The indentation level to generate at """
 
     indent_contents: bool = True
-    """ Set True to indent namespace contents one level above definition """
+    """ Set True to indent extern C contents one level above definition """
 
-def namespace(decorated):
+def extern_c(decorated):
     """
-    A decorator gadget that generates a C++ namespace
+    A decorator gadget that generates a C++ extern "C" {} block
 
     Usage:
-        properties.name = "my::cxx::namespace"
+        properties.name = "my::cxx::extern_c"
 
-        @namespace
+        @extern_c
         function(generator, outfile, ...):
-            outfile.write("contents inside generated namespace")
+            outfile.write("contents inside generated extern C block")
 
     Generates:
-        namespace my::cxx:namespace
-        {
-            contents inside generated namespace
+        extern "C" {
+            contents inside generated extern C block
         }
     """
-    def namespace_decorator(generator, outfile, *args, **kwargs):
-        properties = generator.gadgets["pal.cxx.namespace"]
+    def extern_c_decorator(generator, outfile, *args, **kwargs):
+        properties = generator.gadgets["pal.cxx.extern_c"]
         writer = generator.get_writer()
 
         writer.write_indent(outfile, count=properties.indent)
 
-        outfile.write("namespace " + str(properties.name))
-        writer.write_newline(outfile)
-
-        writer.write_indent(outfile, count=properties.indent)
-        outfile.write("{")
+        outfile.write("extern \"C\" {")
         writer.write_newline(outfile)
 
         contents = io.StringIO()
@@ -58,7 +50,7 @@ def namespace(decorated):
         for line in lines:
             writer.write_indent(outfile, count=properties.indent)
             if properties.indent_contents:
-                writer.write_indent(outfile)
+                writer.write_indent(outfile, count=1)
             outfile.write(line)
             writer.write_newline(outfile)
 
@@ -66,4 +58,4 @@ def namespace(decorated):
         outfile.write("}")
         writer.write_newline(outfile)
 
-    return namespace_decorator
+    return extern_c_decorator
