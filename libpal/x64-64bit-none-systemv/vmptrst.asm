@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global vmptrst_x64_64bit_none_systemv 
-vmptrst_x64_64bit_none_systemv :
+global pal_execute_vmptrst
+pal_execute_vmptrst :
     vmptrst [rdi]
     ret

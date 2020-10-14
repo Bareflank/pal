@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global bsr_x64_64bit_none_systemv 
-bsr_x64_64bit_none_systemv :
+global pal_execute_bsr 
+pal_execute_bsr :
     bsr rax, rdi
     ret

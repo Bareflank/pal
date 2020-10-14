@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global write_gs_x64_64bit_none_systemv 
-write_gs_x64_64bit_none_systemv :
+global pal_execute_write_gs
+pal_execute_write_gs :
     mov gs, di
     ret

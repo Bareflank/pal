@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global read_cr8_x64_64bit_none_systemv 
-read_cr8_x64_64bit_none_systemv :
+global pal_execute_read_cr8 
+pal_execute_read_cr8 :
     mov rax, cr8
     ret

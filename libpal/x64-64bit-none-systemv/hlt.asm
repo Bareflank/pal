@@ -3,6 +3,6 @@ default rel
 
 section .text
 
-global hlt_x64_64bit_none_systemv 
-hlt_x64_64bit_none_systemv :
+global pal_execute_hlt
+pal_execute_hlt :
     hlt

@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global rdtscp_x64_64bit_none_systemv 
-rdtscp_x64_64bit_none_systemv :
+global pal_execute_rdtscp
+pal_execute_rdtscp :
     push rbx
 
     rdtscp

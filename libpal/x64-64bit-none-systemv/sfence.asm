@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global sfence_x64_64bit_none_systemv 
-sfence_x64_64bit_none_systemv :
+global pal_execute_sfence
+pal_execute_sfence :
     sfence
     ret

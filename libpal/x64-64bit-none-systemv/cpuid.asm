@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global cpuid_x64_64bit_none_systemv 
-cpuid_x64_64bit_none_systemv :
+global pal_execute_cpuid 
+pal_execute_cpuid :
     mov rax, rdi
     mov rcx, rsi
 

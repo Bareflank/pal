@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global read_rflags_x64_64bit_none_systemv 
-read_rflags_x64_64bit_none_systemv :
+global pal_execute_read_rflags
+pal_execute_read_rflags :
     pushfq
     pop rax
     ret

@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global write_cr4_x64_64bit_none_systemv 
-write_cr4_x64_64bit_none_systemv :
+global pal_execute_write_cr4 
+pal_execute_write_cr4 :
     mov cr4, rdi
     ret

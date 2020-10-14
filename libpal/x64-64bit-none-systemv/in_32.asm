@@ -3,8 +3,8 @@ default rel
 
 section .text
 
-global in_32_x64_64bit_none_systemv 
-in_32_x64_64bit_none_systemv :
+global pal_execute_in_32 
+pal_execute_in_32 :
     xor rax, rax
     mov rdx, rdi
     in eax, dx

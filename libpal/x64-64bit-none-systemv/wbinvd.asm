@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global wbinvd_x64_64bit_none_systemv 
-wbinvd_x64_64bit_none_systemv :
+global pal_execute_wbinvd
+pal_execute_wbinvd :
     wbinvd
     ret

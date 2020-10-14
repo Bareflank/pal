@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global lfence_x64_64bit_none_systemv 
-lfence_x64_64bit_none_systemv :
+global pal_execute_lfence
+pal_execute_lfence :
     lfence
     ret

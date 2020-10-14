@@ -1,12 +1,6 @@
 .code
 
-; The C function signature looks like:
-;     pal_cpuid_register_values pal_execute_cpuid(uint32_t,uint32_t)
-; where pal_cpuid_register_values is 16 bytes (4 32-bit integers).
-;
-; A struct pointer is given in rcx. The first and second integer
-; arguments are passed into rdx and r8, respectively.
-cpuid_x64_64bit_none_ms64  proc
+pal_execute_cpuid proc
 	push rcx;
 
 	mov eax, edx;
@@ -24,6 +18,6 @@ cpuid_x64_64bit_none_ms64  proc
 
 	ret;
 
-cpuid_x64_64bit_none_ms64  endp
+pal_execute_cpuid endp
 
 end

@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global vmread_x64_64bit_none_systemv 
-vmread_x64_64bit_none_systemv :
+global pal_execute_vmread 
+pal_execute_vmread :
     vmread [rsi], rdi
     ret

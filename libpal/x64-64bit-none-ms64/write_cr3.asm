@@ -1,8 +1,8 @@
 .code
 
-write_cr3_x64_64bit_none_ms64  proc
+pal_execute_write_cr3 proc
     mov cr3, rcx;
     ret;
-write_cr3_x64_64bit_none_ms64  endp
+pal_execute_write_cr3 endp
 
 end

@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global mfence_x64_64bit_none_systemv 
-mfence_x64_64bit_none_systemv :
+global pal_execute_mfence
+pal_execute_mfence :
     mfence
     ret

@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global popcnt_x64_64bit_none_systemv 
-popcnt_x64_64bit_none_systemv :
+global pal_execute_popcnt
+pal_execute_popcnt :
     popcnt rax, rdi
     ret

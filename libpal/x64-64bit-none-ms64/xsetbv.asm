@@ -1,6 +1,6 @@
 .code
 
-xsetbv_x64_64bit_none_ms64 proc
+pal_execute_xsetbv proc
     ; The address is already loaded in rcx because
     ; it is the first integer argument. The value to
     ; write is in rdx. We need that to be in edx:eax.
@@ -10,6 +10,6 @@ xsetbv_x64_64bit_none_ms64 proc
 
     ret;
 
-xsetbv_x64_64bit_none_ms64 endp
+pal_execute_xsetbv endp
 
 end

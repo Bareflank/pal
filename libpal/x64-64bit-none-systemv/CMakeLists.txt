@@ -2,6 +2,10 @@ enable_language(ASM_NASM)
 
 add_library(pal_x64_64bit_none_systemv)
 
+target_compile_options(pal_x64_64bit_none_systemv PRIVATE
+    "-f elf64"
+)
+
 target_sources(pal_x64_64bit_none_systemv PRIVATE
     bsf.asm
     bsr.asm

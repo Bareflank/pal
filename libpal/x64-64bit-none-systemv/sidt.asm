@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global sidt_x64_64bit_none_systemv 
-sidt_x64_64bit_none_systemv :
+global pal_execute_sidt
+pal_execute_sidt :
     sidt [rdi]
     ret

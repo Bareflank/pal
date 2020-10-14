@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global invlpg_x64_64bit_none_systemv
-invlpg_x64_64bit_none_systemv :
+global pal_execute_invlpg
+pal_execute_invlpg :
     invlpg [rdi]
     ret

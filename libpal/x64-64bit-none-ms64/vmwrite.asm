@@ -1,8 +1,8 @@
 .code
 
-vmwrite_x64_64bit_none_ms64 proc
+pal_execute_vmwrite proc
     vmwrite rcx, rdx;
     ret;
-vmwrite_x64_64bit_none_ms64 endp
+pal_execute_vmwrite endp
 
 end

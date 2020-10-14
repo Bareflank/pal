@@ -3,7 +3,7 @@ default rel
 
 section .text
 
-global bsf_x64_64bit_none_systemv 
-bsf_x64_64bit_none_systemv :
+global pal_execute_bsf 
+pal_execute_bsf :
     bsf rax, rdi
     ret
