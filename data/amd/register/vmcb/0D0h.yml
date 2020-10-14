@@ -1,0 +1,37 @@
+- name: 0D0h
+  long_name: "0D0h"
+  purpose: |
+      "
+      0D0h
+      "
+  size: 128
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0D0
+        component: vmcb
+
+      - name: write
+        offset: 0x0D0
+        component: vmcb
+        
+  fieldsets:
+    name: latest
+    condition: "Fieldset valid on latest version of the AMD architecture"
+    size: 128
+
+    fields:
+      - name: "Bits 7_0"
+        long_name: "nRIP—Next sequential instruction pointer" 
+        lsb: 0
+        msb: 7
+        readable: True
+        writable: True
+
+      - name: "Bits 127_8"
+        long_name: "nRIP—Next sequential instruction pointer" 
+        lsb: 8
+        msb: 127
+        readable: True
+        writable: True

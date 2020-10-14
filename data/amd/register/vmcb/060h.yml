@@ -1,0 +1,114 @@
+- name: 060h
+  long_name: "060h"
+  purpose: |
+      "
+      060h
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x060
+        component: vmcb
+
+      - name: write
+        offset: 0x060
+        component: vmcb
+        
+  fieldsets:
+    name: latest
+    condition: "Fieldset valid on latest version of the AMD architecture"
+    size: 64
+
+    fields:
+      - name: "Bits 7_0"
+        long_name: "V_TPR—The virtual TPR for the guest. Bits 3:0 are used for a 4-bit virtual TPR value; bits 7:4 are SBZ." 
+        lsb: 0
+        msb: 7
+        readable: True
+        writable: True
+
+      - name: "Bits 8"
+        long_name: "V_IRQ—If nonzero, virtual INTR is pending." 
+        lsb: 8
+        msb: 8
+        readable: True
+        writable: True
+
+      - name: "Bits 9"
+        long_name: "VGIF value (0 – Virtual interrupts are masked, 1 – Virtual Interrupts are unmasked)" 
+        lsb: 9
+        msb: 9
+        readable: True
+        writable: True
+
+      - name: "Bits 15_10"
+        long_name: "RESERVED, SBZ" 
+        lsb: 10
+        msb: 15
+        readable: True
+        writable: True
+
+      - name: "Bits 19_16"
+        long_name: "V_INTR_PRIO—Priority for virtual interrupt" 
+        lsb: 8
+        msb: 8
+        readable: True
+        writable: True
+
+      - name: "Bits 20"
+        long_name: "V_IGN_TPR—If nonzero, the current virtual interrupt ignores the (virtual) TPR."
+        lsb: 20
+        msb: 20
+        readable: True
+        writable: True
+
+      - name: "Bits 23_21"
+        long_name: "RESERVED, SBZ" 
+        lsb: 21
+        msb: 23
+        readable: True
+        writable: True
+
+      - name: "Bits 24"
+        long_name: "V_INTR_MASKING—Virtualize masking of INTR interrupts" 
+        lsb: 24
+        msb: 24
+        readable: True
+        writable: True
+
+      - name: "Bits 25"
+        long_name: "AMD Virtual GIF enabled for this guest (0 - Disabled, 1 - Enabled)" 
+        lsb: 25
+        msb: 25
+        readable: True
+        writable: True
+
+      - name: "Bits 30_26"
+        long_name: "RESERVED, SBZ" 
+        lsb: 26
+        msb: 30
+        readable: True
+        writable: True
+
+      - name: "Bits 31"
+        long_name: "AVIC Enable" 
+        lsb: 31
+        msb: 31
+        readable: True
+        writable: True
+
+      - name: "Bits 39_32"
+        long_name: "V_INTR_VECTOR—Vector to use for this interrupt."
+        lsb: 32
+        msb: 39
+        readable: True
+        writable: True
+
+      - name: "Bits 63_40"
+        long_name: "RESERVED, SBZ"
+        lsb: 40
+        msb: 63
+        readable: True
+        writable: True

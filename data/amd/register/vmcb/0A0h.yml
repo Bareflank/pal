@@ -1,0 +1,32 @@
+- name: 0A0h
+  long_name: "0A0h"
+  purpose: |
+      "
+      0A0h
+
+      Guest physical address of GHCB
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0A0
+        component: vmcb
+
+      - name: write
+        offset: 0x0A0
+        component: vmcb
+        
+  fieldsets:
+    name: latest
+    condition: "Fieldset valid on latest version of the AMD architecture"
+    size: 64
+
+    fields:
+      - name: "Bits 0_63"
+        long_name: "Guest physical address of GHCB" 
+        lsb: 0
+        msb: 63
+        readable: True
+        writable: True

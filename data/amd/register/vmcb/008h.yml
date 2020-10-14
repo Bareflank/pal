@@ -1,0 +1,30 @@
+- name: 008h
+  long_name: "008h (vector 2)"
+  purpose: |
+      "
+      Intercept exception vectors 0–31, respectively.
+      "
+  size: 32 
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x008
+        component: vmcb
+
+      - name: write
+        offset: 0x008
+        component: vmcb
+        
+  fieldsets:
+    name: latest
+    condition: "Fieldset valid on latest version of the AMD architecture"
+    size: 32
+
+    fields:
+      - name: "Bits 31_0"
+        long_name: "Intercept exception vectors 0–31, respectively." 
+        lsb: 0
+        msb: 31
+        readable: True
+        writable: True

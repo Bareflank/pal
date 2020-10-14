@@ -1,0 +1,32 @@
+- name: 050h
+  long_name: "050h"
+  purpose: |
+      "
+      050h
+
+      TSC_OFFSET—To be added in RDTSC and RDTSCP.
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x050
+        component: vmcb
+
+      - name: write
+        offset: 0x050
+        component: vmcb
+        
+  fieldsets:
+    name: latest
+    condition: "Fieldset valid on latest version of the AMD architecture"
+    size: 64
+
+    fields:
+      - name: "Bits 63_0"
+        long_name: "TSC_OFFSET—To be added in RDTSC and RDTSCP." 
+        lsb: 0
+        msb: 63
+        readable: True
+        writable: True

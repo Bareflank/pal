@@ -1,0 +1,32 @@
+- name: 078h
+  long_name: "078h"
+  purpose: |
+      "
+      078h
+      
+      EXITINFO1
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x078
+        component: vmcb
+
+      - name: write
+        offset: 0x078
+        component: vmcb
+        
+  fieldsets:
+    name: latest
+    condition: "Fieldset valid on latest version of the AMD architecture"
+    size: 64
+
+    fields:
+      - name: "Bits 63_0"
+        long_name: "EXITINFO1" 
+        lsb: 0
+        msb: 63
+        readable: True
+        writable: True
