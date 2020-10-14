@@ -17,28 +17,28 @@
         component: vmcb
         
   fieldsets:
-    name: latest
-    condition: "Fieldset valid on latest version of the AMD architecture"
-    size: 64
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
 
-    fields:
-      - name: "Bits 0"
-        long_name: "LBR_VIRTUALIZATION_ENABLE" 
-        lsb: 0
-        msb: 0
-        readable: True
-        writable: True
+      fields:
+          - name: "Bits 0"
+            long_name: "LBR_VIRTUALIZATION_ENABLE" 
+            lsb: 0
+            msb: 0
+            readable: True
+            writable: True
 
-      - name: "Bits 1"
-        long_name: "Virtualized VMSAVE/VMLOAD (0 –Disabled, 1- Enabled)" 
-        lsb: 1
-        msb: 1
-        readable: True
-        writable: True
+          - name: "Bits 1"
+            long_name: "Virtualized VMSAVE/VMLOAD (0 –Disabled, 1- Enabled)" 
+            lsb: 1
+            msb: 1
+            readable: True
+            writable: True
 
-      - name: "Bits 63_2"
-        long_name: "RESERVED, SBZ" 
-        lsb: 2
-        msb: 63
-        readable: True
-        writable: True
+          - name: "Bits 63_2"
+            long_name: "RESERVED, SBZ" 
+            lsb: 2
+            msb: 63
+            readable: True
+            writable: True

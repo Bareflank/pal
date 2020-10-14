@@ -17,21 +17,21 @@
         component: vmcb
         
   fieldsets:
-    name: latest
-    condition: "Fieldset valid on latest version of the AMD architecture"
-    size: 64
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
 
-    fields:
-      - name: "Bits 51_0"
-        long_name: "AVIC APIC_BACKING_PAGE Pointer" 
-        lsb: 0
-        msb: 51
-        readable: True
-        writable: True
+      fields:
+          - name: "Bits 51_0"
+            long_name: "AVIC APIC_BACKING_PAGE Pointer" 
+            lsb: 0
+            msb: 51
+            readable: True
+            writable: True
 
-      - name: "Bits 63_52"
-        long_name: "RESERVED, SBZ" 
-        lsb: 52
-        msb: 63
-        readable: True
-        writable: True
+          - name: "Bits 63_52"
+            long_name: "RESERVED, SBZ" 
+            lsb: 52
+            msb: 63
+            readable: True
+            writable: True
