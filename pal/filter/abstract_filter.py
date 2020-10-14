@@ -19,7 +19,7 @@ class AbstractFilter(abc.ABC):
         Filter the given registers such that registers matching the filter's
         criteria are excluded (removed)
         """
-        logger.info("Applying filter: excluding {d}".format(d = str(self)))
+        logger.debug("Applying filter: excluding {d}".format(d = str(self)))
         result = list(filter(self._do_filter, registers))
         logger.debug("{name} removed {count} registers".format(
             name = str(type(self).__name__),
@@ -32,7 +32,7 @@ class AbstractFilter(abc.ABC):
         Filter the given registers such that registers matching the filter's
         criteria are included, while all others are excluded (removed)
         """
-        logger.info("Applying filter: including {d}".format(d = str(self)))
+        logger.debug("Applying filter: including {d}".format(d = str(self)))
         result = list(itertools.filterfalse(self._do_filter, registers))
         logger.debug("{count} registers remaining after {name}".format(
             name = str(type(self).__name__),
