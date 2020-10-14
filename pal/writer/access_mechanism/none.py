@@ -4,9 +4,15 @@ from pal.writer.access_mechanism.access_mechanism \
 
 class NoneAccessMechanismWriter(AccessMechanismWriter):
 
+    def declare_access_mechanism_dependencies(self, outfile, register,
+                                       access_mechanism):
+        pass
+
+
     def call_readable_access_mechanism(self, outfile, register,
                                        access_mechanism, var):
         pass
+
 
     def call_writable_access_mechanism(self, outfile, register,
                                        access_mechanism, value):

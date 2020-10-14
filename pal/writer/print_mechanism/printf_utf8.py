@@ -3,6 +3,12 @@ from pal.writer.print_mechanism.print_mechanism import PrintMechanismWriter
 
 class PrintfUtf8PrintMechanismWriter(PrintMechanismWriter):
 
+    def declare_print_mechanism_dependencies(self, outfile, register):
+        outfile.write("#include <stdio.h>")
+        self.write_newline(outfile)
+        outfile.write("#include <inttypes.h>")
+        self.write_newline(outfile)
+
     def print_value_as_register(self, outfile, register, value):
         hex_format = self._get_hex_format_string(register.size)
         outfile.write('printf("' + hex_format + ' ", ')

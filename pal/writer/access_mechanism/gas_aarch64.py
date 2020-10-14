@@ -5,6 +5,11 @@ from pal.writer.access_mechanism.access_mechanism \
 
 class GasAarch64AccessMechanismWriter(AccessMechanismWriter):
 
+    def declare_access_mechanism_dependencies(self, outfile, register,
+                                       access_mechanism):
+        pass
+
+
     def call_readable_access_mechanism(self, outfile, register,
                                        access_mechanism, result):
         if access_mechanism.name == "mrs_register":
