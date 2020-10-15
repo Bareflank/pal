@@ -16,7 +16,7 @@
         is_write: False
         address: 0x00FE
 
- fieldsets:
+  fieldsets:
       - name: latest
         condition: "Fieldset valid on latest version of the AMD architecture"
         size: 64

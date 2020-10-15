@@ -32,7 +32,7 @@
         is_write: True
         address: 0x0200
 
- fieldsets:
+  fieldsets:
       - name: base
         condition: "Fieldset valid for MTRR Base registers"
         size: 64

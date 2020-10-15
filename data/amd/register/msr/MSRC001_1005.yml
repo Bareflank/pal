@@ -264,7 +264,7 @@
               readable: True 
               writable: True
 
-              - name: MisAlignSse
+            - name: MisAlignSse
               long_name: "MisAlignSse"
               lsb: 39
               msb: 39

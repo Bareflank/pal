@@ -21,7 +21,7 @@
         is_write: True
         address: 0x026A
 
- fieldsets:
+  fieldsets:
       - name: latest
         condition: "Fieldset valid on latest version of the AMD architecture"
         size: 64

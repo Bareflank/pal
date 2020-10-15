@@ -21,7 +21,7 @@
         is_write: True
         address: 0xC0010230
 
- fieldsets:
+  fieldsets:
       - name: select
         condition: "Fieldset valid for L3 Performance Event select registers"
         size: 64
