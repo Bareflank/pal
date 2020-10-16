@@ -4,6 +4,7 @@ import copy
 from pal.runner.abstract_runner import AbstractRunner
 from pal.parser import parse_registers
 from pal.parser import parse_instructions
+from pal.validator import check_intel_access_mechanisms_group
 
 class Intel64bitRunner(AbstractRunner):
     def run(self, generators):
@@ -15,6 +16,7 @@ class Intel64bitRunner(AbstractRunner):
             indir = os.path.join(input_root, "x86_64/register/control_register")
             outdir = os.path.join(output_root, "control_register")
             os.makedirs(outdir, exist_ok=True)
+            check_intel_access_mechanisms_group(indir)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
