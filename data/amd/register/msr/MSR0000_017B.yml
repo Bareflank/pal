@@ -1,4 +1,4 @@
-- name: MSR0000_0017B 
+- name: MSR0000_017B 
   long_name: "Global Machine Check Exception Reporting Control"
   purpose: |
        "
@@ -21,7 +21,7 @@
         is_write: True
         address: 0x017B
 
- fieldsets:
+  fieldsets:
       - name: latest
         condition: "Fieldset valid on latest version of the AMD architecture"
         size: 64

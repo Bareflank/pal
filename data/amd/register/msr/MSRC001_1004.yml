@@ -263,7 +263,7 @@
               readable: True 
               writable: True
 
-              - name: AES
+            - name: AES
               long_name: "AES"
               lsb: 57
               msb: 57

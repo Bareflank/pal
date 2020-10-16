@@ -25,7 +25,7 @@
         is_write: True
         address: 0xC0010200
 
- fieldsets:
+  fieldsets:
       - name: select
         condition: "Fieldset valid for performance event select registers"
         size: 64
