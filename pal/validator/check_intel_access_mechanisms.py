@@ -14,7 +14,7 @@ def check_intel_access_mechanisms_group(indir):
 
 def read_contents(fileName, directory):
     with open(directory + "/" + fileName) as file:
-        return yaml.load(file, Loader=yaml.FullLoader)
+        return yaml.safe_load(file)
 
 # Used to read in control register for intel architecture
 def check_source_mnemonic(contents, file):
