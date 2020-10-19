@@ -5,6 +5,8 @@ from pal.runner.abstract_runner import AbstractRunner
 from pal.parser import parse_registers
 from pal.parser import parse_instructions
 from pal.validator import check_intel_access_mechanisms_group
+from pal.validator import check_intel_cpuid_access_mechanisms_group
+from pal.validator import check_intel_msr_name_long_name_group
 
 class Intel64bitRunner(AbstractRunner):
     def run(self, generators):
@@ -16,7 +18,7 @@ class Intel64bitRunner(AbstractRunner):
             indir = os.path.join(input_root, "x86_64/register/control_register")
             outdir = os.path.join(output_root, "control_register")
             regs = parse_registers(indir)
-            check_intel_access_mechanisms_group(indir, regs)
+            check_intel_access_mechanisms_group(regs)
             os.makedirs(outdir, exist_ok=True)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
@@ -24,12 +26,14 @@ class Intel64bitRunner(AbstractRunner):
             outdir = os.path.join(output_root, "cpuid")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
+            check_intel_cpuid_access_mechanisms_group(regs)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
             indir = os.path.join(input_root, "x86_64/register/msr")
             outdir = os.path.join(output_root, "msr")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
+            check_intel_msr_name_long_name_group(regs)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
             indir = os.path.join(input_root, "x86_64/register/vmcs")

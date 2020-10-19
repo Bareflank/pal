@@ -1,1 +1,3 @@
 from pal.validator.check_intel_access_mechanisms import check_intel_access_mechanisms_group
+from pal.validator.check_intel_cpuid_access_mechanisms import check_intel_cpuid_access_mechanisms_group
+from pal.validator.check_intel_msr_name_long_name import check_intel_msr_name_long_name_group
