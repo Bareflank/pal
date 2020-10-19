@@ -1,0 +1,32 @@
+- name: 040h
+  long_name: "040h"
+  purpose: |
+      "
+      040h
+
+      IOPM_BASE_PA—Physical base address of IOPM (bits 11:0 are ignored.)
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x040
+        component: vmcb
+
+      - name: write
+        offset: 0x040
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 63_0"
+            long_name: "IOPM_BASE_PA—Physical base address of IOPM (bits 11:0 are ignored.)" 
+            lsb: 0
+            msb: 63
+            readable: True
+            writable: True

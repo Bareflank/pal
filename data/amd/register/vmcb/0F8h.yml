@@ -1,0 +1,51 @@
+- name: 0F8h
+  long_name: "0F8h"
+  purpose: |
+      "
+      0F8h
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0F8
+        component: vmcb
+
+      - name: write
+        offset: 0x0F8
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 7_0"
+            long_name: "AVIC_PHYSICAL_MAX_INDEX" 
+            lsb: 0
+            msb: 7
+            readable: True
+            writable: True
+
+          - name: "Bits 11_8"
+            long_name: "RESERVED, SBZ" 
+            lsb: 8
+            msb: 11
+            readable: True
+            writable: True
+
+          - name: "Bits 51_12"
+            long_name: "AVIC PHYSICAL_TABLE Pointer[51:12]" 
+            lsb: 12
+            msb: 51
+            readable: True
+            writable: True
+
+          - name: "Bits 63_52"
+            long_name: "RESERVED, SBZ" 
+            lsb: 52
+            msb: 63
+            readable: True
+            writable: True

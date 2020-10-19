@@ -1,0 +1,45 @@
+- name: 058h
+  long_name: "058h"
+  purpose: |
+      "
+      058h
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x058
+        component: vmcb
+
+      - name: write
+        offset: 0x058
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 31_0"
+            long_name: "Guest ASID" 
+            lsb: 0
+            msb: 31
+            readable: True
+            writable: True
+
+          - name: "Bits 39_32"
+            long_name: "TLB_CONTROL" 
+            lsb: 32
+            msb: 39
+            readable: True
+            writable: True
+
+          - name: "Bits 63_40"
+            long_name: "RESERVED, SBZ" 
+            lsb: 40
+            msb: 63
+            readable: True
+            writable: True
+

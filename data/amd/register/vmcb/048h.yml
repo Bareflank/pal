@@ -1,0 +1,32 @@
+- name: 048h
+  long_name: "048h"
+  purpose: |
+      "
+      048h
+
+      MSRPM_BASE_PA—Physical base address of MSRPM (bits 11:0 are ignored.)
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x048
+        component: vmcb
+
+      - name: write
+        offset: 0x048
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 63_0"
+            long_name: "MSRPM_BASE_PA—Physical base address of MSRPM (bits 11:0 are ignored.)" 
+            lsb: 0
+            msb: 63
+            readable: True
+            writable: True

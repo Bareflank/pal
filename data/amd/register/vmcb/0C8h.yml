@@ -1,0 +1,31 @@
+- name: 0C8h
+  long_name: "0C8h"
+  purpose: |
+      "
+      0C8h
+      nRIP—Next sequential instruction pointer
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0C8
+        component: vmcb
+
+      - name: write
+        offset: 0x0C8
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 63_0"
+            long_name: "nRIP—Next sequential instruction pointer" 
+            lsb: 0
+            msb: 63
+            readable: True
+            writable: True

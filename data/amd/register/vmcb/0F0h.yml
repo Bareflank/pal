@@ -1,0 +1,44 @@
+- name: 0F0h
+  long_name: "0F0h"
+  purpose: |
+      "
+      0F0h
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0F0
+        component: vmcb
+
+      - name: write
+        offset: 0x0F0
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 11_0"
+            long_name: "Reserved, SBZ" 
+            lsb: 0
+            msb: 11
+            readable: True
+            writable: True
+
+          - name: "Bits 51_12"
+            long_name: "AVIC LOGICAL_TABLE Pointer" 
+            lsb: 12
+            msb: 51
+            readable: True
+            writable: True
+
+          - name: "Bits 63_52"
+            long_name: "RESERVED, SBZ" 
+            lsb: 52
+            msb: 63
+            readable: True
+            writable: True

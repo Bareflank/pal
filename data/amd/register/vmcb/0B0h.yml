@@ -1,0 +1,32 @@
+- name: 0B0h
+  long_name: "0B0h"
+  purpose: |
+      "
+      0B0h
+
+      N_CR3—Nested page table CR3 to use for nested paging
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0B0
+        component: vmcb
+
+      - name: write
+        offset: 0x0B0
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 0_63"
+            long_name: "N_CR3—Nested page table CR3 to use for nested paging" 
+            lsb: 0
+            msb: 63
+            readable: True
+            writable: True

@@ -1,0 +1,32 @@
+- name: 0A8h
+  long_name: "0A8h"
+  purpose: |
+      "
+      0A8h
+
+      EVENTINJ—Event injection (see “Event Injection” on page 485 for details.)
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x0A8
+        component: vmcb
+
+      - name: write
+        offset: 0x0A8
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 0_63"
+            long_name: "EVENTINJ—Event injection (see “Event Injection” on page 485 for details.)" 
+            lsb: 0
+            msb: 63
+            readable: True
+            writable: True

@@ -1,0 +1,44 @@
+- name: 108h
+  long_name: "108h"
+  purpose: |
+      "
+      108h
+      "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: read
+        offset: 0x108
+        component: vmcb
+
+      - name: write
+        offset: 0x108
+        component: vmcb
+        
+  fieldsets:
+    - name: latest
+      condition: "Fieldset valid on latest version of the AMD architecture"
+      size: 64
+
+      fields:
+          - name: "Bits 11_0"
+            long_name: "RESERVED, SBZ" 
+            lsb: 0
+            msb: 11
+            readable: True
+            writable: True
+
+          - name: "Bits 12_51"
+            long_name: "VMSA Pointer[51:12]" 
+            lsb: 12
+            msb: 51
+            readable: True
+            writable: True
+
+          - name: "Bits 63_52"
+            long_name: "RESERVED, SBZ" 
+            lsb: 52
+            msb: 63
+            readable: True
+            writable: True

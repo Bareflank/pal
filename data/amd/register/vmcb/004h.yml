@@ -1,19 +1,19 @@
-- name: 000h
-  long_name: "000h (vector 0)"
+- name: 004h
+  long_name: "004h (vector 1)"
   purpose: |
       "
-      000h
+      004h
       "
-  size: 32
+  size: 32 
   arch: amd64
 
   access_mechanisms:
       - name: read
-        offset: 0x000
+        offset: 0x004
         component: vmcb
 
       - name: write
-        offset: 0x000
+        offset: 0x004
         component: vmcb
         
   fieldsets:
@@ -23,14 +23,14 @@
 
       fields:
           - name: "Bits 15_0"
-            long_name: "Intercept reads of CR0–15, respectively" 
+            long_name: "Intercept reads of DR0–15, respectively" 
             lsb: 0
             msb: 15
             readable: True
             writable: True
 
           - name: "Bits 31_16"
-            long_name: "Intercept writes of CR0–15, respectively" 
+            long_name: "Intercept writes of DR0–15, respectively" 
             lsb: 16
             msb: 31
             readable: True

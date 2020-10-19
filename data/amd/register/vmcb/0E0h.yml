@@ -1,37 +1,37 @@
-- name: 000h
-  long_name: "000h (vector 0)"
+- name: 0E0h
+  long_name: "0E0h"
   purpose: |
       "
-      000h
+      0E0h
       "
-  size: 32
+  size: 64
   arch: amd64
 
   access_mechanisms:
       - name: read
-        offset: 0x000
+        offset: 0x0E0
         component: vmcb
 
       - name: write
-        offset: 0x000
+        offset: 0x0E0
         component: vmcb
         
   fieldsets:
     - name: latest
       condition: "Fieldset valid on latest version of the AMD architecture"
-      size: 32
+      size: 64
 
       fields:
-          - name: "Bits 15_0"
-            long_name: "Intercept reads of CR0–15, respectively" 
+          - name: "Bits 51_0"
+            long_name: "AVIC APIC_BACKING_PAGE Pointer" 
             lsb: 0
-            msb: 15
+            msb: 51
             readable: True
             writable: True
 
-          - name: "Bits 31_16"
-            long_name: "Intercept writes of CR0–15, respectively" 
-            lsb: 16
-            msb: 31
+          - name: "Bits 63_52"
+            long_name: "RESERVED, SBZ" 
+            lsb: 52
+            msb: 63
             readable: True
             writable: True

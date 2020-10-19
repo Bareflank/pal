@@ -1,37 +1,32 @@
-- name: 000h
-  long_name: "000h (vector 0)"
+- name: 03Eh
+  long_name: "03Eh"
   purpose: |
       "
-      000h
+      03Eh
+
+      PAUSE Filter Count.
       "
-  size: 32
+  size: 16
   arch: amd64
 
   access_mechanisms:
       - name: read
-        offset: 0x000
+        offset: 0x03E
         component: vmcb
 
       - name: write
-        offset: 0x000
+        offset: 0x03E
         component: vmcb
         
   fieldsets:
     - name: latest
       condition: "Fieldset valid on latest version of the AMD architecture"
-      size: 32
+      size: 16
 
       fields:
           - name: "Bits 15_0"
-            long_name: "Intercept reads of CR0–15, respectively" 
+            long_name: "PAUSE Filter Count." 
             lsb: 0
             msb: 15
-            readable: True
-            writable: True
-
-          - name: "Bits 31_16"
-            long_name: "Intercept writes of CR0–15, respectively" 
-            lsb: 16
-            msb: 31
             readable: True
             writable: True
