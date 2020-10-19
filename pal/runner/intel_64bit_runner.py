@@ -17,9 +17,9 @@ class Intel64bitRunner(AbstractRunner):
 
             indir = os.path.join(input_root, "x86_64/register/control_register")
             outdir = os.path.join(output_root, "control_register")
+            os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             check_intel_access_mechanisms_group(regs)
-            os.makedirs(outdir, exist_ok=True)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
             indir = os.path.join(input_root, "x86_64/register/cpuid")
