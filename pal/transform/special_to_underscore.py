@@ -3,7 +3,7 @@ from pal.logger import logger
 
 class SpecialToUnderscore(AbstractTransform):
     def __init__(self):
-        self.special_chars = " !@#$%^&*()[]{};:,./<>?\|`~-=+"
+        self.special_chars = " !@#$%^&*()[]{};:,./<>?\|`~-=+–"
 
     @property
     def description(self):

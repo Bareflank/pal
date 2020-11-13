@@ -36,7 +36,7 @@ pal_add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL c++11
     DESCRIPTION "The target programming language"
-    OPTIONS c c++11 yaml none
+    OPTIONS c c++11 rust yaml none
 )
 
 pal_add_config(
@@ -76,7 +76,7 @@ pal_add_config(
     CONFIG_TYPE STRING
     DEFAULT_VAL printf_utf8
     DESCRIPTION "The target function printing style"
-    OPTIONS printf_utf8 none
+    OPTIONS printf_utf8 rust_println none
 )
 
 pal_add_config(
@@ -104,7 +104,7 @@ pal_add_config(
 pal_add_config(
     CONFIG_NAME PAL_OUTPUT_DIR
     CONFIG_TYPE STRING
-    DEFAULT_VAL ${CMAKE_BINARY_DIR}/pal/include
+    DEFAULT_VAL ${CMAKE_BINARY_DIR}
     DESCRIPTION "Directory for PAL to generated output"
 )
 

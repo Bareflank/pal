@@ -18,7 +18,7 @@ endif()
 
 add_custom_command(
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/pal.py
-        -o ${PAL_OUTPUT_DIR}/pal
+        -o ${PAL_OUTPUT_DIR}
         --execution_state=${PAL_TARGET_EXECUTION_STATE}
         --language=${PAL_TARGET_LANGUAGE}
         --access_mechanism=${PAL_ACCESS_MECHANISM}
@@ -49,7 +49,7 @@ target_link_libraries(pal INTERFACE libpal)
 
 set(CMAKE_INSTALL_MESSAGE NEVER)
 install(
-    DIRECTORY ${PAL_OUTPUT_DIR}/pal
+    DIRECTORY ${PAL_OUTPUT_DIR}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 )
 

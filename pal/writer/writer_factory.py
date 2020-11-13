@@ -2,6 +2,7 @@ from pal.writer.abstract_writer import AbstractWriter
 
 from pal.writer.register.c.register_writer import CRegisterWriter
 from pal.writer.register.cxx11.register_writer import Cxx11RegisterWriter
+from pal.writer.register.rust.register_writer import RustRegisterWriter
 from pal.writer.register.yaml import YamlRegisterWriter
 from pal.writer.register.none import NoneRegisterWriter
 
@@ -15,6 +16,8 @@ from pal.writer.access_mechanism.gas_aarch32 import \
     GasAarch32AccessMechanismWriter
 from pal.writer.access_mechanism.libpal import \
     LibpalAccessMechanismWriter
+from pal.writer.access_mechanism.rust_libpal import \
+    RustLibpalAccessMechanismWriter
 from pal.writer.access_mechanism.cxx_test import \
     CxxTestAccessMechanismWriter
 from pal.writer.access_mechanism.c_test import \
@@ -25,6 +28,7 @@ from pal.writer.access_mechanism.none import \
     NoneAccessMechanismWriter
 
 from pal.writer.print_mechanism.printf_utf8 import PrintfUtf8PrintMechanismWriter
+from pal.writer.print_mechanism.rust_println import RustPrintlnPrintMechanismWriter
 from pal.writer.print_mechanism.none import NonePrintMechanismWriter
 
 from pal.writer.file_format.unix import UnixFileFormatWriter
@@ -33,16 +37,19 @@ from pal.writer.file_format.yaml import YamlFileFormatWriter
 from pal.writer.file_format.none import NoneFileFormatWriter
 
 from pal.writer.comment.c_multiline import CMultilineCommentWriter
+from pal.writer.comment.rust import RustCommentWriter
 from pal.writer.comment.yaml import YamlCommentWriter
 from pal.writer.comment.none import NoneCommentWriter
 
 from pal.writer.instruction.libpal_c import LibpalCInstructionWriter
 from pal.writer.instruction.libpal_cxx11 import LibpalCxx11InstructionWriter
+from pal.writer.instruction.libpal_rust import LibpalRustInstructionWriter
 from pal.writer.instruction.none import NoneInstructionWriter
 
 language_options = [
     "c",
     "c++11",
+    "rust",
     "yaml",
     "none",
 ]
@@ -60,6 +67,7 @@ access_mechanism_options = [
 
 print_mechanism_options = {
     "printf_utf8": PrintfUtf8PrintMechanismWriter,
+    "rust_println": RustPrintlnPrintMechanismWriter,
     "none": NonePrintMechanismWriter,
 }
 
@@ -80,14 +88,18 @@ def get_access_mechanism_writer(config):
         return GasAarch64AccessMechanismWriter
     elif config.execution_state == "armv8a_aarch32" and config.access_mechanism == "gas_aarch32":
         return GasAarch32AccessMechanismWriter
-    elif config.access_mechanism == "test" and language == "c++11":
+    elif config.access_mechanism == "test" and config.language == "c++11":
         return CxxTestAccessMechanismWriter
-    elif config.access_mechanism == "test" and language == "c":
+    elif config.access_mechanism == "test" and config.language == "c":
         return CTestAccessMechanismWriter
     elif config.access_mechanism == "yaml":
         return YamlAccessMechanismWriter
-    elif config.access_mechanism == "libpal":
+    elif config.access_mechanism == "libpal" and config.language == "c++11":
         return LibpalAccessMechanismWriter
+    elif config.access_mechanism == "libpal" and config.language == "c":
+        return LibpalAccessMechanismWriter
+    elif config.access_mechanism == "libpal" and config.language == "rust":
+        return RustLibpalAccessMechanismWriter
     else:
         return NoneAccessMechanismWriter
 
@@ -97,6 +109,8 @@ def get_register_writer(config):
         return CRegisterWriter
     elif config.language == "c++11":
         return Cxx11RegisterWriter
+    elif config.language == "rust":
+        return RustRegisterWriter
     elif config.language == "yaml":
         return YamlRegisterWriter
     else:
@@ -108,13 +122,19 @@ def get_instruction_writer(config):
         return LibpalCInstructionWriter
     elif config.language == "c++11":
         return LibpalCxx11InstructionWriter
+    elif config.language == "rust":
+        return LibpalRustInstructionWriter
     else:
         return NoneInstructionWriter
 
 
 def get_comment_writer(config):
-    if config.language == "c" or config.language == "c++11":
+    if config.language == "c":
         return CMultilineCommentWriter
+    elif config.language == "c++11":
+        return CMultilineCommentWriter
+    elif config.language == "rust":
+        return RustCommentWriter
     elif config.language == "yaml":
         return YamlCommentWriter
     else:
