@@ -5,7 +5,7 @@ set(PROJECT_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
 
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
-        -o ${CMAKE_INSTALL_PREFIX}/pal
+        -o ${CMAKE_INSTALL_PREFIX}
         --execution_state=armv8a_aarch64
         --language=c++11
         --access_mechanism=gas_aarch64
@@ -27,7 +27,7 @@ add_executable(test_compile_aarch64
 
 target_include_directories(test_compile_aarch64
     PRIVATE
-        ${CMAKE_INSTALL_PREFIX}
+        ${CMAKE_INSTALL_PREFIX}/include
 )
 
 install(TARGETS test_compile_aarch64 DESTINATION bin)

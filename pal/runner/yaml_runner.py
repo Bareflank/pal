@@ -9,6 +9,7 @@ class YamlRunner(AbstractRunner):
     def run(self, generators):
         input_root = self.config.pal_data_dir
         output_root = self.config.pal_output_dir
+        output_root = os.path.join(output_root, "data")
 
         for generator in generators:
             indir = os.path.join(input_root, "armv8-a/register/aarch64")

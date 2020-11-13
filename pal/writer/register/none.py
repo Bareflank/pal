@@ -4,9 +4,6 @@ from pal.writer.register.register import RegisterWriter
 
 class NoneRegisterWriter(RegisterWriter):
 
-    def declare_comment(self, outfile, comment, wrap=79):
-        pass
-
     def declare_register_dependencies(self, outfile, register):
         pass
 
@@ -21,4 +18,10 @@ class NoneRegisterWriter(RegisterWriter):
 
     def call_field_get(self, outfile, register, field, destination,
                        register_value):
+        pass
+
+    def declare_field_printers(self, outfile, register, field):
+        pass
+
+    def declare_fieldset_printers(self, outfile, register, fieldset):
         pass
