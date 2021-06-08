@@ -93,6 +93,13 @@ pal_add_config(
 )
 
 pal_add_config(
+    CONFIG_NAME PAL_ENABLE_EXAMPLE
+    CONFIG_TYPE BOOL
+    DEFAULT_VAL OFF
+    DESCRIPTION "Set to ON to enable the project's examples"
+)
+
+pal_add_config(
     CONFIG_NAME PAL_OUTPUT_DIR
     CONFIG_TYPE STRING
     DEFAULT_VAL ${CMAKE_BINARY_DIR}/pal/include

@@ -57,6 +57,10 @@ if(PAL_ENABLE_TEST)
     add_subdirectory(test)
 endif()
 
+if(PAL_ENABLE_EXAMPLE)
+    add_subdirectory(example)
+endif()
+
 if(NOT PAL_QUIET_CMAKE)
     pal_print_banner()
     pal_print_usage()
