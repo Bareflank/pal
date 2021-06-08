@@ -42,10 +42,32 @@ pal_add_config(
 pal_add_config(
     CONFIG_NAME PAL_ACCESS_MECHANISM
     CONFIG_TYPE STRING
-    DEFAULT_VAL gas_att
+    DEFAULT_VAL libpal
     DESCRIPTION "The target access mechanism type"
-    OPTIONS gas_att gas_intel gas_aarch64 gas_aarch32 libpal test yaml none
+    OPTIONS libpal gas_att gas_intel gas_aarch64 gas_aarch32 test yaml none
 )
+
+if(${PAL_ACCESS_MECHANISM} STREQUAL libpal)
+    if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL Windows)
+        set(PAL_LIBPAL_ABI_DEFAULT_VALUE x64-64bit-none-ms64)
+    else()
+        set(PAL_LIBPAL_ABI_DEFAULT_VALUE x64-64bit-none-systemv)
+    endif()
+
+    pal_add_config(
+        CONFIG_NAME PAL_LIBPAL_ABI
+        CONFIG_TYPE STRING
+        DEFAULT_VAL ${PAL_LIBPAL_ABI_DEFAULT_VALUE}
+        DESCRIPTION "The target ABI for libpal, formatted as <arch>-<execution_state>-<os>-<calling_convention>"
+        OPTIONS
+            x64-64bit-linux-devpal
+            x64-64bit-none-ms64
+            x64-64bit-none-systemv
+    )
+
+else()
+    unset(PAL_LIBPAL_ABI CACHE)
+endif()
 
 pal_add_config(
     CONFIG_NAME PAL_PRINT_MECHANISM

@@ -34,7 +34,9 @@ add_custom_command(
 
 add_custom_target(pal_generate ALL DEPENDS ${PAL_OUTPUT_STAMP})
 
-add_subdirectory(libpal)
+if(${PAL_ACCESS_MECHANISM} STREQUAL libpal)
+    add_subdirectory(libpal)
+endif()
 
 if(${PAL_ENABLE_DEVPAL})
     add_subdirectory(devpal)
