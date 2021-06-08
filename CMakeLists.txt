@@ -36,6 +36,10 @@ add_custom_target(pal_generate ALL DEPENDS ${PAL_OUTPUT_STAMP})
 
 add_subdirectory(libpal)
 
+if(${PAL_ENABLE_DEVPAL})
+    add_subdirectory(devpal)
+endif()
+
 add_library(pal INTERFACE)
 add_dependencies(pal pal_generate)
 target_include_directories(pal INTERFACE ${PAL_OUTPUT_DIR})

@@ -1,0 +1,7 @@
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL Linux)
+    add_subdirectory(linux)
+elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL Windows)
+    add_subdirectory(windows)
+else()
+    message(FATAL_ERROR "Devpal driver is not supported on the ${CMAKE_HOST_SYSTEM_NAME} platform")
+endif()
