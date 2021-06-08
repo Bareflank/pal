@@ -1,0 +1,5 @@
+if(${PAL_TARGET_LANGUAGE} STREQUAL c)
+    add_subdirectory(c)
+elseif(${PAL_TARGET_LANGUAGE} STREQUAL c++11)
+    add_subdirectory(c++11)
+endif()
