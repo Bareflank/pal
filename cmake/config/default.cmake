@@ -90,3 +90,33 @@ pal_add_config(
     DEFAULT_VAL OFF
     DESCRIPTION "EXPERIMENTAL: Set to ON to include ACPI in the generated PAL output"
 )
+
+pal_add_config(
+    CONFIG_NAME PAL_ENABLE_DEVPAL
+    CONFIG_TYPE BOOL
+    DEFAULT_VAL OFF
+    DESCRIPTION "Set to ON to build the devpal driver"
+)
+
+if(PAL_ENABLE_DEVPAL AND ${CMAKE_HOST_SYSTEM_NAME} STREQUAL Linux)
+    execute_process(
+        COMMAND uname -r
+        OUTPUT_VARIABLE KERNEL_RELEASE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+
+    find_path(PAL_LINUX_HEADERS_DIR_DEFAULT_VALUE
+        include/linux/user.h
+        PATHS /lib/modules/${KERNEL_RELEASE}/build
+    )
+
+    pal_add_config(
+        CONFIG_NAME PAL_LINUX_HEADERS_DIR
+        CONFIG_TYPE STRING
+        DEFAULT_VAL ${PAL_LINUX_HEADERS_DIR_DEFAULT_VALUE}
+        DESCRIPTION "Directory for linux kernel headers to be used for building the devpal driver"
+    )
+
+    unset(PAL_LINUX_HEADERS_DIR_DEFAULT_VALUE CACHE)
+endif()
