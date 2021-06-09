@@ -7,6 +7,7 @@
 #include <stdint.h>
 #endif
 
+#include "devpal_abi_armv8a_aarch64.h"
 #include "devpal_abi_x64.h"
 #include "devpal_abi_x64_intel.h"
 
