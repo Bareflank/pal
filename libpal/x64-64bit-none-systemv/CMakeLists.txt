@@ -49,6 +49,9 @@ target_sources(pal_x64_64bit_none_systemv PRIVATE
     sfence.asm
     sgdt.asm
     sidt.asm
+    vmcall.asm
+    vmcall_kvm.asm
+    vmcall_xen.asm
     vmclear.asm
     vmclear_checked.asm
     vmptrld.asm

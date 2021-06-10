@@ -1,0 +1,53 @@
+- name: vmcall_kvm
+  long_name: "Call to VMM using registers in the KVM hypercall ABI"
+  purpose: |
+      "
+      Execute the vmcall instruction using registers in the KVM x86 hypercall
+      ABI
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: rax
+              long_name: "hypercall number"
+              type: uint64
+
+            - name: rbx
+              long_name: "parameter 1"
+              type: uint64
+
+            - name: rcx
+              long_name: "parameter 2"
+              type: uint64
+
+            - name: rdx
+              long_name: "parameter 3"
+              type: uint64
+
+            - name: rsi
+              long_name: "parameter 4"
+              type: uint64
+
+        logical_outputs:
+            - name: rax
+              long_name: "return value"
+              type: uint64
+
+        register_operands:
+            - name: rax
+              input: true
+              output: true
+
+            - name: rbx
+              input: true
+
+            - name: rcx
+              input: true
+
+            - name: rdx
+              input: true
+
+            - name: rsi
+              input: true
