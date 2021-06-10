@@ -46,6 +46,9 @@ target_sources(pal_x64_64bit_linux_devpal PRIVATE
     # sfence.c
     # sgdt.c
     # sidt.c
+    vmcall.c
+    vmcall_kvm.c
+    vmcall_xen.c
     # vmclear.c
     # vmclear_checked.c
     # vmptrld.c

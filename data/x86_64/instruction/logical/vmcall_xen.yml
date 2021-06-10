@@ -1,0 +1,67 @@
+- name: vmcall_xen
+  long_name: "Call to VMM using registers in the Xen hypercall ABI"
+  purpose: |
+      "
+      Execute the vmcall instruction using registers in the Xen x86 hypercall
+      ABI
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: rax
+              long_name: "hypercall index"
+              type: uint64
+
+            - name: rdi
+              long_name: "parameter 1"
+              type: uint64
+
+            - name: rsi
+              long_name: "parameter 2"
+              type: uint64
+
+            - name: rdx
+              long_name: "parameter 3"
+              type: uint64
+
+            - name: r10
+              long_name: "parameter 4"
+              type: uint64
+
+            - name: r8
+              long_name: "parameter 5"
+              type: uint64
+
+            - name: r9
+              long_name: "parameter 6"
+              type: uint64
+
+        logical_outputs:
+            - name: rax
+              long_name: "result"
+              type: uint64
+
+        register_operands:
+            - name: rax
+              input: true
+              output: true
+
+            - name: rdi
+              input: true
+
+            - name: rsi
+              input: true
+
+            - name: rdx
+              input: true
+
+            - name: r10
+              input: true
+
+            - name: r8
+              input: true
+
+            - name: r9
+              input: true

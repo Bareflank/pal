@@ -23,6 +23,8 @@ long handle_devpal_ioctl_wrmsr(struct wrmsr_operands * user_ops);
 
 // Intel Specific
 long handle_devpal_ioctl_vmcall(struct vmcall_operands * user_ops);
+long handle_devpal_ioctl_vmcall_kvm(struct vmcall_kvm_operands * user_ops);
+long handle_devpal_ioctl_vmcall_xen(struct vmcall_xen_operands * user_ops);
 
 long handle_devpal_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
@@ -60,6 +62,12 @@ long handle_devpal_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
         case DEVPAL_EXECUTE_VMCALL:
             return handle_devpal_ioctl_vmcall((struct vmcall_operands *)arg);
+
+        case DEVPAL_EXECUTE_VMCALL_KVM:
+            return handle_devpal_ioctl_vmcall_kvm((struct vmcall_kvm_operands *)arg);
+
+        case DEVPAL_EXECUTE_VMCALL_XEN:
+            return handle_devpal_ioctl_vmcall_xen((struct vmcall_xen_operands *)arg);
 
         case DEVPAL_EXECUTE_WRMSR:
             return handle_devpal_ioctl_wrmsr((struct wrmsr_operands *)arg);

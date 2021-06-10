@@ -31,6 +31,8 @@ if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit)
     list(APPEND SOURCE_FILES
         x64/intel/ioctl.c
         x64/intel/vmcall.c
+        x64/intel/vmcall_kvm.c
+        x64/intel/vmcall_xen.c
     )
 endif()
 
