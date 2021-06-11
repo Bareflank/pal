@@ -2,3 +2,6 @@
 output
 build
 devpal/linux/Makefile
+target
+Cargo.lock
+*.swp

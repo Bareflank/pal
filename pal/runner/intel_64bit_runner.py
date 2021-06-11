@@ -16,6 +16,8 @@ class Intel64bitRunner(AbstractRunner):
         if self.config.language == "rust":
             output_root = os.path.join(output_root, "src")
             libfile = os.path.join(output_root, "lib.rs")
+            if not os.path.exists(output_root):
+                os.makedirs(output_root)
             if not os.path.exists(libfile):
                 with open(libfile, 'w'): pass
 
