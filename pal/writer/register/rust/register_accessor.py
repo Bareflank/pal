@@ -36,7 +36,7 @@ class RustRegisterAccessorWriter():
 
         if register.access_mechanisms.get("rdmsr"):
             addr = register.access_mechanisms["rdmsr"][0].address
-            self._declare_hex_integer_constant(outfile, prefix + "address", addr)
+            self._declare_hex_integer_constant(outfile, prefix + "address", addr, n_bits=32)
             self.write_newline(outfile)
 
         if register.access_mechanisms.get("ldr"):
@@ -49,11 +49,11 @@ class RustRegisterAccessorWriter():
             self.write_newline(outfile)
         elif register.access_mechanisms.get("vmread"):
             encoding = register.access_mechanisms["vmread"][0].encoding
-            self._declare_hex_integer_constant(outfile, prefix + "encoding", encoding)
+            self._declare_hex_integer_constant(outfile, prefix + "encoding", encoding, n_bits=64)
             self.write_newline(outfile)
         elif register.access_mechanisms.get("vmwrite"):
             encoding = register.access_mechanisms["vmwrite"][0].encoding
-            self._declare_hex_integer_constant(outfile, prefix + "encoding", encoding)
+            self._declare_hex_integer_constant(outfile, prefix + "encoding", encoding, n_bits=64)
             self.write_newline(outfile)
         elif register.access_mechanisms.get("read"):
             offset = register.access_mechanisms["read"][0].offset

@@ -27,16 +27,14 @@ class RustFieldAccessorWriter():
 
     def call_field_get(self, outfile, register, field, destination, register_value):
         if field.msb == field.lsb:
-            call = "let {dest} = {reg_name}_{field_name}_is_enabled_in_value({reg_val});".format(
+            call = "let {dest} = {field_name}_is_enabled_in_value({reg_val});".format(
                 dest=destination,
-                reg_name=register.name.lower(),
                 field_name=field.name.lower(),
                 reg_val=str(register_value)
             )
         else:
-            call = "let {dest} = get_{reg_name}_{field_name}_from_value({reg_val});".format(
+            call = "let {dest} = get_{field_name}_from_value({reg_val});".format(
                 dest=destination,
-                reg_name=register.name.lower(),
                 field_name=field.name.lower(),
                 reg_val=str(register_value)
             )
@@ -199,10 +197,10 @@ class RustFieldAccessorWriter():
         outfile.write(reg_set)
 
     def _declare_bitfield_enable_in_value(self, outfile, register, field):
-        size_type = self._register_size_type(register)
+        size_type = "&mut " + self._register_size_type(register)
 
         gadget = self.gadgets["pal.rust.function_definition"]
-        gadget.return_type = size_type
+        gadget.return_type = None
         gadget.args = [(size_type, "value")]
         gadget.name = self._bitfield_enable_in_value_function_name(register, field)
 
@@ -210,7 +208,7 @@ class RustFieldAccessorWriter():
 
     @pal.gadget.rust.function_definition
     def _declare_bitfield_enable_in_value_details(self, outfile, register, field):
-        f_body = "value | {mask}".format(
+        f_body = "*value |= {mask}".format(
             mask=self._field_mask_string(register, field)
         )
         outfile.write(f_body)
@@ -244,10 +242,10 @@ class RustFieldAccessorWriter():
         outfile.write(reg_set)
 
     def _declare_bitfield_disable_in_value(self, outfile, register, field):
-        size_type = self._register_size_type(register)
+        size_type = "&mut " + self._register_size_type(register)
 
         gadget = self.gadgets["pal.rust.function_definition"]
-        gadget.return_type = size_type
+        gadget.return_type = None
         gadget.args = [(size_type, "value")]
         gadget.name = self._bitfield_disable_in_value_function_name(register, field)
 
@@ -255,7 +253,7 @@ class RustFieldAccessorWriter():
 
     @pal.gadget.rust.function_definition
     def _declare_bitfield_disable_in_value_details(self, outfile, register, field):
-        f_body = "value & !{mask}".format(
+        f_body = "*value &= !{mask};".format(
             mask=self._field_mask_string(register, field)
         )
         outfile.write(f_body)
@@ -364,7 +362,7 @@ class RustFieldAccessorWriter():
 
     @pal.gadget.rust.function_definition
     def _declare_set_field_in_value_details(self, outfile, register, field):
-        old_field_removed = "*register_value = *register_value & !{mask};".format(
+        old_field_removed = "*register_value &= !{mask};".format(
             mask=self._field_mask_string(register, field),
         )
 
