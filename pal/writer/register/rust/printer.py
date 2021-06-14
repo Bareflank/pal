@@ -78,12 +78,12 @@ class RustPrinterWriter():
         gadget = self.gadgets["pal.rust.function_definition"]
         gadget.name = self._field_print_from_value_function_name(register, field)
         gadget.return_type = None
-        gadget.args = [(size_type, "_register_value")]
+        gadget.args = [(size_type, "register_value")]
 
         self._declare_field_print_value_details(outfile, register, field)
 
     @pal.gadget.rust.function_definition
     def _declare_field_print_value_details(self, outfile, register, field):
-        #  self.call_field_get(outfile, register, field, "field_value", "register_value")
+        self.call_field_get(outfile, register, field, "field_value", "register_value")
 
         self.print_value_as_field(outfile, register, field, "field_value")
