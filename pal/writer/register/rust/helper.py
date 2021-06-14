@@ -14,15 +14,15 @@ class RustHelperWriter():
             return "{0:#0{1}x}".format(mask_val, 18)
 
     def _field_mask_string(self, register, field):
-        return "{register}_{field}_mask".format(
-            register=register.name.lower(),
-            field=field.name.lower()
+        return "{register}_{field}_MASK".format(
+            register=register.name.upper(),
+            field=field.name.upper()
         )
 
     def _field_lsb_string(self, register, field):
-        return "{register}_{field}_lsb".format(
-            register=register.name.lower(),
-            field=field.name.lower()
+        return "{register}_{field}_LSB".format(
+            register=register.name.upper(),
+            field=field.name.upper()
         )
 
     def _register_size_type(self, register):
@@ -35,11 +35,16 @@ class RustHelperWriter():
         else:
             return "u64"
 
-    def _declare_variable(self, outfile, name, value, size_type=None, const=False):
+    def _declare_variable(self, outfile, name, value, size_type=None, const=False, mut=False):
         if const:
+            outfile.write("#[allow(dead_code)]")
+            self.write_newline(outfile)
             outfile.write("const " + str(name))
         else:
-            outfile.write("let " + str(name))
+            outfile.write("let ")
+            if mut:
+                outfile.write("mut ")
+            outfile.write(str(name))
 
         if size_type:
             outfile.write(": " + str(size_type))
@@ -48,11 +53,15 @@ class RustHelperWriter():
         self.write_newline(outfile)
 
     def _declare_hex_integer_constant(self, outfile, name, value):
-        outfile.write("pub const " + str(name) + ":usize  = " +
+        outfile.write("#[allow(dead_code)]")
+        self.write_newline(outfile)
+        outfile.write("pub const " + str(name).upper() + ":usize  = " +
                       str(hex(value)) + ";")
 
     def _declare_string_constant(self, outfile, name, value):
-        outfile.write('pub const ' + str(name) + ': &str  = "' +
+        outfile.write("#[allow(dead_code)]")
+        self.write_newline(outfile)
+        outfile.write('pub const ' + str(name).upper() + ': &str  = "' +
                       str(value) + '";')
 
     def _register_read_function_name(self, register):

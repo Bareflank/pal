@@ -48,30 +48,30 @@ class RustFieldAccessorWriter():
     # private
     # -------------------------------------------------------------------------
     def _declare_field_constants(self, outfile, register, field):
-        prefix = self._field_prefix(register, field)
+        prefix = self._field_prefix(register, field).upper()
         register_size = self._register_size_type(register)
 
-        name = prefix + "name"
+        name = prefix + "NAME"
         val = '"' + field.name.lower() + '"'
         self._declare_variable(outfile, name, val, size_type="&str", const=True)
 
         if field.long_name:
-            name = prefix + "long_name"
+            name = prefix + "LONG_NAME"
             val = '"' + field.long_name + '"'
             self._declare_variable(outfile, name, val, size_type="&str", const=True)
 
         size_type = self._register_size_type(register)
-        name = prefix + "lsb"
+        name = prefix + "LSB"
         val = str(field.lsb)
         self._declare_variable(outfile, name, value=val,
                                size_type=register_size, const=True)
 
-        name = prefix + "msb"
+        name = prefix + "MSB"
         val = str(field.msb)
         self._declare_variable(outfile, name, value=val,
                                size_type=register_size, const=True)
 
-        name = prefix + "mask"
+        name = prefix + "MASK"
         val = self._field_mask_hex_string(register, field)
         self._declare_variable(outfile, name, value=val,
                                size_type=register_size, const=True)
@@ -344,7 +344,7 @@ class RustFieldAccessorWriter():
 
         size_type = self._register_size_type(register)
         self._declare_variable(outfile, "register_value", reg_get,
-                               size_type=size_type)
+                               size_type=size_type, mut=True)
         outfile.write(old_field_removed)
         self.write_newline(outfile)
         outfile.write(new_field_added)
@@ -353,21 +353,22 @@ class RustFieldAccessorWriter():
 
     def _declare_set_field_in_value(self, outfile, register, field):
         size_type = self._register_size_type(register)
+        mutable_size_type = "&mut " + size_type
 
         gadget = self.gadgets["pal.rust.function_definition"]
-        gadget.return_type = size_type
-        gadget.args = [(size_type, "field_value"), (size_type, "register_value")]
+        gadget.return_type = None
+        gadget.args = [(size_type, "field_value"), (mutable_size_type, "register_value")]
         gadget.name = self._field_write_in_value_function_name(register, field)
 
         self._declare_set_field_in_value_details(outfile, register, field)
 
     @pal.gadget.rust.function_definition
     def _declare_set_field_in_value_details(self, outfile, register, field):
-        old_field_removed = "register_value = register_value & !{mask};".format(
+        old_field_removed = "*register_value = *register_value & !{mask};".format(
             mask=self._field_mask_string(register, field),
         )
 
-        new_field_added = "register_value | ((field_value << {lsb}) & {mask})".format(
+        new_field_added = "*register_value |= (field_value << {lsb}) & {mask};".format(
             mask=self._field_mask_string(register, field),
             lsb=self._field_lsb_string(register, field),
         )

@@ -53,8 +53,18 @@ class RustLibpalAccessMechanismWriter(AccessMechanismWriter):
         if register.is_indexed:
             cpuid_args[1] = 'index as u32'
 
+        output_variable_names = "_eax, _ebx, _ecx, _edx"
+        if(access_mechanism.output == "eax"):
+            output_variable_names = output_variable_names.replace("_eax", "eax")
+        if(access_mechanism.output == "ebx"):
+            output_variable_names = output_variable_names.replace("_ebx", "ebx")
+        if(access_mechanism.output == "ecx"):
+            output_variable_names = output_variable_names.replace("_ecx", "ecx")
+        if(access_mechanism.output == "edx"):
+            output_variable_names = output_variable_names.replace("_edx", "edx")
+
         outfile.write('let ({}) = instruction::execute_cpuid({});'.format(
-            "eax, ebx, ecx, edx",
+            output_variable_names,
             ','.join(cpuid_args)
         ))
         self.write_newline(outfile)
