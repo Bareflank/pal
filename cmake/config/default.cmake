@@ -60,6 +60,8 @@ if(${PAL_ACCESS_MECHANISM} STREQUAL libpal)
         DEFAULT_VAL ${PAL_LIBPAL_ABI_DEFAULT_VALUE}
         DESCRIPTION "The target ABI for libpal, formatted as <arch>-<execution_state>-<os>-<calling_convention>"
         OPTIONS
+            armv8a-aarch64-linux-devpal
+            armv8a-aarch64-none-aapcs64
             x64-64bit-linux-devpal
             x64-64bit-none-ms64
             x64-64bit-none-systemv

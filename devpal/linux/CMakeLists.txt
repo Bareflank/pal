@@ -27,6 +27,15 @@ if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit OR ${PAL_TARGET_EXECUTION_
     )
 endif()
 
+if(${PAL_TARGET_EXECUTION_STATE} STREQUAL armv8a_aarch64)
+    add_subdirectory(armv8a/aarch64)
+    list(APPEND SOURCE_FILES
+        armv8a/aarch64/ioctl.c
+        armv8a/aarch64/sys.c
+        armv8a/aarch64/sysl.c
+    )
+endif()
+
 if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit)
     list(APPEND SOURCE_FILES
         x64/intel/ioctl.c
