@@ -1,0 +1,11 @@
+[package]
+name = "pal_rust_example"
+version = "0.1.0"
+authors = ["awsjared <awsjared@amazon.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# pal = { path = "../../../", features = ["intel_64bit", "x64-64bit-none-systemv"] }
+pal = { path = "../../../", features = ["intel_64bit", "x64-64bit-linux-devpal"] }
