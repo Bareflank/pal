@@ -14,26 +14,29 @@ class RustHelperWriter():
             return "{0:#0{1}x}".format(mask_val, 18)
 
     def _field_mask_string(self, register, field):
-        return "{register}_{field}_MASK".format(
-            register=register.name.upper(),
+        return "{field}_MASK".format(
             field=field.name.upper()
         )
 
     def _field_lsb_string(self, register, field):
-        return "{register}_{field}_LSB".format(
-            register=register.name.upper(),
+        return "{field}_LSB".format(
             field=field.name.upper()
         )
 
     def _register_size_type(self, register):
-        if register.size == 8:
+        return self._get_size_type(register.size)
+
+    def _get_size_type(self, number_of_bits):
+        if number_of_bits == 8:
             return "u8"
-        if register.size == 16:
+        if number_of_bits == 16:
             return "u16"
-        if register.size == 32:
+        if number_of_bits == 32:
             return "u32"
-        else:
+        if number_of_bits == 64:
             return "u64"
+        else:
+            return "usize"
 
     def _declare_variable(self, outfile, name, value, size_type=None, const=False, mut=False):
         if const:
@@ -52,11 +55,15 @@ class RustHelperWriter():
         outfile.write(" = " + str(value) + ";")
         self.write_newline(outfile)
 
-    def _declare_hex_integer_constant(self, outfile, name, value):
+    def _declare_hex_integer_constant(self, outfile, name, value, n_bits=None):
         outfile.write("#[allow(dead_code)]")
         self.write_newline(outfile)
-        outfile.write("pub const " + str(name).upper() + ":usize  = " +
-                      str(hex(value)) + ";")
+        declaration = "pub const {name}: {size} = {value};".format(
+            name=str(name).upper(),
+            size=self._get_size_type(n_bits),
+            value=str(hex(value))
+        )
+        outfile.write(declaration)
 
     def _declare_string_constant(self, outfile, name, value):
         outfile.write("#[allow(dead_code)]")
@@ -65,128 +72,107 @@ class RustHelperWriter():
                       str(value) + '";')
 
     def _register_read_function_name(self, register):
-        return "get_{reg_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "get{at_index}".format(
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _register_write_function_name(self, register):
-        return "set_{reg_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "set{at_index}".format(
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_enable_function_name(self, register, field):
-        return "enable_{reg_name}_{field_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "enable_{field_name}{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_enable_in_value_function_name(self, register, field):
-        return "enable_{reg_name}_{field_name}_in_value".format(
-            reg_name=register.name.lower(),
+        return "enable_{field_name}_in_value".format(
             field_name=field.name.lower()
         )
 
     def _bitfield_is_enabled_function_name(self, register, field):
-        return "{reg_name}_{field_name}_is_enabled{at_index}".format(
-            reg_name=register.name.lower(),
+        return "{field_name}_is_enabled{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_is_enabled_in_value_function_name(self, register, field):
-        return "{reg_name}_{field_name}_is_enabled_in_value".format(
-            reg_name=register.name.lower(),
+        return "{field_name}_is_enabled_in_value".format(
             field_name=field.name.lower()
         )
 
     def _bitfield_disable_function_name(self, register, field):
-        return "disable_{reg_name}_{field_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "disable_{field_name}{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_disable_in_value_function_name(self, register, field):
-        return "disable_{reg_name}_{field_name}_in_value".format(
-            reg_name=register.name.lower(),
+        return "disable_{field_name}_in_value".format(
             field_name=field.name.lower()
         )
 
     def _bitfield_is_disabled_function_name(self, register, field):
-        return "{reg_name}_{field_name}_is_disabled{at_index}".format(
-            reg_name=register.name.lower(),
+        return "{field_name}_is_disabled{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _bitfield_is_disabled_in_value_function_name(self, register, field):
-        return "{reg_name}_{field_name}_is_disabled_in_value".format(
-            reg_name=register.name.lower(),
+        return "{field_name}_is_disabled_in_value".format(
             field_name=field.name.lower()
         )
 
     def _field_read_function_name(self, register, field):
-        return "get_{reg_name}_{field_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "get_{field_name}{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _field_read_from_value_function_name(self, register, field):
-        return "get_{reg_name}_{field_name}_from_value".format(
-            reg_name=register.name.lower(),
+        return "get_{field_name}_from_value".format(
             field_name=field.name.lower()
         )
 
     def _field_write_function_name(self, register, field):
-        return "set_{reg_name}_{field_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "set_{field_name}{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _field_write_in_value_function_name(self, register, field):
-        return "set_{reg_name}_{field_name}_in_value".format(
-            reg_name=register.name.lower(),
+        return "set_{field_name}_in_value".format(
             field_name=field.name.lower()
         )
 
     def _field_print_function_name(self, register, field):
-        return "print_{reg_name}_{field_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "print_{field_name}{at_index}".format(
             field_name=field.name.lower(),
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _field_print_from_value_function_name(self, register, field):
-        return "print_{reg_name}_{field_name}_from_value".format(
-            reg_name=register.name.lower(),
+        return "print_{field_name}_from_value".format(
             field_name=field.name.lower()
         )
 
     def _fieldset_print_function_name(self, register, fieldset):
-        return "print_{reg_name}{fieldset_name}{at_index}".format(
-            reg_name=register.name.lower(),
+        return "print{fieldset_name}{at_index}".format(
             fieldset_name="_" + fieldset.name.lower() if len(register.fieldsets) > 1 else "",
             at_index="_at_index" if register.is_indexed else ""
         )
 
     def _fieldset_print_from_value_function_name(self, register, fieldset):
-        return "print_{reg_name}{fieldset_name}_from_value".format(
-            reg_name=register.name.lower(),
+        return "print{fieldset_name}_from_value".format(
             fieldset_name="_" + fieldset.name.lower() if len(register.fieldsets) > 1 else ""
         )
 
     def _register_prefix(self, register):
-        return "{reg_name}_".format(
-            reg_name=register.name.lower()
-        )
+        return ""
 
     def _field_prefix(self, register, field):
-        return "{reg_name}_{field_name}_".format(
-            reg_name=register.name.lower(),
+        return "{field_name}_".format(
             field_name=field.name.lower()
         )
