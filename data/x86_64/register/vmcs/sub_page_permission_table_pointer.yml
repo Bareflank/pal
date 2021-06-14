@@ -49,6 +49,6 @@
                   in bits 7:0 of EAX.
                   "
               lsb: 13
-              msb: 64
+              msb: 63
               readable: True
               writable: True

@@ -115,7 +115,7 @@ config.add_configuration(c)
 
 c = Configuration("language", "c++11")
 c.description = "The target programming language"
-c.options = ["c", "c++11", "yaml", "none"]
+c.options = ["c", "c++11", "rust", "yaml", "none"]
 config.add_configuration(c)
 
 c = Configuration("access_mechanism", "gas_att")
@@ -126,7 +126,7 @@ config.add_configuration(c)
 
 c = Configuration("print_mechanism", "printf_utf8")
 c.description = "The target mechanism for printing messages"
-c.options = ["printf_utf8", "none"]
+c.options = ["printf_utf8", "rust_println", "none"]
 config.add_configuration(c)
 
 c = Configuration("file_format", "unix")

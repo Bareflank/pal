@@ -5,6 +5,7 @@ from .include_guard import include_guard
 from .license import license
 from .c import *
 from .cxx import *
+from .rust import *
 
 from typing import List
 

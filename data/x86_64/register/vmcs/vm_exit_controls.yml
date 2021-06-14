@@ -100,8 +100,8 @@
               readable: True
               writable: True
 
-            - name: " Load IA32_PERF_GLOBAL_CTRL"
-              long_name: " Load IA32_PERF_GLOBAL_CTRL"
+            - name: "Load IA32_PERF_GLOBAL_CTRL"
+              long_name: "Load IA32_PERF_GLOBAL_CTRL"
               description: |
                   "
                   This control determines whether the IA32_PERF_GLOBAL_CTRL MSR
@@ -128,8 +128,8 @@
               readable: True
               writable: True
 
-            - name: " Acknowledge interrupt on exit"
-              long_name: " Acknowledge interrupt on exit"
+            - name: "Acknowledge interrupt on exit"
+              long_name: "Acknowledge interrupt on exit"
               description: |
                   "
                   This control affects VM exits due to external interrupts: •

@@ -3,7 +3,7 @@ from pal.logger import logger
 
 class SpecialToUnderscore(AbstractTransform):
     def __init__(self):
-        self.special_chars = " !@#$%^&*()[]{};:,./<>?\|`~-=+"
+        self.special_chars = " !@#$%^&*()[]{};:,./<>?\|`~-=+–"
 
     @property
     def description(self):
@@ -20,6 +20,12 @@ class SpecialToUnderscore(AbstractTransform):
                 new_name = new_name
             ))
             reg.name = new_name
+            while "__" in reg.name:
+                reg.name = reg.name.replace("__", "_")
+            if reg.name[-1] == "_":
+                reg.name = reg.name[0:-1]
+            if reg.name[0] == "_":
+                reg.name = reg.name[1:]
 
         for fs in reg.fieldsets:
             for f in fs.fields:
@@ -30,5 +36,11 @@ class SpecialToUnderscore(AbstractTransform):
                         new_name = new_name
                     ))
                     f.name = new_name
+                    while "__" in f.name:
+                        f.name = f.name.replace("__", "_")
+                    if f.name[-1] == "_":
+                        f.name = f.name[0:-1]
+                    if f.name[0] == "_":
+                        f.name = f.name[1:]
 
         return reg

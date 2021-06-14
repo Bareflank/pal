@@ -28,7 +28,7 @@ set(INTEL_SYNTAX_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/intel_output.stamp)
 
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
-        -o ${CMAKE_INSTALL_PREFIX}/intel_asm/pal
+        -o ${CMAKE_INSTALL_PREFIX}/intel_asm
         --execution_state=intel_64bit
         --language=c
         --access_mechanism=gas_intel
@@ -47,7 +47,7 @@ add_executable(test_compile_x86_64_intel_asm
 
 target_include_directories(test_compile_x86_64_intel_asm
     PRIVATE
-        ${CMAKE_INSTALL_PREFIX}/intel_asm
+        ${CMAKE_INSTALL_PREFIX}/intel_asm/include
 )
 
 target_compile_options(test_compile_x86_64_intel_asm
@@ -64,7 +64,7 @@ add_dependencies(test_compile_x86_64_intel_asm test_generate_x86_64_intel_asm)
 set(ATT_SYNTAX_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/att_output.stamp)
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
-        -o ${CMAKE_INSTALL_PREFIX}/att_asm/pal
+        -o ${CMAKE_INSTALL_PREFIX}/att_asm
         --execution_state=intel_64bit
         --language=c
         --access_mechanism=gas_att
@@ -83,7 +83,7 @@ add_executable(test_compile_x86_64_att_asm
 
 target_include_directories(test_compile_x86_64_att_asm
     PRIVATE
-        ${CMAKE_INSTALL_PREFIX}/att_asm
+        ${CMAKE_INSTALL_PREFIX}/att_asm/include
 )
 
 target_compile_options(test_compile_x86_64_att_asm
@@ -100,7 +100,7 @@ add_dependencies(test_compile_x86_64_att_asm test_generate_x86_64_att_asm)
 set(LIBPAL_SYNTAX_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/libpal_output.stamp)
 add_custom_command(
     COMMAND PYTHONPATH=${PYTHONPATH} ${Python3_EXECUTABLE} -m pal
-        -o ${CMAKE_INSTALL_PREFIX}/libpal/pal
+        -o ${CMAKE_INSTALL_PREFIX}/libpal
         --execution_state=intel_64bit
         --language=c
         --access_mechanism=libpal
@@ -119,7 +119,7 @@ add_executable(test_compile_x86_64_libpal
 
 target_include_directories(test_compile_x86_64_libpal
     PRIVATE
-        ${CMAKE_INSTALL_PREFIX}/libpal
+        ${CMAKE_INSTALL_PREFIX}/libpal/include
 )
 
 add_subdirectory(${PAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/libpal)
