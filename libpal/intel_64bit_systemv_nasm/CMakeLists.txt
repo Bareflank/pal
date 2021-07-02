@@ -1,12 +1,12 @@
 enable_language(ASM_NASM)
 
-add_library(pal_x64_64bit_none_systemv)
+add_library(pal_intel_64bit_systemv_nasm)
 
-target_compile_options(pal_x64_64bit_none_systemv PRIVATE
+target_compile_options(pal_intel_64bit_systemv_nasm PRIVATE
     "-f elf64"
 )
 
-target_sources(pal_x64_64bit_none_systemv PRIVATE
+target_sources(pal_intel_64bit_systemv_nasm PRIVATE
     bsf.asm
     bsr.asm
     clflush.asm

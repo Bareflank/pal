@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.12)
-project(pal C CXX)
+project(pal)
+
+if(PAL_C)
+    enable_language(C)
+endif()
+
+if(PAL_C++11)
+    enable_language(CXX)
+endif()
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
@@ -7,57 +15,206 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake/init_project.cmake)
 
 set(PYTHONPATH ${CMAKE_CURRENT_LIST_DIR})
 
-file(GLOB_RECURSE PAL_SRC_FILES "pal/*.py" "data/*.yml")
-set(PAL_OUTPUT_STAMP ${CMAKE_CURRENT_BINARY_DIR}/pal_output.stamp)
+if(PAL_ARMV8A_AARCH32_AAPCS_GNU)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_armv8a_aarch32_aapcs_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_armv8a_aarch32_aapcs_gnuasm
+            LANGUAGE c
+            EXECUTION_STATE armv8a_aarch32
+            ACCESS_MECHANISM gas_aarch32
+        )
+    endif()
 
-if(PAL_QUIET_CMAKE)
-    set(PAL_LOG_LEVEL "error")
-else()
-    set(PAL_LOG_LEVEL "info")
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_armv8a_aarch32_aapcs_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_armv8a_aarch32_aapcs_gnuasm
+            LANGUAGE c++11
+            EXECUTION_STATE armv8a_aarch32
+            ACCESS_MECHANISM gas_aarch32
+        )
+    endif()
 endif()
 
-add_custom_command(
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/pal.py
-        -o ${PAL_OUTPUT_DIR}
-        --execution_state=${PAL_TARGET_EXECUTION_STATE}
-        --language=${PAL_TARGET_LANGUAGE}
-        --access_mechanism=${PAL_ACCESS_MECHANISM}
-        --print_mechanism=${PAL_PRINT_MECHANISM}
-        --file_format=${PAL_FILE_FORMAT}
-        --acpi=${PAL_ENABLE_ACPI}
-        --log_level=${PAL_LOG_LEVEL}
-    COMMAND cmake -E touch ${PAL_OUTPUT_STAMP}
-    OUTPUT ${PAL_OUTPUT_STAMP}
-    DEPENDS ${PAL_SRC_FILES}
-    COMMENT "Generating PAL outputs"
-)
+if(PAL_ARMV8A_AARCH64_AAPCS64_GNU)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_armv8a_aarch64_aapcs64_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_armv8a_aarch64_aapcs64_gnuasm
+            LANGUAGE c
+            EXECUTION_STATE armv8a_aarch64
+            ACCESS_MECHANISM gas_aarch64
+        )
+    endif()
 
-add_custom_target(pal_generate ALL DEPENDS ${PAL_OUTPUT_STAMP})
-
-if(${PAL_ACCESS_MECHANISM} STREQUAL libpal)
-    add_subdirectory(libpal)
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_armv8a_aarch64_aapcs64_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_armv8a_aarch64_aapcs64_gnuasm
+            LANGUAGE c++11
+            EXECUTION_STATE armv8a_aarch64
+            ACCESS_MECHANISM gas_aarch64
+        )
+    endif()
 endif()
 
-if(${PAL_ENABLE_DEVPAL})
-    add_subdirectory(devpal)
+if(PAL_INTEL_64BIT_SYSTEMV_GNUATT)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_intel_64bit_systemv_gnuatt
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_systemv_gnuatt
+            LANGUAGE c
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM gas_att
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_intel_64bit_systemv_gnuatt
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_systemv_gnuatt
+            LANGUAGE c++11
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM gas_att
+        )
+    endif()
 endif()
+
+if(PAL_INTEL_64BIT_SYSTEMV_GNUINTEL)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_intel_64bit_systemv_gnuintel
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_systemv_gnuintel
+            LANGUAGE c
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM gas_intel
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_intel_64bit_systemv_gnuintel
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_systemv_gnuintel
+            LANGUAGE c++11
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM gas_intel
+        )
+    endif()
+endif()
+
+if(PAL_INTEL_64BIT_SYSTEMV_NASM)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_intel_64bit_systemv_nasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_systemv_nasm
+            LANGUAGE c
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_intel_64bit_systemv_nasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_systemv_nasm
+            LANGUAGE c++11
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    add_subdirectory(libpal/intel_64bit_systemv_nasm)
+endif()
+
+if(PAL_INTEL_64BIT_MS64_MASM)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_intel_64bit_ms64_masm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_ms64_masm
+            LANGUAGE c
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_intel_64bit_ms64_masm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_ms64_masm
+            LANGUAGE c++11
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    add_subdirectory(libpal/intel_64bit_ms64_masm)
+endif()
+
+if(PAL_INTEL_64BIT_LINUX_IOCTL)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_intel_64bit_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_linux_ioctl
+            LANGUAGE c
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_intel_64bit_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_linux_ioctl
+            LANGUAGE c++11
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    add_subdirectory(libpal/intel_64bit_linux_ioctl)
+
+    if(PAL_DRIVER)
+        add_subdirectory(devpal/linux)
+    endif()
+endif()
+
+# if(PAL_ACPI)
+#     if(PAL_C)
+#         pal_run_generator(
+#             TARGET_NAME c_acpi
+#             INPUT_DIR ${CMAKE_SOURCE_DIR}/data/acpi
+#             OUTPUT_DIR ${CMAKE_BINARY_DIR}/acpi
+#             LANGUAGE c
+#         )
+#     endif()
+#
+#     if(PAL_C++11)
+#         pal_run_generator(
+#             TARGET_NAME c++11_acpi
+#             INPUT_DIR ${CMAKE_SOURCE_DIR}/data/acpi
+#             OUTPUT_DIR ${CMAKE_BINARY_DIR}/acpi
+#             LANGUAGE c++11
+#         )
+#     endif()
+# endif()
 
 add_library(pal INTERFACE)
-add_dependencies(pal pal_generate)
-target_include_directories(pal INTERFACE ${PAL_OUTPUT_DIR})
-target_link_libraries(pal INTERFACE libpal)
+# add_dependencies(pal pal_generate)
+# target_include_directories(pal INTERFACE ${CMAKE_BINARY_DIR})
+# target_link_libraries(pal INTERFACE libpal)
 
 set(CMAKE_INSTALL_MESSAGE NEVER)
 install(
-    DIRECTORY ${PAL_OUTPUT_DIR}
+    DIRECTORY ${CMAKE_BINARY_DIR}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 )
 
-if(PAL_ENABLE_TEST)
+if(PAL_TEST)
     add_subdirectory(test)
 endif()
 
-if(PAL_ENABLE_EXAMPLE)
+if(PAL_EXAMPLE)
     add_subdirectory(example)
 endif()
 
