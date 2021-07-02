@@ -10,7 +10,7 @@ list(APPEND SOURCE_FILES
     driver.c
 )
 
-if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit OR ${PAL_TARGET_EXECUTION_STATE} STREQUAL amd_64bit)
+if(PAL_INTEL_64BIT_LINUX_IOCTL OR PAL_AMD_64BIT_LINUX_IOCTL)
     add_subdirectory(x64)
     list(APPEND SOURCE_FILES
         x64/cpuid.c
@@ -27,7 +27,7 @@ if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit OR ${PAL_TARGET_EXECUTION_
     )
 endif()
 
-if(${PAL_TARGET_EXECUTION_STATE} STREQUAL armv8a_aarch64)
+if(PAL_ARMV8A_AARCH64_LINUX_IOCTL)
     add_subdirectory(armv8a/aarch64)
     list(APPEND SOURCE_FILES
         armv8a/aarch64/ioctl.c
@@ -36,7 +36,7 @@ if(${PAL_TARGET_EXECUTION_STATE} STREQUAL armv8a_aarch64)
     )
 endif()
 
-if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit)
+if(PAL_INTEL_64BIT_LINUX_IOCTL)
     list(APPEND SOURCE_FILES
         x64/intel/ioctl.c
         x64/intel/vmcall.c

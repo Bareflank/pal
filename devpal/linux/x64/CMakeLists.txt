@@ -1,3 +1,3 @@
-if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit)
+if(PAL_INTEL_64BIT_LINUX_IOCTL)
     add_subdirectory(intel)
 endif()

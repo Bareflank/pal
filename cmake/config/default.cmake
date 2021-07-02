@@ -23,113 +23,97 @@ set(PAL_SOURCE_CONFIG_DIR ${CMAKE_CURRENT_LIST_DIR}
 
 include(${PAL_SOURCE_CMAKE_DIR}/macros/pal_add_config.cmake)
 
-pal_add_config(
-    CONFIG_NAME PAL_TARGET_EXECUTION_STATE
-    CONFIG_TYPE STRING
-    DEFAULT_VAL intel_64bit
-    DESCRIPTION "The target architecture + execution state"
-    OPTIONS armv8a_aarch64 armv8a_aarch32 intel_64bit
+option(
+    PAL_C
+    "Enable pal for the C language"
+    ON
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_TARGET_LANGUAGE
-    CONFIG_TYPE STRING
-    DEFAULT_VAL c++11
-    DESCRIPTION "The target programming language"
-    OPTIONS c c++11 rust yaml none
+option(
+    PAL_C++11
+    "Enable pal for the C++11 language"
+    ON
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_ACCESS_MECHANISM
-    CONFIG_TYPE STRING
-    DEFAULT_VAL libpal
-    DESCRIPTION "The target access mechanism type"
-    OPTIONS libpal gas_att gas_intel gas_aarch64 gas_aarch32 test yaml none
+option(
+    PAL_PRETTY_PRINT
+    "Enable pretty-print functions in generated APIs"
+    ON
 )
 
-if(${PAL_ACCESS_MECHANISM} STREQUAL libpal)
-    if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL Windows)
-        set(PAL_LIBPAL_ABI_DEFAULT_VALUE x64-64bit-none-ms64)
-    else()
-        set(PAL_LIBPAL_ABI_DEFAULT_VALUE x64-64bit-none-systemv)
-    endif()
-
-    pal_add_config(
-        CONFIG_NAME PAL_LIBPAL_ABI
-        CONFIG_TYPE STRING
-        DEFAULT_VAL ${PAL_LIBPAL_ABI_DEFAULT_VALUE}
-        DESCRIPTION "The target ABI for libpal, formatted as <arch>-<execution_state>-<os>-<calling_convention>"
-        OPTIONS
-            armv8a-aarch64-linux-devpal
-            armv8a-aarch64-none-aapcs64
-            x64-64bit-linux-devpal
-            x64-64bit-none-ms64
-            x64-64bit-none-systemv
-    )
-
-else()
-    unset(PAL_LIBPAL_ABI CACHE)
-endif()
-
-pal_add_config(
-    CONFIG_NAME PAL_PRINT_MECHANISM
-    CONFIG_TYPE STRING
-    DEFAULT_VAL printf_utf8
-    DESCRIPTION "The target function printing style"
-    OPTIONS printf_utf8 rust_println none
+option(
+    PAL_ARMV8A_AARCH32_AAPCS_GNU
+    "Enable pal for ARMv8a (aarch32) from the AAPCS ABI to GNU inline assemler"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_FILE_FORMAT
-    CONFIG_TYPE STRING
-    DEFAULT_VAL unix
-    DESCRIPTION "The target file format"
-    OPTIONS unix windows yaml none
+option(
+    PAL_ARMV8A_AARCH64_AAPCS64_GNU
+    "Enable pal for ARMv8a (aarch64) from the AAPCS64 ABI to GNU inline assemler"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_ENABLE_TEST
-    CONFIG_TYPE BOOL
-    DEFAULT_VAL OFF
-    DESCRIPTION "Set to ON to enable the project's tests"
+option(
+    PAL_INTEL_64BIT_SYSTEMV_GNUATT
+    "Enable pal for Intel (64-bit) from the systemv ABI to GNU inline assemler (AT&T syntax)"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_ENABLE_EXAMPLE
-    CONFIG_TYPE BOOL
-    DEFAULT_VAL OFF
-    DESCRIPTION "Set to ON to enable the project's examples"
+option(
+    PAL_INTEL_64BIT_SYSTEMV_GNUINTEL
+    "Enable pal for Intel (64-bit) from the systemv ABI to GNU inline assemler (Intel syntax)"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_OUTPUT_DIR
-    CONFIG_TYPE STRING
-    DEFAULT_VAL ${CMAKE_BINARY_DIR}
-    DESCRIPTION "Directory for PAL to generated output"
+option(
+    PAL_INTEL_64BIT_SYSTEMV_NASM
+    "Enable pal for Intel (64-bit) from the systemv ABI to a Nasm assembler library"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_QUIET_CMAKE
-    CONFIG_TYPE BOOL
-    DEFAULT_VAL OFF
-    DESCRIPTION "Set to ON to supress build output from CMake"
+option(
+    PAL_INTEL_64BIT_MS64_MASM
+    "Enable pal for Intel (64-bit) from the MS64 ABI to a Microsoft Assembler (MASM) library"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_ENABLE_ACPI
-    CONFIG_TYPE BOOL
-    DEFAULT_VAL OFF
-    DESCRIPTION "EXPERIMENTAL: Set to ON to include ACPI in the generated PAL output"
+option(
+    PAL_INTEL_64BIT_LINUX_IOCTL
+    "Enable pal for Intel (64-bit) from a Linux application to a Linux driver via an IOCTL"
+    OFF
 )
 
-pal_add_config(
-    CONFIG_NAME PAL_ENABLE_DEVPAL
-    CONFIG_TYPE BOOL
-    DEFAULT_VAL OFF
-    DESCRIPTION "Set to ON to build the devpal driver"
+option(
+    PAL_ACPI
+    "Enable pal for ACPI tables"
+    OFF
 )
 
-if(PAL_ENABLE_DEVPAL AND ${CMAKE_HOST_SYSTEM_NAME} STREQUAL Linux)
+option(
+    PAL_TEST
+    "Enable the project's tests"
+    OFF
+)
+
+option(
+    PAL_EXAMPLE
+    "Enable the project's examples"
+    OFF
+)
+
+option(
+    PAL_QUIET_CMAKE
+    "Enable to supress build and code-generator output from CMake"
+    OFF
+)
+
+option(
+    PAL_DRIVER
+    "Enable pal driver for the current host system"
+    OFF
+)
+
+if(PAL_DRIVER AND ${CMAKE_HOST_SYSTEM_NAME} STREQUAL Linux)
     execute_process(
         COMMAND uname -r
         OUTPUT_VARIABLE KERNEL_RELEASE

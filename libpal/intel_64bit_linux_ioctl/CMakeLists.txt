@@ -1,9 +1,9 @@
-add_library(pal_x64_64bit_linux_devpal)
-target_include_directories(pal_x64_64bit_linux_devpal PRIVATE
+add_library(pal_intel_64bit_linux_ioctl)
+target_include_directories(pal_intel_64bit_linux_ioctl PRIVATE
     ${CMAKE_SOURCE_DIR}/devpal/include
 )
 
-target_sources(pal_x64_64bit_linux_devpal PRIVATE
+target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # bsf.c
     # bsr.c
     # clflush.c
