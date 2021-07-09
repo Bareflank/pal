@@ -19,7 +19,7 @@ if(PAL_ARMV8A_AARCH32_AAPCS_GNU)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_armv8a_aarch32_aapcs_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_armv8a_aarch32_aapcs_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch32_aapcs_gnuasm
             LANGUAGE c
             EXECUTION_STATE armv8a_aarch32
             ACCESS_MECHANISM gas_aarch32
@@ -29,7 +29,7 @@ if(PAL_ARMV8A_AARCH32_AAPCS_GNU)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_armv8a_aarch32_aapcs_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_armv8a_aarch32_aapcs_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch32_aapcs_gnuasm
             LANGUAGE c++11
             EXECUTION_STATE armv8a_aarch32
             ACCESS_MECHANISM gas_aarch32
@@ -41,7 +41,7 @@ if(PAL_ARMV8A_AARCH64_AAPCS64_GNU)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_armv8a_aarch64_aapcs64_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_armv8a_aarch64_aapcs64_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch64_aapcs64_gnuasm
             LANGUAGE c
             EXECUTION_STATE armv8a_aarch64
             ACCESS_MECHANISM gas_aarch64
@@ -51,7 +51,7 @@ if(PAL_ARMV8A_AARCH64_AAPCS64_GNU)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_armv8a_aarch64_aapcs64_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_armv8a_aarch64_aapcs64_gnuasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch64_aapcs64_gnuasm
             LANGUAGE c++11
             EXECUTION_STATE armv8a_aarch64
             ACCESS_MECHANISM gas_aarch64
@@ -63,7 +63,7 @@ if(PAL_INTEL_64BIT_SYSTEMV_GNUATT)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_intel_64bit_systemv_gnuatt
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_systemv_gnuatt
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/intel_64bit_systemv_gnuatt
             LANGUAGE c
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM gas_att
@@ -73,7 +73,7 @@ if(PAL_INTEL_64BIT_SYSTEMV_GNUATT)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_intel_64bit_systemv_gnuatt
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_systemv_gnuatt
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/intel_64bit_systemv_gnuatt
             LANGUAGE c++11
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM gas_att
@@ -85,7 +85,7 @@ if(PAL_INTEL_64BIT_SYSTEMV_GNUINTEL)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_intel_64bit_systemv_gnuintel
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_systemv_gnuintel
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/intel_64bit_systemv_gnuintel
             LANGUAGE c
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM gas_intel
@@ -95,7 +95,7 @@ if(PAL_INTEL_64BIT_SYSTEMV_GNUINTEL)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_intel_64bit_systemv_gnuintel
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_systemv_gnuintel
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/intel_64bit_systemv_gnuintel
             LANGUAGE c++11
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM gas_intel
@@ -107,7 +107,7 @@ if(PAL_INTEL_64BIT_SYSTEMV_NASM)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_intel_64bit_systemv_nasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_systemv_nasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/intel_64bit_systemv_nasm
             LANGUAGE c
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM libpal
@@ -117,7 +117,7 @@ if(PAL_INTEL_64BIT_SYSTEMV_NASM)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_intel_64bit_systemv_nasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_systemv_nasm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/intel_64bit_systemv_nasm
             LANGUAGE c++11
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM libpal
@@ -131,7 +131,7 @@ if(PAL_INTEL_64BIT_MS64_MASM)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_intel_64bit_ms64_masm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_ms64_masm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/intel_64bit_ms64_masm
             LANGUAGE c
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM libpal
@@ -141,7 +141,7 @@ if(PAL_INTEL_64BIT_MS64_MASM)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_intel_64bit_ms64_masm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_ms64_masm
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/intel_64bit_ms64_masm
             LANGUAGE c++11
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM libpal
@@ -155,7 +155,7 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL)
     if(PAL_C)
         pal_run_generator(
             TARGET_NAME c_intel_64bit_linux_ioctl
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c_intel_64bit_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/intel_64bit_linux_ioctl
             LANGUAGE c
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM libpal
@@ -165,7 +165,7 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL)
     if(PAL_C++11)
         pal_run_generator(
             TARGET_NAME c++11_intel_64bit_linux_ioctl
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11_intel_64bit_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/intel_64bit_linux_ioctl
             LANGUAGE c++11
             EXECUTION_STATE intel_64bit
             ACCESS_MECHANISM libpal

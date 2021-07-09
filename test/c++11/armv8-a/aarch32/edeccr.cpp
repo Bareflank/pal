@@ -13,14 +13,14 @@ void test_edeccr_compile(void)
     auto value = pal::edeccr::get();
 
     // Field accessors
-    pal::edeccr::fieldset_1::nse_n_::get();
-    pal::edeccr::fieldset_1::nse_n_::get(value);
-    pal::edeccr::fieldset_1::nse_n_::set(0x0);
-    pal::edeccr::fieldset_1::nse_n_::set(0x0, value);
+    pal::edeccr::fieldset_1::nse_n::get();
+    pal::edeccr::fieldset_1::nse_n::get(value);
+    pal::edeccr::fieldset_1::nse_n::set(0x0);
+    pal::edeccr::fieldset_1::nse_n::set(0x0, value);
 
     // Printers
     pal::edeccr::fieldset_1::print();
     pal::edeccr::fieldset_1::print(value);
-    pal::edeccr::fieldset_1::nse_n_::print();
-    pal::edeccr::fieldset_1::nse_n_::print(value);
+    pal::edeccr::fieldset_1::nse_n::print();
+    pal::edeccr::fieldset_1::nse_n::print(value);
 }

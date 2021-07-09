@@ -25,3 +25,4 @@ int main(void)
     arg4 = 0;               // rsi
     result = pal_execute_vmcall_kvm(index, arg1, arg2, arg3, arg4);
 }
+

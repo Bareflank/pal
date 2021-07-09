@@ -68,6 +68,7 @@ class CFieldAccessorWriter():
         name = prefix + "lsb"
         val = str(field.lsb)
         self._declare_variable(outfile, name, value=val, keywords=keywords)
+        self._declare_preprocessor_constant(outfile, name, val)
 
         keywords = ["static", "const", self._register_size_type(register)]
         name = prefix + "msb"

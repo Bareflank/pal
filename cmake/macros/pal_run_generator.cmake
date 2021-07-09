@@ -57,5 +57,9 @@ function(pal_run_generator)
         COMMENT "Generating ${ARG_TARGET_NAME} outputs"
     )
 
-    add_custom_target(${ARG_TARGET_NAME} ALL DEPENDS ${TARGET_OUTPUT_STAMP})
+    add_custom_target(run_generator_${ARG_TARGET_NAME} ALL DEPENDS ${TARGET_OUTPUT_STAMP})
+
+    add_library(${ARG_TARGET_NAME} INTERFACE)
+    target_include_directories(${ARG_TARGET_NAME} INTERFACE ${ARG_OUTPUT_DIR}/include)
+    add_dependencies(${ARG_TARGET_NAME} run_generator_${ARG_TARGET_NAME})
 endfunction(pal_run_generator)

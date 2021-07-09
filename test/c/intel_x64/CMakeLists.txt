@@ -122,8 +122,8 @@ target_include_directories(test_compile_x86_64_libpal
         ${CMAKE_INSTALL_PREFIX}/libpal/include
 )
 
-add_subdirectory(${PAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/libpal)
-target_link_libraries(test_compile_x86_64_libpal libpal)
+add_subdirectory(${PAL_SOURCE_DIR}/libpal/intel_64bit_systemv_nasm ${CMAKE_CURRENT_BINARY_DIR}/libpal/intel_64bit_systemv_nasm)
+target_link_libraries(test_compile_x86_64_libpal pal_intel_64bit_systemv_nasm)
 
 install(TARGETS test_compile_x86_64_libpal DESTINATION bin)
 add_dependencies(test_compile_x86_64_libpal test_generate_x86_64_libpal)

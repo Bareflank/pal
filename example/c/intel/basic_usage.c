@@ -22,7 +22,7 @@ int main(void)
 
     // As another example, read the IA32_TSC MSR using its address as an input
     // to the x86 RDMSR instruction
-    uint32_t address = pal_ia32_tsc_address;
+    uint32_t address = PAL_IA32_TSC_ADDRESS;
     uint64_t msr_value_2 = pal_execute_rdmsr(address);
 
     // You can also print register contents without storing the value in a
@@ -44,3 +44,4 @@ int main(void)
         printf("Paging is enabled\n");
     }
 }
+
