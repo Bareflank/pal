@@ -64,21 +64,17 @@ class CFieldAccessorWriter():
             val = '"' + field.long_name + '"'
             self._declare_variable(outfile, name, value=val, keywords=keywords)
 
-        keywords = ["static", "const", self._register_size_type(register)]
         name = prefix + "lsb"
         val = str(field.lsb)
-        self._declare_variable(outfile, name, value=val, keywords=keywords)
         self._declare_preprocessor_constant(outfile, name, val)
 
-        keywords = ["static", "const", self._register_size_type(register)]
         name = prefix + "msb"
         val = str(field.msb)
-        self._declare_variable(outfile, name, value=val, keywords=keywords)
+        self._declare_preprocessor_constant(outfile, name, val)
 
-        keywords = ["static", "const", self._register_size_type(register)]
         name = prefix + "mask"
         val = self._field_mask_hex_string(register, field)
-        self._declare_variable(outfile, name, value=val, keywords=keywords)
+        self._declare_preprocessor_constant(outfile, name, val)
 
         self.write_newline(outfile)
 

@@ -38,32 +38,25 @@ class CRegisterAccessorWriter():
         if register.access_mechanisms.get("rdmsr"):
             addr = register.access_mechanisms["rdmsr"][0].address
             self._declare_preprocessor_constant(outfile, prefix + "address", hex(addr))
-            self.write_newline(outfile)
 
         if register.access_mechanisms.get("ldr"):
             offset = register.access_mechanisms["ldr"][0].offset
             self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
-            self.write_newline(outfile)
         elif register.access_mechanisms.get("str"):
             offset = register.access_mechanisms["str"][0].offset
             self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
-            self.write_newline(outfile)
         elif register.access_mechanisms.get("vmread"):
             encoding = register.access_mechanisms["vmread"][0].encoding
             self._declare_preprocessor_constant(outfile, prefix + "encoding", hex(encoding))
-            self.write_newline(outfile)
         elif register.access_mechanisms.get("vmwrite"):
             encoding = register.access_mechanisms["vmwrite"][0].encoding
             self._declare_preprocessor_constant(outfile, prefix + "encoding", hex(encoding))
-            self.write_newline(outfile)
         elif register.access_mechanisms.get("read"):
             offset = register.access_mechanisms["read"][0].offset
             self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
-            self.write_newline(outfile)
         elif register.access_mechanisms.get("write"):
             offset = register.access_mechanisms["write"][0].offset
             self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
-            self.write_newline(outfile)
 
 
         self.write_newline(outfile)
