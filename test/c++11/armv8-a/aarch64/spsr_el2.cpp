@@ -1,4 +1,5 @@
 #include <pal/aarch64/spsr_el2.h>
+#include <stdio.h>
 
 void test_spsr_el2_compile(void)
 {
@@ -21,10 +22,10 @@ void test_spsr_el2_compile(void)
     pal::spsr_el2::fieldset_1::ge::set(0x0, value);
 
     // Printers
-    pal::spsr_el2::fieldset_1::print();
-    pal::spsr_el2::fieldset_1::print(value);
-    pal::spsr_el2::fieldset_1::t::print();
-    pal::spsr_el2::fieldset_1::t::print(value);
-    pal::spsr_el2::fieldset_1::ge::print();
-    pal::spsr_el2::fieldset_1::ge::print(value);
+    pal::spsr_el2::fieldset_1::print(printf);
+    pal::spsr_el2::fieldset_1::print(printf, value);
+    pal::spsr_el2::fieldset_1::t::print(printf);
+    pal::spsr_el2::fieldset_1::t::print(printf, value);
+    pal::spsr_el2::fieldset_1::ge::print(printf);
+    pal::spsr_el2::fieldset_1::ge::print(printf, value);
 }

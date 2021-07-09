@@ -1,5 +1,6 @@
 #include <pal/instruction/cpuid.h>
 #include <pal/cpuid/leaf_01_eax.h>
+#include <stdio.h>
 
 void test_cpuid_compile(void)
 {
@@ -13,6 +14,6 @@ void test_cpuid_compile(void)
     uint32_t ecx = output.ecx;
     uint32_t edx = output.edx;
 
-    pal_print_leaf_01_eax_from_value(eax);
+    pal_print_leaf_01_eax_from_value(printf, eax);
     uint32_t family_id = pal_get_leaf_01_eax_family_id_from_value(eax);
 }

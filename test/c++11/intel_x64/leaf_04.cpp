@@ -2,6 +2,7 @@
 #include <pal/cpuid/leaf_04_ebx.h>
 #include <pal/cpuid/leaf_04_ecx.h>
 #include <pal/cpuid/leaf_04_edx.h>
+#include <stdio.h>
 
 void test_leaf_04_compile(void)
 {
@@ -20,10 +21,10 @@ void test_leaf_04_compile(void)
     pal::leaf_04_eax::cache_type::get(eax);
 
     // Printers
-    pal::leaf_04_eax::print_at_index(1);
-    pal::leaf_04_eax::print(eax);
-    pal::leaf_04_eax::self_initializing_cache_level::print_at_index(1);
-    pal::leaf_04_eax::self_initializing_cache_level::print(eax);
-    pal::leaf_04_eax::cache_type::print_at_index(1);
-    pal::leaf_04_eax::cache_type::print(eax);
+    pal::leaf_04_eax::print_at_index(printf, 1);
+    pal::leaf_04_eax::print(printf, eax);
+    pal::leaf_04_eax::self_initializing_cache_level::print_at_index(printf, 1);
+    pal::leaf_04_eax::self_initializing_cache_level::print(printf, eax);
+    pal::leaf_04_eax::cache_type::print_at_index(printf, 1);
+    pal::leaf_04_eax::cache_type::print(printf, eax);
 }

@@ -1,4 +1,5 @@
 #include <pal/external/edecr.h>
+#include <stdio.h>
 
 void test_edecr_compile(void)
 {
@@ -17,8 +18,8 @@ void test_edecr_compile(void)
     pal_edecr_rce_is_disabled_in_value(value);
 
     // Printers
-    pal_print_edecr();
-    pal_print_edecr_from_value(value);
-    pal_print_edecr_rce();
-    pal_print_edecr_rce_from_value(value);
+    pal_print_edecr(printf);
+    pal_print_edecr_from_value(printf, value);
+    pal_print_edecr_rce(printf);
+    pal_print_edecr_rce_from_value(printf, value);
 }

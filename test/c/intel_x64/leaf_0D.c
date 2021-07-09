@@ -2,6 +2,7 @@
 #include <pal/cpuid/leaf_0d_ebx.h>
 #include <pal/cpuid/leaf_0d_ecx.h>
 #include <pal/cpuid/leaf_0d_edx.h>
+#include <stdio.h>
 
 void test_leaf_0d_compile(void)
 {
@@ -20,10 +21,10 @@ void test_leaf_0d_compile(void)
     pal_get_leaf_0d_eax_subleaf_0_mpx_state_from_value(eax);
 
     // Printers
-    pal_print_leaf_0d_eax_subleaf_0_at_index(1);
-    pal_print_leaf_0d_eax_subleaf_0_from_value(eax);
-    pal_print_leaf_0d_eax_subleaf_0_sse_state_at_index(1);
-    pal_print_leaf_0d_eax_subleaf_0_sse_state_from_value(eax);
-    pal_print_leaf_0d_eax_subleaf_0_mpx_state_at_index(1);
-    pal_print_leaf_0d_eax_subleaf_0_mpx_state_from_value(eax);
+    pal_print_leaf_0d_eax_subleaf_0_at_index(printf, 1);
+    pal_print_leaf_0d_eax_subleaf_0_from_value(printf, eax);
+    pal_print_leaf_0d_eax_subleaf_0_sse_state_at_index(printf, 1);
+    pal_print_leaf_0d_eax_subleaf_0_sse_state_from_value(printf, eax);
+    pal_print_leaf_0d_eax_subleaf_0_mpx_state_at_index(printf, 1);
+    pal_print_leaf_0d_eax_subleaf_0_mpx_state_from_value(printf, eax);
 }

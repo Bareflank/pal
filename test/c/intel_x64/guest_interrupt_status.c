@@ -1,4 +1,5 @@
 #include <pal/vmcs/guest_interrupt_status.h>
+#include <stdio.h>
 
 void test_guest_interrupt_status_compile(void)
 {
@@ -13,8 +14,8 @@ void test_guest_interrupt_status_compile(void)
     pal_set_guest_interrupt_status_rvi_in_value(0x0, value);
 
     // Printers
-    pal_print_guest_interrupt_status();
-    pal_print_guest_interrupt_status_from_value(value);
-    pal_print_guest_interrupt_status_rvi();
-    pal_print_guest_interrupt_status_rvi_from_value(value);
+    pal_print_guest_interrupt_status(printf);
+    pal_print_guest_interrupt_status_from_value(printf, value);
+    pal_print_guest_interrupt_status_rvi(printf);
+    pal_print_guest_interrupt_status_rvi_from_value(printf, value);
 }

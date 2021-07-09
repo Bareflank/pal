@@ -1,4 +1,5 @@
 #include <pal/msr/ia32_feature_control.h>
+#include <stdio.h>
 
 void test_ia32_feature_control_compile(void)
 {
@@ -21,10 +22,10 @@ void test_ia32_feature_control_compile(void)
     pal::ia32_feature_control::senter_local_function_enable::set(0x0, value);
 
     // Printers
-    pal::ia32_feature_control::print();
-    pal::ia32_feature_control::print(value);
-    pal::ia32_feature_control::enable_vmx_inside_smx::print();
-    pal::ia32_feature_control::enable_vmx_inside_smx::print(value);
-    pal::ia32_feature_control::senter_local_function_enable::print();
-    pal::ia32_feature_control::senter_local_function_enable::print(value);
+    pal::ia32_feature_control::print(printf);
+    pal::ia32_feature_control::print(printf, value);
+    pal::ia32_feature_control::enable_vmx_inside_smx::print(printf);
+    pal::ia32_feature_control::enable_vmx_inside_smx::print(printf, value);
+    pal::ia32_feature_control::senter_local_function_enable::print(printf);
+    pal::ia32_feature_control::senter_local_function_enable::print(printf, value);
 }

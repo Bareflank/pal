@@ -2,6 +2,7 @@
 #include <pal/cpuid/leaf_0d_ebx.h>
 #include <pal/cpuid/leaf_0d_ecx.h>
 #include <pal/cpuid/leaf_0d_edx.h>
+#include <stdio.h>
 
 void test_leaf_0d_compile(void)
 {
@@ -20,10 +21,10 @@ void test_leaf_0d_compile(void)
     pal::leaf_0d_eax::subleaf_0::mpx_state::get(eax);
 
     // Printers
-    pal::leaf_0d_eax::subleaf_0::print_at_index(1);
-    pal::leaf_0d_eax::subleaf_0::print(eax);
-    pal::leaf_0d_eax::subleaf_0::sse_state::print_at_index(1);
-    pal::leaf_0d_eax::subleaf_0::sse_state::print(eax);
-    pal::leaf_0d_eax::subleaf_0::mpx_state::print_at_index(1);
-    pal::leaf_0d_eax::subleaf_0::mpx_state::print(eax);
+    pal::leaf_0d_eax::subleaf_0::print_at_index(printf, 1);
+    pal::leaf_0d_eax::subleaf_0::print(printf, eax);
+    pal::leaf_0d_eax::subleaf_0::sse_state::print_at_index(printf, 1);
+    pal::leaf_0d_eax::subleaf_0::sse_state::print(printf, eax);
+    pal::leaf_0d_eax::subleaf_0::mpx_state::print_at_index(printf, 1);
+    pal::leaf_0d_eax::subleaf_0::mpx_state::print(printf, eax);
 }
