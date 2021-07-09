@@ -1,4 +1,5 @@
 #include <pal/aarch32/cpacr.h>
+#include <stdio.h>
 
 void test_cpacr_compile(void)
 {
@@ -21,10 +22,10 @@ void test_cpacr_compile(void)
     pal_set_cpacr_cp10_in_value(0x0, value);
 
     // Printers
-    pal_print_cpacr();
-    pal_print_cpacr_from_value(value);
-    pal_print_cpacr_trcdis();
-    pal_print_cpacr_trcdis_from_value(value);
-    pal_print_cpacr_cp10();
-    pal_print_cpacr_cp10_from_value(value);
+    pal_print_cpacr(printf);
+    pal_print_cpacr_from_value(printf, value);
+    pal_print_cpacr_trcdis(printf);
+    pal_print_cpacr_trcdis_from_value(printf, value);
+    pal_print_cpacr_cp10(printf);
+    pal_print_cpacr_cp10_from_value(printf, value);
 }

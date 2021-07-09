@@ -1,4 +1,5 @@
 #include <pal/external/gich_vmcr.h>
+#include <stdio.h>
 
 uintptr_t pal_gic_virtual_interface_control_base_address(void)
 { return 0; }
@@ -24,10 +25,10 @@ void test_gich_vmcr_compile(void)
     pal_set_gich_vmcr_vbpr1_in_value(0x0, value);
 
     // Printers
-    pal_print_gich_vmcr();
-    pal_print_gich_vmcr_from_value(value);
-    pal_print_gich_vmcr_veng1();
-    pal_print_gich_vmcr_veng1_from_value(value);
-    pal_print_gich_vmcr_vbpr1();
-    pal_print_gich_vmcr_vbpr1_from_value(value);
+    pal_print_gich_vmcr(printf);
+    pal_print_gich_vmcr_from_value(printf, value);
+    pal_print_gich_vmcr_veng1(printf);
+    pal_print_gich_vmcr_veng1_from_value(printf, value);
+    pal_print_gich_vmcr_vbpr1(printf);
+    pal_print_gich_vmcr_vbpr1_from_value(printf, value);
 }

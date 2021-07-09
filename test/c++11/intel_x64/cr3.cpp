@@ -1,4 +1,5 @@
 #include <pal/control_register/cr3.h>
+#include <stdio.h>
 
 void test_cr3_compile(void)
 {
@@ -21,10 +22,10 @@ void test_cr3_compile(void)
     pal::cr3::page_directory_base::set(0x0, value);
 
     // Printers
-    pal::cr3::print();
-    pal::cr3::print(value);
-    pal::cr3::pcd::print();
-    pal::cr3::pcd::print(value);
-    pal::cr3::page_directory_base::print();
-    pal::cr3::page_directory_base::print(value);
+    pal::cr3::print(printf);
+    pal::cr3::print(printf, value);
+    pal::cr3::pcd::print(printf);
+    pal::cr3::pcd::print(printf, value);
+    pal::cr3::page_directory_base::print(printf);
+    pal::cr3::page_directory_base::print(printf, value);
 }

@@ -1,4 +1,5 @@
 #include <pal/control_register/xcr0.h>
+#include <stdio.h>
 
 void test_xcr0_compile(void)
 {
@@ -17,8 +18,8 @@ void test_xcr0_compile(void)
     pal::xcr0::sse::is_disabled(value);
 
     // Printers
-    pal::xcr0::print();
-    pal::xcr0::print(value);
-    pal::xcr0::sse::print();
-    pal::xcr0::sse::print(value);
+    pal::xcr0::print(printf);
+    pal::xcr0::print(printf, value);
+    pal::xcr0::sse::print(printf);
+    pal::xcr0::sse::print(printf, value);
 }

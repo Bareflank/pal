@@ -2,6 +2,7 @@
 #include <pal/cpuid/leaf_01_ebx.h>
 #include <pal/cpuid/leaf_01_ecx.h>
 #include <pal/cpuid/leaf_01_edx.h>
+#include <stdio.h>
 
 void test_leaf_01_compile(void)
 {
@@ -16,8 +17,8 @@ void test_leaf_01_compile(void)
     pal::leaf_01_eax::model::get(eax);
 
     // Printers
-    pal::leaf_01_eax::print();
-    pal::leaf_01_eax::print(eax);
-    pal::leaf_01_eax::model::print();
-    pal::leaf_01_eax::model::print(eax);
+    pal::leaf_01_eax::print(printf);
+    pal::leaf_01_eax::print(printf, eax);
+    pal::leaf_01_eax::model::print(printf);
+    pal::leaf_01_eax::model::print(printf, eax);
 }

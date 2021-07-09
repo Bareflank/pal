@@ -14,6 +14,9 @@
 #include "pal/cpuid/leaf_02_edx.h"
 #include "pal/control_register/cr0.h"
 
+// PAL can also pretty-print things for you through any printf-like function:
+#include <stdio.h>
+
 int main()
 {
     // For C++11 everything in PAL is contained in the "pal" namespace
@@ -23,7 +26,7 @@ int main()
     // as defined by a reference manual. For example, read the
     // IA32_FEATURE_CONTROL MSR, and then print its value:
     auto msr_value = ia32_feature_control::get();
-    ia32_feature_control::print(msr_value);
+    ia32_feature_control::print(printf, msr_value);
 
     // As another example, read the IA32_TSC MSR using its address as an input
     // to the x86 RDMSR instruction
@@ -32,7 +35,7 @@ int main()
 
     // You can also print register contents without storing the value in a
     // variable. For example, print part of a CPUID leaf:
-    leaf_01_eax::print();
+    leaf_01_eax::print(printf);
 
     // In C++11, instructions that logically output more than one value are
     // returned by PAL as tuples for easy integration with std::tie:
@@ -41,10 +44,10 @@ int main()
     uint32_t ecx{0};
     uint32_t edx{0};
     std::tie(eax, ebx, ecx, edx) = execute_cpuid(2, 0);
-    leaf_02_eax::print(eax);
-    leaf_02_ebx::print(ebx);
-    leaf_02_ecx::print(ecx);
-    leaf_02_edx::print(edx);
+    leaf_02_eax::print(printf, eax);
+    leaf_02_ebx::print(printf, ebx);
+    leaf_02_ecx::print(printf, ecx);
+    leaf_02_edx::print(printf, edx);
 
     // Registers that contain named fields can also be accessed by name.
     // For example, check if paging is enabled by reading the PG bit in control 

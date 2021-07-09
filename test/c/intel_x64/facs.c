@@ -2,6 +2,7 @@
 #include <pal/acpi/facs/version.h>
 #include <pal/instruction/read_mem.h>
 #include <pal/instruction/write_mem.h>
+#include <stdio.h>
 
 void test_facs_compile(void)
 {
@@ -30,10 +31,10 @@ void test_facs_compile(void)
     pal_set_facs_version_version_in_value(0x0, value);
 
     // Printers
-    pal_print_facs_version(&view);
-    pal_print_facs_version_from_value(value);
-    pal_print_facs_flags_s4bios_f(&view);
-    pal_print_facs_flags_s4bios_f_from_value(value);
-    pal_print_facs_version_version(&view);
-    pal_print_facs_version_version_from_value(value);
+    pal_print_facs_version(printf, &view);
+    pal_print_facs_version_from_value(printf, value);
+    pal_print_facs_flags_s4bios_f(printf, &view);
+    pal_print_facs_flags_s4bios_f_from_value(printf, value);
+    pal_print_facs_version_version(printf, &view);
+    pal_print_facs_version_version_from_value(printf, value);
 }

@@ -1,4 +1,5 @@
 #include <pal/external/edeccr.h>
+#include <stdio.h>
 
 namespace pal
 {
@@ -19,8 +20,8 @@ void test_edeccr_compile(void)
     pal::edeccr::fieldset_1::nse_n::set(0x0, value);
 
     // Printers
-    pal::edeccr::fieldset_1::print();
-    pal::edeccr::fieldset_1::print(value);
-    pal::edeccr::fieldset_1::nse_n::print();
-    pal::edeccr::fieldset_1::nse_n::print(value);
+    pal::edeccr::fieldset_1::print(printf);
+    pal::edeccr::fieldset_1::print(printf, value);
+    pal::edeccr::fieldset_1::nse_n::print(printf);
+    pal::edeccr::fieldset_1::nse_n::print(printf, value);
 }

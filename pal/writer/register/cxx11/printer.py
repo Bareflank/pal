@@ -19,7 +19,7 @@ class Cxx11PrinterWriter():
         gadget = self.gadgets["pal.cxx.function_definition"]
         gadget.name = "print"
         gadget.return_type = "void"
-        gadget.args = []
+        gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -37,14 +37,14 @@ class Cxx11PrinterWriter():
         name = "register_value"
         self._declare_variable(outfile, name, value=reg_get, keywords=keywords)
 
-        outfile.write("print(register_value);")
+        outfile.write("print(printf_ptr, register_value);")
 
     def _declare_fieldset_print_value(self, outfile, register, fieldset):
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.cxx.function_definition"]
         gadget.name = "print"
         gadget.return_type = "void"
-        gadget.args = [(size_type, "value")]
+        gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)"), (size_type, "value")]
 
         self._declare_fieldset_print_value_details(outfile, register, fieldset)
 
@@ -52,14 +52,14 @@ class Cxx11PrinterWriter():
     def _declare_fieldset_print_value_details(self, outfile, register, fieldset):
         self.print_value_as_register(outfile, register, "value")
         for field in fieldset.fields:
-            outfile.write(field.name.lower() + "::print(value);")
+            outfile.write(field.name.lower() + "::print(printf_ptr, value);")
             self.write_newline(outfile)
 
     def _declare_field_print(self, outfile, register, field):
         gadget = self.gadgets["pal.cxx.function_definition"]
         gadget.name = "print"
         gadget.return_type = "void"
-        gadget.args = []
+        gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -88,14 +88,14 @@ class Cxx11PrinterWriter():
         name = "field_value"
         self._declare_variable(outfile, name, value=field_get,
                                keywords=keywords)
-        outfile.write("print(field_value);")
+        outfile.write("print(printf_ptr, field_value);")
 
     def _declare_field_print_value(self, outfile, register, field):
         size_type = self._register_size_type(register)
         gadget = self.gadgets["pal.cxx.function_definition"]
         gadget.name = "print"
         gadget.return_type = "void"
-        gadget.args = [(size_type, "register_value")]
+        gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)"), (size_type, "register_value")]
 
         self._declare_field_print_value_details(outfile, register, field)
 

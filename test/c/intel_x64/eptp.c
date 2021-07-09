@@ -1,4 +1,5 @@
 #include <pal/vmcs/eptp.h>
+#include <stdio.h>
 
 void test_eptp_compile(void)
 {
@@ -21,10 +22,10 @@ void test_eptp_compile(void)
     pal_set_eptp_ept_pml4_table_in_value(0x0, value);
 
     // Printers
-    pal_print_eptp();
-    pal_print_eptp_from_value(value);
-    pal_print_eptp_bit_6();
-    pal_print_eptp_bit_6_from_value(value);
-    pal_print_eptp_ept_pml4_table();
-    pal_print_eptp_ept_pml4_table_from_value(value);
+    pal_print_eptp(printf);
+    pal_print_eptp_from_value(printf, value);
+    pal_print_eptp_bit_6(printf);
+    pal_print_eptp_bit_6_from_value(printf, value);
+    pal_print_eptp_ept_pml4_table(printf);
+    pal_print_eptp_ept_pml4_table_from_value(printf, value);
 }

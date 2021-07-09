@@ -1,5 +1,6 @@
 #include <pal/instruction/cpuid.h>
 #include <pal/cpuid/leaf_01_eax.h>
+#include <stdio.h>
 
 void test_cpuid_compile(void)
 {
@@ -15,6 +16,6 @@ void test_cpuid_compile(void)
 
     std::tie(eax, ebx, ecx, edx) = pal::execute_cpuid(leaf, subleaf);
 
-    pal::leaf_01_eax::print(eax);
+    pal::leaf_01_eax::print(printf, eax);
     uint32_t family_id = pal::leaf_01_eax::family_id::get(eax);
 }
