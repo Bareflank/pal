@@ -53,16 +53,14 @@ class CFieldAccessorWriter():
     def _declare_field_constants(self, outfile, register, field):
         prefix = self._field_prefix(register, field)
 
-        keywords = ["static", "const", "char", "*"]
         name = prefix + "name"
         val = '"' + field.name.lower() + '"'
-        self._declare_variable(outfile, name, value=val, keywords=keywords)
+        self._declare_preprocessor_constant(outfile, name, val)
 
         if field.long_name:
-            keywords = ["static", "const", "char", "*"]
             name = prefix + "long_name"
             val = '"' + field.long_name + '"'
-            self._declare_variable(outfile, name, value=val, keywords=keywords)
+            self._declare_preprocessor_constant(outfile, name, val)
 
         name = prefix + "lsb"
         val = str(field.lsb)

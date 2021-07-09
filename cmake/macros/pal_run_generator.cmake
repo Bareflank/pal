@@ -37,8 +37,8 @@ function(pal_run_generator)
         list(APPEND GENERATE_CMD --access_mechanism=${ARG_ACCESS_MECHANISM})
     endif()
 
-    if(NOT PAL_PRETTY_PRINT)
-        list(APPEND GENERATE_CMD --print_mechanism=none)
+    if(NOT PAL_ENABLE_PRINTERS)
+        list(APPEND GENERATE_CMD --enable_printers=false --print_mechanism=none)
     endif()
 
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")

@@ -8,15 +8,15 @@ def make_generators(config, writer):
     generators = []
 
     if config.language == "c++11":
-        generators.append(CxxHeaderGenerator(writer))
+        generators.append(CxxHeaderGenerator(config, writer))
 
     if config.language == "c":
-        generators.append(CHeaderGenerator(writer))
+        generators.append(CHeaderGenerator(config, writer))
 
     if config.language == "rust":
-        generators.append(RustGenerator(writer))
+        generators.append(RustGenerator(config, writer))
 
     if config.language == "yaml":
-        generators.append(YamlDataGenerator(writer))
+        generators.append(YamlDataGenerator(config, writer))
 
     return generators

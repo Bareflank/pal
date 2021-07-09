@@ -134,6 +134,10 @@ c.description = "The target output file format"
 c.options = ["unix", "windows", "yaml", "none"]
 config.add_configuration(c)
 
+c = Configuration("enable_printers", True)
+c.description = "Set to True to generate pretty-printing functions"
+config.add_configuration(c)
+
 # -----------------------------------------------------------------------------
 # Logging options
 # -----------------------------------------------------------------------------

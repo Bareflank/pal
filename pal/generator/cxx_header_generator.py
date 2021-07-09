@@ -3,7 +3,6 @@ import os
 import pal.gadget
 from pal.generator.abstract_generator import AbstractGenerator
 from pal.logger import logger
-from pal.config import config
 from pal.filter import filters
 from pal.transform import transforms
 from pal.exception import PalGeneratorException
@@ -73,7 +72,8 @@ class CxxHeaderGenerator(AbstractGenerator):
     @pal.gadget.include_guard
     def _generate_register(self, outfile, reg):
         self.writer.declare_register_dependencies(outfile, reg)
-        self.writer.declare_print_mechanism_dependencies(outfile, reg)
+        if self.config.enable_printers == True:
+            self.writer.declare_print_mechanism_dependencies(outfile, reg)
 
         for am_key, am_list in reg.access_mechanisms.items():
             for am in am_list:
@@ -140,10 +140,11 @@ class CxxHeaderGenerator(AbstractGenerator):
             self._generate_register_field(outfile, reg, field)
             self.writer.write_newline(outfile)
 
-        if reg.is_readable():
+        if reg.is_readable() and self.config.enable_printers == True:
             self.writer.declare_fieldset_printers(outfile, reg, fieldset)
 
     @pal.gadget.cxx.namespace
     def _generate_register_field(self, outfile, reg, field):
         self.writer.declare_field_accessors(outfile, reg, field)
-        self.writer.declare_field_printers(outfile, reg, field)
+        if self.config.enable_printers == True:
+            self.writer.declare_field_printers(outfile, reg, field)
