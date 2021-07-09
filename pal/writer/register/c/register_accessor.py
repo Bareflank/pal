@@ -1,5 +1,4 @@
 import pal.gadget
-from pal.config import config
 
 
 class CRegisterAccessorWriter():

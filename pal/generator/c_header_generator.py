@@ -67,7 +67,7 @@ class CHeaderGenerator(AbstractGenerator):
     @pal.gadget.include_guard
     def _generate_register(self, outfile, reg):
 
-        self.writer.declare_register_dependencies(outfile, reg)
+        self.writer.declare_register_dependencies(outfile, reg, self.config)
         if self.config.enable_printers == True:
             self.writer.declare_print_mechanism_dependencies(outfile, reg)
 
