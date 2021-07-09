@@ -37,32 +37,32 @@ class CRegisterAccessorWriter():
 
         if register.access_mechanisms.get("rdmsr"):
             addr = register.access_mechanisms["rdmsr"][0].address
-            self._declare_hex_integer_constant(outfile, prefix + "address", addr)
+            self._declare_preprocessor_constant(outfile, prefix + "address", hex(addr))
             self.write_newline(outfile)
 
         if register.access_mechanisms.get("ldr"):
             offset = register.access_mechanisms["ldr"][0].offset
-            self._declare_hex_integer_constant(outfile, prefix + "offset", offset)
+            self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
             self.write_newline(outfile)
         elif register.access_mechanisms.get("str"):
             offset = register.access_mechanisms["str"][0].offset
-            self._declare_hex_integer_constant(outfile, prefix + "offset", offset)
+            self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
             self.write_newline(outfile)
         elif register.access_mechanisms.get("vmread"):
             encoding = register.access_mechanisms["vmread"][0].encoding
-            self._declare_hex_integer_constant(outfile, prefix + "encoding", encoding)
+            self._declare_preprocessor_constant(outfile, prefix + "encoding", hex(encoding))
             self.write_newline(outfile)
         elif register.access_mechanisms.get("vmwrite"):
             encoding = register.access_mechanisms["vmwrite"][0].encoding
-            self._declare_hex_integer_constant(outfile, prefix + "encoding", encoding)
+            self._declare_preprocessor_constant(outfile, prefix + "encoding", hex(encoding))
             self.write_newline(outfile)
         elif register.access_mechanisms.get("read"):
             offset = register.access_mechanisms["read"][0].offset
-            self._declare_hex_integer_constant(outfile, prefix + "offset", offset)
+            self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
             self.write_newline(outfile)
         elif register.access_mechanisms.get("write"):
             offset = register.access_mechanisms["write"][0].offset
-            self._declare_hex_integer_constant(outfile, prefix + "offset", offset)
+            self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
             self.write_newline(outfile)
 
 
@@ -82,7 +82,7 @@ class CRegisterAccessorWriter():
     @pal.gadget.c.function_definition
     def _declare_register_get_details(self, outfile, register):
         prefix = self._register_prefix(register)
-        offset_name = prefix + "offset"
+        offset_name = prefix.upper() + "OFFSET"
 
         for am_key, am_list in register.access_mechanisms.items():
             for am in am_list:
@@ -134,7 +134,7 @@ class CRegisterAccessorWriter():
     @pal.gadget.c.function_definition
     def _declare_register_set_details(self, outfile, register):
         prefix = self._register_prefix(register)
-        offset_name = prefix + "offset"
+        offset_name = prefix.upper() + "OFFSET"
 
         for am_key, am_list in register.access_mechanisms.items():
             for am in am_list:

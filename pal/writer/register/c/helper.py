@@ -46,6 +46,10 @@ class CHelperWriter():
         outfile.write("static const uintptr_t " + str(name) + " = " +
                       str(hex(value)) + ";")
 
+    def _declare_preprocessor_constant(self, outfile, name, value):
+        outfile.write("#define " + str(name).upper() + " " +
+                      str(value))
+
     def _declare_string_constant(self, outfile, name, value):
         outfile.write('static const char *' + str(name) + ' = "' +
                       str(value) + '";')

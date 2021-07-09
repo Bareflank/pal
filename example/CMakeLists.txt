@@ -1,3 +1,7 @@
-if(${PAL_TARGET_EXECUTION_STATE} STREQUAL intel_64bit)
-    add_subdirectory(x86_64)
+if(PAL_C)
+    add_subdirectory(c)
+endif()
+
+if(PAL_C++11)
+    add_subdirectory(c++11)
 endif()
