@@ -7,7 +7,8 @@ from pal.gadget.gadget_properties import GadgetProperties
 from pal.gadget import create_gadget_properties
 
 class AbstractGenerator(abc.ABC):
-    def __init__(self, writer):
+    def __init__(self, config, writer):
+        self.config = config
         self.writer = writer
 
     @abc.abstractmethod

@@ -36,7 +36,7 @@ option(
 )
 
 option(
-    PAL_PRETTY_PRINT
+    PAL_ENABLE_PRINTERS
     "Enable pretty-print functions in generated APIs"
     ON
 )

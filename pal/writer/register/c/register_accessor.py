@@ -28,12 +28,10 @@ class CRegisterAccessorWriter():
 
     def _declare_register_constants(self, outfile, register):
         prefix = self._register_prefix(register)
-        self._declare_string_constant(outfile, prefix + "name", register.name.lower())
-        self.write_newline(outfile)
+        self._declare_preprocessor_constant(outfile, prefix + "name", '"' + register.name.lower() + '"')
 
         if register.long_name:
-            self._declare_string_constant(outfile, prefix + "long_name", register.long_name)
-            self.write_newline(outfile)
+            self._declare_preprocessor_constant(outfile, prefix + "long_name", '"' + register.long_name + '"')
 
         if register.access_mechanisms.get("rdmsr"):
             addr = register.access_mechanisms["rdmsr"][0].address
