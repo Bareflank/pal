@@ -113,6 +113,13 @@ option(
     OFF
 )
 
+pal_add_config(
+    CONFIG_NAME PAL_STDINT_HEADER
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ""
+    DESCRIPTION "If specified, will be used as the path to #include for C/C++ dependencies from stdint.h"
+)
+
 if(PAL_DRIVER AND ${CMAKE_HOST_SYSTEM_NAME} STREQUAL Linux)
     execute_process(
         COMMAND uname -r

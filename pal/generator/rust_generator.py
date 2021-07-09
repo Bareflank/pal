@@ -67,7 +67,7 @@ class RustGenerator(AbstractGenerator):
 
     def _generate_register(self, outfile, reg):
 
-        self.writer.declare_register_dependencies(outfile, reg)
+        self.writer.declare_register_dependencies(outfile, reg, self.config)
         self.writer.declare_print_mechanism_dependencies(outfile, reg)
 
         for am_key, am_list in reg.access_mechanisms.items():

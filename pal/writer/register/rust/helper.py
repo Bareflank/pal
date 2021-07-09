@@ -1,6 +1,3 @@
-from pal.config import config
-
-
 class RustHelperWriter():
 
     def _field_mask_hex_string(self, register, field):

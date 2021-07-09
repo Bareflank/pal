@@ -1,6 +1,3 @@
-from pal.config import config
-
-
 class CHelperWriter():
 
     def _field_mask_hex_string(self, register, field):

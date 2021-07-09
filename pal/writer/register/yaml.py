@@ -4,7 +4,7 @@ from pal.writer.register.register import RegisterWriter
 
 class YamlRegisterWriter(RegisterWriter):
 
-    def declare_register_dependencies(self, outfile, register):
+    def declare_register_dependencies(self, outfile, register, config):
         pass
 
     def declare_register_accessors(self, outfile, register):

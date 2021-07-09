@@ -138,6 +138,10 @@ c = Configuration("enable_printers", True)
 c.description = "Set to True to generate pretty-printing functions"
 config.add_configuration(c)
 
+c = Configuration("stdint_header", "")
+c.description = "If specified, will be used as the path to #include for C/C++ dependencies from stdint.h"
+config.add_configuration(c)
+
 # -----------------------------------------------------------------------------
 # Logging options
 # -----------------------------------------------------------------------------

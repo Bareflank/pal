@@ -3,8 +3,11 @@ import pal.gadget
 
 class Cxx11RegisterDependencyWriter():
 
-    def declare_register_dependencies(self, outfile, register):
-        outfile.write("#include <stdint.h>")
+    def declare_register_dependencies(self, outfile, register, config):
+        if config.stdint_header:
+            outfile.write('#include "' + str(config.stdint_header) + '"')
+        else:
+            outfile.write("#include <stdint.h>")
         self.write_newline(outfile)
 
         if not register.is_internal:

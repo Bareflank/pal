@@ -49,6 +49,10 @@ function(pal_run_generator)
         list(APPEND GENERATE_CMD --log_level="error")
     endif()
 
+    if(PAL_STDINT_HEADER)
+        list(APPEND GENERATE_CMD --stdint_header=${PAL_STDINT_HEADER})
+    endif()
+
     add_custom_command(
         COMMAND ${GENERATE_CMD}
         COMMAND cmake -E touch ${TARGET_OUTPUT_STAMP}

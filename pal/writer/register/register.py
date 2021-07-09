@@ -6,12 +6,13 @@ from typing import Any
 from pal.model.register import Register
 from pal.model.fieldset import Fieldset
 from pal.model.field import Field
+from pal.config import PalConfig
 
 
 class RegisterWriter(abc.ABC):
 
     @abc.abstractmethod
-    def declare_register_dependencies(self, outfile: TextIO, register: Register) -> None:
+    def declare_register_dependencies(self, outfile: TextIO, register: Register, config: PalConfig) -> None:
         pass
 
     @abc.abstractmethod

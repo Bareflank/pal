@@ -1,10 +1,9 @@
-from pal.config import config
 from pal.writer.register.register import RegisterWriter
 
 
 class NoneRegisterWriter(RegisterWriter):
 
-    def declare_register_dependencies(self, outfile, register):
+    def declare_register_dependencies(self, outfile, register, config):
         pass
 
     def declare_register_accessors(self, outfile, register):
