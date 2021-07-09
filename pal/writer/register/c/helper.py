@@ -17,13 +17,13 @@ class CHelperWriter():
         return "pal_{register}_{field}_mask".format(
             register=register.name.lower(),
             field=field.name.lower()
-        )
+        ).upper()
 
     def _field_lsb_string(self, register, field):
         return "pal_{register}_{field}_lsb".format(
             register=register.name.lower(),
             field=field.name.lower()
-        )
+        ).upper()
 
     def _register_size_type(self, register):
         if register.size == 8:
@@ -49,6 +49,7 @@ class CHelperWriter():
     def _declare_preprocessor_constant(self, outfile, name, value):
         outfile.write("#define " + str(name).upper() + " " +
                       str(value))
+        self.write_newline(outfile)
 
     def _declare_string_constant(self, outfile, name, value):
         outfile.write('static const char *' + str(name) + ' = "' +
