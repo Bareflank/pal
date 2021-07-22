@@ -40,6 +40,10 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # read_fs.c
     # read_gs.c
     # read_ldtr.c
+    read_mem16.c
+    read_mem32.c
+    read_mem64.c
+    read_mem8.c
     # read_rflags.c
     # read_ss.c
     # read_tr.c
@@ -78,6 +82,10 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # write_fs.c
     # write_gs.c
     # write_ldtr.c
+    write_mem16.c
+    write_mem32.c
+    write_mem64.c
+    write_mem8.c
     # write_rflags.c
     # write_ss.c
     # write_tr.c

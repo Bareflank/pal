@@ -8,12 +8,23 @@
 #endif
 
 #include "devpal_abi_armv8a_aarch64.h"
+#include "devpal_abi_generic.h"
 #include "devpal_abi_x64.h"
 #include "devpal_abi_x64_intel.h"
 
 struct execute_request {
     uint64_t request_code;
     union {
+        // Generic
+        struct read_mem8_operands read_mem8_operands;
+        struct read_mem16_operands read_mem16_operands;
+        struct read_mem32_operands read_mem32_operands;
+        struct read_mem64_operands read_mem64_operands;
+        struct write_mem8_operands write_mem8_operands;
+        struct write_mem16_operands write_mem16_operands;
+        struct write_mem32_operands write_mem32_operands;
+        struct write_mem64_operands write_mem64_operands;
+
         // Generic x86_64
         struct cpuid_operands cpuid_operands;
         struct in_32_operands in_32_operands;

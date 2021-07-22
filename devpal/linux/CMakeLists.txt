@@ -10,6 +10,18 @@ list(APPEND SOURCE_FILES
     driver.c
 )
 
+add_subdirectory(generic)
+list(APPEND SOURCE_FILES
+    generic/read_mem16.c
+    generic/read_mem32.c
+    generic/read_mem64.c
+    generic/read_mem8.c
+    generic/write_mem16.c
+    generic/write_mem32.c
+    generic/write_mem64.c
+    generic/write_mem8.c
+)
+
 if(PAL_INTEL_64BIT_LINUX_IOCTL OR PAL_AMD_64BIT_LINUX_IOCTL)
     add_subdirectory(x64)
     list(APPEND SOURCE_FILES
