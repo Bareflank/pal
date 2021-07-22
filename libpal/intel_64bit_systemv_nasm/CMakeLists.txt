@@ -43,6 +43,10 @@ target_sources(pal_intel_64bit_systemv_nasm PRIVATE
     read_fs.asm
     read_gs.asm
     read_ldtr.asm
+    read_mem16.asm
+    read_mem32.asm
+    read_mem64.asm
+    read_mem8.asm
     read_rflags.asm
     read_ss.asm
     read_tr.asm
@@ -81,6 +85,10 @@ target_sources(pal_intel_64bit_systemv_nasm PRIVATE
     write_fs.asm
     write_gs.asm
     write_ldtr.asm
+    write_mem16.asm
+    write_mem32.asm
+    write_mem64.asm
+    write_mem8.asm
     write_rflags.asm
     write_ss.asm
     write_tr.asm

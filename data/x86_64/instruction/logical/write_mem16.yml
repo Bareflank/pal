@@ -1,0 +1,12 @@
+- name: write_mem16
+  long_name: "Write 16 Bits to Memory"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: address
+              type: uint64
+
+            - name: value
+              type: uint16

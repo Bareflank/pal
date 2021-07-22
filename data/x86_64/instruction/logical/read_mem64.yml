@@ -1,0 +1,13 @@
+- name: read_mem64
+  long_name: "Read 64 Bits from Memory"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: address
+              type: uint64
+
+        logical_outputs:
+            - name: value
+              type: uint64
