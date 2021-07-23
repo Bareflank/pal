@@ -1,0 +1,11 @@
+- name: host_rsp
+  long_name: "Host RSP"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006C14
+
+      - name: vmwrite
+        encoding: 0x00006C14

@@ -1,0 +1,36 @@
+- name: ia32_perf_ctl
+  long_name: "ia32_perf_ctl"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x199
+
+      - name: wrmsr
+        is_write: True
+        address: 0x199
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: state_value
+              long_name: "state_value"
+              lsb: 0
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: ida_engage
+              long_name: "ida_engage"
+              lsb: 32
+              msb: 32
+              readable: True
+              writable: True

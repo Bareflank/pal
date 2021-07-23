@@ -1,0 +1,36 @@
+- name: ia32_rtit_output_mask_ptrs
+  long_name: "ia32_rtit_output_mask_ptrs"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x561
+
+      - name: wrmsr
+        is_write: True
+        address: 0x561
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: mask_table_offset
+              long_name: "mask_table_offset"
+              lsb: 7
+              msb: 31
+              readable: True
+              writable: True
+
+            - name: output_offset
+              long_name: "output_offset"
+              lsb: 32
+              msb: 63
+              readable: True
+              writable: True

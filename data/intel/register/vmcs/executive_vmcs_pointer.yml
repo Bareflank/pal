@@ -1,0 +1,19 @@
+- name: executive_vmcs_pointer
+  long_name: "Executive-VMCS pointer (full)"
+  purpose: |
+      "
+      The executive-VMCS pointer is a 64-bit field used in the dual-monitor
+      treatment of system-management interrupts (SMIs) and system-management
+      mode (SMM). SMM VM exits save this field as described in Section 34.15.2.
+      VM entries that return from SMM use this field as described in Section
+      34.15.4.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000200C
+
+      - name: vmwrite
+        encoding: 0x0000200C

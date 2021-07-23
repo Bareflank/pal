@@ -1,0 +1,18 @@
+- name: eoi_exit0
+  long_name: "EOI-exit bitmap 0 (EOI_EXIT0; full)"
+  purpose: |
+      "
+      These fields are supported only on processors that support the 1- setting
+      of the “virtual-interrupt delivery” VM-execution control. They are used
+      to determine which virtualized writes to the APIC’s EOI register cause VM
+      exits. EOI_EXIT0 contains bits for vectors from 0 (bit 0) to 63 (bit 63).
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000201C
+
+      - name: vmwrite
+        encoding: 0x0000201C

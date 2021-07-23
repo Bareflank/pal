@@ -1,0 +1,11 @@
+- name: guest_rflags
+  long_name: "Guest RFLAGS"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006820
+
+      - name: vmwrite
+        encoding: 0x00006820

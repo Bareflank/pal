@@ -1,0 +1,38 @@
+- name: guest_ia32_bndcfgs
+  long_name: "Guest IA32_BNDCFGS (full)"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002812
+
+      - name: vmwrite
+        encoding: 0x00002812
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: en
+              long_name: "en"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: bndpreserve
+              long_name: "bndpreserve"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: base_address
+              long_name: "base_address"
+              lsb: 12
+              msb: 63
+              readable: True
+              writable: True

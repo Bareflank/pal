@@ -1,0 +1,11 @@
+- name: guest_gdtr_limit
+  long_name: "Guest GDTR limit"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004810
+
+      - name: vmwrite
+        encoding: 0x00004810

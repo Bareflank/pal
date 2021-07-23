@@ -1,0 +1,11 @@
+- name: address_of_msr_bitmaps
+  long_name: "Address of MSR bitmaps (full)1"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002004
+
+      - name: vmwrite
+        encoding: 0x00002004

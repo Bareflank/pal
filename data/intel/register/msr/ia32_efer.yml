@@ -1,0 +1,50 @@
+- name: ia32_efer
+  long_name: "ia32_efer"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xc0000080
+
+      - name: wrmsr
+        is_write: True
+        address: 0xc0000080
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: sce
+              long_name: "sce"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: lme
+              long_name: "lme"
+              lsb: 8
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: lma
+              long_name: "lma"
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: nxe
+              long_name: "lma"
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True

@@ -1,0 +1,56 @@
+- name: idt_vectoring_information_field
+  long_name: "IDT-vectoring information field"
+  purpose: |
+      "
+      This field receives basic information associated with the event that was
+      being delivered when the VM exit occurred. Table 24-17 describes this
+      field.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004408
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Vector of interrupt or exception"
+              long_name: "Vector of interrupt or exception"
+              lsb: 0
+              msb: 7
+              readable: True
+
+            - name: "Interruption type"
+              long_name: "Interruption type"
+              lsb: 8
+              msb: 10
+              readable: True
+
+            - name: "Error code valid"
+              long_name: "Error code valid (0 = invalid; 1 = valid)"
+              lsb: 11
+              msb: 11
+              readable: True
+
+            - name: "Undefined"
+              long_name: "Undefined"
+              lsb: 12
+              msb: 12
+              readable: True
+
+            - name: "Reserved"
+              long_name: "Reserved (cleared to 0)"
+              lsb: 13
+              msb: 30
+              reserved0: True
+
+            - name: "Valid"
+              long_name: "Valid"
+              lsb: 31
+              msb: 31
+              readable: True

@@ -1,0 +1,51 @@
+- name: leaf_0B_ecx
+  long_name: "Extended Topology Enumeration Leaf"
+  purpose: |
+      "
+      CPUID leaf 1FH is a preferred superset to leaf 0BH. Intel recommends
+      first checking for the existence of Leaf 1FH before using leaf 0BH.  When
+      CPUID executes with EAX set to 0BH, the processor returns information
+      about extended topology enumeration data. Software must detect the
+      presence of CPUID leaf 0BH by verifying (a) the highest leaf index
+      supported by CPUID is >= 0BH, and (b) CPUID.0BH:EBX[15:0] reports a
+      non-zero value. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0xB
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Level number"
+              long_name: "Bits 07 - 00: Level number."
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 00: Level number. Same value in ECX input
+                  "
+
+            - name: "Level type"
+              long_name: "Bits 15 - 08: Level type"
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 15 - 08: Level type
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 16 
+              msb: 31
+              reserved0: True

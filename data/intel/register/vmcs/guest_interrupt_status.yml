@@ -1,0 +1,52 @@
+- name: guest_interrupt_status
+  long_name: "Guest interrupt status"
+  purpose: |
+      "
+      This field is supported only on processors that support the 1-setting of
+      the “virtual-interrupt delivery” VM-execution control. It characterizes
+      part of the guest’s virtual-APIC state and does not correspond to any
+      processor or APIC registers. It comprises two 8-bit subfields
+      "
+  size: 16
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00000810
+
+      - name: vmwrite
+        encoding: 0x00000810
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 16
+
+        fields:
+            - name: "RVI"
+              long_name: "Requesting virtual interrupt"
+              description: |
+                  "
+                  This is the low byte of the guest interrupt status. The
+                  processor treats this value as the vector of the highest
+                  priority virtual interrupt that is requesting service. (The
+                  value 0 implies that there is no such interrupt.)
+                  "
+              lsb: 0
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: "SVI"
+              long_name: "Servicing virtual interrupt"
+              description: |
+                  "
+                  This is the high byte of the guest interrupt status. The
+                  processor treats this value as the vector of the highest
+                  priority virtual interrupt that is in service. (The value 0
+                  implies that there is no such interrupt.)
+                  "
+              lsb: 8
+              msb: 15
+              readable: True
+              writable: True

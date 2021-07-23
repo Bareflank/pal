@@ -1,0 +1,231 @@
+- name: cr0
+  long_name: "Control Register 0"
+  purpose: |
+      "
+      Contains system control flags that control operating mode and states of
+      the processor.
+      "
+  size: 64
+  arch: intel
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr0
+
+      - name: mov_write
+        destination_mnemonic: cr0
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: pe
+              long_name: "Protection Enable"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Protection Enable (bit 0 of CR0) — Enables protected mode
+                  when set; enables real-address mode when clear. This flag
+                  does not enable paging directly. It only enables
+                  segment-level protection. To enable paging, both the PE and
+                  PG flags must be set.
+                  "
+
+            - name: mp
+              long_name: "Monitor Coprocessor"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Monitor Coprocessor (bit 1 of CR0) — Controls the interaction
+                  of the WAIT (or FWAIT) instruction with the TS flag (bit 3 of
+                  CR0). If the MP flag is set, a WAIT instruction generates a
+                  device-not-available exception (#NM) if the TS flag is also
+                  set. If the MP flag is clear, the WAIT instruction ignores
+                  the setting of the TS flag.  Table 9-3 shows the recommended
+                  setting of this flag, depending on the IA-32 processor and
+                  x87 FPU or math coprocessor present in the system.
+                  "
+
+            - name: em
+              long_name: "Emulation"
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Emulation (bit 2 of CR0) — Indicates that the processor does
+                  not have an internal or external x87 FPU when set; indicates
+                  an x87 FPU is present when clear. This flag also affects the
+                  execution of MMX/SSE/SSE2/SSE3/SSSE3/SSE4 instructions.
+                  "
+
+            - name: ts
+              long_name: "Task Switched"
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Task Switched (bit 3 of CR0) — Allows the saving of the x87
+                  FPU/MMX/SSE/SSE2/SSE3/SSSE3/SSE4 context on a task switch to
+                  be delayed until an x87 FPU/MMX/SSE/SSE2/SSE3/SSSE3/SSE4
+                  instruction is actually executed by the new task. The
+                  processor sets this flag on every task switch and tests it
+                  when executing x87 FPU/MMX/SSE/SSE2/SSE3/SSSE3/SSE4
+                  instructions.
+                  "
+
+            - name: et
+              long_name: "Extension Type"
+              lsb: 4
+              msb: 4
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Extension Type (bit 4 of CR0) — Reserved in the Pentium 4,
+                  Intel Xeon, P6 family, and Pentium processors. In the Pentium
+                  4, Intel Xeon, and P6 family processors, this flag is
+                  hardcoded to 1. In the Intel386 and Intel486 processors, this
+                  flag indicates support of Intel 387 DX math coprocessor
+                  instructions when set.
+                  "
+
+            - name: ne
+              long_name: "Numeric Error"
+              lsb: 5
+              msb: 5
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Numeric Error (bit 5 of CR0) — Enables the native (internal)
+                  mechanism for reporting x87 FPU errors when set; enables the
+                  PC-style x87 FPU error reporting mechanism when clear. When
+                  the NE flag is clear and the IGNNE# input is asserted, x87
+                  FPU errors are ignored. When the NE flag is clear and the
+                  IGNNE# input is deasserted, an unmasked x87 FPU error causes
+                  the processor to assert the FERR# pin to generate an external
+                  interrupt and to stop instruction execution immediately
+                  before executing the next waiting floating-point instruction
+                  or WAIT/FWAIT instruction.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 6
+              msb: 15
+              preserved: True
+
+            - name: wp
+              long_name: "Write Protect"
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Write Protect (bit 16 of CR0) — When set, inhibits
+                  supervisor-level procedures from writing into readonly pages;
+                  when clear, allows supervisor-level procedures to write into
+                  read-only pages (regardless of the U/S bit setting; see
+                  Section 4.1.3 and Section 4.6). This flag facilitates
+                  implementation of the copy-onwrite method of creating a new
+                  process (forking) used by operating systems such as UNIX.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 17
+              msb: 17
+              preserved: True
+
+            - name: am
+              long_name: "Alignment Mask"
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Alignment Mask (bit 18 of CR0) — Enables automatic alignment
+                  checking when set; disables alignment checking when clear.
+                  Alignment checking is performed only when the AM flag is set,
+                  the AC flag in the EFLAGS register is set, CPL is 3, and the
+                  processor is operating in either protected or virtual-8086
+                  mode.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 19
+              msb: 28
+              preserved: True
+
+            - name: nw
+              long_name: "Not Write-through"
+              lsb: 29
+              msb: 29
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Not Write-through (bit 29 of CR0) — When the NW and CD flags
+                  are clear, write-back (for Pentium 4, Intel Xeon, P6 family,
+                  and Pentium processors) or write-through (for Intel486
+                  processors) is enabled for writes that hit the cache and
+                  invalidation cycles are enabled. See Table 11-5 for detailed
+                  information about the effect of the NW flag on caching for
+                  other settings of the CD and NW flags.
+                  "
+
+            - name: cd
+              long_name: "Cache Disable"
+              lsb: 30
+              msb: 30
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Cache Disable (bit 30 of CR0) — When the CD and NW flags are
+                  clear, caching of memory locations for the whole of physical
+                  memory in the processor’s internal (and external) caches is
+                  enabled. When the CD flag is set, caching is restricted as
+                  described in Table 11-5. To prevent the processor from
+                  accessing and updating its caches, the CD flag must be set
+                  and the caches must be invalidated so that no cache hits can
+                  occur
+                  "
+
+            - name: pg
+              long_name: "Paging"
+              lsb: 31
+              msb: 31
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Paging (bit 31 of CR0) — Enables paging when set; disables
+                  paging when clear. When paging is disabled, all linear
+                  addresses are treated as physical addresses. The PG flag has
+                  no effect if the PE flag (bit 0 of register CR0) is not also
+                  set; setting the PG flag when the PE flag is clear causes a
+                  general-protection exception (#GP). See also: Chapter 4,
+                  'Paging.'
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 32
+              msb: 63
+              reserved0: True

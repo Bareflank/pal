@@ -1,0 +1,15 @@
+- name: vm_instruction_error
+  long_name: "VM-instruction error"
+  purpose: |
+      "
+      The 32-bit VM-instruction error field does not provide information about
+      the most recent VM exit. In fact, it is not modified on VM exits.
+      Instead, it provides information about errors encountered by a
+      non-faulting execution of one of the VMX instructions.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004400

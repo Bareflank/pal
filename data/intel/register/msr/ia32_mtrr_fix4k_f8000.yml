@@ -1,0 +1,13 @@
+- name: ia32_mtrr_fix4k_F8000
+  long_name: "ia32_mtrr_fix4k_F8000"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x26f
+

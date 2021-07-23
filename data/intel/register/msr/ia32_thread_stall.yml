@@ -1,0 +1,25 @@
+- name: ia32_thread_stall
+  long_name: "ia32_thread_stall"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xdb2
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: stall_cycle_cnt
+              long_name: "stall_cycle_cnt"
+              lsb: 0
+              msb: 63
+              readable: True
+              writable: True

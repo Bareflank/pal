@@ -15,11 +15,11 @@ pal_add_compilation_test(
 )
 
 pal_add_compilation_test(
-    c++11-x86_64-linux-gnu-gcc
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/c++11/intel_x64
+    c++11-intel-linux-gnu-gcc
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/c++11/intel
     BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}
     TOOLCHAIN ${PAL_SOURCE_CMAKE_DIR}/toolchain/x86_64-linux-gnu-gcc.cmake
-    INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/c++11-x86_64-linux-gnu-gcc
+    INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/c++11-intel-linux-gnu-gcc
 )
 
 pal_add_compilation_test(
@@ -39,9 +39,9 @@ pal_add_compilation_test(
 )
 
 pal_add_compilation_test(
-    c-x86_64-linux-gnu-gcc
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/c/intel_x64
+    c-intel-linux-gnu-gcc
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/c/intel
     BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}
     TOOLCHAIN ${PAL_SOURCE_CMAKE_DIR}/toolchain/x86_64-linux-gnu-gcc.cmake
-    INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/c-x86_64-linux-gnu-gcc
+    INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/c-intel-linux-gnu-gcc
 )

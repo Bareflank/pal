@@ -1,0 +1,17 @@
+- name: ia32_a_pmc6
+  long_name: "ia32_a_pmc6"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x4c7
+
+      - name: wrmsr
+        is_write: True
+        address: 0x4c7
+

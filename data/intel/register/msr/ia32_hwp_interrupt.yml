@@ -1,0 +1,36 @@
+- name: ia32_hwp_interrupt
+  long_name: "ia32_hwp_interrupt"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x773
+
+      - name: wrmsr
+        is_write: True
+        address: 0x773
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: perf_change
+              long_name: "perf_change"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: excursion_min
+              long_name: "excursion_min"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True

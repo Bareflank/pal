@@ -1,0 +1,19 @@
+- name: guest_linear_address
+  long_name: "Guest-linear address"
+  purpose: |
+      "
+      (64 bits; 32 bits on processors that do not support Intel 64
+      architecture). This field is used in the following cases: — VM exits due
+      to attempts to execute LMSW with a memory operand.  — VM exits due to
+      attempts to execute INS or OUTS.  — VM exits due to system-management
+      interrupts (SMIs) that arrive immediately after retirement of I/O
+      instructions.  — Certain VM exits due to EPT violations See Section
+      27.2.1 and Section 34.15.2.3 for details of when and how this field is
+      used.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000640A

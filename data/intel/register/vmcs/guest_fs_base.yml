@@ -1,0 +1,11 @@
+- name: guest_fs_base
+  long_name: "Guest FS base"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000680E
+
+      - name: vmwrite
+        encoding: 0x0000680E

@@ -1,0 +1,112 @@
+- name: leaf_05_edx
+  long_name: "MONITOR/MWAIT Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 05H, the processor returns
+      information about features available to MONITOR/MWAIT instructions. The
+      MONITOR instruction is used for address-range monitoring in conjunction
+      with MWAIT instruction. The MWAIT instruction optionally provides
+      additional extensions for advanced power management. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x5
+        output: edx
+  
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Bits 03 - 00"
+              long_name: "Number of C0* sub C-states supported using MWAIT"
+              lsb: 0
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bits 03 - 00: Number of C0* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 07 - 04"
+              long_name: "Number of C1* sub C-states supported using MWAIT"
+              lsb: 4
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 04: Number of C1* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 11 - 08"
+              long_name: "Number of C2* sub C-states supported using MWAIT"
+              lsb: 8
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Bits 11 - 08: Number of C2* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 15 - 12"
+              long_name: "Number of C3* sub C-states supported using MWAIT"
+              lsb: 12
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 12 - 15: Number of C3* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 19 - 16"
+              long_name: "Number of C4* sub C-states supported using MWAIT"
+              lsb: 16
+              msb: 19
+              readable: True
+              description: |
+                  "
+                  Bits 16 - 19: Number of C4* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 23 - 20"
+              long_name: "Number of C5* sub C-states supported using MWAIT"
+              lsb: 20
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Bits 23 - 20: Number of C5* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 27 - 24"
+              long_name: "Number of C6* sub C-states supported using MWAIT"
+              lsb: 24
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Bits 27 - 24: Number of C6* sub C-states supported using
+                  MWAIT.
+                  "
+
+            - name: "Bits 31 - 28"
+              long_name: "Number of C7* sub C-states supported using MWAIT"
+              lsb: 28
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 28 - 31: Number of C7* sub C-states supported using
+                  MWAIT.
+                  "

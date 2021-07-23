@@ -1,0 +1,55 @@
+- name: vm_exit_interruption_information
+  long_name: "VM-exit interruption information"
+  purpose: |
+      "
+      This field receives basic information associated with the event causing
+      the VM exit. Table 24-16 describes this field.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004404
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Vector of interrupt or exception"
+              long_name: "Vector of interrupt or exception"
+              lsb: 0
+              msb: 7
+              readable: True
+
+            - name: "Interruption type"
+              long_name: "Interruption type"
+              lsb: 8
+              msb: 10
+              readable: True
+
+            - name: "Error code valid"
+              long_name: "Error code valid (0 = invalid; 1 = valid)"
+              lsb: 11
+              msb: 11
+              readable: True
+
+            - name: "NMI unblocking due to IRET"
+              long_name: "NMI unblocking due to IRET"
+              lsb: 12
+              msb: 12
+              readable: True
+
+            - name: "reserved"
+              long_name: "Reserved"
+              lsb: 13
+              msb: 30
+              reserved0: True
+
+            - name: "Valid"
+              long_name: "Valid"
+              lsb: 31
+              msb: 31
+              readable: True

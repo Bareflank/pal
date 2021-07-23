@@ -1,0 +1,11 @@
+- name: guest_ds_limit
+  long_name: "Guest DS limit"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004806
+
+      - name: vmwrite
+        encoding: 0x00004806

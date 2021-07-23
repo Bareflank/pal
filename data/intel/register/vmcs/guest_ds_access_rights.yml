@@ -1,0 +1,95 @@
+- name: guest_ds_access_rights
+  long_name: "Guest DS access rights"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000481A
+
+      - name: vmwrite
+        encoding: 0x0000481A
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Segment type"
+              long_name: "Segment type"
+              lsb: 0
+              msb: 3
+              readable: True
+              writable: True
+
+            - name: "S"
+              long_name: "S — Descriptor type (0 = system; 1 = code or data)"
+              lsb: 4
+              msb: 4
+              readable: True
+              writable: True
+
+            - name: "DPL"
+              long_name: "Descriptor privilege level"
+              lsb: 5
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: "P"
+              long_name: "Segment present"
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: "Reserved"
+              long_name: "Reserved"
+              lsb: 8
+              msb: 11
+              reserved0: True
+
+            - name: "AVL"
+              long_name: "Available for use by system software"
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: "Reserved"
+              long_name: "Reserved"
+              lsb: 13
+              msb: 13
+              reserved0: True
+
+            - name: "D/B"
+              long_name: |
+                  "
+                  Default operation size (0 = 16-bit segment; 1 = 32-bit
+                  segment)
+                  "
+              lsb: 14
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: "G"
+              long_name: "Granularity"
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: "Segment unusable"
+              long_name: "Segment unusable (0 = usable; 1 = unusable)"
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: "Reserved"
+              long_name: "Reserved"
+              lsb: 17
+              msb: 31
+              reserved0: True

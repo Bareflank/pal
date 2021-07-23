@@ -1,0 +1,20 @@
+- name: apic_access_address
+  long_name: "APIC-access address (full)"
+  purpose: |
+      "
+      This field contains the physical address of the 4-KByte APIC-access page.
+      If the “virtualize APIC accesses” VM-execution control is 1, access to
+      this page may cause VM exits or be virtualized by the processor. See
+      Section 29.4.  The APIC-access address exists only on processors that
+      support the 1-setting of the “virtualize APIC accesses” VM-execution
+      control.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002014
+
+      - name: vmwrite
+        encoding: 0x00002014

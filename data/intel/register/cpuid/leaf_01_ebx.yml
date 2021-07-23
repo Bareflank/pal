@@ -1,0 +1,87 @@
+- name: leaf_01_ebx
+  long_name: "Basic CPUID Information"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 01H, additional information is
+      returned to the EBX register:
+          • Brand index (low byte of EBX) — this
+            number provides an entry into a brand string table that contains
+            brand strings for IA-32 processors. More information about this
+            field is provided later in this section.
+          • CLFLUSH instruction cache line size (second byte of EBX) — this
+            number indicates the size of the cache line flushed by the CLFLUSH
+            and CLFLUSHOPT instructions in 8-byte increments. This field was
+            introduced in the Pentium 4 processor.
+          • Local APIC ID (high byte of EBX) — this number is the 8-bit ID that
+            is assigned to the local APIC on the processor during power up.
+            This field was introduced in the Pentium 4 processor
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x1
+        output: ebx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: brand_index
+              long_name: "Brand index"
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Brand index (low byte of EBX) — this number provides an entry
+                  into a brand string table that contains brand strings for
+                  IA-32 processors. More information about this field is
+                  provided later in this section.
+                  "
+
+            - name: clflush_line_size
+              long_name: "CLFLUSH line size"
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  CLFLUSH instruction cache line size (second byte of EBX) —
+                  this number indicates the size of the cache line flushed by
+                  the CLFLUSH and CLFLUSHOPT instructions in 8-byte increments.
+                  This field was introduced in the Pentium 4 processor.
+                  "
+
+            - name: max_addressable_ids
+              long_name: "Maximum number of addressable IDs"
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Maximum number of addressable IDs for logical processors in
+                  this physical package. The nearest power-of-2 integer that is
+                  not smaller than EBX[23:16] is the number of unique initial
+                  APIC IDs reserved for addressing different logical processors
+                  in a physical package. This field is only valid if
+                  CPUID.1.EDX.HTT[bit 28]= 1.
+                  "
+
+            - name: initial_apic_id
+              long_name: "Initial APIC ID"
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Local APIC ID (high byte of EBX) — this number is the 8-bit
+                  ID that is assigned to the local APIC on the processor during
+                  power up. This field was introduced in the Pentium 4
+                  processor. The 8-bit initial APIC ID in EBX[31:24] is
+                  replaced by the 32-bit x2APIC ID, available in Leaf 0BH and
+                  Leaf 1FH.
+                  "

@@ -1,0 +1,13 @@
+- name: ia32_mc21_status
+  long_name: "ia32_mc21_status"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x455
+
