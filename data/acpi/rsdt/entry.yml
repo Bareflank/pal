@@ -9,16 +9,15 @@
        "
   size: 32
   arch: generic
+  component: acpi_rsdt_table
   is_indexed: True
 
   access_mechanisms:
       - name: read
         is_read: True
-        component: rsdt
         offset: 36
 
       - name: write
         is_write: True
-        component: rsdt
         offset: 36
 
