@@ -21,7 +21,7 @@ add_custom_target(test_generate_aarch64 ALL DEPENDS ${PROJECT_OUTPUT_STAMP})
 
 add_executable(test_compile_aarch64
     spsr_el2.c
-    gich_vmcr.c
+    # gich_vmcr.c
     main.c
 )
 

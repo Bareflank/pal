@@ -1,6 +1,7 @@
 from pal.writer.access_mechanism.access_mechanism \
     import AccessMechanismWriter
 from pal.logger import logger
+from pal.exception import PalWriterException
 
 class LibpalAccessMechanismWriter(AccessMechanismWriter):
 
@@ -16,13 +17,11 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'mov_write': self.__declare_mov_write_dependencies,
             'xgetbv': self.__declare_xgetbv_dependencies,
             'xsetbv': self.__declare_xsetbv_dependencies,
+            'read': self.__declare_read_dependencies,
+            'write': self.__declare_write_dependencies,
         }
 
         if access_mechanism.name not in access_mechanisms:
-            msg = "Access mechnism {am} is not supported using libpal"
-            msg = msg.format(am=access_mechanism.name)
-            logger.warn(msg)
-
             return
 
         access_mechanisms[access_mechanism.name](outfile, register,
@@ -36,14 +35,13 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'vmread': self.__call_vmread_access_mechanism,
             'mov_read': self.__call_mov_read_access_mechanism,
             'xgetbv': self.__call_xgetbv_read_access_mechanism,
+            'read': self.__call_memory_read_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
             msg = "Access mechnism {am} is not supported using libpal"
             msg = msg.format(am=access_mechanism.name)
-            logger.warn(msg)
-
-            return
+            raise PalWriterException(msg)
 
         access_mechanisms[access_mechanism.name](outfile,register,
                                                  access_mechanism, result)
@@ -55,14 +53,13 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'wrmsr': self.__call_wrmsr_access_mechanism,
             'vmwrite': self.__call_vmwrite_access_mechanism,
             'xsetbv': self.__call_xsetbv_access_mechansim,
+            'write': self.__call_memory_write_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
             msg = "Access mechnism {am} is not supported using libpal"
             msg = msg.format(am=access_mechanism.name)
-            logger.warn(msg)
-
-            return
+            raise PalWriterException(msg)
 
         access_mechanisms[access_mechanism.name](outfile,register,
                                                  access_mechanism, value)
@@ -121,6 +118,54 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                                       access_mechanism):
         outfile.write("#include <pal/instruction/xsetbv.h>")
         self.write_newline(outfile)
+
+    def __declare_read_dependencies(self, outfile, register,
+                                      access_mechanism):
+            if register.size == 8:
+                outfile.write('#include "pal/instruction/read_mem8.h"')
+                self.write_newline(outfile)
+            elif register.size == 16:
+                outfile.write('#include "pal/instruction/read_mem16.h"')
+                self.write_newline(outfile)
+            elif register.size == 32:
+                outfile.write('#include "pal/instruction/read_mem32.h"')
+                self.write_newline(outfile)
+            elif register.size == 64:
+                outfile.write('#include "pal/instruction/read_mem64.h"')
+                self.write_newline(outfile)
+            else:
+                msg = "Reading memory-mapped register {name}{component} with irregular "
+                msg += "size {size} is not yet supported by the libpal access mechanism"
+                msg = msg.format(
+                    name=register.name,
+                    component= " in component " + register.component if register.component else "",
+                    size=str(register.size)
+                )
+                raise PalWriterException(msg)
+
+    def __declare_write_dependencies(self, outfile, register,
+                                      access_mechanism):
+            if register.size == 8:
+                outfile.write('#include "pal/instruction/write_mem8.h"')
+                self.write_newline(outfile)
+            elif register.size == 16:
+                outfile.write('#include "pal/instruction/write_mem16.h"')
+                self.write_newline(outfile)
+            elif register.size == 32:
+                outfile.write('#include "pal/instruction/write_mem32.h"')
+                self.write_newline(outfile)
+            elif register.size == 64:
+                outfile.write('#include "pal/instruction/write_mem64.h"')
+                self.write_newline(outfile)
+            else:
+                msg = "Writing memory-mapped register {name}{component} with irregular "
+                msg += "size {size} is not yet supported by the libal access mechanism"
+                msg = msg.format(
+                    name=register.name,
+                    component= " in component " + register.component if register.component else "",
+                    size=str(register.size)
+                )
+                raise PalWriterException(msg)
 
 
     def __call_cpuid_access_mechanism(self, outfile, register,
@@ -185,7 +230,6 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
 
     def __call_xgetbv_read_access_mechanism(self, outfile, register,
                                             access_mechanism, result):
-
         self.write_newline(outfile)
         outfile.write('{} = pal_execute_xgetbv({});'.format(result, hex(access_mechanism.register)))
         self.write_newline(outfile)
@@ -194,4 +238,24 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def __call_xsetbv_access_mechansim(self, outfile, register,
                                        access_mechanism, value):
         outfile.write('pal_execute_xsetbv({},{});'.format(hex(access_mechanism.register),value))
+        self.write_newline(outfile)
+
+    def __call_memory_read_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        self.write_newline(outfile)
+        outfile.write('{} = pal_execute_read_mem{}(address);'.format(
+            result,
+            str(register.size),
+        ))
+        self.write_newline(outfile)
+        self.write_newline(outfile)
+
+    def __call_memory_write_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        self.write_newline(outfile)
+        outfile.write('pal_execute_write_mem{}({}, address);'.format(
+            str(register.size),
+            result,
+        ))
+        self.write_newline(outfile)
         self.write_newline(outfile)

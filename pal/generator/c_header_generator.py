@@ -36,6 +36,15 @@ class CHeaderGenerator(AbstractGenerator):
                 with open(outfile_path, "w") as outfile:
                     self._generate_register(outfile, reg)
 
+                if reg.component:
+                    include_guard = "PAL_" + reg.component.upper() + "_H"
+                    self.gadgets["pal.include_guard"].name = include_guard
+                    outfile_path = os.path.join(outpath, reg.component.lower() + ".h")
+                    outfile_path = os.path.abspath(outfile_path)
+
+                    with open(outfile_path, "w") as outfile:
+                        self.__generate_component_file(outfile, reg)
+
         except Exception as e:
             msg = "{g} failed to generate output {out}: {exception}".format(
                 g=str(type(self).__name__),
@@ -109,3 +118,12 @@ class CHeaderGenerator(AbstractGenerator):
             purpose=str(reg.purpose)
         )
         self.writer.declare_comment(outfile, comment, 75)
+
+    @pal.gadget.license
+    @pal.gadget.include_guard
+    def __generate_component_file(self, outfile, reg):
+        outfile.write("typedef struct {} {{ uintptr_t base_address; }} {};".format(
+            "pal_" + str(reg.component) + "_view",
+            "pal_" + str(reg.component) + "_view",
+        ))
+        self.writer.write_newline(outfile, count=2)

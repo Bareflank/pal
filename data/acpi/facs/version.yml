@@ -6,16 +6,15 @@
        "
   size: 32
   arch: generic
+  component: acpi_facs_table
 
   access_mechanisms:
       - name: read
         is_read: True
-        component: facs
         offset: 32
 
       - name: write
         is_write: True
-        component: facs
         offset: 32
 
   fieldsets:

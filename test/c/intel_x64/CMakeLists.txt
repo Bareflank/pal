@@ -10,7 +10,7 @@ set(REGISTER_SOURCES
     leaf_0D.c
     eptp.c
     guest_interrupt_status.c
-    # facs.c
+    facs.c
     main.c
 )
 
@@ -106,6 +106,7 @@ add_custom_command(
         --access_mechanism=libpal
         --print_mechanism=printf_utf8
         --file_format=unix
+        --acpi=on
         COMMAND cmake -E touch ${LIBPAL_SYNTAX_OUTPUT_STAMP}
         OUTPUT ${LIBPAL_SYNTAX_OUTPUT_STAMP}
         DEPENDS ${REGISTER_SOURCES}

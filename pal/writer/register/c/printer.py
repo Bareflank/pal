@@ -21,6 +21,10 @@ class CPrinterWriter():
         gadget.return_type = "void"
         gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
+        if register.component:
+            view_type = "const pal_" + register.component.lower() + "_view *"
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
 
@@ -58,6 +62,10 @@ class CPrinterWriter():
         gadget.name = self._field_print_function_name(register, field)
         gadget.return_type = "void"
         gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
+
+        if register.component:
+            view_type = "const pal_" + register.component.lower() + "_view *"
+            gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))

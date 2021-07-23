@@ -1,4 +1,5 @@
 from pal.logger import logger
+from pal.exception import PalWriterException
 from pal.writer.access_mechanism.access_mechanism \
     import AccessMechanismWriter
 
@@ -18,6 +19,9 @@ class GasAarch64AccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "ldr":
             self._call_ldr_access_mechanism(outfile, register,
                                             access_mechanism, result)
+        elif access_mechanism.name == "read":
+            self._call_ldr_access_mechanism(outfile, register,
+                                            access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "aarch64 gas intel assembler syntax ({register})"
@@ -25,7 +29,7 @@ class GasAarch64AccessMechanismWriter(AccessMechanismWriter):
                 am=access_mechanism.name,
                 register=register.name
             )
-            logger.warn(msg)
+            raise PalWriterException(msg)
 
     def call_writable_access_mechanism(self, outfile, register,
                                        access_mechanism, result):
@@ -35,6 +39,9 @@ class GasAarch64AccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "str":
             self._call_str_access_mechanism(outfile, register,
                                             access_mechanism, result)
+        elif access_mechanism.name == "write":
+            self._call_str_access_mechanism(outfile, register,
+                                            access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "aarch64 gas intel assembler syntax ({register})"
@@ -42,7 +49,7 @@ class GasAarch64AccessMechanismWriter(AccessMechanismWriter):
                 am=access_mechanism.name,
                 register=register.name
             )
-            logger.warn(msg)
+            raise PalWriterException(msg)
 
     def _call_mrs_register_access_mechanism(self, outfile, register,
                                             access_mechanism, result):
