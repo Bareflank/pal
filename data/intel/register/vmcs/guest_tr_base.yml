@@ -1,0 +1,11 @@
+- name: guest_tr_base
+  long_name: "Guest TR base"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006814
+
+      - name: vmwrite
+        encoding: 0x00006814

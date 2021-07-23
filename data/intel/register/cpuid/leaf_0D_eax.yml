@@ -1,0 +1,193 @@
+- name: leaf_0D_eax
+  long_name: "Processor Extended State Enumeration"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 0DH and ECX = 0, the processor
+      returns information about the bit-vector representation of all processor
+      state extensions that are supported in the processor and storage size
+      requirements of the XSAVE/XRSTOR area. See Table 3-8.  When CPUID
+      executes with EAX set to 0DH and ECX = n (n > 1, and is a valid sub-leaf
+      index), the processor returns information about the size and offset of
+      each processor extended state save area within the XSAVE/XRSTOR area.
+      See Table 3-8. Software can use the forward-extendable technique depicted
+      below to query the valid sub-leaves and obtain size and offset
+      information for each processor extended state save area: For i = 2 to 62
+      // sub-leaf 1 is reserved IF (CPUID.(EAX=0DH, ECX=0):VECTOR[i] = 1 ) //
+      VECTOR is the 64-bit value of EDX:EAX Execute CPUID.(EAX=0DH, ECX = i) to
+      examine size and offset for sub-leaf i; FI;
+      "
+  size: 32
+  arch: intel
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0xd
+        output: eax
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "x87 state"
+              long_name: "x87 state"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: x87 state
+                  "
+
+            - name: "SSE state"
+              long_name: "SSE state"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: SSE state
+                  "
+
+            - name: "AVX state"
+              long_name: "AVX state"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: AVX state
+                  "
+
+            - name: "MPX state"
+              long_name: "MPX state"
+              lsb: 3
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bits 04 - 03: MPX state
+                  "
+
+            - name: "AVX-512 state"
+              long_name: "AVX-512 state"
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 05: AVX-512 state
+                  "
+
+            - name: "Bit 08"
+              long_name: "Bit 8"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Bit 08: Used for IA32_XSS
+                  "
+
+            - name: "PKRU state"
+              long_name: "PKRU state"
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Bit 09: PKRU state
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 10
+              msb: 12
+              reserved0: True
+
+            - name: "Bit 13"
+              long_name: "Bit 13"
+              lsb: 13
+              msb: 13
+              readable: True
+              description: |
+                  "
+                  Bit 13: Used for IA32_XSS
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 14
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: "XSAVEOPT is available"
+              long_name: "XSAVEOPT is available"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: XSAVEOPT is available
+                  "
+
+            - name: "Bit 01"
+              long_name: "Bit 01"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: Supports XSAVEC and the compacted form of XRSTOR if
+                  set
+                  "
+
+            - name: "Bit 02"
+              long_name: "Bit 02"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: Supports XGETBV with ECX = 1 if set
+                  "
+
+            - name: "Bit 03"
+              long_name: "Bit 03"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: Supports XSAVES/XRSTORS and IA32_XSS if set
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 31
+              reserved0: True
+
+      - name: subleaf_n
+        condition: "Fieldset valid for subleaf (ECX) > 1"
+        size: 32
+
+        fields:
+            - name: "Bits 31 - 0"
+              long_name: "Bits 31 - 0"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 0: The size in bytes (from the offset specified in
+                  EBX) of the save area for an extended state feature
+                  associated with a valid sub-leaf index, n
+                  "

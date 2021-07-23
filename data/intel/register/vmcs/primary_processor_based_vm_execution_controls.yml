@@ -1,0 +1,288 @@
+- name: primary_processor_based_vm_execution_controls
+  long_name: "Primary Processor-Based VM-Execution Controls"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004002
+
+      - name: vmwrite
+        encoding: 0x00004002
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: interrupt_window_exiting
+              long_name: "Interrupt-window exiting"
+              description: |
+                  "
+                  If this control is 1, a VM exit occurs at the beginning of
+                  any instruction if RFLAGS.IF = 1 and there are no other
+                  blocking of interrupts (see Section 24.4.2).
+                  "
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: use_tsc_offsetting
+              long_name: "Use TSC offsetting"
+              description: |
+                  "
+                  This control determines whether executions of RDTSC,
+                  executions of RDTSCP, and executions of RDMSR that read from
+                  the IA32_TIME_STAMP_COUNTER MSR return a value modified by
+                  the TSC offset field (see Section 24.6.5 and Section 25.3)
+                  "
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+
+            - name: hlt_exiting
+              long_name: "HLT exiting"
+              description: |
+                  "
+                  This control determines whether executions of HLT cause VM
+                  exits.
+                  "
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: invlpg_exiting
+              long_name: "INVLPG exiting"
+              description: |
+                  "
+                  This determines whether executions of INVLPG cause VM exits.
+                  "
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+
+            - name: mwait_exiting
+              long_name: "MWAIT exiting"
+              description: |
+                  "
+                  This control determines whether executions of MWAIT cause VM
+                  exits.
+                  "
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: rdpmc_exiting
+              long_name: "RDPMC exiting"
+              description: |
+                  "
+                  This control determines whether executions of RDPMC cause VM
+                  exits.
+                  "
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: rdtsc_exiting
+              long_name: "RDTSC exiting"
+              description: |
+                  "
+                  This control determines whether executions of RDTSC and
+                  RDTSCP cause VM exits.
+                  "
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: cr3_load_exiting
+              long_name: "CR3-load exiting"
+              description: |
+                  "
+                  In conjunction with the CR3-target controls (see Section
+                  24.6.7), this control determines whether executions of MOV
+                  to CR3 cause VM exits. See Section 25.1.3. The first
+                  processors to support the virtual-machine extensions
+                  supported only the 1-setting of this control.
+                  "
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: cr3_store_exiting
+              long_name: "CR3-store exiting"
+              description: |
+                  "
+                  This control determines whether executions of MOV from CR3
+                  cause VM exits.  The first processors to support the
+                  virtual-machine extensions supported only the 1-setting of
+                  this control.
+                  "
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: cr8_load_exiting
+              long_name: "CR8-load exiting"
+              description: |
+                  "
+                  This control determines whether executions of MOV to CR8
+                  cause VM exits.
+                  "
+              lsb: 19
+              msb: 19
+              readable: True
+              writable: True
+
+            - name: cr8_store_exiting
+              long_name: "CR8-store exiting"
+              description: |
+                  "
+                  This control determines whether executions of MOV from CR8
+                  cause VM exits.
+                  "
+              lsb: 20
+              msb: 20
+              readable: True
+              writable: True
+
+            - name: use_tpr_shadow
+              long_name: "Use TPR shadow"
+              description: |
+                  "
+                  Setting this control to 1 enables TPR virtualization and
+                  other APIC-virtualization features. See Chapter 29.
+                  "
+              lsb: 21
+              msb: 21
+              readable: True
+              writable: True
+
+            - name: nmi_window_exiting
+              long_name: "NMI-window exiting"
+              description: |
+                  "
+                  If this control is 1, a VM exit occurs at the beginning of
+                  any instruction if there is no virtualNMI blocking (see
+                  Section 24.4.2).
+                  "
+              lsb: 22
+              msb: 22
+              readable: True
+              writable: True
+
+            - name: mov_dr_exiting
+              long_name: "MOV-DR exiting"
+              description: |
+                  "
+                  This control determines whether executions of MOV DR cause VM
+                  exits.
+                  "
+              lsb: 23
+              msb: 23
+              readable: True
+              writable: True
+
+            - name: unconditional_io_exiting
+              long_name: " Unconditional I/O exiting"
+              description: |
+                  "
+                  This control determines whether executions of I/O
+                  instructions (IN, INS/INSB/INSW/INSD, OUT, and
+                  OUTS/OUTSB/OUTSW/OUTSD) cause VM exits.
+                  "
+              lsb: 24
+              msb: 24
+              readable: True
+              writable: True
+
+            - name: use_io_bitmaps
+              long_name: "Use I/O bitmaps"
+              description: |
+                  "
+                   This control determines whether I/O bitmaps are used to
+                   restrict executions of I/O instructions (see Section 24.6.4
+                   and Section 25.1.3).  For this control, “0” means “do not
+                   use I/O bitmaps” and “1” means “use I/O bitmaps.” If the I/O
+                   bitmaps are used, the setting of the “unconditional I/O
+                   exiting” control is ignored.
+                  "
+              lsb: 25
+              msb: 25
+              readable: True
+              writable: True
+
+            - name: monitor_trap_flag
+              long_name: "Monitor trap flag"
+              description: |
+                  "
+                   If this control is 1, the monitor trap flag debugging
+                   feature is enabled. See Section 25.5.2.
+                  "
+              lsb: 27
+              msb: 27
+              readable: True
+              writable: True
+
+            - name: use_msr_bitmaps
+              long_name: "Use MSR bitmaps"
+              description: |
+                  "
+                  This control determines whether MSR bitmaps are used to
+                  control execution of the RDMSR and WRMSR instructions (see
+                  Section 24.6.9 and Section 25.1.3).  For this control, “0”
+                  means “do not use MSR bitmaps” and “1” means “use MSR
+                  bitmaps.” If the MSR bitmaps are not used, all executions of
+                  the RDMSR and WRMSR instructions cause VM exits
+                  "
+              lsb: 28
+              msb: 28
+              readable: True
+              writable: True
+
+            - name: monitor_exiting
+              long_name: "MONITOR exiting"
+              description: |
+                  "
+                  This control determines whether executions of MONITOR cause
+                  VM exits.
+                  "
+              lsb: 29
+              msb: 29
+              readable: True
+              writable: True
+
+            - name: pause_exiting
+              long_name: "PAUSE exiting"
+              description: |
+                  "
+                  This control determines whether executions of PAUSE cause VM
+                  exits.
+                  "
+              lsb: 30
+              msb: 30
+              readable: True
+              writable: True
+
+            - name: activate_secondary_controls
+              long_name: "Activate secondary controls"
+              description: |
+                  "
+                  This control determines whether the secondary processor-based
+                  VM-execution controls are used. If this control is 0, the
+                  logical processor operates as if all the secondary
+                  processor-based VM-execution controls were also 0.
+                  "
+              lsb: 31
+              msb: 31
+              readable: True
+              writable: True

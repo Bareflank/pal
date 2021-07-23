@@ -1,0 +1,243 @@
+- name: vm_entry_controls
+  long_name: "VM-entry controls"
+  purpose: |
+      "
+      The VM-entry controls constitute a 32-bit vector that governs the basic
+      operation of VM entries. Table 24-13 lists the controls supported. See
+      Chapter 24 for how these controls affect VM entries.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004012
+
+      - name: vmwrite
+        encoding: 0x00004012
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "reserved_1_0"
+              long_name: "Reserved bits 1:0"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_ENTRY_CTLS and IA32_VMX_TRUE_ENTRY_CTLS (see
+                  Appendix A.5) to determine how it should set the reserved
+                  bits. Failure to set reserved bits properly causes subsequent
+                  VM entries to fail (see Section 26.2.1.3).
+                  "
+              lsb: 0
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: "Load debug controls"
+              long_name: "Load debug controls"
+              description: |
+                  "
+                  This control determines whether DR7 and the IA32_DEBUGCTL MSR
+                  are loaded on VM entry.  The first processors to support the
+                  virtual-machine extensions supported only the 1-setting of
+                  this control.
+                  "
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: "reserved_8_3"
+              long_name: "Reserved bits 8:3"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_ENTRY_CTLS and IA32_VMX_TRUE_ENTRY_CTLS (see
+                  Appendix A.5) to determine how it should set the reserved
+                  bits. Failure to set reserved bits properly causes subsequent
+                  VM entries to fail (see Section 26.2.1.3).
+                  "
+              lsb: 3
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: "IA-32e mode guest"
+              long_name: "IA-32e mode guest"
+              description: |
+                  "
+                  On processors that support Intel 64 architecture, this
+                  control determines whether the logical processor is in
+                  IA-32e mode after VM entry. Its value is loaded into
+                  IA32_EFER.LMA as part of VM entry.1 This control must be 0
+                  on processors that do not support Intel 64 architecture.
+                  "
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+
+            - name: "Entry to SMM"
+              long_name: "Entry to SMM"
+              description: |
+                  "
+                  This control determines whether the logical processor is in
+                  system-management mode (SMM) after VM entry. This control
+                  must be 0 for any VM entry from outside SMM.
+                  "
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: "Deactivate dualmonitor treatment"
+              long_name: "Deactivate dualmonitor treatment"
+              description: |
+                  "
+                  If set to 1, the default treatment of SMIs and SMM is in
+                  effect after the VM entry (see Section 34.15.7). This control
+                  must be 0 for any VM entry from outside SMM.
+                  "
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: "reserved_12"
+              long_name: "Reserved bit 12"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_ENTRY_CTLS and IA32_VMX_TRUE_ENTRY_CTLS (see
+                  Appendix A.5) to determine how it should set the reserved
+                  bits. Failure to set reserved bits properly causes subsequent
+                  VM entries to fail (see Section 26.2.1.3).
+                  "
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: "Load IA32_PERF_GLOBAL_CTRL"
+              long_name: "Load IA32_PERF_GLOBAL_CTRL"
+              description: |
+                  "
+                  This control determines whether the IA32_PERF_GLOBAL_CTRL MSR
+                  is loaded on VM entry.
+                  "
+              lsb: 13
+              msb: 13
+              readable: True
+              writable: True
+
+            - name: "Load IA32_PAT"
+              long_name: "Load IA32_PAT"
+              description: |
+                  "
+                  This control determines whether the IA32_PAT MSR is loaded on
+                  VM entry.
+                  "
+              lsb: 14
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: "Load IA32_EFER"
+              long_name: "Load IA32_EFER"
+              description: |
+                  "
+                  This control determines whether the IA32_EFER MSR is loaded
+                  on VM entry.
+                  "
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: "Load IA32_BNDCFGS"
+              long_name: "Load IA32_BNDCFGS"
+              description: |
+                  "
+                  This control determines whether the IA32_BNDCFGS MSR is
+                  loaded on VM entry.
+                  "
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: "Conceal VMX from PT"
+              long_name: "Conceal VMX from PT"
+              description: |
+                  "
+                  If this control is 1, Intel Processor Trace does not produce
+                  a paging information packet (PIP) on a VM entry or a VMCS
+                  packet on a VM entry that returns from SMM (see Chapter 35).
+                  "
+              lsb: 17
+              msb: 17
+              readable: True
+              writable: True
+
+            - name: "Load IA32_RTIT_CTL"
+              long_name: "Load IA32_RTIT_CTL"
+              description: |
+                  "
+                  This control determines whether the IA32_RTIT_CTL MSR is
+                  loaded on VM entry.
+                  "
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+
+            - name: "reserved_19"
+              long_name: "Reserved bit 19"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_ENTRY_CTLS and IA32_VMX_TRUE_ENTRY_CTLS (see
+                  Appendix A.5) to determine how it should set the reserved
+                  bits. Failure to set reserved bits properly causes subsequent
+                  VM entries to fail (see Section 26.2.1.3).
+                  "
+              lsb: 19
+              msb: 19
+              readable: True
+              writable: True
+
+            - name: "Load CET state"
+              long_name: "Load CET state"
+              description: |
+                  "
+                  This control determines whether CET-related MSRs and SPP are
+                  loaded on VM entry.
+                  "
+              lsb: 20
+              msb: 20
+              readable: True
+              writable: True
+
+            - name: "reserved_31_21"
+              long_name: "Reserved bits 31:21"
+              description: |
+                  "
+                  All other bits in this field are reserved, some to 0 and some
+                  to 1. Software should consult the VMX capability MSRs
+                  IA32_VMX_ENTRY_CTLS and IA32_VMX_TRUE_ENTRY_CTLS (see
+                  Appendix A.5) to determine how it should set the reserved
+                  bits. Failure to set reserved bits properly causes subsequent
+                  VM entries to fail (see Section 26.2.1.3).
+                  "
+              lsb: 21
+              msb: 31
+              readable: True
+              writable: True

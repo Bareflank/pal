@@ -1,0 +1,90 @@
+- name: ia32_vmx_misc
+  long_name: "ia32_vmx_misc"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x485
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: preemption_timer_decrement
+              long_name: "preemption_timer_decrement"
+              lsb: 0
+              msb: 4
+              readable: True
+
+            - name: store_efer_lma_on_vm_exit
+              long_name: "store_efer_lma_on_vm_exit"
+              lsb: 5
+              msb: 5
+              readable: True
+
+            - name: activity_state_hlt_support
+              long_name: "activity_state_hlt_support"
+              lsb: 6
+              msb: 6
+              readable: True
+
+            - name: activity_state_shutdown_support
+              long_name: "activity_state_shutdown_support"
+              lsb: 7
+              msb: 7
+              readable: True
+
+            - name: activity_state_wait_for_sipi_support
+              long_name: "activity_state_wait_for_sipi_support"
+              lsb: 8
+              msb: 8
+              readable: True
+
+            - name: processor_trace_support
+              long_name: "processor_trace_support"
+              lsb: 14
+              msb: 14
+              readable: True
+
+            - name: rdmsr_in_smm_support
+              long_name: "rdmsr_in_smm_support"
+              lsb: 15
+              msb: 15
+              readable: True
+
+            - name: cr3_targets
+              long_name: "cr3_targets"
+              lsb: 16
+              msb: 24
+              readable: True
+
+            - name: max_num_msr_load_store_on_exit
+              long_name: "max_num_msr_load_store_on_exit"
+              lsb: 25
+              msb: 27
+              readable: True
+
+            - name: vmxoff_blocked_smi_support
+              long_name: "vmxoff_blocked_smi_support"
+              lsb: 28
+              msb: 28
+              readable: True
+
+            - name: vmwrite_all_fields_support
+              long_name: "vmwrite_all_fields_support"
+              lsb: 29
+              msb: 29
+              readable: True
+
+            - name: injection_with_instruction_length_of_zero
+              long_name: "injection_with_instruction_length_of_zero"
+              lsb: 30
+              msb: 30
+              readable: True

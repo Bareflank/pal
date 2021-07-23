@@ -1,0 +1,11 @@
+- name: host_tr_base
+  long_name: "Host TR base"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006C0A
+
+      - name: vmwrite
+        encoding: 0x00006C0A

@@ -1,0 +1,411 @@
+- name: leaf_01_edx
+  long_name: "Basic CPUID Information"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 01H, feature information is returned
+      in ECX and EDX.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x1
+        output: edx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: FPU
+              long_name: "Floating Point Unit On-Chip"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Floating Point Unit On-Chip. The processor contains an x87
+                  FPU.
+                  "
+
+            - name: VME
+              long_name: "Virtual 8086 Mode Enhancements"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Virtual 8086 Mode Enhancements. Virtual 8086 mode
+                  enhancements, including CR4.VME for controlling the feature,
+                  CR4.PVI for protected mode virtual interrupts, software
+                  interrupt indirection, expansion of the TSS with the software
+                  indirection bitmap, and EFLAGS.VIF and EFLAGS.VIP flags.
+                  "
+
+            - name: DE
+              long_name: "Debugging Extensions"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Debugging Extensions. Support for I/O breakpoints, including
+                  CR4.DE for controlling the feature, and optional trapping of
+                  accesses to DR4 and DR5.
+                  "
+
+            - name: PSE
+              long_name: "Page Size Extension"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Page Size Extension. Large pages of size 4 MByte are
+                  supported, including CR4.PSE for controlling the feature, the
+                  defined dirty bit in PDE (Page Directory Entries), optional
+                  reserved bit trapping in CR3, PDEs, and PTEs.
+                  "
+
+            - name: TSC
+              long_name: "Time Stamp Counter"
+              lsb: 4
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Time Stamp Counter. The RDTSC instruction is supported,
+                  including CR4.TSD for controlling privilege.
+                  "
+
+            - name: MSR
+              long_name: |
+                  "Model Specific Registers RDMSR and WRMSR Instructions"
+              lsb: 5
+              msb: 5
+              readable: True
+              description: |
+                  "
+                  Model Specific Registers RDMSR and WRMSR Instructions. The
+                  RDMSR and WRMSR instructions are supported. Some of the MSRs
+                  are implementation dependent.
+                  "
+
+            - name: PAE
+              long_name: "Physical Address Extension"
+              lsb: 6
+              msb: 6
+              readable: True
+              description: |
+                  "
+                  Physical Address Extension. Physical addresses greater than
+                  32 bits are supported: extended page table entry formats, an
+                  extra level in the page translation tables is defined,
+                  2-MByte pages are supported instead of 4 Mbyte pages if PAE
+                  bit is 1.
+                  "
+
+            - name: MCE
+              long_name: "Machine Check Exception"
+              lsb: 7
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Machine Check Exception. Exception 18 is defined for Machine
+                  Checks, including CR4.MCE for controlling the feature. This
+                  feature does not define the model-specific implementations of
+                  machine-check error logging, reporting, and processor
+                  shutdowns. Machine Check exception handlers may have to
+                  depend on processor version to do model specific processing
+                  of the exception, or test for the presence of the Machine
+                  Check feature.
+                  "
+
+            - name: CX8
+              long_name: "CMPXCHG8B Instruction"
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  CMPXCHG8B Instruction. The compare-and-exchange 8 bytes (64
+                  bits) instruction is supported (implicitly locked and
+                  atomic).
+                  "
+
+            - name: APIC
+              long_name: "APIC On-Chip"
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  APIC On-Chip. The processor contains an Advanced Programmable
+                  Interrupt Controller (APIC), responding to memory mapped
+                  commands in the physical address range FFFE0000H to FFFE0FFFH
+                  (by default - some processors permit the APIC to be
+                  relocated).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 10
+              msb: 10
+              reserved0: True
+
+            - name: SEP
+              long_name: "SYSENTER and SYSEXIT Instructions"
+              lsb: 11
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  SYSENTER and SYSEXIT Instructions. The SYSENTER and SYSEXIT
+                  and associated MSRs are supported.
+                  "
+
+            - name: MTRR
+              long_name: "Memory Type Range Registers"
+              lsb: 12
+              msb: 12
+              readable: True
+              description: |
+                  "
+                  Memory Type Range Registers. MTRRs are supported. The MTRRcap
+                  MSR contains feature bits that describe what memory types are
+                  supported, how many variable MTRRs are supported, and whether
+                  fixed MTRRs are supported.
+                  "
+
+            - name: PGE
+              long_name: "Page Global Bit"
+              lsb: 13
+              msb: 13
+              readable: True
+              description: |
+                  "
+                  Page Global Bit. The global bit is supported in
+                  paging-structure entries that map a page, indicating TLB
+                  entries that are common to different processes and need not
+                  be flushed. The CR4.PGE bit controls this feature.
+                  "
+
+            - name: MCA
+              long_name: "Machine Check Architecture"
+              lsb: 14
+              msb: 14
+              readable: True
+              description: |
+                  "
+                  Machine Check Architecture. A value of 1 indicates the
+                  Machine Check Architecture of reporting machine errors is
+                  supported. The MCG_CAP MSR contains feature bits describing
+                  how many banks of error reporting MSRs are supported.
+                  "
+
+            - name: CMOV
+              long_name: "Conditional Move Instructions"
+              lsb: 15
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Conditional Move Instructions. The conditional move
+                  instruction CMOV is supported. In addition, if x87 FPU is
+                  present as indicated by the CPUID.FPU feature bit, then the
+                  FCOMI and FCMOV instructions are supported
+                  "
+
+            - name: PAT
+              long_name: "Page Attribute Table"
+              lsb: 16
+              msb: 16
+              readable: True
+              description: |
+                  "
+                  Page Attribute Table. Page Attribute Table is supported. This
+                  feature augments the Memory Type Range Registers (MTRRs),
+                  allowing an operating system to specify attributes of memory
+                  accessed through a linear address on a 4KB granularity.
+                  "
+
+            - name: PSE-36 
+              long_name: "36-Bit Page Size Extension"
+              lsb: 17
+              msb: 17
+              readable: True
+              description: |
+                  "
+                  36-Bit Page Size Extension. 4-MByte pages addressing physical
+                  memory beyond 4 GBytes are supported with 32-bit paging. This
+                  feature indicates that upper bits of the physical address of
+                  a 4-MByte page are encoded in bits 20:13 of the
+                  page-directory entry. Such physical addresses are limited by
+                  MAXPHYADDR and may be up to 40 bits in size.
+                  "
+
+            - name: PSN
+              long_name: "Processor Serial Number"
+              lsb: 18
+              msb: 18
+              readable: True
+              description: |
+                  "
+                  Processor Serial Number. The processor supports the 96-bit
+                  processor identification number feature and the feature is
+                  enabled.
+                  "
+
+            - name: CLFSH
+              long_name: "CLFLUSH Instruction"
+              lsb: 19
+              msb: 19
+              readable: True
+              description: |
+                  "
+                  CLFLUSH Instruction. CLFLUSH Instruction is supported.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 20
+              msb: 20
+              reserved0: True
+
+            - name: DS
+              long_name: "Debug Store"
+              lsb: 21
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Debug Store. The processor supports the ability to write
+                  debug information into a memory resident buffer.  This
+                  feature is used by the branch trace store (BTS) and processor
+                  event-based sampling (PEBS) facilities (see Chapter 23,
+                  “Introduction to Virtual-Machine Extensions,” in the Intel®
+                  64 and IA-32 Architectures Software Developer’s Manual,
+                  Volume 3C).
+                  "
+
+            - name: ACPI
+              long_name: |
+                  "Thermal Monitor and Software Controlled Clock Facilities"
+              lsb: 22
+              msb: 22
+              readable: True
+              description: |
+                  "
+                  Thermal Monitor and Software Controlled Clock Facilities. The
+                  processor implements internal MSRs that allow processor
+                  temperature to be monitored and processor performance to be
+                  modulated in predefined duty cycles under software control.
+                  "
+
+            - name: MMX
+              long_name: "Intel MMX Technology"
+              lsb: 23
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Intel MMX Technology. The processor supports the Intel MMX
+                  technology.
+                  "
+
+            - name: FXSR
+              long_name: "FXSAVE and FXRSTOR Instructions"
+              lsb: 24
+              msb: 24
+              readable: True
+              description: |
+                  "
+                  FXSAVE and FXRSTOR Instructions. The FXSAVE and FXRSTOR
+                  instructions are supported for fast save and restore of the
+                  floating point context. Presence of this bit also indicates
+                  that CR4.OSFXSR is available for an operating system to
+                  indicate that it supports the FXSAVE and FXRSTOR
+                  instructions.
+                  "
+
+            - name: SSE
+              long_name: "SSE"
+              lsb: 25
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  SSE. The processor supports the SSE extensions.
+                  "
+
+            - name: SSE2
+              long_name: "SSE2"
+              lsb: 26
+              msb: 26
+              readable: True
+              description: |
+                  "
+                  SSE2. The processor supports the SSE2 extensions
+                  "
+
+            - name: SS
+              long_name: "Self Snoop"
+              lsb: 27
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Self Snoop. The processor supports the management of
+                  conflicting memory types by performing a snoop of its own
+                  cache structure for transactions issued to the bus.
+                  "
+
+            - name: HTT
+              long_name: "Max APIC IDs reserved field is Valid"
+              lsb: 28
+              msb: 28
+              readable: True
+              description: |
+                  "
+                  Max APIC IDs reserved field is Valid. A value of 0 for HTT
+                  indicates there is only a single logical processor in the
+                  package and software should assume only a single APIC ID is
+                  reserved. A value of 1 for HTT indicates the value in
+                  CPUID.1.EBX[23:16] (the Maximum number of addressable IDs for
+                  logical processors in this package) is valid for the package.
+                  "
+
+            - name: TM
+              long_name: "Thermal Monitor"
+              lsb: 29
+              msb: 29
+              readable: True
+              description: |
+                  "
+                  Thermal Monitor. The processor implements the thermal monitor
+                  automatic thermal control circuitry (TCC).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 30
+              msb: 30
+              reserved0: True
+
+            - name: PBE
+              long_name: "Pending Break Enable"
+              lsb: 31
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Pending Break Enable. The processor supports the use of the
+                  FERR#/PBE# pin when the processor is in the stop-clock state
+                  (STPCLK# is asserted) to signal the processor that an
+                  interrupt is pending and that the processor should return to
+                  normal operation to handle the interrupt. Bit 10 (PBE enable)
+                  in the IA32_MISC_ENABLE MSR enables this capability.
+                  "

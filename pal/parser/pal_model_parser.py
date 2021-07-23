@@ -6,8 +6,8 @@ import pal.model.generic
 import pal.model.generic.access_mechanism
 import pal.model.armv8a
 import pal.model.armv8a.access_mechanism
-import pal.model.x86_64
-import pal.model.x86_64.access_mechanism
+import pal.model.intel
+import pal.model.intel.access_mechanism
 
 from yaml import load, dump
 from yaml import CLoader as Loader, CDumper as Dumper
@@ -27,8 +27,8 @@ class PalModelParser(AbstractParser):
                 for item in data:
                     arch = item["arch"]
 
-                    if arch == "x86_64":
-                        register = pal.model.x86_64.register.x86_64Register()
+                    if arch == "intel":
+                        register = pal.model.intel.register.IntelRegister()
                     elif arch == "armv8a":
                         register = pal.model.armv8a.register.ARMv8ARegister()
                     elif arch == "generic":
@@ -85,56 +85,56 @@ class PalModelParser(AbstractParser):
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["write"].append(am)
             elif am_yml["name"] == "mov_read":
-                am = pal.model.x86_64.access_mechanism.MOVRead()
+                am = pal.model.intel.access_mechanism.MOVRead()
                 am.name = am_yml["name"]
                 am.source_mnemonic = am_yml["source_mnemonic"]
                 register.access_mechanisms["mov_read"].append(am)
 
             elif am_yml["name"] == "mov_write":
-                am = pal.model.x86_64.access_mechanism.MOVWrite()
+                am = pal.model.intel.access_mechanism.MOVWrite()
                 am.name = am_yml["name"]
                 am.destination_mnemonic = am_yml["destination_mnemonic"]
                 register.access_mechanisms["mov_write"].append(am)
 
             elif am_yml["name"] == "cpuid":
-                am = pal.model.x86_64.access_mechanism.CPUID()
+                am = pal.model.intel.access_mechanism.CPUID()
                 am.name = am_yml["name"]
                 am.leaf = am_yml["leaf"]
                 am.output = am_yml["output"]
                 register.access_mechanisms["cpuid"].append(am)
 
             elif am_yml["name"] == "rdmsr":
-                am = pal.model.x86_64.access_mechanism.RDMSR()
+                am = pal.model.intel.access_mechanism.RDMSR()
                 am.name = am_yml["name"]
                 am.address = am_yml["address"]
                 register.access_mechanisms["rdmsr"].append(am)
 
             elif am_yml["name"] == "wrmsr":
-                am = pal.model.x86_64.access_mechanism.WRMSR()
+                am = pal.model.intel.access_mechanism.WRMSR()
                 am.name = am_yml["name"]
                 am.address = am_yml["address"]
                 register.access_mechanisms["wrmsr"].append(am)
 
             elif am_yml["name"] == "vmread":
-                am = pal.model.x86_64.access_mechanism.VMRead()
+                am = pal.model.intel.access_mechanism.VMRead()
                 am.name = am_yml["name"]
                 am.encoding = am_yml["encoding"]
                 register.access_mechanisms["vmread"].append(am)
 
             elif am_yml["name"] == "vmwrite":
-                am = pal.model.x86_64.access_mechanism.VMWrite()
+                am = pal.model.intel.access_mechanism.VMWrite()
                 am.name = am_yml["name"]
                 am.encoding = am_yml["encoding"]
                 register.access_mechanisms["vmwrite"].append(am)
 
             elif am_yml["name"] == "xgetbv":
-                am = pal.model.x86_64.access_mechanism.XGETBV()
+                am = pal.model.intel.access_mechanism.XGETBV()
                 am.name = am_yml["name"]
                 am.register = am_yml["register"]
                 register.access_mechanisms["xgetbv"].append(am)
 
             elif am_yml["name"] == "xsetbv":
-                am = pal.model.x86_64.access_mechanism.XSETBV()
+                am = pal.model.intel.access_mechanism.XSETBV()
                 am.name = am_yml["name"]
                 am.register = am_yml["register"]
                 register.access_mechanisms["xsetbv"].append(am)

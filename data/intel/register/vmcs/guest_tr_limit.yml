@@ -1,0 +1,11 @@
+- name: guest_tr_limit
+  long_name: "Guest TR limit"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000480E
+
+      - name: vmwrite
+        encoding: 0x0000480E

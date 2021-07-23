@@ -1,0 +1,92 @@
+- name: ia32_misc_enable
+  long_name: "ia32_misc_enable"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x1a0
+
+      - name: wrmsr
+        is_write: True
+        address: 0x1a0
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: fast_strings
+              long_name: "fast_strings"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: auto_therm_control
+              long_name: "auto_therm_control"
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+
+            - name: perf_monitor
+              long_name: "perf_monitor"
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: branch_trace_storage
+              long_name: "branch_trace_storage"
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: processor_sampling
+              long_name: "processor_sampling"
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: intel_speedstep
+              long_name: "intel_speedstep"
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: monitor_fsm
+              long_name: "monitor_fsm"
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+
+            - name: limit_cpuid_maxval
+              long_name: "limit_cpuid_maxval"
+              lsb: 22
+              msb: 22
+              readable: True
+              writable: True
+
+            - name: xtpr_message
+              long_name: "xtpr_message"
+              lsb: 23
+              msb: 23
+              readable: True
+              writable: True
+
+            - name: xd_bit
+              long_name: "xd_bit"
+              lsb: 34
+              msb: 34
+              readable: True
+              writable: True

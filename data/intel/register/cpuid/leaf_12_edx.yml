@@ -1,0 +1,92 @@
+- name: leaf_12_edx
+  long_name: "Returns Intel SGX Enumeration Information"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 12H and ECX = 0H, the processor
+      returns information about Intel SGX capabilities. See Table 3-8.  When
+      CPUID executes with EAX set to 12H and ECX = 1H, the processor returns
+      information about Intel SGX attributes. See Table 3-8.  When CPUID
+      executes with EAX set to 12H and ECX = n (n > 1), the processor returns
+      information about Intel SGX Enclave Page Cache. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x12
+        output: edx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "MaxEnclaveSize_Not64"
+              long_name: "MaxEnclaveSize_Not64"
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Bits 07 - 00: MaxEnclaveSize_Not64. The maximum supported
+                  enclave size in non-64-bit mode is 2^(EDX[7:0])
+                  "
+
+            - name: "Bits 15 - 08"
+              long_name: "Bits 15 - 08"
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 15 - 08: MaxEnclaveSize_64. The maximum supported
+                  enclave size in 64-bit mode is 2^(EDX[15:8])
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 16
+              msb: 31
+              reserved0: True
+
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: "Bit 31 - 00"
+              long_name: "Bit 31 - 00"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bit 31 - 00: Reports the valid bits of
+                  SECS.ATTRIBUTES[127:96] that software can set with ECREATE
+                  "
+
+      - name: subleaf_2
+        condition: "Fieldset valid for subleaf (ECX) = 2"
+        size: 32
+
+        fields:
+            - name: "EDX[19:00]"
+              long_name: "EDX[19:00]"
+              lsb: 0
+              msb: 19
+              readable: True
+              description: |
+                  "
+                  EDX[19:00]: Bits 51:32 of the size of the corresponding EPC
+                  section within the Processor Reserved Memory
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 20
+              msb: 31
+              reserved0: True

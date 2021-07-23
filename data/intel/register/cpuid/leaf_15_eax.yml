@@ -1,0 +1,35 @@
+- name: leaf_15_eax
+  long_name: |
+      "
+      Returns Time Stamp Counter and Nominal Core Crystal Clock Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 15H and ECX = 0H, the processor
+      returns information about Time Stamp Counter and Core Crystal Clock. See
+      Table 3-8
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x15
+        output: eax
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Bits 31 - 00"
+              long_name: "Bits 31 - 00"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 00: An unsigned integer which is the denominator of
+                  the TSC/”core crystal clock” ratio
+                  "

@@ -1,0 +1,18 @@
+- name: vm_entry_msr_load_count
+  long_name: "VM-entry MSR-load count"
+  purpose: |
+      "
+      This field contains the number of MSRs to be loaded on VM entry. It is
+      recommended that this count not exceed 512. Otherwise, unpredictable
+      processor behavior (including a machine check) may result during VM
+      entry.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004014
+
+      - name: vmwrite
+        encoding: 0x00004014

@@ -1,0 +1,356 @@
+- name: secondary_processor_based_vm_execution_controls
+  long_name: "Secondary Processor-Based VM-Execution Controls"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000401E
+
+      - name: vmwrite
+        encoding: 0x0000401E
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: virtualize_apic_accesses
+              long_name: "Virtualize APIC accesses"
+              description: |
+                  "
+                  If this control is 1, the logical processor treats specially
+                  accesses to the page with the APICaccess address. See Section
+                  29.4.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: enable_ept
+              long_name: "Enable EPT"
+              description: |
+                  "
+                  If this control is 1, extended page tables (EPT) are enabled.
+                  See Section 28.2.
+                  "
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: descriptor_table_exiting
+              long_name: "Descriptor-table exiting"
+              description: |
+                  "
+                  This control determines whether executions of LGDT, LIDT,
+                  LLDT, LTR, SGDT, SIDT, SLDT, and STR cause VM exits.
+                  "
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: enable_rdtscp
+              long_name: "Enable RDTSCP"
+              description: |
+                  "
+                  If this control is 0, any execution of RDTSCP causes an
+                  invalid-opcode exception (#UD).
+                  "
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+
+            - name: virtualize_x2apic_mode
+              long_name: "Virtualize x2APIC mode"
+              description: |
+                  "
+                  If this control is 1, the logical processor treats specially
+                  RDMSR and WRMSR to APIC MSRs (in the range 800H–8FFH). See
+                  Section 29.5.
+                  "
+              lsb: 4
+              msb: 4
+              readable: True
+              writable: True
+
+            - name: enable_vpid
+              long_name: "Enable VPID"
+              description: |
+                  "
+                  If this control is 1, cached translations of linear addresses
+                  are associated with a virtualprocessor identifier (VPID). See
+                  Section 28.1.
+                  "
+              lsb: 5
+              msb: 5
+              readable: True
+              writable: True
+
+            - name: wbinvd_exiting
+              long_name: "WBINVD exiting"
+              description: |
+                  "
+                  This control determines whether executions of WBINVD cause VM
+                  exits.
+                  "
+              lsb: 6
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: urestricted_guest
+              long_name: "Unrestricted guest"
+              description: |
+                  "
+                  This control determines whether guest software may run in
+                  unpaged protected mode or in realaddress mode.
+                  "
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True
+
+            - name: apic_register_virtualization
+              long_name: " APIC-register virtualization"
+              description: |
+                  "
+                  If this control is 1, the logical processor virtualizes
+                  certain APIC accesses. See Section 29.4 and Section 29.5.
+                  "
+              lsb: 8
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: virtual_interrupt_delivery
+              long_name: "Virtual-interrupt delivery"
+              description: |
+                  "
+                  This controls enables the evaluation and delivery of pending
+                  virtual interrupts as well as the emulation of writes to the
+                  APIC registers that control interrupt prioritization.
+                  "
+              lsb: 9
+              msb: 9
+              readable: True
+              writable: True
+
+            - name: pause_loop_exiting
+              long_name: "PAUSE-loop exiting"
+              description: |
+                  "
+                  This control determines whether a series of executions of
+                  PAUSE can cause a VM exit (see Section 24.6.13 and Section
+                  25.1.3).
+                  "
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: rdrand_exiting
+              long_name: "RDRAND exiting"
+              description: |
+                  "
+                  This control determines whether executions of RDRAND cause VM
+                  exits.
+                  "
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: enable_invpcid
+              long_name: "Enable INVPCID"
+              description: |
+                  "
+                  If this control is 0, any execution of INVPCID causes a #UD.
+                  "
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: enable_vm_functions
+              long_name: " Enable VM functions"
+              description: |
+                  "
+                  Setting this control to 1 enables use of the VMFUNC
+                  instruction in VMX non-root operation. See Section 25.5.5.
+                  "
+              lsb: 13
+              msb: 13
+              readable: True
+              writable: True
+
+            - name: vmcs_shadowing
+              long_name: "VMCS shadowing"
+              description: |
+                  "
+                  If this control is 1, executions of VMREAD and VMWRITE in
+                  VMX non-root operation may access a shadow VMCS (instead of
+                  causing VM exits). See Section 24.10 and Section 30.3.
+                  "
+              lsb: 14
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: enable_encls_exiting
+              long_name: "Enable ENCLS exiting"
+              description: |
+                  "
+                  If this control is 1, executions of ENCLS consult the
+                  ENCLS-exiting bitmap to determine whether the instruction
+                  causes a VM exit. See Section 24.6.16 and Section 25.1.3.
+                  "
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: rdseed_exiting
+              long_name: "RDSEED exiting"
+              description: |
+                  "
+                  This control determines whether executions of RDSEED cause VM
+                  exits.
+                  "
+              lsb: 16
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: enable_pml
+              long_name: "Enable PML"
+              description: |
+                  "
+                  If this control is 1, an access to a guest-physical address
+                  that sets an EPT dirty bit first adds an entry to the
+                  page-modification log. See Section 28.2.6.
+                  "
+              lsb: 17
+              msb: 17
+              readable: True
+              writable: True
+
+            - name: ept_violation_ve
+              long_name: "EPT-violation #VE"
+              description: |
+                  "
+                  If this control is 1, EPT violations may cause virtualization
+                  exceptions (#VE) instead of VM exits.  See Section 25.5.6.
+                  "
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+
+            - name: conceal_vmx_from_pt
+              long_name: "Conceal VMX from PT"
+              description: |
+                  "
+                  If this control is 1, Intel Processor Trace suppresses from
+                  PIPs an indication that the processor was in VMX non-root
+                  operation and omits a VMCS packet from any PSB+ produced in
+                  VMX nonroot operation (see Chapter 35).
+                  "
+              lsb: 19
+              msb: 19
+              readable: True
+              writable: True
+
+            - name: enable_xsaves_xrstors
+              long_name: " Enable XSAVES/XRSTORS"
+              description: |
+                  "
+                  If this control is 0, any execution of XSAVES or XRSTORS
+                  causes a #UD.
+                  "
+              lsb: 20
+              msb: 20
+              readable: True
+              writable: True
+
+            - name: mode_based_execute_control_for_ept
+              long_name: "Mode-based execute control for EPT"
+              description: |
+                  "
+                  If this control is 1, EPT execute permissions are based on
+                  whether the linear address being accessed is supervisor mode
+                  or user mode. See Chapter 28.
+                  "
+              lsb: 22
+              msb: 22
+              readable: True
+              writable: True
+
+            - name: sub_page_write_permissions_for_ept
+              long_name: " Sub-page write permissions for EPT"
+              description: |
+                  "
+                  If this control is 1, EPT write permissions may be specified
+                  at the granularity of 128 bytes. See Section 28.2.4
+                  "
+              lsb: 23
+              msb: 23
+              readable: True
+              writable: True
+
+            - name: intel_pt_uses_guest_physical_addresses
+              long_name: "Intel PT uses guest physical addresses"
+              description: |
+                  "
+                  If this control is 1, all output addresses used by Intel
+                  Processor Trace are treated as guestphysical addresses and
+                  translated using EPT. See Section 25.5.4.
+                  "
+              lsb: 24
+              msb: 24
+              readable: True
+              writable: True
+
+            - name: use_tsc_scaling
+              long_name: "Use TSC scaling"
+              description: |
+                  "
+                  This control determines whether executions of RDTSC,
+                  executions of RDTSCP, and executions of RDMSR that read from
+                  the IA32_TIME_STAMP_COUNTER MSR return a value modified by
+                  the TSC multiplier field (see Section 24.6.5 and Section
+                  25.3).
+                  "
+              lsb: 25
+              msb: 25
+              readable: True
+              writable: True
+
+            - name: enable_use_wait_and_pause
+              long_name: " Enable user wait and pause"
+              description: |
+                  "
+                  If this control is 0, any execution of TPAUSE, UMONITOR, or
+                  UMWAIT causes a #UD.
+                  "
+              lsb: 26
+              msb: 26
+              readable: True
+              writable: True
+
+            - name: enable_enclv_exiting
+              long_name: "Enable ENCLV exiting"
+              description: |
+                  "
+                  If this control is 1, executions of ENCLV consult the
+                  ENCLV-exiting bitmap to determine whether the instruction
+                  causes a VM exit. See Section 24.6.17 and Section 25.1.3.
+                  "
+              lsb: 28
+              msb: 28
+              readable: True
+              writable: True

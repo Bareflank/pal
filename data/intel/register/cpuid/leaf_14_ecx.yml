@@ -1,0 +1,99 @@
+- name: leaf_14_ecx
+  long_name: "Returns Intel Processor Trace Enumeration Information"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 14H and ECX = 0H, the processor
+      returns information about Intel Processor Trace extensions. See Table
+      3-8.  When CPUID executes with EAX set to 14H and ECX = n (n > 0 and less
+      than the number of non-zero bits in CPUID.(EAX=14H, ECX= 0H).EAX), the
+      processor returns information about packet generation in Intel Processor
+      Trace. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x14
+        output: ecx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "Bit 00"
+              long_name: "Bit 00"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: If 1, Tracing can be enabled with IA32_RTIT_CTL.ToPA
+                  = 1, hence utilizing the ToPA output scheme;
+                  IA32_RTIT_OUTPUT_BASE and IA32_RTIT_OUTPUT_MASK_PTRS MSRs can
+                  be accessed
+                  "
+
+            - name: "Bit 01"
+              long_name: "Bit 01"
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Bit 01: If 1, ToPA tables can hold any number of output
+                  entries, up to the maximum allowed by the MaskOrTableOffset
+                  field of IA32_RTIT_OUTPUT_MASK_PTRS
+                  "
+
+            - name: "Bit 02"
+              long_name: "Bit 02"
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Bit 02: If 1, indicates support of Single-Range Output scheme
+                  "
+
+            - name: "Bit 03"
+              long_name: "Bit 03"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: If 1, indicates support of output to Trace Transport
+                  subsystem
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 30
+              reserved0: True
+
+            - name: "Bit 31"
+              long_name: "Bit 31"
+              lsb: 31
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bit 31: If 1, generated packets which contain IP payloads
+                  have LIP values, which include the CS base component
+                  "
+
+      - name: subleaf_1
+        condition: "Fieldset valid for subleaf (ECX) = 1"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True

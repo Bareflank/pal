@@ -1,0 +1,45 @@
+- name: leaf_1F_eax
+  long_name: |
+      "
+      Returns V2 Extended Topology Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 1FH, the processor returns
+      information about extended topology enumeration data. Software must
+      detect the presence of CPUID leaf 1FH by verifying (a) the highest leaf
+      index supported by CPUID is >= 1FH, and (b) CPUID.1FH:EBX[15:0] reports a
+      non-zero value. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x1f
+        output: eax
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Bits 04 - 00"
+              long_name: "Bits 04 - 00"
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Bits 04 - 00: Number of bits to shift right on x2APIC ID to
+                  get a unique topology ID of the next level type*.  All
+                  logical processors with the same next level ID share current
+                  level.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 5
+              msb: 31
+              reserved0: True

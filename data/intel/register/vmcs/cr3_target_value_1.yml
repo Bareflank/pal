@@ -1,0 +1,27 @@
+- name: cr3_target_value_1
+  long_name: "CR3-target value 1"
+  purpose: |
+      "
+      The VM-execution control fields include a set of 4 CR3-target values and
+      a CR3-target count. The CR3-target values each have 64 bits on processors
+      that support Intel 64 architecture and 32 bits on processors that do not.
+      The CR3-target count has 32 bits on all processors.  An execution of MOV
+      to CR3 in VMX non-root operation does not cause a VM exit if its source
+      operand matches one of these values. If the CR3-target count is n, only
+      the first n CR3-target values are considered; if the CR3-target count is
+      0, MOV to CR3 always causes a VM exit There are no limitations on the
+      values that can be written for the CR3-target values. VM entry fails (see
+      Section 26.2) if the CR3-target count is greater than 4.  Future
+      processors may support a different number of CR3-target values. Software
+      should read the VMX capability MSR IA32_VMX_MISC (see Appendix A.6) to
+      determine the number of values supported.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000600A
+
+      - name: vmwrite
+        encoding: 0x0000600A

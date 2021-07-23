@@ -1,0 +1,24 @@
+- name: leaf_80000001_ebx
+  long_name: |
+      "
+      Extended Function CPUID Information
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x80000001
+        output: ebx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True

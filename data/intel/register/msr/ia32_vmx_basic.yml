@@ -1,0 +1,60 @@
+- name: ia32_vmx_basic
+  long_name: "ia32_vmx_basic"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x480
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: revision_id
+              long_name: "revision_id"
+              lsb: 0
+              msb: 30
+              readable: True
+
+            - name: vmxon_vmcs_region_size
+              long_name: "vmxon_vmcs_region_size"
+              lsb: 32
+              msb: 44
+              readable: True
+
+            - name: physical_address_width
+              long_name: "physical_address_width"
+              lsb: 48
+              msb: 48
+              readable: True
+
+            - name: dual_monitor_mode_support
+              long_name: "dual_monitor_mode_support"
+              lsb: 49
+              msb: 49
+              readable: True
+
+            - name: memory_type
+              long_name: "memory_type"
+              lsb: 50
+              msb: 53
+              readable: True
+
+            - name: ins_outs_exit_information
+              long_name: "ins_outs_exit_information"
+              lsb: 54
+              msb: 54
+              readable: True
+
+            - name: true_based_controls
+              long_name: "true_based_controls"
+              lsb: 55
+              msb: 55
+              readable: True

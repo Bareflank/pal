@@ -1,0 +1,13 @@
+- name: io_rip
+  long_name: "I/O RIP"
+  purpose: |
+      "
+      The value of RIP before the I/O instruction started (the RIP that
+      addressed the I/O instruction).
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006408

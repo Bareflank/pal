@@ -1,0 +1,15 @@
+- name: vm_exit_instruction_information
+  long_name: "VM-exit instruction information"
+  purpose: |
+      "
+      This field is used for VM exits due to attempts to execute INS, INVEPT,
+      INVVPID, LIDT, LGDT, LLDT, LTR, OUTS, SIDT, SGDT, SLDT, STR, VMCLEAR,
+      VMPTRLD, VMPTRST, VMREAD, VMWRITE, or VMXON.2 The format of the field
+      depends on the cause of the VM exit. See Section 27.2.5 for details.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000440E

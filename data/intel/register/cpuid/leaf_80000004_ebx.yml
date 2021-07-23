@@ -1,0 +1,28 @@
+- name: leaf_80000004_ebx
+  long_name: |
+      "
+      Extended Function CPUID Information
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x80000004
+        output: ebx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Processor Brand String Continued"
+              long_name: "Processor Brand String Continued"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Processor Brand String Continued
+                  "

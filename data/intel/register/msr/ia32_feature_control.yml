@@ -1,0 +1,78 @@
+- name: ia32_feature_control
+  long_name: "ia32_feature_control"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x3a
+
+      - name: wrmsr
+        is_write: True
+        address: 0x3a
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: lock_bit
+              long_name: "lock_bit"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: enable_vmx_inside_smx
+              long_name: "enable_vmx_inside_smx"
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: enable_vmx_outside_smx
+              long_name: "enable_vmx_outside_smx"
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: senter_local_function_enable
+              long_name: "senter_local_function_enable"
+              lsb: 8
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: senter_global_function_enables
+              long_name: "senter_global_function_enables"
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True
+
+            - name: sgx_launch_control_enable
+              long_name: "sgx_launch_control_enable"
+              lsb: 17
+              msb: 17
+              readable: True
+              writable: True
+
+            - name: sgx_global_enable
+              long_name: "sgx_global_enable"
+              lsb: 18
+              msb: 18
+              readable: True
+              writable: True
+
+            - name: lmce
+              long_name: "lmce"
+              lsb: 20
+              msb: 20
+              readable: True
+              writable: True

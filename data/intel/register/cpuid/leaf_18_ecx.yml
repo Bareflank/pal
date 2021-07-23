@@ -1,0 +1,50 @@
+- name: leaf_18_ecx
+  long_name: |
+      "
+      Returns Deterministic Address Translation Parameters Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 18H, the processor returns
+      information about the Deterministic Address Translation Parameters. See
+      Table 3-8.
+      "
+  size: 32
+  arch: intel
+  is_indexed: True
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x18
+        output: ecx
+
+  fieldsets:
+      - name: subleaf_0
+        condition: "Fieldset valid for subleaf (ECX) = 0"
+        size: 32
+
+        fields:
+            - name: "S"
+              long_name: "S"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 00: S = Number of Sets
+                  "
+
+      - name: subleaf_n
+        condition: "Fieldset valid for subleaf (ECX) >= 1"
+        size: 32
+
+        fields:
+            - name: "S"
+              long_name: "S"
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Bits 31 - 00: S = Number of Sets
+                  "

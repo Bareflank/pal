@@ -1,0 +1,11 @@
+- name: guest_ds_base
+  long_name: "Guest DS base"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000680C
+
+      - name: vmwrite
+        encoding: 0x0000680C

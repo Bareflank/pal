@@ -1,0 +1,39 @@
+- name: leaf_16_ecx
+  long_name: |
+      "
+      Returns Processor Frequency Information
+      "
+  purpose: |
+      "
+      When CPUID executes with EAX set to 16H, the processor returns
+      information about Processor Frequency Information. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x16
+        output: ecx
+  
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Bus Frequency"
+              long_name: "Bus Frequency"
+              lsb: 0
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Bits 15 - 00: Bus (Reference) Frequency (in MHz)
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 16
+              msb: 31
+              reserved0: True

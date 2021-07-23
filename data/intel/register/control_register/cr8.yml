@@ -1,0 +1,52 @@
+- name: cr8
+  long_name: "Control Register 8"
+  purpose: |
+      "
+      Provides read and write access to the Task Priority Register (TPR). It
+      specifies the priority threshold value that operating systems use to
+      control the priority class of external interrupts allowed to interrupt
+      the processor. This register is available only in 64-bit mode. However,
+      interrupt filtering continues to apply in compatibility mode
+      "
+  size: 64
+  arch: intel
+  
+  access_mechanisms:
+      - name: mov_read
+        source_mnemonic: cr8
+
+      - name: mov_write
+        destination_mnemonic: cr8
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: TPL
+              long_name: "Task Priority Level"
+              lsb: 0
+              msb: 3
+              readable: True
+              writable: True
+              description: |
+                  "
+                  Task Priority Level (bit 3:0 of CR8) — This sets the
+                  threshold value corresponding to the highestpriority
+                  interrupt to be blocked. A value of 0 means all interrupts
+                  are enabled. This field is available in 64- bit mode. A value
+                  of 15 means all interrupts will be disabled.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 63
+              reserved0: True
+              description: |
+                  "
+                  Bits 4:63 of CR8 are not specified, and are assumed to be
+                  reserved 0
+                  "
+

@@ -1,0 +1,14 @@
+- name: idt_vectoring_error_code
+  long_name: "IDT-vectoring error code"
+  purpose: |
+      "
+      For VM exits that occur during delivery of hardware exceptions that would
+      have delivered an error code on the stack, this field receives that
+      error code.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x0000440A

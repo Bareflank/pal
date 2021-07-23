@@ -1,0 +1,46 @@
+- name: vm_function_controls
+  long_name: "VM-function controls (full)"
+  purpose: |
+      "
+      The VM-function controls constitute a 64-bit vector that governs use of
+      the VMFUNC instruction in VMX non-root operation. This field is supported
+      only on processors that support the 1-settings of both the “activate
+      secondary controls” primary processor-based VM-execution control and the
+      “enable VM functions” secondary processorbased VM-execution control.
+      Table 24-9 lists the VM-function controls. See Section 25.5.5 for more
+      details of how these controls affect processor behavior in VMX non-root
+      operation.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002018
+
+      - name: vmwrite
+        encoding: 0x00002018
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: "EPTP switching"
+              long_name: "EPTP switching"
+              description: |
+                  "
+                  The EPTP-switching VM function changes the EPT pointer to a
+                  value chosen from the EPTP list.  See Section 25.5.5.3.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: "reserved"
+              long_name: "Reserved"
+              lsb: 1
+              msb: 63
+              reserved0: True

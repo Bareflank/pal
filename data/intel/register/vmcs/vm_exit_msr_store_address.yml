@@ -1,0 +1,19 @@
+- name: vm_exit_msr_store_address
+  long_name: "VM-exit MSR-store address (full)"
+  purpose: |
+      "
+      This field contains the physical address of the VM-exit MSR-store area.
+      The area is a table of entries, 16 bytes per entry, where the number of
+      entries is given by the VM-exit MSR-store count. The format of each entry
+      is given in Table 24-12. If the VM-exit MSR-store count is not zero, the
+      address must be 16-byte aligned.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002006
+
+      - name: vmwrite
+        encoding: 0x00002006

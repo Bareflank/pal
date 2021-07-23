@@ -1,0 +1,54 @@
+- name: sub_page_permission_table_pointer
+  long_name: "Sub-page-permission-table pointer (full)"
+  purpose: |
+      "
+      If the sub-page write-permission feature of EPT is enabled, EPT write
+      permissions may be determined at a 128- byte granularity (see Section
+      28.2.4). These permissions are determined using a hierarchy of
+      sub-page-permission structures in memory.  The root of this hierarchy is
+      referenced by a VM-execution control field called the
+      sub-page-permission-table pointer (SPPTP). The SPPTP contains the address
+      of the base of the root SPP table (see Section 28.2.4.2). The format of
+      this field is shown in Table 24-8.
+      "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00002030
+
+      - name: vmwrite
+        encoding: 0x00002030
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: "reserved"
+              long_name: "Reserved"
+              lsb: 0
+              msb: 12
+              reserved0: True
+
+            - name: "root SPP table"
+              long_name: |
+                  "
+                  Bits N–1:12 of the physical address of the 4-KByte aligned
+                  root SPP table
+                  "
+              description: |
+                  "
+                  The SPPTP exists only on processors that support the
+                  1-setting of the “sub-page write permissions for EPT”
+                  VMexecution control. N is the processor’s physical-address
+                  width. Software can determine this width by executing CPUID
+                  with 80000008H in EAX. The physical-address width is returned
+                  in bits 7:0 of EAX.
+                  "
+              lsb: 13
+              msb: 63
+              readable: True
+              writable: True

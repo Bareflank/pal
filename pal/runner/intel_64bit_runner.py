@@ -23,37 +23,37 @@ class Intel64bitRunner(AbstractRunner):
 
         for generator in generators:
 
-            indir = os.path.join(input_root, "x86_64/register/control_register")
+            indir = os.path.join(input_root, "intel/register/control_register")
             outdir = os.path.join(output_root, "control_register")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
-            indir = os.path.join(input_root, "x86_64/register/cpuid")
+            indir = os.path.join(input_root, "intel/register/cpuid")
             outdir = os.path.join(output_root, "cpuid")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
-            indir = os.path.join(input_root, "x86_64/register/msr")
+            indir = os.path.join(input_root, "intel/register/msr")
             outdir = os.path.join(output_root, "msr")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
-            indir = os.path.join(input_root, "x86_64/register/vmcs")
+            indir = os.path.join(input_root, "intel/register/vmcs")
             outdir = os.path.join(output_root, "vmcs")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
-            indir = os.path.join(input_root, "x86_64/instruction/architectural")
+            indir = os.path.join(input_root, "intel/instruction/architectural")
             outdir = os.path.join(output_root, "instruction")
             os.makedirs(outdir, exist_ok=True)
             instructions = parse_instructions(indir)
             generator.generate_instructions(copy.deepcopy(instructions), outdir)
 
-            indir = os.path.join(input_root, "x86_64/instruction/logical")
+            indir = os.path.join(input_root, "intel/instruction/logical")
             outdir = os.path.join(output_root, "instruction")
             os.makedirs(outdir, exist_ok=True)
             instructions = parse_instructions(indir)

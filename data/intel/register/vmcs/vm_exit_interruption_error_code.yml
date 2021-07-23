@@ -1,0 +1,13 @@
+- name: vm_exit_interruption_error_code
+  long_name: "VM-exit interruption error code"
+  purpose: |
+      "
+      For VM exits caused by hardware exceptions that would have delivered an
+      error code on the stack, this field receives that error code.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004406

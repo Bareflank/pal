@@ -1,0 +1,59 @@
+- name: leaf_06_ecx
+  long_name: "Thermal and Power Management Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 06H, the processor returns
+      information about thermal and power management features. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x6
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Hardware Coordination Feedback Capability"
+              long_name: "Hardware Coordination Feedback Capability"
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Bit 00: Hardware Coordination Feedback Capability (Presence
+                  of IA32_MPERF and IA32_APERF). The capability to provide a
+                  measure of delivered processor performance (since last reset
+                  of the counters), as a percentage of the expected processor
+                  performance when running at the TSC frequency.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 1
+              msb: 2
+              reserved0: True
+
+            - name: "Bit 03"
+              long_name: "Bit 03"
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bit 03: The processor supports performance-energy bias
+                  preference if CPUID.06H:ECX.SETBH[bit 3] is set and it also
+                  implies the presence of a new architectural MSR called
+                  IA32_ENERGY_PERF_BIAS (1B0H).
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 31
+              reserved0: True

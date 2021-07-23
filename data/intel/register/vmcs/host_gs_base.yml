@@ -1,0 +1,11 @@
+- name: host_gs_base
+  long_name: "Host GS base"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006C08
+
+      - name: vmwrite
+        encoding: 0x00006C08

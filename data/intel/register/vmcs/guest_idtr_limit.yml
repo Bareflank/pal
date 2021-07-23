@@ -1,0 +1,11 @@
+- name: guest_idtr_limit
+  long_name: "Guest IDTR limit"
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004812
+
+      - name: vmwrite
+        encoding: 0x00004812

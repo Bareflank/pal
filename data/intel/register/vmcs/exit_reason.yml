@@ -1,0 +1,110 @@
+- name: exit_reason
+  long_name: "Exit reason"
+  purpose: |
+      "
+      This field encodes the reason for the VM exit and has the structure given
+      in Table 24-15.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004402
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: "Basic exit reason"
+              long_name: "Basic exit reason"
+              description: |
+                  "
+                  Bits 15:0 provide basic information about the cause of the VM
+                  exit (if bit 31 is clear) or of the VM-entry failure (if bit
+                  31 is set). Appendix C enumerates the basic exit reasons.
+                  "
+              lsb: 0
+              msb: 15
+              readable: True
+
+            - name: "Always cleared to 0"
+              long_name: "Always cleared to 0"
+              description: |
+                  "
+                  Bit 16 is always cleared to 0.
+                  "
+              lsb: 16
+              msb: 16
+              readable: True
+
+            - name: "Reserved"
+              long_name: "Reserved (cleared to 0)"
+              lsb: 17
+              msb: 26
+              reserved0: True
+
+            - name: "Bit 27"
+              long_name: |
+                  "
+                  A VM exit saves this bit as 1 to indicate that the VM exit
+                  was incident to enclave mode.
+                  "
+              description: |
+                  "
+                  Bit 27 is set to 1 if the VM exit occurred while the logical
+                  processor was in enclave mode.  A VM exit also sets this bit
+                  if it is incident to delivery of an event injected by VM
+                  entry and the guest interruptibility-state field indicates
+                  an enclave interrupt (bit 4 of the field is 1). See Section
+                  27.2.1 for details.
+                  "
+              lsb: 27
+              msb: 27
+              readable: True
+
+            - name: "Pending MTF VM exit"
+              long_name: "Pending MTF VM exit"
+              description: |
+                  "
+                  Bit 28 is set only by an SMM VM exit (see Section 34.15.2)
+                  that took priority over an MTF VM exit (see Section 25.5.2)
+                  that would have occurred had the SMM VM exit not occurred.
+                  See Section 34.15.2.3.
+                  "
+              lsb: 28
+              msb: 28
+              readable: True
+
+            - name: "VM exit from VMX root operation"
+              long_name: "VM exit from VMX root operation"
+              description: |
+                  "
+                  Bit 29 is set if and only if the processor was in VMX root
+                  operation at the time the VM exit occurred. This can happen
+                  only for SMM VM exits. See Section 34.15.2.
+                  "
+              lsb: 29
+              msb: 29
+              readable: True
+
+            - name: "Reserved"
+              long_name: "Reserved (cleared to 0)"
+              lsb: 30
+              msb: 30
+              reserved0: True
+
+            - name: "VM-entry failure"
+              long_name: "VM-entry failure (0 = true VM exit; 1 = VM-entry failure)"
+              description: |
+                  "
+                   Because some VM-entry failures load processor state from the
+                   host-state area (see Section 26.8), software must be able to
+                   distinguish such cases from true VM exits. Bit 31 is used
+                   for that purpose.
+                  "
+              lsb: 31
+              msb: 31
+              readable: True

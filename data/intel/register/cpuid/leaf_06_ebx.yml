@@ -1,0 +1,38 @@
+- name: leaf_06_ebx
+  long_name: "Thermal and Power Management Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 06H, the processor returns
+      information about thermal and power management features. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x6
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32 
+
+        fields:
+            - name: "Bits 03 - 00"
+              long_name: |
+                  "Number of Interrupt Thresholds in Digital Thermal Sensor"
+              lsb: 0
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Bits 03 - 00: Number of Interrupt Thresholds in Digital
+                  Thermal Sensor.
+                  "
+
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 4
+              msb: 31
+              reserved0: True

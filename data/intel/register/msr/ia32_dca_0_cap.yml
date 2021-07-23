@@ -1,0 +1,71 @@
+- name: ia32_dca_0_cap
+  long_name: "ia32_dca_0_cap"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x1fa
+
+      - name: wrmsr
+        is_write: True
+        address: 0x1fa
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 64
+
+        fields:
+            - name: dca_active
+              long_name: "dca_active"
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: transaction
+              long_name: "transaction"
+              lsb: 1
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: dca_type
+              long_name: "dca_type"
+              lsb: 3
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: dca_queue_size
+              long_name: "dca_queue_size"
+              lsb: 7
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: dca_delay
+              long_name: "dca_delay"
+              lsb: 13
+              msb: 16
+              readable: True
+              writable: True
+
+            - name: sw_block
+              long_name: "sw_block"
+              lsb: 24
+              msb: 24
+              readable: True
+              writable: True
+
+            - name: hw_block
+              long_name: "hw_block"
+              lsb: 26
+              msb: 26
+              readable: True
+              writable: True

@@ -1,0 +1,17 @@
+- name: ia32_lstar
+  long_name: "ia32_lstar"
+  purpose: |
+       "
+       "
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xc0000082
+
+      - name: wrmsr
+        is_write: True
+        address: 0xc0000082
+

@@ -1,0 +1,28 @@
+- name: guest_activity_state
+  long_name: "Guest activity state"
+  purpose: |
+      "
+      This field identifies the logical processor’s activity state. When a
+      logical processor is executing instructions normally, it is in the
+      active state. Execution of certain instructions and the occurrence of
+      certain events may cause a logical processor to transition to an
+      inactive state in which it ceases to execute instructions.  The
+      following activity states are defined:1 — 0: Active. The logical
+      processor is executing instructions normally.  — 1: HLT. The logical
+      processor is inactive because it executed the HLT instruction.  — 2:
+          Shutdown. The logical processor is inactive because it incurred a
+      triple fault2 or some other serious error.  — 3: Wait-for-SIPI. The
+      logical processor is inactive because it is waiting for a startup-IPI
+      (SIPI).  Future processors may include support for other activity states.
+      Software should read the VMX capability MSR IA32_VMX_MISC (see Appendix
+      A.6) to determine what activity states are supported.
+      "
+  size: 32
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00004826
+
+      - name: vmwrite
+        encoding: 0x00004826

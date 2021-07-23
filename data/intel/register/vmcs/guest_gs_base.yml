@@ -1,0 +1,11 @@
+- name: guest_gs_base
+  long_name: "Guest GS base"
+  size: 64
+  arch: intel
+
+  access_mechanisms:
+      - name: vmread
+        encoding: 0x00006810
+
+      - name: vmwrite
+        encoding: 0x00006810

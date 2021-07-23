@@ -1,0 +1,27 @@
+- name: leaf_09_ecx
+  long_name: "Direct Cache Access Information Leaf"
+  purpose: |
+      "
+      When CPUID executes with EAX set to 09H, the processor returns
+      information about Direct Cache Access capabilities. See Table 3-8.
+      "
+  size: 32
+  arch: intel
+  
+  access_mechanisms:
+      - name: cpuid
+        leaf: 0x9
+        uses_subleaf: True
+        output: ecx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the Intel architecture"
+        size: 32
+
+        fields:
+            - name: reserved
+              long_name: "Reserved"
+              lsb: 0
+              msb: 31
+              reserved0: True
