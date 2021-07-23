@@ -14,15 +14,13 @@
        "
   size: 64
   arch: generic
+  component: acpi_fadt_table
 
   access_mechanisms:
       - name: read
         is_read: True
-        component: fadt
         offset: 268
 
       - name: write
         is_write: True
-        component: fadt
         offset: 268
-
