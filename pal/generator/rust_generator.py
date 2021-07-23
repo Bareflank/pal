@@ -22,6 +22,7 @@ class RustGenerator(AbstractGenerator):
             regs = transforms["unique_fieldset_names"].transform(regs)
 
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
+            regs = filters["irregular_size"].filter_exclusive(regs)
 
             logger.info("Generating Rust register accessors to: " + str(outpath))
 

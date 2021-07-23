@@ -14,6 +14,7 @@ class CxxHeaderGenerator(AbstractGenerator):
     def generate_registers(self, regs, outpath):
         try:
             regs = filters["no_access_mechanism"].filter_exclusive(regs)
+            regs = filters["irregular_size"].filter_exclusive(regs)
             regs = transforms["remove_reserved_0"].transform(regs)
             regs = transforms["remove_reserved_1"].transform(regs)
             regs = transforms["remove_preserved"].transform(regs)
