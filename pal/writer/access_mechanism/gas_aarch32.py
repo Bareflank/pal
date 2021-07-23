@@ -1,4 +1,5 @@
 from pal.logger import logger
+from pal.exception import PalWriterException
 from pal.writer.access_mechanism.access_mechanism \
     import AccessMechanismWriter
 
@@ -27,6 +28,9 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "ldr":
             self._call_ldr_access_mechanism(outfile, register,
                                             access_mechanism, result)
+        elif access_mechanism.name == "read":
+            self._call_ldr_access_mechanism(outfile, register,
+                                            access_mechanism, result)
         else:
             msg = "Access mechanism {am} is not supported using "
             msg += "aarch32 gas intel assembler syntax ({register})"
@@ -34,7 +38,7 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
                 am=access_mechanism.name,
                 register=register.name
             )
-            logger.warn(msg)
+            raise PalWriterException(msg)
 
     def call_writable_access_mechanism(self, outfile, register,
                                        access_mechanism, value):
@@ -53,6 +57,9 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "str":
             self._call_str_access_mechanism(outfile, register,
                                             access_mechanism, value)
+        elif access_mechanism.name == "write":
+            self._call_str_access_mechanism(outfile, register,
+                                            access_mechanism, value)
         else:
             msg = "Access mechanism {am} is not supported using "
             msg += "aarch32 gas intel assembler syntax ({register})"
@@ -60,7 +67,7 @@ class GasAarch32AccessMechanismWriter(AccessMechanismWriter):
                 am=access_mechanism.name,
                 register=register.name
             )
-            logger.warn(msg)
+            raise PalWriterException(msg)
 
     def _call_mrc_access_mechanism(self, outfile, register,
                                    access_mechanism, result):

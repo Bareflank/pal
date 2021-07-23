@@ -1,6 +1,7 @@
 from pal.writer.access_mechanism.access_mechanism \
         import AccessMechanismWriter
 from pal.logger import logger
+from pal.exception import PalWriterException
 
 
 class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
@@ -27,13 +28,16 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "xgetbv":
             self._call_xgetbv_access_mechanism(outfile, register,
                                                access_mechanism, result)
+        elif access_mechanism.name == "read":
+            self._call_memory_read_access_mechanism(outfile, register,
+                                               access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "Intel x86_64 gas intel assembler syntax"
             msg = msg.format(
                 am=access_mechanism.name
             )
-            logger.warn(msg)
+            raise PalWriterException(msg)
 
     def call_writable_access_mechanism(self, outfile, register,
                                        access_mechanism, value):
@@ -49,13 +53,16 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "xsetbv":
             self._call_xsetbv_access_mechanism(outfile, register,
                                                access_mechanism, value)
+        elif access_mechanism.name == "write":
+            self._call_memory_write_access_mechanism(outfile, register,
+                                               access_mechanism, value)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "Intel x86_64 gas intel assembler syntax"
             msg = msg.format(
                 am=access_mechanism.name
             )
-            logger.warn(msg)
+            raise PalWriterException(msg)
 
     def _call_mov_read_access_mechanism(self, outfile, register,
                                         access_mechanism, result):
@@ -121,6 +128,35 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
             clobbers='"rax", "rcx", "rdx"'
         )
 
+    def _call_memory_read_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        if register.size == 8:
+            access_size = "BYTE"
+        elif register.size == 16:
+            access_size = "WORD"
+        elif register.size == 32:
+            access_size = "DWORD"
+        elif register.size == 64:
+            access_size = "QWORD"
+        else:
+            msg = "Reading memory-mapped register {name}{component} with irregular "
+            msg += "size {size} is not supported through the x86_64 gnu "
+            msg += "inline-assembler (Intel syntax) access mechanism"
+            msg = msg.format(
+                name=register.name,
+                component= " in component " + register.component if register.component else "",
+                size=str(register.size)
+            )
+            raise PalWriterException(msg)
+
+        self._write_inline_assembly(outfile, [
+                "mov %[v], " + access_size + " [%[a]]",
+            ],
+            inputs='[a] "r"(address)',
+            outputs='[v] "=r"(' + str(result) + ')',
+            clobbers='"memory"'
+        )
+
     def _call_mov_write_access_mechanism(self, outfile, register,
                                          access_mechanism, value):
         self._write_inline_assembly(outfile, [
@@ -163,6 +199,34 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
             ],
             inputs='[v] "r"(' + value + ')',
             clobbers='"rax", "rcx", "rdx"'
+        )
+
+    def _call_memory_write_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        if register.size == 8:
+            access_size = "BYTE"
+        elif register.size == 16:
+            access_size = "WORD"
+        elif register.size == 32:
+            access_size = "DWORD"
+        elif register.size == 64:
+            access_size = "QWORD"
+        else:
+            msg = "Writing memory-mapped register {name}{component} with irregular "
+            msg += "size {size} is not supported through the x86_64 gnu "
+            msg += "inline-assembler (Intel Syntax) access mechanism"
+            msg = msg.format(
+                name=register.name,
+                component= " in component " + register.component if register.component else "",
+                size=str(register.size)
+            )
+            raise PalWriterException(msg)
+
+        self._write_inline_assembly(outfile, [
+                "mov " + access_size + " [%[a]], %[v]",
+            ],
+            inputs='[a] "r"(address), [v] "r"(' + str(result) + ')',
+            clobbers='"memory"'
         )
 
     def _write_inline_assembly(self, outfile, statements, outputs="",

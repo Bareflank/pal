@@ -21,8 +21,8 @@ add_custom_target(test_generate_aarch32 ALL DEPENDS ${PROJECT_OUTPUT_STAMP})
 
 add_executable(test_compile_aarch32
     cpacr.c
-    edeccr.c
-    edecr.c
+    # edeccr.c
+    # edecr.c
     main.c
 )
 
