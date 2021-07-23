@@ -20,7 +20,7 @@ class Armv8aAarch32Runner(AbstractRunner):
                 with open(libfile, 'w'): pass
 
         for generator in generators:
-            indir = os.path.join(input_root, "armv8-a/register/aarch32")
+            indir = os.path.join(input_root, "armv8a/register/aarch32")
             outdir = os.path.join(output_root, "aarch32")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)

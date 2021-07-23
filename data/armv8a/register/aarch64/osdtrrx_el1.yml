@@ -1,0 +1,44 @@
+- name: OSDTRRX_EL1
+  long_name: "OS Lock Data Transfer Register, Receive"
+  purpose: |
+       "
+       Used for save/restore of DBGDTRRX_EL0. It is a component of the Debug
+       Communications Channel.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x2
+        op1: 0x0
+        op2: 0x2
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: OSDTRRX_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x2
+        op1: 0x0
+        op2: 0x2
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: OSDTRRX_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Update_DTRRX_without_side-effect
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

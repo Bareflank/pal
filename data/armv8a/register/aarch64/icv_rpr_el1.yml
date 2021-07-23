@@ -1,0 +1,34 @@
+- name: ICV_RPR_EL1
+  long_name: "Interrupt Controller Virtual Running Priority Register"
+  purpose: |
+       "
+       Indicates the Running priority of the virtual CPU interface.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x3
+        crm: 0xb
+        crn: 0xc
+        operand_mnemonic: ICC_RPR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Priority
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 63
+            reserved0: True

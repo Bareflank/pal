@@ -1,0 +1,37 @@
+- name: ERXSTATUS
+  long_name: "Selected Error Record Primary Status Register"
+  purpose: |
+       "
+       Accesses bits [31:0] of ERR<n>STATUS for the error record selected by
+       ERRSELR.SEL.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x4
+        crn: 0x5
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x4
+        crn: 0x5
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Bits_[31:0]_of_ERR<n>STATUS
+            lsb: 0
+            msb: 31

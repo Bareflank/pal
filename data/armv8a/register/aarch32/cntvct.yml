@@ -1,0 +1,28 @@
+- name: CNTVCT
+  long_name: "Counter-timer Virtual Count register"
+  purpose: |
+       "
+       Holds the 64-bit virtual count value. The virtual count value is equal
+       to the physical count value visible in CNTPCT minus the virtual offset
+       visible in CNTVOFF.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x1
+        crm: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Virtual_count_value
+            lsb: 0
+            msb: 63

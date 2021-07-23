@@ -1,0 +1,167 @@
+- name: VTCR_EL2
+  long_name: "Virtualization Translation Control Register"
+  purpose: |
+       "
+       The control register for stage 2 of the EL1&0 translation regime.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x2
+        crm: 0x1
+        crn: 0x2
+        operand_mnemonic: VTCR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x2
+        crm: 0x1
+        crn: 0x2
+        operand_mnemonic: VTCR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: T0SZ
+            lsb: 0
+            msb: 5
+
+          - name: SL0
+            lsb: 6
+            msb: 7
+
+          - name: SL0
+            lsb: 6
+            msb: 7
+
+          - name: IRGN0
+            lsb: 8
+            msb: 9
+
+          - name: ORGN0
+            lsb: 10
+            msb: 11
+
+          - name: SH0
+            lsb: 12
+            msb: 13
+
+          - name: TG0
+            lsb: 14
+            msb: 15
+
+          - name: PS
+            lsb: 16
+            msb: 18
+
+          - name: 0
+            lsb: 19
+            msb: 19
+            reserved0: True
+
+          - name: VS
+            lsb: 19
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 20
+            reserved0: True
+
+          - name: 0
+            lsb: 21
+            msb: 21
+            reserved0: True
+
+          - name: HA
+            lsb: 21
+            msb: 21
+
+          - name: 0
+            lsb: 22
+            msb: 22
+            reserved0: True
+
+          - name: HD
+            lsb: 22
+            msb: 22
+
+          - name: 0
+            lsb: 23
+            msb: 24
+            reserved0: True
+
+          - name: 0
+            lsb: 25
+            msb: 25
+            reserved0: True
+
+          - name: HWU59
+            lsb: 25
+            msb: 25
+
+          - name: 0
+            lsb: 26
+            msb: 26
+            reserved0: True
+
+          - name: HWU60
+            lsb: 26
+            msb: 26
+
+          - name: 0
+            lsb: 27
+            msb: 27
+            reserved0: True
+
+          - name: HWU61
+            lsb: 27
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 28
+            reserved0: True
+
+          - name: HWU62
+            lsb: 28
+            msb: 28
+
+          - name: 0
+            lsb: 29
+            msb: 29
+            reserved0: True
+
+          - name: NSW
+            lsb: 29
+            msb: 29
+
+          - name: 0
+            lsb: 30
+            msb: 30
+            reserved0: True
+
+          - name: NSA
+            lsb: 30
+            msb: 30
+
+          - name: 1
+            lsb: 31
+            msb: 31
+            reserved1: True
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

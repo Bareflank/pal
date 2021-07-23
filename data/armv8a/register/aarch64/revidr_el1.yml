@@ -1,0 +1,29 @@
+- name: REVIDR_EL1
+  long_name: "Revision ID Register"
+  purpose: |
+       "
+       Provides implementation-specific minor revision information.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x6
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: REVIDR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 63

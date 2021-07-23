@@ -1,0 +1,51 @@
+- name: UAO
+  long_name: "User Access Override"
+  purpose: |
+       "
+       Allows access to the User Access Override bit.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x4
+        crm: 0x2
+        crn: 0x4
+        operand_mnemonic: UAO
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x4
+        crm: 0x2
+        crn: 0x4
+        operand_mnemonic: UAO
+
+      - name: msr_immediate
+        is_write: True
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 22
+            reserved0: True
+
+          - name: UAO
+            lsb: 23
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 63
+            reserved0: True

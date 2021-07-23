@@ -1,0 +1,91 @@
+- name: VMPIDR_EL2
+  long_name: "Virtualization Multiprocessor ID Register"
+  purpose: |
+       "
+       Holds the value of the Virtualization Multiprocessor ID. This is the
+       value returned by EL1 reads of MPIDR_EL1.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x5
+        crm: 0x0
+        crn: 0x0
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x5
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: VMPIDR_EL2
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x5
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: MPIDR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x5
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: VMPIDR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Aff0
+            lsb: 0
+            msb: 7
+
+          - name: Aff1
+            lsb: 8
+            msb: 15
+
+          - name: Aff2
+            lsb: 16
+            msb: 23
+
+          - name: MT
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 29
+            reserved0: True
+
+          - name: U
+            lsb: 30
+            msb: 30
+
+          - name: 1
+            lsb: 31
+            msb: 31
+            reserved1: True
+
+          - name: Aff3
+            lsb: 32
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 63
+            reserved0: True

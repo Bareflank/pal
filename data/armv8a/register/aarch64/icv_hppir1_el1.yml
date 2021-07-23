@@ -1,0 +1,35 @@
+- name: ICV_HPPIR1_EL1
+  long_name: "Interrupt Controller Virtual Highest Priority Pending Interrupt Register 1"
+  purpose: |
+       "
+       Indicates the highest priority pending virtual Group 1 interrupt on the
+       virtual CPU interface.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x2
+        crm: 0xc
+        crn: 0xc
+        operand_mnemonic: ICC_HPPIR1_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: INTID
+            lsb: 0
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 63
+            reserved0: True

@@ -57,7 +57,7 @@ PAL has first class CMake support:
 ```
 git clone https://github.com/bareflank/pal.git
 mkdir build && cd build
-cmake ../pal -DPAL_TARGET_ARCH=armv8-a -DPAL_ACCESS_MECHANISM=gas_aarch64
+cmake ../pal -DPAL_TARGET_ARCH=armv8a -DPAL_ACCESS_MECHANISM=gas_aarch64
 make
 ```
 

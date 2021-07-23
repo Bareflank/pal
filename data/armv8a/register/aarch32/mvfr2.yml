@@ -1,0 +1,35 @@
+- name: MVFR2
+  long_name: "Media and VFP Feature Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: vmrs
+        is_read: True
+        reg: 5
+        operand_mnemonic: MVFR2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: SIMDMisc
+            lsb: 0
+            msb: 3
+
+          - name: FPMisc
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 31
+            reserved0: True

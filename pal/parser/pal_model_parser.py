@@ -29,7 +29,7 @@ class PalModelParser(AbstractParser):
 
                     if arch == "x86_64":
                         register = pal.model.x86_64.register.x86_64Register()
-                    elif arch == "armv8-a":
+                    elif arch == "armv8a":
                         register = pal.model.armv8a.register.ARMv8ARegister()
                     elif arch == "generic":
                         register = pal.model.generic.register.GenericRegister()

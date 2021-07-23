@@ -1,0 +1,58 @@
+- name: MAIR_EL2
+  long_name: "Memory Attribute Indirection Register (EL2)"
+  purpose: |
+       "
+       Provides the memory attribute encodings corresponding to the possible
+       AttrIndx values in a Long-descriptor format translation table entry for
+       stage 1 translations at EL2.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x2
+        crn: 0xa
+        operand_mnemonic: MAIR_EL2
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x2
+        crn: 0xa
+        operand_mnemonic: MAIR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x2
+        crn: 0xa
+        operand_mnemonic: MAIR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x2
+        crn: 0xa
+        operand_mnemonic: MAIR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Attr<n>
+            lsb: 0
+            msb: 63

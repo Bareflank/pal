@@ -1,0 +1,34 @@
+- name: OSLAR_EL1
+  long_name: "OS Lock Access Register"
+  purpose: |
+       "
+       Used to lock or unlock the OS Lock.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: msr_register
+        is_write: True
+        op0: 0x2
+        op1: 0x0
+        op2: 0x4
+        crm: 0x0
+        crn: 0x1
+        operand_mnemonic: OSLAR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: OSLK
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 63
+            reserved0: True

@@ -1,0 +1,56 @@
+- name: VDFSR
+  long_name: "Virtual SError Exception Syndrome Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x3
+        crm: 0x2
+        crn: 0x5
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x3
+        crm: 0x2
+        crn: 0x5
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 11
+            reserved0: True
+
+          - name: ExT
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 13
+            reserved0: True
+
+          - name: AET
+            lsb: 14
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

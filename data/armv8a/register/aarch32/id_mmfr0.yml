@@ -1,0 +1,57 @@
+- name: ID_MMFR0
+  long_name: "Memory Model Feature Register 0"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x1
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: VMSA
+            lsb: 0
+            msb: 3
+
+          - name: PMSA
+            lsb: 4
+            msb: 7
+
+          - name: OuterShr
+            lsb: 8
+            msb: 11
+
+          - name: ShareLvl
+            lsb: 12
+            msb: 15
+
+          - name: TCM
+            lsb: 16
+            msb: 19
+
+          - name: AuxReg
+            lsb: 20
+            msb: 23
+
+          - name: FCSE
+            lsb: 24
+            msb: 27
+
+          - name: InnerShr
+            lsb: 28
+            msb: 31

@@ -1,0 +1,72 @@
+- name: TTBR0_EL1
+  long_name: "Translation Table Base Register 0 (EL1)"
+  purpose: |
+       "
+       Holds the base address of the translation table for the initial lookup
+       for stage 1 of the translation of an address from the lower VA range in
+       the EL1&0 translation regime, and other information for this translation
+       regime.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x0
+        crn: 0x2
+        operand_mnemonic: TTBR0_EL1
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x0
+        crm: 0x0
+        crn: 0x2
+        operand_mnemonic: TTBR0_EL12
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x0
+        crn: 0x2
+        operand_mnemonic: TTBR0_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x0
+        crm: 0x0
+        crn: 0x2
+        operand_mnemonic: TTBR0_EL12
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 0
+            reserved0: True
+
+          - name: CnP
+            lsb: 0
+            msb: 0
+
+          - name: BADDR
+            lsb: 1
+            msb: 47
+
+          - name: ASID
+            lsb: 48
+            msb: 63

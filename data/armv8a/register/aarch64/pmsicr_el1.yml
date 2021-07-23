@@ -1,0 +1,54 @@
+- name: PMSICR_EL1
+  long_name: "Sampling Interval Counter Register"
+  purpose: |
+       "
+       Software must write zero to PMSICR_EL1 before enabling sample profiling
+       for a sampling session. Software must then treat PMSICR_EL1 as an
+       opaque, 64-bit, read/write register used for context switches only.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x2
+        crm: 0x9
+        crn: 0x9
+        operand_mnemonic: PMSICR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x2
+        crm: 0x9
+        crn: 0x9
+        operand_mnemonic: PMSICR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: COUNT
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 55
+            reserved0: True
+
+          - name: 0
+            lsb: 56
+            msb: 63
+            reserved0: True
+
+          - name: ECOUNT
+            lsb: 56
+            msb: 63

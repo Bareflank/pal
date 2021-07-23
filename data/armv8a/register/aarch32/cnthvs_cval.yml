@@ -1,0 +1,33 @@
+- name: CNTHVS_CVAL
+  long_name: "Counter-timer Secure Virtual Timer CompareValue Register (EL2)"
+  purpose: |
+       "
+       Provides AArch32 access to the compare value for the Secure EL2 virtual
+       timer.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x3
+        crm: 0xe
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x3
+        crm: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: CompareValue
+            lsb: 0
+            msb: 63

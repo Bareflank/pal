@@ -1,0 +1,50 @@
+- name: DBGDCCINT
+  long_name: "DCC Interrupt Enable Register"
+  purpose: |
+       "
+       Enables interrupt requests to be signaled based on the DCC status flags.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x2
+        crn: 0x0
+
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x2
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 28
+            reserved0: True
+
+          - name: TX
+            lsb: 29
+            msb: 29
+
+          - name: RX
+            lsb: 30
+            msb: 30
+
+          - name: 0
+            lsb: 31
+            msb: 31
+            reserved0: True

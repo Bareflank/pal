@@ -1,0 +1,52 @@
+- name: CONTEXTIDR
+  long_name: "Context ID Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0xd
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x0
+        crn: 0xd
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When TTBCR.EAE == 0"
+        size: 32
+
+        fields:
+          - name: ASID
+            lsb: 0
+            msb: 7
+
+          - name: PROCID
+            lsb: 8
+            msb: 31
+
+      - name: fieldset_2
+        condition: "When TTBCR.EAE == 1"
+        size: 32
+
+        fields:
+          - name: PROCID
+            lsb: 0
+            msb: 31

@@ -20,7 +20,7 @@ class ARMv8ARegister(Register):
     is_banked: bool = False
     """ True if the register is banked (has copies per exception level) """
 
-    arch: str = "armv8-a"
+    arch: str = "armv8a"
 
     access_mechanisms: Dict[str, List[AbstractAccessMechanism]] \
         = datafield(default_factory= lambda: {

@@ -1,0 +1,29 @@
+- name: DBGOSLAR
+  long_name: "Debug OS Lock Access Register"
+  purpose: |
+       "
+       Provides a lock for the debug registers. The OS Lock also disables some
+       debug exceptions and debug events.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x4
+        crm: 0x0
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: OS_Lock_Access
+            lsb: 0
+            msb: 31

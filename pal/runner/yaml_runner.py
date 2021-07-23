@@ -12,14 +12,14 @@ class YamlRunner(AbstractRunner):
         output_root = os.path.join(output_root, "data")
 
         for generator in generators:
-            indir = os.path.join(input_root, "armv8-a/register/aarch64")
-            outdir = os.path.join(ouput_root, "armv8-a/register/aarch64")
+            indir = os.path.join(input_root, "armv8a/register/aarch64")
+            outdir = os.path.join(ouput_root, "armv8a/register/aarch64")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)
 
-            indir = os.path.join(input_root, "armv8-a/register/aarch32")
-            outdir = os.path.join(ouput_root, "armv8-a/register/aarch32")
+            indir = os.path.join(input_root, "armv8a/register/aarch32")
+            outdir = os.path.join(ouput_root, "armv8a/register/aarch32")
             os.makedirs(outdir, exist_ok=True)
             regs = parse_registers(indir)
             generator.generate_registers(copy.deepcopy(regs), outdir)

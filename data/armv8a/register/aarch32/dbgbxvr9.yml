@@ -1,0 +1,68 @@
+- name: DBGBXVR9
+  long_name: "Debug Breakpoint Extended Value Registers"
+  purpose: |
+       "
+       Holds a value for use in breakpoint matching, to support VMID matching.
+       Used in conjunction with a control register DBGBCR<n> and a value
+       register DBGBVR<n>, where EL2 is implemented and breakpoint n supports
+       Context matching.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x9
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x9
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When DBGBCR<n>.BT == 0b10xx and HaveEL(EL2)"
+        size: 32
+
+        fields:
+          - name: VMID[7:0]
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 15
+            reserved0: True
+
+          - name: VMID[15:8]
+            lsb: 8
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When DBGBCR<n>.BT == 0b11xx and HaveEL(EL2)"
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True
+
+          - name: ContextID2
+            lsb: 0
+            msb: 31

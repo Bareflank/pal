@@ -1,0 +1,44 @@
+- name: HSTR_EL2
+  long_name: "Hypervisor System Trap Register"
+  purpose: |
+       "
+       Controls trapping to EL2 of EL1 or lower AArch32 accesses to the System
+       register in the coproc ==
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x3
+        crm: 0x1
+        crn: 0x1
+        operand_mnemonic: HSTR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x3
+        crm: 0x1
+        crn: 0x1
+        operand_mnemonic: HSTR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: T<n>
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 63
+            reserved0: True

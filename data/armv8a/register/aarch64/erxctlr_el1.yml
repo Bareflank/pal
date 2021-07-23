@@ -1,0 +1,38 @@
+- name: ERXCTLR_EL1
+  long_name: "Selected Error Record Control Register"
+  purpose: |
+       "
+       Accesses ERR<n>CTLR for the error record selected by ERRSELR_EL1.SEL.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x4
+        crn: 0x5
+        operand_mnemonic: ERXCTLR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x4
+        crn: 0x5
+        operand_mnemonic: ERXCTLR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: ERR<n>CTLR
+            lsb: 0
+            msb: 63

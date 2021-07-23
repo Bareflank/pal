@@ -1,0 +1,40 @@
+- name: DBGOSECCR
+  long_name: "Debug OS Lock Exception Catch Control Register"
+  purpose: |
+       "
+       Provides a mechanism for an operating system to access the contents of
+       EDECCR that are otherwise invisible to software, so it can save/restore
+       the contents of EDECCR over powerdown on behalf of the external
+       debugger.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x6
+        crn: 0x0
+
+      - name: mcr
+        is_write: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x6
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When DBGOSLSR.OSLK == 1"
+        size: 32
+
+        fields:
+          - name: EDECCR
+            lsb: 0
+            msb: 31

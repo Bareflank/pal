@@ -1,0 +1,63 @@
+- name: ID_ISAR4_EL1
+  long_name: "AArch32 Instruction Set Attribute Register 4"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x4
+        crm: 0x2
+        crn: 0x0
+        operand_mnemonic: ID_ISAR4_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Unpriv
+            lsb: 0
+            msb: 3
+
+          - name: WithShifts
+            lsb: 4
+            msb: 7
+
+          - name: Writeback
+            lsb: 8
+            msb: 11
+
+          - name: SMC
+            lsb: 12
+            msb: 15
+
+          - name: Barrier
+            lsb: 16
+            msb: 19
+
+          - name: SynchPrim_frac
+            lsb: 20
+            msb: 23
+
+          - name: PSR_M
+            lsb: 24
+            msb: 27
+
+          - name: SWP_frac
+            lsb: 28
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

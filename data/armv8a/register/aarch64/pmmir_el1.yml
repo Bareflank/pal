@@ -1,0 +1,35 @@
+- name: PMMIR_EL1
+  long_name: "Performance Monitors Machine Identification Register"
+  purpose: |
+       "
+       Describes Performance Monitors parameters specific to the implementation
+       to software.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x6
+        crm: 0xe
+        crn: 0x9
+        operand_mnemonic: PMMIR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: SLOTS
+            lsb: 0
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 63
+            reserved0: True

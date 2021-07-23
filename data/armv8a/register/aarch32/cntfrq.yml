@@ -1,0 +1,39 @@
+- name: CNTFRQ
+  long_name: "Counter-timer Frequency register"
+  purpose: |
+       "
+       This register is provided so that software can discover the frequency of
+       the system counter. It must be programmed with this value as part of
+       system initialization. The value of the register is not interpreted by
+       hardware.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x0
+        crn: 0xe
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x0
+        crn: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Clock_frequency
+            lsb: 0
+            msb: 31

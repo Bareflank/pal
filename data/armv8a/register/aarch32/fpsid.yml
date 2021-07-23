@@ -1,0 +1,51 @@
+- name: FPSID
+  long_name: "Floating-Point System ID register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: vmsr
+        is_write: True
+        reg: 0
+        operand_mnemonic: FPSID
+
+      - name: vmrs
+        is_read: True
+        reg: 0
+        operand_mnemonic: FPSID
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Revision
+            lsb: 0
+            msb: 3
+
+          - name: Variant
+            lsb: 4
+            msb: 7
+
+          - name: PartNum
+            lsb: 8
+            msb: 15
+
+          - name: Subarchitecture
+            lsb: 16
+            msb: 22
+
+          - name: SW
+            lsb: 23
+            msb: 23
+
+          - name: Implementer
+            lsb: 24
+            msb: 31
