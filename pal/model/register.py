@@ -25,6 +25,9 @@ class Register():
     arch: str = "none"
     """ The name of the architecture this register belongs to """
 
+    component: str = ""
+    """ The name of the component (device, table, register bank, etc) this register belongs to """
+
     is_internal: bool = False
     """ True if the register is internal to a CPU """
 

@@ -68,6 +68,8 @@ class PalModelParser(AbstractParser):
             register.execution_state = yml["execution_state"]
         if "is_banked" in yml:
             register.is_banked = yml["is_banked"]
+        if "component" in yml:
+            register.component = self._strip_string(yml["component"])
 
     def _parse_access_mechanisms(self, register, yml):
         if not yml["access_mechanisms"]:
@@ -76,12 +78,10 @@ class PalModelParser(AbstractParser):
         for am_yml in yml["access_mechanisms"]:
             if am_yml["name"] == "read":
                 am = pal.model.generic.access_mechanism.Read()
-                am.component = am_yml["component"]
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["read"].append(am)
             elif am_yml["name"] == "write":
                 am = pal.model.generic.access_mechanism.Write()
-                am.component = am_yml["component"]
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["write"].append(am)
             elif am_yml["name"] == "mov_read":
