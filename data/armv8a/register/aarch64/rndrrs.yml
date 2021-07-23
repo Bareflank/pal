@@ -1,0 +1,30 @@
+- name: RNDRRS
+  long_name: "Reseeded Random Number"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x4
+        crn: 0x2
+        operand_mnemonic: RNDRRS
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: RNDRRS
+            lsb: 0
+            msb: 63

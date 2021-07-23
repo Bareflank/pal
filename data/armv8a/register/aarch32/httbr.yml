@@ -1,0 +1,48 @@
+- name: HTTBR
+  long_name: "Hyp Translation Table Base Register"
+  purpose: |
+       "
+       Holds the base address of the translation table for the initial lookup
+       for stage 1 of an address translation in the EL2 translation regime, and
+       other information for this translation regime.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        crm: 0x2
+
+      - name: mcrr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        crm: 0x2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 0
+            reserved0: True
+
+          - name: CnP
+            lsb: 0
+            msb: 0
+
+          - name: BADDR
+            lsb: 1
+            msb: 47
+
+          - name: 0
+            lsb: 48
+            msb: 63
+            reserved0: True

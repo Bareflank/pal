@@ -1,0 +1,34 @@
+- name: ICV_IAR0
+  long_name: "Interrupt Controller Virtual Interrupt Acknowledge Register 0"
+  purpose: |
+       "
+       The PE reads this register to obtain the INTID of the signaled virtual
+       Group 0 interrupt. This read acts as an acknowledge for the interrupt.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x8
+        crn: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: INTID
+            lsb: 0
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 31
+            reserved0: True

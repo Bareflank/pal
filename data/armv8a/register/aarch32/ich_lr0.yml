@@ -1,0 +1,36 @@
+- name: ICH_LR0
+  long_name: "Interrupt Controller List Registers"
+  purpose: |
+       "
+       Provides interrupt context information for the virtual CPU interface.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x0
+        crm: 0xc
+        crn: 0xc
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x0
+        crm: 0xc
+        crn: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: vINTID
+            lsb: 0
+            msb: 31

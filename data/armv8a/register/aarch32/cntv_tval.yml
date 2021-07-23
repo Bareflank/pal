@@ -1,0 +1,36 @@
+- name: CNTV_TVAL
+  long_name: "Counter-timer Virtual Timer TimerValue register"
+  purpose: |
+       "
+       Holds the timer value for the virtual timer.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x3
+        crn: 0xe
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x3
+        crn: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: TimerValue
+            lsb: 0
+            msb: 31

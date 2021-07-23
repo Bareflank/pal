@@ -75,7 +75,7 @@ class YamlRegisterWriter(RegisterWriter):
             outfile.write("is_optional: True")
             self.write_newline(outfile)
 
-        if register.arch == "armv8-a":
+        if register.arch == "armv8a":
             self.write_indent(outfile)
             outfile.write("execution_state: " + str(register.execution_state))
             self.write_newline(outfile)

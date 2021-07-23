@@ -1,0 +1,30 @@
+- name: DBGDEVID2
+  long_name: "Debug Device ID register 2"
+  purpose: |
+       "
+       Reserved for future descriptions of features of the debug
+       implementation.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xe
+        opc1: 0x0
+        opc2: 0x7
+        crm: 0x0
+        crn: 0x7
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 31
+            reserved0: True

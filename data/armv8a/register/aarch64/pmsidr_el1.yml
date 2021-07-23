@@ -1,0 +1,71 @@
+- name: PMSIDR_EL1
+  long_name: "Sampling Profiling ID Register"
+  purpose: |
+       "
+       Describes the Statistical Profiling implementation to software
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x7
+        crm: 0x9
+        crn: 0x9
+        operand_mnemonic: PMSIDR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: FE
+            lsb: 0
+            msb: 0
+
+          - name: FT
+            lsb: 1
+            msb: 1
+
+          - name: FL
+            lsb: 2
+            msb: 2
+
+          - name: ArchInst
+            lsb: 3
+            msb: 3
+
+          - name: LDS
+            lsb: 4
+            msb: 4
+
+          - name: ERnd
+            lsb: 5
+            msb: 5
+
+          - name: 0
+            lsb: 6
+            msb: 7
+            reserved0: True
+
+          - name: Interval
+            lsb: 8
+            msb: 11
+
+          - name: MaxSize
+            lsb: 12
+            msb: 15
+
+          - name: CountSize
+            lsb: 16
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 63
+            reserved0: True

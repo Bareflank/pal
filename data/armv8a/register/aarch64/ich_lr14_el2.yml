@@ -1,0 +1,68 @@
+- name: ICH_LR14_EL2
+  long_name: "Interrupt Controller List Registers"
+  purpose: |
+       "
+       Provides interrupt context information for the virtual CPU interface.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x6
+        crm: 0xd
+        crn: 0xc
+        operand_mnemonic: ICH_LR14_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x6
+        crm: 0xd
+        crn: 0xc
+        operand_mnemonic: ICH_LR14_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: vINTID
+            lsb: 0
+            msb: 31
+
+          - name: pINTID
+            lsb: 32
+            msb: 44
+
+          - name: 0
+            lsb: 45
+            msb: 47
+            reserved0: True
+
+          - name: Priority
+            lsb: 48
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 59
+            reserved0: True
+
+          - name: Group
+            lsb: 60
+            msb: 60
+
+          - name: HW
+            lsb: 61
+            msb: 61
+
+          - name: State
+            lsb: 62
+            msb: 63

@@ -1,0 +1,37 @@
+- name: DACR
+  long_name: "Domain Access Control Register"
+  purpose: |
+       "
+       Defines the access permission for each of the sixteen memory domains.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x0
+        crn: 0x3
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x0
+        crn: 0x3
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: D<n>
+            lsb: 0
+            msb: 31

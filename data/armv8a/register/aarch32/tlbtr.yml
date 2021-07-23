@@ -1,0 +1,35 @@
+- name: TLBTR
+  long_name: "TLB Type Register"
+  purpose: |
+       "
+       Provides information about the TLB implementation. The register must
+       define whether the implementation provides separate instruction and data
+       TLBs, or a unified TLB. Normally, the IMPLEMENTATION DEFINED information
+       in this register includes the number of lockable entries in the TLB.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0x0
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: nU
+            lsb: 0
+            msb: 0
+
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 1
+            msb: 31

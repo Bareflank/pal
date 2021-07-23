@@ -1,0 +1,104 @@
+- name: ICC_MCTLR
+  long_name: "Interrupt Controller Monitor Control Register"
+  purpose: |
+       "
+       Controls aspects of the behavior of the GIC CPU interface and provides
+       information about the features implemented.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x6
+        opc2: 0x4
+        crm: 0xc
+        crn: 0xc
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x6
+        opc2: 0x4
+        crm: 0xc
+        crn: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: CBPR_EL1S
+            lsb: 0
+            msb: 0
+
+          - name: CBPR_EL1NS
+            lsb: 1
+            msb: 1
+
+          - name: EOImode_EL3
+            lsb: 2
+            msb: 2
+
+          - name: EOImode_EL1S
+            lsb: 3
+            msb: 3
+
+          - name: EOImode_EL1NS
+            lsb: 4
+            msb: 4
+
+          - name: RM
+            lsb: 5
+            msb: 5
+
+          - name: PMHE
+            lsb: 6
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 7
+            reserved0: True
+
+          - name: PRIbits
+            lsb: 8
+            msb: 10
+
+          - name: IDbits
+            lsb: 11
+            msb: 13
+
+          - name: SEIS
+            lsb: 14
+            msb: 14
+
+          - name: A3V
+            lsb: 15
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 16
+            reserved0: True
+
+          - name: nDS
+            lsb: 17
+            msb: 17
+
+          - name: RSS
+            lsb: 18
+            msb: 18
+
+          - name: ExtRange
+            lsb: 19
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 31
+            reserved0: True

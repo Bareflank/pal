@@ -1,0 +1,51 @@
+- name: SSBS
+  long_name: "Speculative Store Bypass Safe"
+  purpose: |
+       "
+       Allows access to the Speculative Store Bypass Safe bit.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x6
+        crm: 0x2
+        crn: 0x4
+        operand_mnemonic: SSBS
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x6
+        crm: 0x2
+        crn: 0x4
+        operand_mnemonic: SSBS
+
+      - name: msr_immediate
+        is_write: True
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 11
+            reserved0: True
+
+          - name: SSBS
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 63
+            reserved0: True

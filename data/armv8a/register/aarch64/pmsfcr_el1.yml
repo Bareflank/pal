@@ -1,0 +1,70 @@
+- name: PMSFCR_EL1
+  long_name: "Sampling Filter Control Register"
+  purpose: |
+       "
+       Controls sample filtering. The filter is the logical AND of the FL, FT
+       and FE bits. For example, if FE == 1 and FT == 1 only samples including
+       the selected operation types and the selected events will be recorded
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x4
+        crm: 0x9
+        crn: 0x9
+        operand_mnemonic: PMSFCR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x4
+        crm: 0x9
+        crn: 0x9
+        operand_mnemonic: PMSFCR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: FE
+            lsb: 0
+            msb: 0
+
+          - name: FT
+            lsb: 1
+            msb: 1
+
+          - name: FL
+            lsb: 2
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 15
+            reserved0: True
+
+          - name: B
+            lsb: 16
+            msb: 16
+
+          - name: LD
+            lsb: 17
+            msb: 17
+
+          - name: ST
+            lsb: 18
+            msb: 18
+
+          - name: 0
+            lsb: 19
+            msb: 63
+            reserved0: True

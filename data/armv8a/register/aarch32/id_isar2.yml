@@ -1,0 +1,57 @@
+- name: ID_ISAR2
+  long_name: "Instruction Set Attribute Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x2
+        crm: 0x2
+        crn: 0x0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: LoadStore
+            lsb: 0
+            msb: 3
+
+          - name: MemHint
+            lsb: 4
+            msb: 7
+
+          - name: MultiAccessInt
+            lsb: 8
+            msb: 11
+
+          - name: Mult
+            lsb: 12
+            msb: 15
+
+          - name: MultS
+            lsb: 16
+            msb: 19
+
+          - name: MultU
+            lsb: 20
+            msb: 23
+
+          - name: PSR_AR
+            lsb: 24
+            msb: 27
+
+          - name: Reversal
+            lsb: 28
+            msb: 31

@@ -1,0 +1,58 @@
+- name: MPAMIDR_EL1
+  long_name: "MPAM ID Register (EL1)"
+  purpose: |
+       "
+       MPAMIDR_EL1 indicates the presence and maximum PARTID and PMG values
+       supported in the implementation. It also indicates whether the
+       implementation supports MPAM virtualization.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x4
+        crm: 0x4
+        crn: 0xa
+        operand_mnemonic: MPAMIDR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: PARTID_MAX
+            lsb: 0
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 16
+            reserved0: True
+
+          - name: HAS_HCR
+            lsb: 17
+            msb: 17
+
+          - name: VPMR_MAX
+            lsb: 18
+            msb: 20
+
+          - name: 0
+            lsb: 21
+            msb: 31
+            reserved0: True
+
+          - name: PMG_MAX
+            lsb: 32
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 63
+            reserved0: True

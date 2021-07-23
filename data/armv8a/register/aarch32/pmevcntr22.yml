@@ -1,0 +1,36 @@
+- name: PMEVCNTR22
+  long_name: "Performance Monitors Event Count Registers"
+  purpose: |
+       "
+       Holds event counter n, which counts events, where n is 0 to 30.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x6
+        crm: 0xa
+        crn: 0xe
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x6
+        crm: 0xa
+        crn: 0xe
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: Event_counter_n
+            lsb: 0
+            msb: 31

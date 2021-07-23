@@ -1,0 +1,42 @@
+- name: HVBAR
+  long_name: "Hyp Vector Base Address Register"
+  purpose: |
+       "
+       Holds the vector base address for any exception that is taken to Hyp
+       mode.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x0
+        crm: 0x0
+        crn: 0xc
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x0
+        crm: 0x0
+        crn: 0xc
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 4
+            reserved0: True
+
+          - name: Vector_Base_Address
+            lsb: 5
+            msb: 31

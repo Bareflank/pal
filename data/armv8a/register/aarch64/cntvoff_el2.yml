@@ -1,0 +1,40 @@
+- name: CNTVOFF_EL2
+  long_name: "Counter-timer Virtual Offset register"
+  purpose: |
+       "
+       Holds the 64-bit virtual offset. This is the offset between the physical
+       count value visible in CNTPCT_EL0 and the virtual count value visible in
+       CNTVCT_EL0.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x3
+        crm: 0x0
+        crn: 0xe
+        operand_mnemonic: CNTVOFF_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x3
+        crm: 0x0
+        crn: 0xe
+        operand_mnemonic: CNTVOFF_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Virtual_offset
+            lsb: 0
+            msb: 63

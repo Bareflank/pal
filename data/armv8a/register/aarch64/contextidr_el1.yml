@@ -1,0 +1,62 @@
+- name: CONTEXTIDR_EL1
+  long_name: "Context ID Register (EL1)"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x0
+        crn: 0xd
+        operand_mnemonic: CONTEXTIDR_EL1
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x1
+        crm: 0x0
+        crn: 0xd
+        operand_mnemonic: CONTEXTIDR_EL12
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x0
+        crn: 0xd
+        operand_mnemonic: CONTEXTIDR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x5
+        op2: 0x1
+        crm: 0x0
+        crn: 0xd
+        operand_mnemonic: CONTEXTIDR_EL12
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: PROCID
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

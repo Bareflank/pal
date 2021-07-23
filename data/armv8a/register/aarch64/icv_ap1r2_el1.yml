@@ -1,0 +1,44 @@
+- name: ICV_AP1R2_EL1
+  long_name: "Interrupt Controller Virtual Active Priorities Group 1 Registers"
+  purpose: |
+       "
+       Provides information about virtual Group 1 active priorities.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x2
+        crm: 0x9
+        crn: 0xc
+        operand_mnemonic: ICC_AP1R2_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x2
+        crm: 0x9
+        crn: 0xc
+        operand_mnemonic: ICC_AP1R2_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

@@ -1,0 +1,67 @@
+- name: HPFAR_EL2
+  long_name: "Hypervisor IPA Fault Address Register"
+  purpose: |
+       "
+       Holds the faulting IPA for some aborts on a stage 2 translation taken to
+       EL2.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x4
+        crm: 0x0
+        crn: 0x6
+        operand_mnemonic: HPFAR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x4
+        crm: 0x0
+        crn: 0x6
+        operand_mnemonic: HPFAR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 3
+            reserved0: True
+
+          - name: FIPA[47:12]
+            lsb: 4
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 43
+            reserved0: True
+
+          - name: FIPA[51:48]
+            lsb: 40
+            msb: 43
+
+          - name: 0
+            lsb: 44
+            msb: 62
+            reserved0: True
+
+          - name: 0
+            lsb: 63
+            msb: 63
+            reserved0: True
+
+          - name: NS
+            lsb: 63
+            msb: 63

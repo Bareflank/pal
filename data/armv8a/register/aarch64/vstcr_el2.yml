@@ -1,0 +1,78 @@
+- name: VSTCR_EL2
+  long_name: "Virtualization Secure Translation Control Register"
+  purpose: |
+       "
+       The control register for stage 2 of the Secure EL1&0 translation regime.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x2
+        crm: 0x6
+        crn: 0x2
+        operand_mnemonic: VSTCR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x2
+        crm: 0x6
+        crn: 0x2
+        operand_mnemonic: VSTCR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: T0SZ
+            lsb: 0
+            msb: 5
+
+          - name: SL0
+            lsb: 6
+            msb: 7
+
+          - name: SL0
+            lsb: 6
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 13
+            reserved0: True
+
+          - name: TG0
+            lsb: 14
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 28
+            reserved0: True
+
+          - name: SW
+            lsb: 29
+            msb: 29
+
+          - name: SA
+            lsb: 30
+            msb: 30
+
+          - name: 1
+            lsb: 31
+            msb: 31
+            reserved1: True
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

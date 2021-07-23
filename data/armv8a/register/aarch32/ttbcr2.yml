@@ -1,0 +1,134 @@
+- name: TTBCR2
+  long_name: "Translation Table Base Control Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0x0
+        crn: 0x2
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0x0
+        crn: 0x2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 8
+            reserved0: True
+
+          - name: 0
+            lsb: 9
+            msb: 9
+            reserved0: True
+
+          - name: HPD0
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 10
+            reserved0: True
+
+          - name: HPD1
+            lsb: 10
+            msb: 10
+
+          - name: 0
+            lsb: 11
+            msb: 11
+            reserved0: True
+
+          - name: HWU059
+            lsb: 11
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 12
+            reserved0: True
+
+          - name: HWU060
+            lsb: 12
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 13
+            reserved0: True
+
+          - name: HWU061
+            lsb: 13
+            msb: 13
+
+          - name: 0
+            lsb: 14
+            msb: 14
+            reserved0: True
+
+          - name: HWU062
+            lsb: 14
+            msb: 14
+
+          - name: 0
+            lsb: 15
+            msb: 15
+            reserved0: True
+
+          - name: HWU159
+            lsb: 15
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 16
+            reserved0: True
+
+          - name: HWU160
+            lsb: 16
+            msb: 16
+
+          - name: 0
+            lsb: 17
+            msb: 17
+            reserved0: True
+
+          - name: HWU161
+            lsb: 17
+            msb: 17
+
+          - name: 0
+            lsb: 18
+            msb: 18
+            reserved0: True
+
+          - name: HWU162
+            lsb: 18
+            msb: 18
+
+          - name: 0
+            lsb: 19
+            msb: 31
+            reserved0: True

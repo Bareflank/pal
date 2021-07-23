@@ -1,0 +1,93 @@
+- name: FPSR
+  long_name: "Floating-point Status Register"
+  purpose: |
+       "
+       Provides floating-point system status information.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x4
+        crn: 0x4
+        operand_mnemonic: FPSR
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x1
+        crm: 0x4
+        crn: 0x4
+        operand_mnemonic: FPSR
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: IOC
+            lsb: 0
+            msb: 0
+
+          - name: DZC
+            lsb: 1
+            msb: 1
+
+          - name: OFC
+            lsb: 2
+            msb: 2
+
+          - name: UFC
+            lsb: 3
+            msb: 3
+
+          - name: IXC
+            lsb: 4
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 6
+            reserved0: True
+
+          - name: IDC
+            lsb: 7
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 26
+            reserved0: True
+
+          - name: QC
+            lsb: 27
+            msb: 27
+
+          - name: V
+            lsb: 28
+            msb: 28
+
+          - name: C
+            lsb: 29
+            msb: 29
+
+          - name: Z
+            lsb: 30
+            msb: 30
+
+          - name: N
+            lsb: 31
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

@@ -1,0 +1,51 @@
+- name: MIDR_EL1
+  long_name: "Main ID Register"
+  purpose: |
+       "
+       Provides identification information for the PE, including an implementer
+       code for the device and a device ID number.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: MIDR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Revision
+            lsb: 0
+            msb: 3
+
+          - name: PartNum
+            lsb: 4
+            msb: 15
+
+          - name: Architecture
+            lsb: 16
+            msb: 19
+
+          - name: Variant
+            lsb: 20
+            msb: 23
+
+          - name: Implementer
+            lsb: 24
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

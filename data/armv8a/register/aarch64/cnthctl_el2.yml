@@ -1,0 +1,170 @@
+- name: CNTHCTL_EL2
+  long_name: "Counter-timer Hypervisor Control register"
+  purpose: |
+       "
+       Controls the generation of an event stream from the physical counter,
+       and access from EL1 to the physical counter and the EL1 physical timer.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x1
+        crn: 0xe
+        operand_mnemonic: CNTHCTL_EL2
+
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x1
+        crn: 0xe
+        operand_mnemonic: CNTKCTL_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x0
+        crm: 0x1
+        crn: 0xe
+        operand_mnemonic: CNTHCTL_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x1
+        crn: 0xe
+        operand_mnemonic: CNTKCTL_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When HCR_EL2.E2H == 0"
+        size: 64
+
+        fields:
+          - name: EL1PCTEN
+            lsb: 0
+            msb: 0
+
+          - name: EL1PCEN
+            lsb: 1
+            msb: 1
+
+          - name: EVNTEN
+            lsb: 2
+            msb: 2
+
+          - name: EVNTDIR
+            lsb: 3
+            msb: 3
+
+          - name: EVNTI
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 63
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When HCR_EL2.E2H == 1"
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 0
+            reserved0: True
+
+          - name: EL0PCTEN
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 1
+            reserved0: True
+
+          - name: EL0VCTEN
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 2
+            reserved0: True
+
+          - name: EVNTEN
+            lsb: 2
+            msb: 2
+
+          - name: 0
+            lsb: 3
+            msb: 3
+            reserved0: True
+
+          - name: EVNTDIR
+            lsb: 3
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 7
+            reserved0: True
+
+          - name: EVNTI
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 8
+            reserved0: True
+
+          - name: EL0VTEN
+            lsb: 8
+            msb: 8
+
+          - name: 0
+            lsb: 9
+            msb: 9
+            reserved0: True
+
+          - name: EL0PTEN
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 10
+            reserved0: True
+
+          - name: EL1PCTEN
+            lsb: 10
+            msb: 10
+
+          - name: 0
+            lsb: 11
+            msb: 11
+            reserved0: True
+
+          - name: EL1PTEN
+            lsb: 11
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 63
+            reserved0: True

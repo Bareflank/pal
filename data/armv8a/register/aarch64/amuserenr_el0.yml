@@ -1,0 +1,50 @@
+- name: AMUSERENR_EL0
+  long_name: "Activity Monitors User Enable Register"
+  purpose: |
+       "
+       Global user enable register for the activity monitors. Enables or
+       disables EL0 access to the activity monitors. AMUSERENR_EL0 is
+       applicable to both the architected and the auxiliary counter groups.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x3
+        crm: 0x2
+        crn: 0xd
+        operand_mnemonic: AMUSERENR_EL0
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x3
+        op2: 0x3
+        crm: 0x2
+        crn: 0xd
+        operand_mnemonic: AMUSERENR_EL0
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: EN
+            lsb: 0
+            msb: 0
+
+          - name: 0
+            lsb: 1
+            msb: 3
+            reserved0: True
+
+          - name: 0
+            lsb: 4
+            msb: 63
+            reserved0: True

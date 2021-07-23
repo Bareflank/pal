@@ -1,0 +1,38 @@
+- name: ACTLR2
+  long_name: "Auxiliary Control Register 2"
+  purpose: |
+       "
+       Provides additional space to the ACTLR register to hold IMPLEMENTATION
+       DEFINED trap functionality for execution at EL1 and EL0.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+  is_banked: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0x0
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x3
+        crm: 0x0
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: IMPLEMENTATION_DEFINED
+            lsb: 0
+            msb: 31

@@ -1,0 +1,67 @@
+- name: ICH_VTR_EL2
+  long_name: "Interrupt Controller VGIC Type Register"
+  purpose: |
+       "
+       Reports supported GIC virtualisartion features.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x1
+        crm: 0xb
+        crn: 0xc
+        operand_mnemonic: ICH_VTR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: ListRegs
+            lsb: 0
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 18
+            reserved0: True
+
+          - name: TDS
+            lsb: 19
+            msb: 19
+
+          - name: nV4
+            lsb: 20
+            msb: 20
+
+          - name: A3V
+            lsb: 21
+            msb: 21
+
+          - name: SEIS
+            lsb: 22
+            msb: 22
+
+          - name: IDbits
+            lsb: 23
+            msb: 25
+
+          - name: PREbits
+            lsb: 26
+            msb: 28
+
+          - name: PRIbits
+            lsb: 29
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

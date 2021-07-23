@@ -1,0 +1,45 @@
+- name: SDER
+  long_name: "Secure Debug Enable Register"
+  purpose: |
+       "
+       Controls invasive and non-invasive debug in the Secure EL0 mode.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x1
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x1
+        crm: 0x1
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: SUIDEN
+            lsb: 0
+            msb: 0
+
+          - name: SUNIDEN
+            lsb: 1
+            msb: 1
+
+          - name: 0
+            lsb: 2
+            msb: 31
+            reserved0: True

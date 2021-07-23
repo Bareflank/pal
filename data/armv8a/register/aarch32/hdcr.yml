@@ -1,0 +1,151 @@
+- name: HDCR
+  long_name: "Hyp Debug Control Register"
+  purpose: |
+       "
+       Controls the trapping to Hyp mode of Non-secure accesses, at EL1 or
+       lower, to functions provided by the debug and trace architectures and
+       the Performance Monitors Extension.
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x1
+        crm: 0x1
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x4
+        opc2: 0x1
+        crm: 0x1
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 4
+            reserved0: True
+
+          - name: HPMN
+            lsb: 0
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 5
+            reserved0: True
+
+          - name: TPMCR
+            lsb: 5
+            msb: 5
+
+          - name: 0
+            lsb: 6
+            msb: 6
+            reserved0: True
+
+          - name: TPM
+            lsb: 6
+            msb: 6
+
+          - name: 0
+            lsb: 7
+            msb: 7
+            reserved0: True
+
+          - name: HPME
+            lsb: 7
+            msb: 7
+
+          - name: TDE
+            lsb: 8
+            msb: 8
+
+          - name: TDA
+            lsb: 9
+            msb: 9
+
+          - name: TDOSA
+            lsb: 10
+            msb: 10
+
+          - name: TDOSA
+            lsb: 10
+            msb: 10
+
+          - name: TDRA
+            lsb: 11
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 16
+            reserved0: True
+
+          - name: 0
+            lsb: 17
+            msb: 17
+            reserved0: True
+
+          - name: HPMD
+            lsb: 17
+            msb: 17
+
+          - name: 0
+            lsb: 18
+            msb: 18
+            reserved0: True
+
+          - name: 0
+            lsb: 19
+            msb: 19
+            reserved0: True
+
+          - name: TTRF
+            lsb: 19
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 22
+            reserved0: True
+
+          - name: 0
+            lsb: 23
+            msb: 23
+            reserved0: True
+
+          - name: HCCD
+            lsb: 23
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 25
+            reserved0: True
+
+          - name: 0
+            lsb: 26
+            msb: 26
+            reserved0: True
+
+          - name: HLP
+            lsb: 26
+            msb: 26
+
+          - name: 0
+            lsb: 27
+            msb: 31
+            reserved0: True

@@ -1,0 +1,59 @@
+- name: ID_ISAR0_EL1
+  long_name: "AArch32 Instruction Set Attribute Register 0"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x0
+        crm: 0x2
+        crn: 0x0
+        operand_mnemonic: ID_ISAR0_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: Swap
+            lsb: 0
+            msb: 3
+
+          - name: BitCount
+            lsb: 4
+            msb: 7
+
+          - name: BitField
+            lsb: 8
+            msb: 11
+
+          - name: CmpBranch
+            lsb: 12
+            msb: 15
+
+          - name: Coproc
+            lsb: 16
+            msb: 19
+
+          - name: Debug
+            lsb: 20
+            msb: 23
+
+          - name: Divide
+            lsb: 24
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 63
+            reserved0: True

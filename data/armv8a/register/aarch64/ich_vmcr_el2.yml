@@ -1,0 +1,86 @@
+- name: ICH_VMCR_EL2
+  long_name: "Interrupt Controller Virtual Machine Control Register"
+  purpose: |
+       "
+       Enables the hypervisor to save and restore the virtual machine view of
+       the GIC state.
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x7
+        crm: 0xb
+        crn: 0xc
+        operand_mnemonic: ICH_VMCR_EL2
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x4
+        op2: 0x7
+        crm: 0xb
+        crn: 0xc
+        operand_mnemonic: ICH_VMCR_EL2
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: VENG0
+            lsb: 0
+            msb: 0
+
+          - name: VENG1
+            lsb: 1
+            msb: 1
+
+          - name: VAckCtl
+            lsb: 2
+            msb: 2
+
+          - name: VFIQEn
+            lsb: 3
+            msb: 3
+
+          - name: VCBPR
+            lsb: 4
+            msb: 4
+
+          - name: 0
+            lsb: 5
+            msb: 8
+            reserved0: True
+
+          - name: VEOIM
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 17
+            reserved0: True
+
+          - name: VBPR1
+            lsb: 18
+            msb: 20
+
+          - name: VBPR0
+            lsb: 21
+            msb: 23
+
+          - name: VPMR
+            lsb: 24
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

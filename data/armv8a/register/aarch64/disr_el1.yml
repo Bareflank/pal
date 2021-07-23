@@ -1,0 +1,102 @@
+- name: DISR_EL1
+  long_name: "Deferred Interrupt Status Register"
+  purpose: |
+       "
+       Records that an SError interrupt has been consumed by an
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x1
+        crn: 0xc
+        operand_mnemonic: DISR_EL1
+
+      - name: msr_register
+        is_write: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x1
+        crm: 0x1
+        crn: 0xc
+        operand_mnemonic: DISR_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        condition: "When DISR_EL1.IDS == 0"
+        size: 64
+
+        fields:
+          - name: DFSC
+            lsb: 0
+            msb: 5
+
+          - name: 0
+            lsb: 6
+            msb: 8
+            reserved0: True
+
+          - name: EA
+            lsb: 9
+            msb: 9
+
+          - name: AET
+            lsb: 10
+            msb: 12
+
+          - name: 0
+            lsb: 13
+            msb: 23
+            reserved0: True
+
+          - name: IDS
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 30
+            reserved0: True
+
+          - name: A
+            lsb: 31
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True
+
+      - name: fieldset_2
+        condition: "When DISR_EL1.IDS == 1"
+        size: 64
+
+        fields:
+          - name: ISS
+            lsb: 0
+            msb: 23
+
+          - name: IDS
+            lsb: 24
+            msb: 24
+
+          - name: 0
+            lsb: 25
+            msb: 30
+            reserved0: True
+
+          - name: A
+            lsb: 31
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 63
+            reserved0: True

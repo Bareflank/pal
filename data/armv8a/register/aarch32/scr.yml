@@ -1,0 +1,105 @@
+- name: SCR
+  long_name: "Secure Configuration Register"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 32
+  arch: armv8a
+  execution_state: aarch32
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrc
+        is_read: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x1
+        crn: 0x1
+
+      - name: mcr
+        is_write: True
+        coproc: 0xf
+        opc1: 0x0
+        opc2: 0x0
+        crm: 0x1
+        crn: 0x1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 32
+
+        fields:
+          - name: NS
+            lsb: 0
+            msb: 0
+
+          - name: IRQ
+            lsb: 1
+            msb: 1
+
+          - name: FIQ
+            lsb: 2
+            msb: 2
+
+          - name: EA
+            lsb: 3
+            msb: 3
+
+          - name: FW
+            lsb: 4
+            msb: 4
+
+          - name: AW
+            lsb: 5
+            msb: 5
+
+          - name: nET
+            lsb: 6
+            msb: 6
+
+          - name: SCD
+            lsb: 7
+            msb: 7
+
+          - name: HCE
+            lsb: 8
+            msb: 8
+
+          - name: SIF
+            lsb: 9
+            msb: 9
+
+          - name: 0
+            lsb: 10
+            msb: 11
+            reserved0: True
+
+          - name: TWI
+            lsb: 12
+            msb: 12
+
+          - name: TWE
+            lsb: 13
+            msb: 13
+
+          - name: 0
+            lsb: 14
+            msb: 14
+            reserved0: True
+
+          - name: 0
+            lsb: 15
+            msb: 15
+            reserved0: True
+
+          - name: TERR
+            lsb: 15
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 31
+            reserved0: True

@@ -1,0 +1,35 @@
+- name: CCSIDR2_EL1
+  long_name: "Current Cache Size ID Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x1
+        op2: 0x2
+        crm: 0x0
+        crn: 0x0
+        operand_mnemonic: CCSIDR2_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: NumSets
+            lsb: 0
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 63
+            reserved0: True

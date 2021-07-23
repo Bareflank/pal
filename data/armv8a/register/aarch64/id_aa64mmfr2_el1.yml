@@ -1,0 +1,170 @@
+- name: ID_AA64MMFR2_EL1
+  long_name: "AArch64 Memory Model Feature Register 2"
+  purpose: |
+       "
+       See the ARMv8 architecture reference manual for a description of this
+       register
+       "
+  size: 64
+  arch: armv8a
+  execution_state: aarch64
+  is_internal: True
+
+  access_mechanisms:
+      - name: mrs_register
+        is_read: True
+        op0: 0x3
+        op1: 0x0
+        op2: 0x2
+        crm: 0x7
+        crn: 0x0
+        operand_mnemonic: ID_AA64MMFR2_EL1
+
+  fieldsets:
+      - name: fieldset_1
+        size: 64
+
+        fields:
+          - name: 0
+            lsb: 0
+            msb: 3
+            reserved0: True
+
+          - name: CnP
+            lsb: 0
+            msb: 3
+
+          - name: 0
+            lsb: 4
+            msb: 7
+            reserved0: True
+
+          - name: UAO
+            lsb: 4
+            msb: 7
+
+          - name: 0
+            lsb: 8
+            msb: 11
+            reserved0: True
+
+          - name: LSM
+            lsb: 8
+            msb: 11
+
+          - name: 0
+            lsb: 12
+            msb: 15
+            reserved0: True
+
+          - name: IESB
+            lsb: 12
+            msb: 15
+
+          - name: 0
+            lsb: 16
+            msb: 19
+            reserved0: True
+
+          - name: VARange
+            lsb: 16
+            msb: 19
+
+          - name: 0
+            lsb: 20
+            msb: 23
+            reserved0: True
+
+          - name: CCIDX
+            lsb: 20
+            msb: 23
+
+          - name: 0
+            lsb: 24
+            msb: 27
+            reserved0: True
+
+          - name: NV
+            lsb: 24
+            msb: 27
+
+          - name: NV
+            lsb: 24
+            msb: 27
+
+          - name: 0
+            lsb: 28
+            msb: 31
+            reserved0: True
+
+          - name: ST
+            lsb: 28
+            msb: 31
+
+          - name: 0
+            lsb: 32
+            msb: 35
+            reserved0: True
+
+          - name: AT
+            lsb: 32
+            msb: 35
+
+          - name: 0
+            lsb: 36
+            msb: 39
+            reserved0: True
+
+          - name: IDS
+            lsb: 36
+            msb: 39
+
+          - name: 0
+            lsb: 40
+            msb: 43
+            reserved0: True
+
+          - name: FWB
+            lsb: 40
+            msb: 43
+
+          - name: 0
+            lsb: 44
+            msb: 47
+            reserved0: True
+
+          - name: 0
+            lsb: 48
+            msb: 51
+            reserved0: True
+
+          - name: TTL
+            lsb: 48
+            msb: 51
+
+          - name: 0
+            lsb: 52
+            msb: 55
+            reserved0: True
+
+          - name: BBM
+            lsb: 52
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 59
+            reserved0: True
+
+          - name: EVT
+            lsb: 56
+            msb: 59
+
+          - name: 0
+            lsb: 60
+            msb: 63
+            reserved0: True
+
+          - name: E0PD
+            lsb: 60
+            msb: 63
