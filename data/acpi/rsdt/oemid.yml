@@ -6,15 +6,14 @@
        "
   size: 48
   arch: generic
+  component: acpi_rsdt_table
 
   access_mechanisms:
       - name: read
         is_read: True
-        component: rsdt
         offset: 10
 
       - name: write
         is_write: True
-        component: rsdt
         offset: 10
 
