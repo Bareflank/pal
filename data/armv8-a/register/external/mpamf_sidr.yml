@@ -6,13 +6,13 @@
        Secure PARTID and Secure PMG on this MSC.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: mpam_any
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x8
 
   fieldsets:

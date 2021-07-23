@@ -7,13 +7,13 @@
        deactivates the interrupt.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_virtual_cpu_interface
   execution_state: None
 
   access_mechanisms:
       - name: str
         is_write: True
-        component: gic_virtual_cpu_interface
         offset: 0x24
 
   fieldsets:

@@ -6,18 +6,17 @@
        Pending table for the currently scheduled virtual machine.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: gic_redistributor
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_redistributor
         offset: 0x78
 
       - name: str
         is_write: True
-        component: gic_redistributor
         offset: 0x78
 
   fieldsets:

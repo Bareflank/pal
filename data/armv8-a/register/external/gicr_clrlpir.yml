@@ -5,13 +5,13 @@
        Clears the pending state of the specified LPI.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: gic_redistributor
   execution_state: None
 
   access_mechanisms:
       - name: str
         is_write: True
-        component: gic_redistributor
         offset: 0x48
 
   fieldsets:

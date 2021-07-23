@@ -5,18 +5,17 @@
        Sets the PARTID and PMG values used for memory accesses by the ITS.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_its_control
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_its_control
         offset: 0x14
 
       - name: str
         is_write: True
-        component: gic_its_control
         offset: 0x14
 
   fieldsets:

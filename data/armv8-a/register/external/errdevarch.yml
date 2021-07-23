@@ -5,13 +5,13 @@
        Provides discovery information for the component.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: ras
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: ras
         offset: 0xfbc
 
   fieldsets:

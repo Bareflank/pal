@@ -5,13 +5,13 @@
        Indicates the current status of the Software Lock for CTI registers.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: cti
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: cti
         offset: 0xfb4
 
   fieldsets:

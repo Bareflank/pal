@@ -5,18 +5,17 @@
        Controls whether the corresponding SGI or PPI is in Group 0 or Group 1.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_redistributor
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_redistributor
         offset: 0x80
 
       - name: str
         is_write: True
-        component: gic_redistributor
         offset: 0x80
 
   fieldsets:

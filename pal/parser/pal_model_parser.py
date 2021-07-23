@@ -221,14 +221,12 @@ class PalModelParser(AbstractParser):
             elif am_yml["name"] == "ldr":
                 am = pal.model.armv8a.access_mechanism.LDR()
                 am.name = am_yml["name"]
-                am.component = am_yml["component"]
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["ldr"].append(am)
 
             elif am_yml["name"] == "str":
                 am = pal.model.armv8a.access_mechanism.STR()
                 am.name = am_yml["name"]
-                am.component = am_yml["component"]
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["str"].append(am)
 

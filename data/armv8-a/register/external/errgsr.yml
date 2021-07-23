@@ -5,13 +5,13 @@
        ERRGSR shows the status for the records in the group.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: ras
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: ras
         offset: 0xe00
 
   fieldsets:

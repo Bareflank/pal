@@ -5,14 +5,14 @@
        Identifies the programmers' model architecture of the AMU component.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: amu
   execution_state: None
   is_optional: True
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: amu
         offset: 0xfbc
 
   fieldsets:

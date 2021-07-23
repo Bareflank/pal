@@ -7,18 +7,17 @@
        Writing to this register clears these bits.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: pmu
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0xc80
 
       - name: str
         is_write: True
-        component: pmu
         offset: 0xc80
 
   fieldsets:

@@ -5,13 +5,13 @@
        Provides the raw status of the ECT channel inputs to the CTI.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: cti
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: cti
         offset: 0x138
 
   fieldsets:

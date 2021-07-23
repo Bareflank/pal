@@ -6,28 +6,25 @@
        register
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_redistributor
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_redistributor
         offset: 0x10
 
       - name: ldr
         is_read: True
-        component: gic_redistributor
         offset: 0x10
 
       - name: str
         is_write: True
-        component: gic_redistributor
         offset: 0x10
 
       - name: str
         is_write: True
-        component: gic_redistributor
         offset: 0x10
 
   fieldsets:

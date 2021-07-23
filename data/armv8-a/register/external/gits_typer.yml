@@ -5,13 +5,13 @@
        Specifies the features that an ITS supports.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: gic_its_control
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_its_control
         offset: 0x8
 
   fieldsets:

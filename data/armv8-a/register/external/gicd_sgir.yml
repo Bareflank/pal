@@ -5,13 +5,13 @@
        Controls the generation of SGIs.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_distributor
   execution_state: None
 
   access_mechanisms:
       - name: str
         is_write: True
-        component: gic_distributor
         offset: 0xf00
 
   fieldsets:

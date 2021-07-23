@@ -6,13 +6,13 @@
        AMEVCNTR1<n>.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: amu
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: amu
         offset: 0xc04
 
   fieldsets:

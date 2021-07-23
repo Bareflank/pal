@@ -5,18 +5,17 @@
        Interrupt configuration register.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: ras
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: ras
         offset: 0xea0
 
       - name: str
         is_write: True
-        component: ras
         offset: 0xea0
 
   fieldsets:

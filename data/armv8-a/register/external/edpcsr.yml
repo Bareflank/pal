@@ -5,18 +5,17 @@
        Holds a sampled instruction address value.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: debug
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: debug
         offset: 0xa0
 
       - name: ldr
         is_read: True
-        component: debug
         offset: 0xac
 
   fieldsets:

@@ -6,18 +6,17 @@
        range.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_distributor
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_distributor
         offset: 0x1600
 
       - name: str
         is_write: True
-        component: gic_distributor
         offset: 0x1600
 
   fieldsets:

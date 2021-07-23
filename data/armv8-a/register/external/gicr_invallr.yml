@@ -7,13 +7,13 @@
        Configuration table at the address specified by GICR_PROPBASER.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: gic_redistributor
   execution_state: None
 
   access_mechanisms:
       - name: str
         is_write: True
-        component: gic_redistributor
         offset: 0xb0
 
   fieldsets:

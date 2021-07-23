@@ -6,13 +6,13 @@
        register by the PE acts as an acknowledge for the interrupt.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_cpu_interface
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_cpu_interface
         offset: 0x20
 
   fieldsets:

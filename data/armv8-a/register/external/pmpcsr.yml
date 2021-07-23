@@ -5,28 +5,25 @@
        Holds a sampled instruction address value.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: pmu
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0x200
 
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0x204
 
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0x220
 
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0x224
 
   fieldsets:

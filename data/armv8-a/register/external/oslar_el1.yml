@@ -5,18 +5,17 @@
        Used to lock or unlock the OS lock.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: debug
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: debug
         offset: 0x300
 
       - name: str
         is_write: True
-        component: debug
         offset: 0x300
 
   fieldsets:

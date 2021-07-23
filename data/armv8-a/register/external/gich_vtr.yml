@@ -6,13 +6,13 @@
        registers.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_virtual_interface_control
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: gic_virtual_interface_control
         offset: 0x4
 
   fieldsets:
