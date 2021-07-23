@@ -6,18 +6,17 @@
        timer capability. This is the offset between real time and virtual time.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: timer
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x18
 
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x1c
 
   fieldsets:

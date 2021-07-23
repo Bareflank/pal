@@ -8,23 +8,21 @@
        value of the register is not interpreted by hardware.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: timer
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x10
 
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x10
 
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x0
 
   fieldsets:

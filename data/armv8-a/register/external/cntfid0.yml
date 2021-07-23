@@ -5,18 +5,17 @@
        Indicates the base frequency of the system counter.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: timer
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x20
 
       - name: str
         is_write: True
-        component: timer
         offset: 0x20
 
   fieldsets:

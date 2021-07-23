@@ -6,14 +6,14 @@
        register
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: cti
   execution_state: None
   is_optional: True
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: cti
         offset: 0xfd0
 
   fieldsets:

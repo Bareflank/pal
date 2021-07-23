@@ -7,28 +7,25 @@
        MSMON_CFG_MON_SEL.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: mpam_any
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x820
 
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x820
 
       - name: str
         is_write: True
-        component: mpam_any
         offset: 0x820
 
       - name: str
         is_write: True
-        component: mpam_any
         offset: 0x820
 
   fieldsets:

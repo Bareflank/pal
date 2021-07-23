@@ -5,18 +5,17 @@
        Indicates the status of internally pending Halting debug events.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: debug
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: debug
         offset: 0x20
 
       - name: str
         is_write: True
-        component: debug
         offset: 0x20
 
   fieldsets:

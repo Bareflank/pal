@@ -7,19 +7,18 @@
        registers are visible in the frame at CNTEL0BaseN.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: timer
   execution_state: None
   is_optional: True
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x14
 
       - name: str
         is_write: True
-        component: timer
         offset: 0x14
 
   fieldsets:

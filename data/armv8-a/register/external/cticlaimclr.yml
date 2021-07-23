@@ -6,19 +6,18 @@
        these bits to 0.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: cti
   execution_state: None
   is_optional: True
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: cti
         offset: 0xfa4
 
       - name: str
         is_write: True
-        component: cti
         offset: 0xfa4
 
   fieldsets:

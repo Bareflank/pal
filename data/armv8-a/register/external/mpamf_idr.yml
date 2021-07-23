@@ -6,18 +6,17 @@
        partitioning and monitoring features are present on this MSC.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: mpam_any
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x0
 
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x0
 
   fieldsets:

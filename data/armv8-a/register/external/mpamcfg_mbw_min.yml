@@ -8,28 +8,25 @@
        MIN is given preferential access to bandwidth.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: mpam_any
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x200
 
       - name: ldr
         is_read: True
-        component: mpam_any
         offset: 0x200
 
       - name: str
         is_write: True
-        component: mpam_any
         offset: 0x200
 
       - name: str
         is_write: True
-        component: mpam_any
         offset: 0x200
 
   fieldsets:

@@ -7,18 +7,17 @@
        DBGBCR<n>_EL1.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: debug
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: debug
         offset: 0x400
 
       - name: str
         is_write: True
-        component: debug
         offset: 0x400
 
   fieldsets:

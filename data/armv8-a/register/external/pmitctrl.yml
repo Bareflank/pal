@@ -7,19 +7,18 @@
        and outputs of the PE, for integration testing or topology detection.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: pmu
   execution_state: None
   is_optional: True
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0xf00
 
       - name: str
         is_write: True
-        component: pmu
         offset: 0xf00
 
   fieldsets:

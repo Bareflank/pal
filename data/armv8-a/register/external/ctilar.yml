@@ -6,13 +6,13 @@
        interface.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: cti
   execution_state: None
 
   access_mechanisms:
       - name: str
         is_write: True
-        component: cti
         offset: 0xfb0
 
   fieldsets:

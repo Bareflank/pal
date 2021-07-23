@@ -7,13 +7,13 @@
        GICC_CTLR.EOImodeNS field == 0, also deactivates the interrupt.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: gic_cpu_interface
   execution_state: None
 
   access_mechanisms:
       - name: str
         is_write: True
-        component: gic_cpu_interface
         offset: 0x10
 
   fieldsets:

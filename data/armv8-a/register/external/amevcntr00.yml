@@ -5,18 +5,17 @@
        Provides access to the architected activity monitor event counters.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: amu
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: amu
         offset: 0x0
 
       - name: ldr
         is_read: True
-        component: amu
         offset: 0x4
 
   fieldsets:

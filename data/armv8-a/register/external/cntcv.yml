@@ -5,23 +5,21 @@
        Indicates the current count value.
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: timer
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x8
 
       - name: ldr
         is_read: True
-        component: timer
         offset: 0x0
 
       - name: str
         is_write: True
-        component: timer
         offset: 0x8
 
   fieldsets:

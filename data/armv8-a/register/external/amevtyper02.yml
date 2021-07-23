@@ -6,13 +6,13 @@
        event counter AMEVCNTR0<n> counts.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: amu
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: amu
         offset: 0x400
 
   fieldsets:

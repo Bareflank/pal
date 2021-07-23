@@ -6,28 +6,25 @@
        register
        "
   size: 64
-  arch: armv8-a
+  arch: armv8a
+  component: debug
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: debug
         offset: 0xd28
 
       - name: ldr
         is_read: True
-        component: debug
         offset: 0xd2c
 
       - name: str
         is_write: True
-        component: debug
         offset: 0xd28
 
       - name: str
         is_write: True
-        component: debug
         offset: 0xd2c
 
   fieldsets:

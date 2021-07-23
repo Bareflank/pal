@@ -5,18 +5,17 @@
        Clears bits of the Application Trigger register.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: cti
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: cti
         offset: 0x18
 
       - name: str
         is_write: True
-        component: cti
         offset: 0x18
 
   fieldsets:

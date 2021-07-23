@@ -6,14 +6,14 @@
        register
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: ras
   execution_state: None
   is_optional: True
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: ras
         offset: 0xfe4
 
   fieldsets:

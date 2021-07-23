@@ -7,13 +7,13 @@
        Performance Monitor component relates to.
        "
   size: 32
-  arch: armv8-a
+  arch: armv8a
+  component: pmu
   execution_state: None
 
   access_mechanisms:
       - name: ldr
         is_read: True
-        component: pmu
         offset: 0xfac
 
   fieldsets:
