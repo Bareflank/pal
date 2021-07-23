@@ -6,14 +6,13 @@
        "
   size: 64
   arch: generic
+  component: acpi_dsdt_table
 
   access_mechanisms:
       - name: read
         is_read: True
-        component: dsdt
         offset: 16
 
       - name: write
         is_write: True
-        component: dsdt
         offset: 16
