@@ -84,29 +84,12 @@ class CRegisterAccessorWriter():
             for am in am_list:
                 if am.is_read():
                     size_type = self._register_size_type(register)
-
-                    #  if register.arch == "generic":
-                    #      addr_calc = "(" + size_type + " *)("
-                    #      addr_calc += "pal_" + str(am.component) + '_base_address() + ' + offset_name
-                    #
-                    #      if register.is_indexed:
-                    #          addr_calc += " + (index * sizeof(" + size_type + "))"
-                    #
-                    #      addr_calc += ")"
-                    #
-                    #      self._declare_variable(outfile, "* address", addr_calc,
-                    #                             keywords=[size_type])
-                    #
-                    #      outfile.write("return *address;")
-                    #  else:
                     if am.is_memory_mapped():
-                        #  addr_calc = "pal_" + str(am.component) + '_base_address() + ' + offset_name
                         addr_calc = 'view->base_address + ' + offset_name
                         if register.is_indexed:
                             addr_calc += " + (index * sizeof(" + size_type + "))"
 
-                        self._declare_variable(outfile, "address", addr_calc,
-                                               keywords=[size_type])
+                        self._declare_variable(outfile, "address", addr_calc, keywords=["uintptr_t"])
 
                     self._declare_variable(outfile, "value", 0, [size_type])
 
@@ -144,29 +127,12 @@ class CRegisterAccessorWriter():
             for am in am_list:
                 if am.is_write():
                     size_type = self._register_size_type(register)
-
-                    #  if register.arch == "generic":
-                    #      addr_calc = "(" + size_type + " *)("
-                    #      addr_calc += "pal_" + str(am.component) + '_base_address() + ' + offset_name
-                    #
-                    #      if register.is_indexed:
-                    #          addr_calc += " + (index * sizeof(" + size_type + "))"
-                    #
-                    #      addr_calc += ")"
-                    #
-                    #      self._declare_variable(outfile, "* address", addr_calc,
-                    #                             keywords=[size_type])
-                    #
-                    #      outfile.write("*address = value;")
-                    #  else:
                     if am.is_memory_mapped():
-                        #  addr_calc = "pal_" + str(am.component) + '_base_address() + ' + offset_name
                         addr_calc = 'view->base_address + ' + offset_name
                         if register.is_indexed:
                             addr_calc += " + (index * sizeof(" + size_type + "))"
 
-                        self._declare_variable(outfile, "address", addr_calc,
-                                               keywords=[size_type])
+                        self._declare_variable(outfile, "address", addr_calc, keywords=["uintptr_t"])
 
                     self.call_writable_access_mechanism(
                         outfile, register, am, "value"

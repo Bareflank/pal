@@ -246,6 +246,8 @@ class PalModelParser(AbstractParser):
 
     def _parse_fieldsets(self, register, yml):
         if "fieldsets" not in yml:
+            fs = pal.model.Fieldset()
+            register.fieldsets.append(fs)
             return
 
         for fieldset_yml in yml["fieldsets"]:
