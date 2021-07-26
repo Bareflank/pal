@@ -253,7 +253,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def __call_memory_write_access_mechanism(self, outfile, register,
                                             access_mechanism, result):
         self.write_newline(outfile)
-        outfile.write('pal_execute_write_mem{}({}, address);'.format(
+        outfile.write('pal_execute_write_mem{}(address, {});'.format(
             str(register.size),
             result,
         ))
