@@ -30,6 +30,20 @@ class Cxx11HelperWriter():
         else:
             return "uint64_t"
 
+    def _address_size_type(self, access_mechanism):
+        if access_mechanism.name == "port_in":
+            return "uint32_t"
+        if access_mechanism.name == "port_out":
+            return "uint32_t"
+        else:
+            return "uintptr_t"
+
+    def _view_name(self, register):
+        return "pal::" + register.component.lower() + "::view"
+
+    def _view_type(self, register):
+        return "const " + self._view_name(register) + " &"
+
     def _declare_variable(self, outfile, name, value, keywords=[]):
         for qual in keywords:
             outfile.write(str(qual) + " ")
