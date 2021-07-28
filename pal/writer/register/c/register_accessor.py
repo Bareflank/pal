@@ -67,7 +67,7 @@ class CRegisterAccessorWriter():
         gadget.args = []
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -83,15 +83,16 @@ class CRegisterAccessorWriter():
         for am_key, am_list in register.access_mechanisms.items():
             for am in am_list:
                 if am.is_read():
-                    size_type = self._register_size_type(register)
+                    reg_size_type = self._register_size_type(register)
+                    addr_size_type = self._address_size_type(am)
                     if am.is_memory_mapped():
                         addr_calc = 'view->base_address + ' + offset_name
                         if register.is_indexed:
-                            addr_calc += " + (index * sizeof(" + size_type + "))"
+                            addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
-                        self._declare_variable(outfile, "address", addr_calc, keywords=["uintptr_t"])
+                        self._declare_variable(outfile, "address", addr_calc, keywords=[addr_size_type])
 
-                    self._declare_variable(outfile, "value", 0, [size_type])
+                    self._declare_variable(outfile, "value", 0, [reg_size_type])
 
                     self.call_readable_access_mechanism(
                         outfile, register, am, "value"
@@ -108,7 +109,7 @@ class CRegisterAccessorWriter():
         gadget.args = []
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         gadget.args.append((size_type, "value"))
@@ -126,13 +127,14 @@ class CRegisterAccessorWriter():
         for am_key, am_list in register.access_mechanisms.items():
             for am in am_list:
                 if am.is_write():
-                    size_type = self._register_size_type(register)
+                    reg_size_type = self._register_size_type(register)
+                    addr_size_type = self._address_size_type(am)
                     if am.is_memory_mapped():
                         addr_calc = 'view->base_address + ' + offset_name
                         if register.is_indexed:
-                            addr_calc += " + (index * sizeof(" + size_type + "))"
+                            addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
-                        self._declare_variable(outfile, "address", addr_calc, keywords=["uintptr_t"])
+                        self._declare_variable(outfile, "address", addr_calc, keywords=[addr_size_type])
 
                     self.call_writable_access_mechanism(
                         outfile, register, am, "value"

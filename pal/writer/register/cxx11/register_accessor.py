@@ -12,9 +12,11 @@ class Cxx11RegisterAccessorWriter():
             self._declare_register_set(outfile, register)
 
     def call_register_get(self, outfile, register, destination, index="index"):
-        call = "auto {dest} = {read}({index});".format(
+        call = "auto {dest} = {read}({view}{comma}{index});".format(
             dest=destination,
             read=self._register_read_function_name(register),
+            view="view" if register.component else "",
+            comma=", " if register.component and register.is_indexed else "",
             index=str(index) if register.is_indexed else ""
         )
         outfile.write(call)
@@ -71,6 +73,10 @@ class Cxx11RegisterAccessorWriter():
         gadget.return_type = self._register_size_type(register)
         gadget.args = []
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -79,37 +85,27 @@ class Cxx11RegisterAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_register_get_details(self, outfile, register):
+        offset_name = "offset"
+
         for am_key, am_list in register.access_mechanisms.items():
             for am in am_list:
                 if am.is_read():
-                    size_type = self._register_size_type(register)
-
-                    if register.arch == "generic":
-                        addr_calc = "reinterpret_cast<" + size_type + " *>("
-                        addr_calc += str(am.component) + '_base_address() + offset'
+                    reg_size_type = self._register_size_type(register)
+                    addr_size_type = self._address_size_type(am)
+                    if am.is_memory_mapped():
+                        addr_calc = 'view.base_address + ' + offset_name
                         if register.is_indexed:
-                            addr_calc += " + (index * sizeof(" + size_type + "))"
-                        addr_calc += ")"
+                            addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
-                        self._declare_variable(outfile, "* address", addr_calc,
-                                               keywords=[size_type])
+                        self._declare_variable(outfile, "address", addr_calc, keywords=[addr_size_type])
 
-                        outfile.write("return *address;")
-                    else:
-                        if am.is_memory_mapped():
-                            addr_calc = str(am.component) + '_base_address() + offset'
-                            if register.is_indexed:
-                                addr_calc += " + (index * sizeof(" + size_type + "))"
+                    self._declare_variable(outfile, "value", 0, [reg_size_type])
 
-                            self._declare_variable(outfile, "address", addr_calc,
-                                                   keywords=[size_type])
+                    self.call_readable_access_mechanism(
+                        outfile, register, am, "value"
+                    )
+                    outfile.write("return value;")
 
-                        self._declare_variable(outfile, "value", 0, [size_type])
-
-                        self.call_readable_access_mechanism(
-                            outfile, register, am, "value"
-                        )
-                        outfile.write("return value;")
                     return
 
     def _declare_register_set(self, outfile, register):
@@ -117,7 +113,13 @@ class Cxx11RegisterAccessorWriter():
         gadget = self.gadgets["pal.cxx.function_definition"]
         gadget.name = "set"
         gadget.return_type = "void"
-        gadget.args = [(size_type, "value")]
+        gadget.args = []
+
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
+        gadget.args.append((size_type, "value"))
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -127,31 +129,22 @@ class Cxx11RegisterAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_register_set_details(self, outfile, register):
+        offset_name = "offset"
+
         for am_key, am_list in register.access_mechanisms.items():
             for am in am_list:
                 if am.is_write():
-                    size_type = self._register_size_type(register)
-
-                    if register.arch == "generic":
-                        addr_calc = "reinterpret_cast<" + size_type + " *>("
-                        addr_calc += str(am.component) + '_base_address() + offset'
+                    reg_size_type = self._register_size_type(register)
+                    addr_size_type = self._address_size_type(am)
+                    if am.is_memory_mapped():
+                        addr_calc = 'view.base_address + ' + offset_name
                         if register.is_indexed:
-                            addr_calc += " + (index * sizeof(" + size_type + "))"
-                        addr_calc += ")"
+                            addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
-                        self._declare_variable(outfile, "* address", addr_calc,
-                                               keywords=[size_type])
-                        outfile.write("*address = value;")
-                    else:
-                        if am.is_memory_mapped():
-                            addr_calc = str(am.component) + '_base_address() + offset'
-                            if register.is_indexed:
-                                addr_calc += " + (index * sizeof(" + size_type + "))"
+                        self._declare_variable(outfile, "address", addr_calc, keywords=[addr_size_type])
 
-                            self._declare_variable(outfile, "address", addr_calc,
-                                                   keywords=[size_type])
+                    self.call_writable_access_mechanism(
+                        outfile, register, am, "value"
+                    )
 
-                        self.call_writable_access_mechanism(
-                            outfile, register, am, "value"
-                        )
                     return

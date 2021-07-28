@@ -23,6 +23,8 @@ class CxxHeaderGenerator(AbstractGenerator):
 
             logger.info("Generating C++ header file registers to: " + str(outpath))
 
+            peripherals = {}
+
             for reg in regs:
                 include_guard = "PAL_" + reg.name.upper() + "_H"
                 self.gadgets["pal.include_guard"].name = include_guard
@@ -30,9 +32,29 @@ class CxxHeaderGenerator(AbstractGenerator):
                 outfile_path = os.path.join(outpath, reg.name.lower() + ".h")
                 outfile_path = os.path.abspath(outfile_path)
 
+                namespace_name = "pal"
+                if reg.component:
+                    namespace_name = namespace_name + "::" + reg.component.lower()
+                self.gadgets["pal.cxx.namespace"].name = namespace_name
+
                 with open(outfile_path, "w") as outfile:
-                    self.gadgets["pal.cxx.namespace"].name = "pal"
                     self._generate_register(outfile, reg)
+
+                if reg.component:
+                    if reg.component not in peripherals:
+                        peripherals[reg.component] = [reg]
+                    else:
+                        peripherals[reg.component].append(reg)
+
+            for name, regs in peripherals.items():
+                include_guard = "PAL_" + reg.component.upper() + "_H"
+                self.gadgets["pal.include_guard"].name = include_guard
+                self.gadgets["pal.cxx.namespace"].name = namespace_name
+                outfile_path = os.path.join(outpath, reg.component.lower() + ".h")
+                outfile_path = os.path.abspath(outfile_path)
+
+                with open(outfile_path, "w") as outfile:
+                    self.__generate_peripheral(outfile, regs)
 
             self.gadgets["pal.cxx.namespace"].indent_contents = False
 
@@ -149,3 +171,13 @@ class CxxHeaderGenerator(AbstractGenerator):
         self.writer.declare_field_accessors(outfile, reg, field)
         if self.config.enable_printers == True:
             self.writer.declare_field_printers(outfile, reg, field)
+
+    @pal.gadget.license
+    @pal.gadget.include_guard
+    def __generate_peripheral(self, outfile, regs):
+        self.writer.declare_peripheral_dependencies(outfile, regs, self.config)
+        self.__generate_peripheral_namespace(outfile, regs)
+
+    @pal.gadget.cxx.namespace
+    def __generate_peripheral_namespace(self, outfile, regs):
+        self.writer.declare_peripheral_views(outfile, regs)

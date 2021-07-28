@@ -81,6 +81,10 @@ class Cxx11FieldAccessorWriter():
         gadget.args = []
         gadget.name = "is_enabled"
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -89,16 +93,12 @@ class Cxx11FieldAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_bitfield_is_set_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
+        self.call_register_get(outfile, register, "value")
 
         return_statement = "return (value & {mask}) != 0;".format(
             mask=self._field_mask_string(register, field),
         )
 
-        self._declare_variable(outfile, "value", reg_get, ["auto"])
         outfile.write(return_statement)
 
     def _declare_bitfield_is_set_val(self, outfile, register, field):
@@ -127,6 +127,10 @@ class Cxx11FieldAccessorWriter():
         gadget.args = []
         gadget.name = "is_disabled"
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -135,16 +139,12 @@ class Cxx11FieldAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_bitfield_is_clear_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
+        self.call_register_get(outfile, register, "value")
 
         return_statement = "return (value & {mask}) == 0;".format(
             mask=self._field_mask_string(register, field),
         )
 
-        self._declare_variable(outfile, "value", reg_get, ["auto"])
         outfile.write(return_statement)
 
     def _declare_bitfield_is_clear_val(self, outfile, register, field):
@@ -171,6 +171,10 @@ class Cxx11FieldAccessorWriter():
         gadget.args = []
         gadget.name = "enable"
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -179,18 +183,15 @@ class Cxx11FieldAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_bitfield_set_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
+        self.call_register_get(outfile, register, "value")
 
-        reg_set = "{reg_set}({index}value | {mask});".format(
+        reg_set = "{reg_set}({view}{index}value | {mask});".format(
             mask=self._field_mask_string(register, field),
+            view="view, " if register.component else "",
             reg_set=self._register_write_function_name(register),
             index="index, " if register.is_indexed else ""
         )
 
-        self._declare_variable(outfile, "value", reg_get, ["auto"])
         outfile.write(reg_set)
 
     def _declare_bitfield_set_val(self, outfile, register, field):
@@ -216,6 +217,10 @@ class Cxx11FieldAccessorWriter():
         gadget.args = []
         gadget.name = "disable"
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -224,18 +229,15 @@ class Cxx11FieldAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_bitfield_clear_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
+        self.call_register_get(outfile, register, "value")
 
-        reg_set = "{reg_set}({index}value & ~{mask});".format(
+        reg_set = "{reg_set}({view}{index}value & ~{mask});".format(
             mask=self._field_mask_string(register, field),
+            view="view, " if register.component else "",
             reg_set=self._register_write_function_name(register),
             index="index, " if register.is_indexed else ""
         )
 
-        self._declare_variable(outfile, "value", reg_get, ["auto"])
         outfile.write(reg_set)
 
     def _declare_bitfield_clear_val(self, outfile, register, field):
@@ -263,6 +265,10 @@ class Cxx11FieldAccessorWriter():
         gadget.args = []
         gadget.name = "get"
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -271,17 +277,13 @@ class Cxx11FieldAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_field_get_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
+        self.call_register_get(outfile, register, "value")
 
         return_statement = "return (value & {mask}) >> {lsb};".format(
             mask=self._field_mask_string(register, field),
             lsb=self._field_lsb_string(register, field),
         )
 
-        self._declare_variable(outfile, "value", reg_get, ["auto"])
         outfile.write(return_statement)
 
     def _declare_field_get_val(self, outfile, register, field):
@@ -309,8 +311,14 @@ class Cxx11FieldAccessorWriter():
 
         gadget = self.gadgets["pal.cxx.function_definition"]
         gadget.return_type = "void"
-        gadget.args = [(size_type, "value")]
+        gadget.args = []
         gadget.name = "set"
+
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
+        gadget.args.append((size_type, "value"))
 
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
@@ -320,10 +328,7 @@ class Cxx11FieldAccessorWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_field_set_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
+        self.call_register_get(outfile, register, "register_value")
 
         old_field_removed = "register_value = register_value & ~{mask};".format(
             mask=self._field_mask_string(register, field),
@@ -334,11 +339,12 @@ class Cxx11FieldAccessorWriter():
             lsb=self._field_lsb_string(register, field),
         )
 
-        reg_set = "{reg_set}(register_value);".format(
+        reg_set = "{reg_set}({view}{index}register_value);".format(
             reg_set=self._register_write_function_name(register),
+            view="view, " if register.component else "",
+            index="index, " if register.is_indexed else "",
         )
 
-        self._declare_variable(outfile, "register_value", reg_get, ["auto"])
         outfile.write(old_field_removed)
         self.write_newline(outfile)
         outfile.write(new_field_added)

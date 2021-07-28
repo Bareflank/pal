@@ -87,7 +87,7 @@ class CFieldAccessorWriter():
         gadget.name = self._bitfield_is_enabled_function_name(register, field)
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -131,7 +131,7 @@ class CFieldAccessorWriter():
         gadget.name = self._bitfield_is_disabled_function_name(register, field)
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -173,7 +173,7 @@ class CFieldAccessorWriter():
         gadget.name = self._bitfield_enable_function_name(register, field)
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -217,7 +217,7 @@ class CFieldAccessorWriter():
         gadget.name = self._bitfield_disable_function_name(register, field)
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -264,7 +264,7 @@ class CFieldAccessorWriter():
         gadget.name = self._field_read_function_name(register, field)
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -311,7 +311,7 @@ class CFieldAccessorWriter():
         gadget.args = []
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         gadget.args.append((size_type, "value"))

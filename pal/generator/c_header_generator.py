@@ -26,6 +26,8 @@ class CHeaderGenerator(AbstractGenerator):
 
             logger.info("Generating C header file registers to: " + str(outpath))
 
+            peripherals = {}
+
             for reg in regs:
                 include_guard = "PAL_" + reg.name.upper() + "_H"
                 self.gadgets["pal.include_guard"].name = include_guard
@@ -37,13 +39,19 @@ class CHeaderGenerator(AbstractGenerator):
                     self._generate_register(outfile, reg)
 
                 if reg.component:
-                    include_guard = "PAL_" + reg.component.upper() + "_H"
-                    self.gadgets["pal.include_guard"].name = include_guard
-                    outfile_path = os.path.join(outpath, reg.component.lower() + ".h")
-                    outfile_path = os.path.abspath(outfile_path)
+                    if reg.component not in peripherals:
+                        peripherals[reg.component] = [reg]
+                    else:
+                        peripherals[reg.component].append(reg)
 
-                    with open(outfile_path, "w") as outfile:
-                        self.__generate_component_file(outfile, reg)
+            for name, regs in peripherals.items():
+                include_guard = "PAL_" + reg.component.upper() + "_H"
+                self.gadgets["pal.include_guard"].name = include_guard
+                outfile_path = os.path.join(outpath, reg.component.lower() + ".h")
+                outfile_path = os.path.abspath(outfile_path)
+
+                with open(outfile_path, "w") as outfile:
+                    self.__generate_peripheral(outfile, regs)
 
         except Exception as e:
             msg = "{g} failed to generate output {out}: {exception}".format(
@@ -121,9 +129,6 @@ class CHeaderGenerator(AbstractGenerator):
 
     @pal.gadget.license
     @pal.gadget.include_guard
-    def __generate_component_file(self, outfile, reg):
-        outfile.write("typedef struct {} {{ uintptr_t base_address; }} {};".format(
-            "pal_" + str(reg.component) + "_view",
-            "pal_" + str(reg.component) + "_view",
-        ))
-        self.writer.write_newline(outfile, count=2)
+    def __generate_peripheral(self, outfile, regs):
+        self.writer.declare_peripheral_dependencies(outfile, regs, self.config)
+        self.writer.declare_peripheral_views(outfile, regs)

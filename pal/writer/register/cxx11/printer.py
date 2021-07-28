@@ -21,6 +21,10 @@ class Cxx11PrinterWriter():
         gadget.return_type = "void"
         gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -29,14 +33,7 @@ class Cxx11PrinterWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_fieldset_print_details(self, outfile, register, fieldset):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
-        keywords = ["auto"]
-        name = "register_value"
-        self._declare_variable(outfile, name, value=reg_get, keywords=keywords)
-
+        self.call_register_get(outfile, register, "register_value")
         outfile.write("print(printf_ptr, register_value);")
 
     def _declare_fieldset_print_value(self, outfile, register, fieldset):
@@ -61,6 +58,10 @@ class Cxx11PrinterWriter():
         gadget.return_type = "void"
         gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
+        if register.component:
+            view_type = self._view_type(register)
+            gadget.args.append((view_type, "view"))
+
         if register.is_indexed:
             gadget.args.append(("uint32_t", "index"))
             gadget.name = gadget.name + "_at_index"
@@ -69,25 +70,10 @@ class Cxx11PrinterWriter():
 
     @pal.gadget.cxx.function_definition
     def _declare_field_print_details(self, outfile, register, field):
-        reg_get = "{reg_get}({index})".format(
-            reg_get=self._register_read_function_name(register),
-            index="index" if register.is_indexed else "",
-        )
-        keywords = ["auto"]
-        name = "register_value"
-        self._declare_variable(outfile, name, value=reg_get, keywords=keywords)
+        self.call_register_get(outfile, register, "register_value")
+        self.call_field_get(outfile, register, field, "field_value",
+                            "register_value")
 
-        if field.msb == field.lsb:
-            field_get = "{field_get}(register_value)".format(
-                field_get=self._bitfield_is_set_function_name(register, field),
-            )
-        else:
-            field_get = "{field_get}(register_value)".format(
-                field_get=self._field_read_function_name(register, field),
-            )
-        name = "field_value"
-        self._declare_variable(outfile, name, value=field_get,
-                               keywords=keywords)
         outfile.write("print(printf_ptr, field_value);")
 
     def _declare_field_print_value(self, outfile, register, field):

@@ -46,6 +46,10 @@ from pal.writer.instruction.libpal_cxx11 import LibpalCxx11InstructionWriter
 from pal.writer.instruction.libpal_rust import LibpalRustInstructionWriter
 from pal.writer.instruction.none import NoneInstructionWriter
 
+from pal.writer.peripheral.none import NonePeripheralWriter
+from pal.writer.peripheral.c import CPeripheralWriter
+from pal.writer.peripheral.cxx11 import Cxx11PeripheralWriter
+
 language_options = [
     "c",
     "c++11",
@@ -128,6 +132,15 @@ def get_instruction_writer(config):
         return NoneInstructionWriter
 
 
+def get_peripheral_writer(config):
+    if config.language == "c":
+        return CPeripheralWriter
+    elif config.language == "c++11":
+        return Cxx11PeripheralWriter
+    else:
+        return NonePeripheralWriter
+
+
 def get_comment_writer(config):
     if config.language == "c":
         return CMultilineCommentWriter
@@ -159,12 +172,14 @@ def make_writer(config):
     access_mechanism_writer = get_access_mechanism_writer(config)
     register_writer = get_register_writer(config)
     instruction_writer = get_instruction_writer(config)
+    peripheral_writer = get_peripheral_writer(config)
     comment_writer = get_comment_writer(config)
 
     class Writer(
             AbstractWriter,
             register_writer,
             instruction_writer,
+            peripheral_writer,
             access_mechanism_writer,
             print_mechanism_options[config.print_mechanism],
             file_format_options[config.file_format],

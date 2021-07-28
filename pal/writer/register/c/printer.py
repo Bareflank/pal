@@ -22,7 +22,7 @@ class CPrinterWriter():
         gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
@@ -64,7 +64,7 @@ class CPrinterWriter():
         gadget.args = [("int" , "(*printf_ptr) (char const *str, ...)")]
 
         if register.component:
-            view_type = "const pal_" + register.component.lower() + "_view *"
+            view_type = self._view_type(register)
             gadget.args.append((view_type, "view"))
 
         if register.is_indexed:
