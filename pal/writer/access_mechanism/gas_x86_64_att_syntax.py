@@ -31,6 +31,9 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "read":
             self._call_memory_read_access_mechanism(outfile, register,
                                                access_mechanism, result)
+        elif access_mechanism.name == "read_pci_config":
+            self._call_read_pci_config_access_mechanism(outfile, register,
+                                               access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "Intel x86_64 gas att assembler syntax"
@@ -55,6 +58,9 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
                                                access_mechanism, value)
         elif access_mechanism.name == "write":
             self._call_memory_write_access_mechanism(outfile, register,
+                                               access_mechanism, value)
+        elif access_mechanism.name == "write_pci_config":
+            self._call_write_pci_config_access_mechanism(outfile, register,
                                                access_mechanism, value)
         else:
             msg = "Access mechnism {am} is not supported using "
@@ -157,6 +163,43 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
             clobbers='"memory"'
         )
 
+    def _call_read_pci_config_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        if access_mechanism.offset % 4 == 0:
+            shift_instruction = ""
+        elif access_mechanism.offset % 4 == 1:
+            shift_instruction = "shr $8, %[v]"
+        elif access_mechanism.offset % 4 == 2:
+            shift_instruction = "shr $16, %[v]"
+        elif access_mechanism.offset % 4 == 3:
+            shift_instruction = "shr $24, %[v]"
+        else:
+            raise PalWriterException("Invalid offset for read_pci_config access mechanism: " + str(access_mechanism.offest))
+
+        if register.size == 8:
+            mask_instruction = "and $0xFF, %[v]"
+        elif register.size == 16:
+            mask_instruction = "and $0xFFFF, %[v]"
+        elif register.size == 32:
+            mask_instruction = ""
+        else:
+            raise PalWriterException("Invalid register size for read_pci_config access mechanism: " + str(register.size))
+
+        self._write_inline_assembly(outfile, [
+                "mov $0xCF8, %%dx",
+                "mov %[a], %%eax",
+                "outl %%eax, %%dx",
+                "mov $0xCFC, %%dx",
+                "inl %%dx, %%eax",
+                "mov %%eax, %[v]",
+                shift_instruction,
+                mask_instruction,
+            ],
+            inputs='[a] "r"(address)',
+            outputs='[v] "=r"(' + str(result) + ')',
+            clobbers='"eax", "dx"'
+        )
+
     def _call_mov_write_access_mechanism(self, outfile, register,
                                          access_mechanism, value):
         self._write_inline_assembly(outfile, [
@@ -229,14 +272,66 @@ class GasX86_64AttSyntaxAccessMechanismWriter(AccessMechanismWriter):
             clobbers='"memory"'
         )
 
+    def _call_write_pci_config_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        if register.size == 32 and access_mechanism.offset % 4 == 0:
+            self._write_inline_assembly(outfile, [
+                    "mov $0xCF8, %%dx",
+                    "mov %[a], %%eax",
+                    "outl %%eax, %%dx",
+                    "mov $0xCFC, %%dx",
+                    "mov %[v], %%eax",
+                    "outl %%eax, %%dx",
+                ],
+                inputs='[a] "r"(address), [v] "r"(' + str(result) + ')',
+                clobbers='"eax", "dx"'
+            )
+        else:
+            if access_mechanism.offset % 4 == 0:
+                shift_instruction = ""
+            elif access_mechanism.offset % 4 == 1:
+                shift_instruction = "shl $8, %[v]"
+            elif access_mechanism.offset % 4 == 2:
+                shift_instruction = "shl $16, %[v]"
+            elif access_mechanism.offset % 4 == 3:
+                shift_instruction = "shl $24, %[v]"
+            else:
+                raise PalWriterException("Invalid offset for write_pci_config access mechanism: " + str(access_mechanism.offest))
+
+            if register.size == 8:
+                mask_instruction = "and $0xFF, %[v]"
+            elif register.size == 16:
+                mask_instruction = "and $0xFFFF, %[v]"
+            elif register.size == 32:
+                mask_instruction = ""
+            else:
+                raise PalWriterException("Invalid register size for write_pci_config access mechanism: " + str(register.size))
+
+            self._write_inline_assembly(outfile, [
+                    "mov $0xCF8, %%dx",
+                    "mov %[a], %%eax",
+                    "outl %%eax, %%dx",
+                    "mov $0xCFC, %%dx",
+                    "inl %%dx, %%eax",
+                    mask_instruction,
+                    shift_instruction,
+                    "or %k[v], %%eax",
+                    "outl %%eax, %%dx",
+                ],
+                inputs='[a] "r"(address)',
+                outputs='[v] "+r"(' + str(result) + ')',
+                clobbers='"eax", "dx"'
+            )
+
     def _write_inline_assembly(self, outfile, statements, outputs="",
                                inputs="", clobbers=""):
         outfile.write("__asm__ __volatile__(")
         self.write_newline(outfile)
         for statement in statements:
-            self.write_indent(outfile)
-            outfile.write("\"" + str(statement) + ";\"")
-            self.write_newline(outfile)
+            if statement:
+                self.write_indent(outfile)
+                outfile.write("\"" + str(statement) + ";\"")
+                self.write_newline(outfile)
 
         self.write_indent(outfile)
         outfile.write(": " + str(outputs))

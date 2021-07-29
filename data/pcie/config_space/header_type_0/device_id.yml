@@ -1,0 +1,23 @@
+- name: device_id
+  long_name: "Device ID Register"
+  purpose: |
+       "
+       The Device ID register is HwInit and the value in this register
+       identifies the particular Function. The Device ID must be allocated by
+       the vendor. The Device ID, in conjunction with the Vendor ID and
+       Revision ID, are used as one mechanism for software to determine which
+       driver should be loaded. The vendor must ensure that the chosen values
+       do not result in the use of an incompatible device driver.
+       "
+  size: 16
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x2
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x2

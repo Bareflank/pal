@@ -89,11 +89,11 @@ class Cxx11PrinterWriter():
     def _declare_field_print_value_details(self, outfile, register, field):
         if field.msb == field.lsb:
             field_get = "{field_get}(register_value)".format(
-                field_get=self._bitfield_is_set_function_name(register, field),
+                field_get=self._bitfield_is_set_in_value_function_name(register, field),
             )
         else:
             field_get = "{field_get}(register_value)".format(
-                field_get=self._field_read_function_name(register, field),
+                field_get=self._field_read_from_value_function_name(register, field),
             )
         keywords = ["auto"]
         name = "field_value"

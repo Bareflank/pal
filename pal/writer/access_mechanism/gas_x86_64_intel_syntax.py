@@ -31,6 +31,9 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
         elif access_mechanism.name == "read":
             self._call_memory_read_access_mechanism(outfile, register,
                                                access_mechanism, result)
+        elif access_mechanism.name == "read_pci_config":
+            self._call_read_pci_config_access_mechanism(outfile, register,
+                                               access_mechanism, result)
         else:
             msg = "Access mechnism {am} is not supported using "
             msg += "Intel x86_64 gas intel assembler syntax"
@@ -55,6 +58,9 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
                                                access_mechanism, value)
         elif access_mechanism.name == "write":
             self._call_memory_write_access_mechanism(outfile, register,
+                                               access_mechanism, value)
+        elif access_mechanism.name == "write_pci_config":
+            self._call_write_pci_config_access_mechanism(outfile, register,
                                                access_mechanism, value)
         else:
             msg = "Access mechnism {am} is not supported using "
@@ -165,6 +171,43 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
             inputs='[v] "r"(' + value + ')'
         )
 
+    def _call_read_pci_config_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        if access_mechanism.offset % 4 == 0:
+            shift_instruction = ""
+        elif access_mechanism.offset % 4 == 1:
+            shift_instruction = "shr %[v], 8"
+        elif access_mechanism.offset % 4 == 2:
+            shift_instruction = "shr %[v], 16"
+        elif access_mechanism.offset % 4 == 3:
+            shift_instruction = "shr %[v], 24"
+        else:
+            raise PalWriterException("Invalid offset for read_pci_config access mechanism: " + str(access_mechanism.offest))
+
+        if register.size == 8:
+            mask_instruction = "and %[v], 0xFF"
+        elif register.size == 16:
+            mask_instruction = "and %[v], 0xFFFF"
+        elif register.size == 32:
+            mask_instruction = ""
+        else:
+            raise PalWriterException("Invalid register size for read_pci_config access mechanism: " + str(register.size))
+
+        self._write_inline_assembly(outfile, [
+                "mov dx, 0xCF8",
+                "mov eax, %[a]",
+                "out dx, eax",
+                "mov dx, 0xCFC",
+                "in eax, dx",
+                "mov %[v], eax",
+                shift_instruction,
+                mask_instruction,
+            ],
+            inputs='[a] "r"(address)',
+            outputs='[v] "=r"(' + str(result) + ')',
+            clobbers='"eax", "dx"'
+        )
+
     def _call_wrmsr_access_mechanism(self, outfile, register, access_mechanism,
                                      value):
         self._write_inline_assembly(outfile, [
@@ -229,11 +272,63 @@ class GasX86_64IntelSyntaxAccessMechanismWriter(AccessMechanismWriter):
             clobbers='"memory"'
         )
 
+    def _call_write_pci_config_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        if register.size == 32:
+            self._write_inline_assembly(outfile, [
+                    "mov dx, 0xCF8",
+                    "mov eax, %[a]",
+                    "out dx, eax",
+                    "mov dx, 0xCFC",
+                    "mov eax, %[v]",
+                    "out dx, eax",
+                ],
+                inputs='[a] "r"(address), [v] "r"(' + str(result) + ')',
+                clobbers='"eax", "dx"'
+            )
+        else:
+            if access_mechanism.offset % 4 == 0:
+                shift_instruction = ""
+            elif access_mechanism.offset % 4 == 1:
+                shift_instruction = "shl %[v], 8"
+            elif access_mechanism.offset % 4 == 2:
+                shift_instruction = "shl %[v], 16"
+            elif access_mechanism.offset % 4 == 3:
+                shift_instruction = "shl %[v], 24"
+            else:
+                raise PalWriterException("Invalid offset for write_pci_config access mechanism: " + str(access_mechanism.offest))
+
+            if register.size == 8:
+                mask_instruction = "and %[v], 0xFF"
+            elif register.size == 16:
+                mask_instruction = "and %[v], 0xFFFF"
+            elif register.size == 32:
+                mask_instruction = ""
+            else:
+                raise PalWriterException("Invalid register size for write_pci_config access mechanism: " + str(register.size))
+
+            self._write_inline_assembly(outfile, [
+                    "mov dx, 0xCF8",
+                    "mov eax, %[a]",
+                    "out dx, eax",
+                    "mov dx, 0xCFC",
+                    "in eax, dx",
+                    mask_instruction,
+                    shift_instruction,
+                    "or eax, %k[v]",
+                    "out dx, eax",
+                ],
+                inputs='[a] "r"(address)',
+                outputs='[v] "+r"(' + str(result) + ')',
+                clobbers='"eax", "dx"'
+            )
+
     def _write_inline_assembly(self, outfile, statements, outputs="",
                                inputs="", clobbers=""):
         outfile.write("__asm__ __volatile__(\n")
         for statement in statements:
-            outfile.write("    \"" + str(statement) + ";\"\n")
+            if statement:
+                outfile.write("    \"" + str(statement) + ";\"\n")
 
         outfile.write("    : " + str(outputs) + "\n")
         outfile.write("    : " + str(inputs) + "\n")

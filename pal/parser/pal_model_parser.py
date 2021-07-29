@@ -80,10 +80,24 @@ class PalModelParser(AbstractParser):
                 am = pal.model.generic.access_mechanism.Read()
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["read"].append(am)
+
             elif am_yml["name"] == "write":
                 am = pal.model.generic.access_mechanism.Write()
                 am.offset = am_yml["offset"]
                 register.access_mechanisms["write"].append(am)
+
+            elif am_yml["name"] == "read_pci_config":
+                am = pal.model.intel.access_mechanism.ReadPciConfig()
+                am.name = am_yml["name"]
+                am.offset = am_yml["offset"]
+                register.access_mechanisms["read_pci_config"].append(am)
+
+            elif am_yml["name"] == "write_pci_config":
+                am = pal.model.intel.access_mechanism.WritePciConfig()
+                am.name = am_yml["name"]
+                am.offset = am_yml["offset"]
+                register.access_mechanisms["write_pci_config"].append(am)
+
             elif am_yml["name"] == "mov_read":
                 am = pal.model.intel.access_mechanism.MOVRead()
                 am.name = am_yml["name"]
