@@ -56,6 +56,12 @@ class CRegisterAccessorWriter():
         elif register.access_mechanisms.get("write"):
             offset = register.access_mechanisms["write"][0].offset
             self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
+        elif register.access_mechanisms.get("read_pci_config"):
+            offset = register.access_mechanisms["read_pci_config"][0].offset
+            self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
+        elif register.access_mechanisms.get("write_pci_config"):
+            offset = register.access_mechanisms["write_pci_config"][0].offset
+            self._declare_preprocessor_constant(outfile, prefix + "offset", hex(offset))
 
 
         self.write_newline(outfile)
@@ -85,21 +91,41 @@ class CRegisterAccessorWriter():
                 if am.is_read():
                     reg_size_type = self._register_size_type(register)
                     addr_size_type = self._address_size_type(am)
+
                     if am.is_memory_mapped():
                         addr_calc = 'view->base_address + ' + offset_name
                         if register.is_indexed:
                             addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
                         self._declare_variable(outfile, "address", addr_calc, keywords=[addr_size_type])
+                        self._declare_variable(outfile, "value", 0, [reg_size_type])
 
-                    self._declare_variable(outfile, "value", 0, [reg_size_type])
+                        self.call_readable_access_mechanism(
+                            outfile, register, am, "value"
+                        )
+                        outfile.write("return value;")
+                        return
 
-                    self.call_readable_access_mechanism(
-                        outfile, register, am, "value"
-                    )
-                    outfile.write("return value;")
+                    elif am.name.lower() == "read_pci_config":
+                        addr_calc = 'view->base_address + ' + str(hex(am.offset - (am.offset % 4)))
+                        if register.is_indexed:
+                            addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
-                    return
+                        self._declare_variable(outfile, "address", addr_calc, keywords=["uint32_t"])
+                        self._declare_variable(outfile, "value", 0, ["uint32_t"])
+                        self.call_readable_access_mechanism(
+                            outfile, register, am, "value"
+                        )
+                        outfile.write("return ({})value;".format(reg_size_type))
+                        return
+
+                    else:
+                        self._declare_variable(outfile, "value", 0, [reg_size_type])
+                        self.call_readable_access_mechanism(
+                            outfile, register, am, "value"
+                        )
+                        outfile.write("return value;")
+                        return
 
     def _declare_register_set(self, outfile, register):
         size_type = self._register_size_type(register)
@@ -129,12 +155,20 @@ class CRegisterAccessorWriter():
                 if am.is_write():
                     reg_size_type = self._register_size_type(register)
                     addr_size_type = self._address_size_type(am)
+
                     if am.is_memory_mapped():
                         addr_calc = 'view->base_address + ' + offset_name
                         if register.is_indexed:
                             addr_calc += " + (index * sizeof(" + reg_size_type + "))"
 
                         self._declare_variable(outfile, "address", addr_calc, keywords=[addr_size_type])
+
+                    elif am.name.lower() == "write_pci_config":
+                        addr_calc = 'view->base_address + ' + str(hex(am.offset - (am.offset % 4)))
+                        if register.is_indexed:
+                            addr_calc += " + (index * sizeof(" + reg_size_type + "))"
+
+                        self._declare_variable(outfile, "address", addr_calc, keywords=["uint32_t"])
 
                     self.call_writable_access_mechanism(
                         outfile, register, am, "value"

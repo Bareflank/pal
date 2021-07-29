@@ -1,0 +1,139 @@
+- name: BAR
+  long_name: "Base Address Register"
+  purpose: |
+       "
+       System software must build a consistent address map before booting the
+       machine to an operating system. This means it has to determine how much
+       memory is in the system, and how much address space the Functions in the
+       system require. After determining this information, system software can
+       map the Functions into reasonable locations and proceed with system
+       boot. In order to do this mapping in a device-independent manner, the
+       base registers for this mapping are placed in the predefined header
+       portion of Configuration Space. It is strongly recommended that power-up
+       firmware/software also support the optional Enhanced Configuration
+       Access Mechanism (ECAM).
+       "
+  size: 32
+  arch: generic
+  component: pcie_config_space_header_type_0
+  is_indexed: True
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x10
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x10
+
+  fieldsets:
+      - name: memory
+        condition: "Base Address registers that map to Memory Space must return a 0b in bit 0"
+        size: 32
+
+        fields:
+            - name: "Memory Space Indicator"
+              long_name: "Memory Space Indicator"
+              description: |
+                  "
+                  Bit 0 in all Base Address registers is read-only and used to
+                  determine whether the register maps into Memory or I/O Space
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: "Memory Type"
+              long_name: "Memory Type"
+              description: |
+                  "
+                  For Memory Base Address registers, bits 2 and 1 have an
+                  encoded meaning as shown in Table 7-8
+                  "
+              lsb: 1
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: "Prefetchable"
+              long_name: "Prefetchable"
+              description: |
+                  "
+                  Bit 3 should be set to 1b if the data is prefetchable and set
+                  to 0b otherwise
+                  "
+              lsb: 3
+              msb: 3
+              readable: True
+              writable: True
+
+            - name: "Base Address"
+              long_name: "Base Address"
+              description: |
+                  "
+                  The number of upper bits that a Function actually implements
+                  depends on how much of the address space the Function will
+                  respond to. A 32-bit Base Address register can be implemented
+                  to support a single memory size that is a power of 2 from 16
+                  bytes to 2 GB. A Function that wants a 1 MB memory address
+                  space (using a 32-bit Base Address register) would build the
+                  top 12 bits of the address register, hardwiring the other
+                  bits to 0's. The attributes for some of the bits in the BAR
+                  are affected by the Resizable BAR Capability, if it is
+                  implemented.
+                  "
+              lsb: 4
+              msb: 31
+              readable: True
+              writable: True
+
+      - name: io
+        condition: "Base Address registers that map to I/O Space must return a 1b in bit 0"
+        size: 32
+
+        fields:
+            - name: "Memory Space Indicator"
+              long_name: "Memory Space Indicator"
+              description: |
+                  "
+                  Controls a Function's response to I/O Space accesses. When
+                  this bit is Clear, all received I/O accesses are caused to be
+                  handled as Unsupported Requests. When this bit is Set, the
+                  Function is enabled to decode the address and further process
+                  I/O Space accesses. For a Function with a Type 1
+                  Configuration Space Header, this bit controls the response to
+                  I/O Space accesses received on its Primary Side.  Default
+                  value of this bit is 0b.  This bit is permitted to be
+                  hardwired to 0b if a Function does not support I/O Space
+                  accesses.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: "Reserved"
+              long_name: "Reserved"
+              lsb: 1
+              msb: 1
+              reserved0: True
+
+            - name: "Base Address"
+              long_name: "Base Address"
+              description: |
+                  "
+                  The number of upper bits that a Function actually implements
+                  depends on how much of the address space the Function will
+                  respond to. A 32-bit Base Address register can be implemented
+                  to support a single memory size that is a power of 2 from 16
+                  bytes to 2 GB. A Function that wants a 1 MB memory address
+                  space (using a 32-bit Base Address register) would build the
+                  top 12 bits of the address register, hardwiring the other
+                  bits to 0's. The attributes for some of the bits in the BAR
+                  are affected by the Resizable BAR Capability, if it is
+                  implemented.
+                  "
+              lsb: 2
+              msb: 31
+              readable: True
+              writable: True

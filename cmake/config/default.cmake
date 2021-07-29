@@ -90,6 +90,12 @@ option(
 )
 
 option(
+    PAL_PCIE
+    "Enable pal for PCIe devices"
+    OFF
+)
+
+option(
     PAL_TEST
     "Enable the project's tests"
     OFF

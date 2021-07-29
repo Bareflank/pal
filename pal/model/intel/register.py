@@ -41,6 +41,8 @@ class IntelRegister(Register):
         = datafield(default_factory= lambda: {
             "mov_read": [],
             "mov_write": [],
+            "read_pci_config": [],
+            "write_pci_config": [],
             "cpuid": [],
             "rdmsr": [],
             "wrmsr": [],

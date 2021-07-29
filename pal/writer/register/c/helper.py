@@ -35,10 +35,10 @@ class CHelperWriter():
             return "uint64_t"
 
     def _address_size_type(self, access_mechanism):
-        if access_mechanism.name == "port_in":
-            return "uint32_t"
-        if access_mechanism.name == "port_out":
-            return "uint32_t"
+        if access_mechanism.name == "read_pci_config":
+            return "uint16_t"
+        if access_mechanism.name == "write_pci_config":
+            return "uint16_t"
         else:
             return "uintptr_t"
 

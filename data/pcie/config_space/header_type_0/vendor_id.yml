@@ -1,0 +1,24 @@
+- name: vendor_id
+  long_name: "Vendor ID Register"
+  purpose: |
+       "
+       The Vendor ID register is HwInit and the value in this register
+       identifies the manufacturer of the Function. In keeping with PCI-SIG
+       procedures, valid vendor identifiers must be allocated by the PCI-SIG to
+       ensure uniqueness. Each vendor must have at least one Vendor ID. It is
+       recommended that software read the Vendor ID register to determine if a
+       Function is present, where a value of FFFFh indicates that no Function
+       is present.
+       "
+  size: 16
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x0
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x0

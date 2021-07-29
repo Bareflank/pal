@@ -31,9 +31,9 @@ class Cxx11HelperWriter():
             return "uint64_t"
 
     def _address_size_type(self, access_mechanism):
-        if access_mechanism.name == "port_in":
+        if access_mechanism.name == "read_pci_config":
             return "uint32_t"
-        if access_mechanism.name == "port_out":
+        if access_mechanism.name == "write_pci_config":
             return "uint32_t"
         else:
             return "uintptr_t"
@@ -77,8 +77,18 @@ class Cxx11HelperWriter():
             indexed="_at_index" if register.is_indexed else ""
         )
 
+    def _bitfield_is_set_in_value_function_name(self, register, field):
+        return "{field_name}::is_enabled".format(
+            field_name=field.name.lower(),
+        )
+
     def _field_read_function_name(self, register, field):
         return "{field_name}::get{indexed}".format(
             field_name=field.name.lower(),
             indexed="_at_index" if register.is_indexed else ""
+        )
+
+    def _field_read_from_value_function_name(self, register, field):
+        return "{field_name}::get".format(
+            field_name=field.name.lower(),
         )

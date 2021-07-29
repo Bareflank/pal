@@ -57,6 +57,10 @@ function(pal_run_generator)
         list(APPEND GENERATE_CMD --acpi=on)
     endif()
 
+    if(PAL_PCIE)
+        list(APPEND GENERATE_CMD --pcie=on)
+    endif()
+
     add_custom_command(
         COMMAND ${GENERATE_CMD}
         COMMAND cmake -E touch ${TARGET_OUTPUT_STAMP}

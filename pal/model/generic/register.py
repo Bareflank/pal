@@ -16,4 +16,6 @@ class GenericRegister(Register):
         = datafield(default_factory= lambda: {
             "read": [],
             "write": [],
+            "read_pci_config": [],
+            "write_pci_config": [],
         })

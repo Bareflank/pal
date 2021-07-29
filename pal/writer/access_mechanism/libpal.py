@@ -19,6 +19,8 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'xsetbv': self.__declare_xsetbv_dependencies,
             'read': self.__declare_read_dependencies,
             'write': self.__declare_write_dependencies,
+            'read_pci_config': self.__declare_read_pci_config_dependencies,
+            'write_pci_config': self.__declare_write_pci_config_dependencies,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -36,6 +38,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'mov_read': self.__call_mov_read_access_mechanism,
             'xgetbv': self.__call_xgetbv_read_access_mechanism,
             'read': self.__call_memory_read_access_mechanism,
+            'read_pci_config': self.__call_read_pci_config_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -54,6 +57,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'vmwrite': self.__call_vmwrite_access_mechanism,
             'xsetbv': self.__call_xsetbv_access_mechansim,
             'write': self.__call_memory_write_access_mechanism,
+            'write_pci_config': self.__call_write_pci_config_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -119,8 +123,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
         outfile.write("#include <pal/instruction/xsetbv.h>")
         self.write_newline(outfile)
 
-    def __declare_read_dependencies(self, outfile, register,
-                                      access_mechanism):
+    def __declare_read_dependencies(self, outfile, register, access_mechanism):
             if register.size == 8:
                 outfile.write('#include "pal/instruction/read_mem8.h"')
                 self.write_newline(outfile)
@@ -143,8 +146,7 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                 )
                 raise PalWriterException(msg)
 
-    def __declare_write_dependencies(self, outfile, register,
-                                      access_mechanism):
+    def __declare_write_dependencies(self, outfile, register, access_mechanism):
             if register.size == 8:
                 outfile.write('#include "pal/instruction/write_mem8.h"')
                 self.write_newline(outfile)
@@ -167,6 +169,15 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                 )
                 raise PalWriterException(msg)
 
+    def __declare_read_pci_config_dependencies(self, outfile, register,
+                                      access_mechanism):
+            outfile.write('#include "pal/instruction/in_32.h"')
+            self.write_newline(outfile)
+
+    def __declare_write_pci_config_dependencies(self, outfile, register,
+                                      access_mechanism):
+            outfile.write('#include "pal/instruction/out_32.h"')
+            self.write_newline(outfile)
 
     def __call_cpuid_access_mechanism(self, outfile, register,
                                       access_mechanism, result):
@@ -250,6 +261,42 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
         self.write_newline(outfile)
         self.write_newline(outfile)
 
+    def __call_read_pci_config_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        self.write_newline(outfile)
+        outfile.write('pal_execute_out_32(0xCF8, address);')
+        self.write_newline(outfile)
+        if register.size == 32:
+            outfile.write('{} = pal_execute_in_32(0xCFC);'.format(
+                result,
+            ))
+        else:
+            if access_mechanism.offset % 4 == 0:
+                shift = "0"
+            elif access_mechanism.offset % 4 == 1:
+                shift = "1"
+            elif access_mechanism.offset % 4 == 2:
+                shift = "2"
+            elif access_mechanism.offset % 4 == 3:
+                shift = "3"
+            else:
+                raise PalWriterException("Invalid offset for read_pci_config access mechanism: " + str(access_mechanism.offest))
+
+            if register.size == 8:
+                mask = "0x000000FF"
+            elif register.size == 16:
+                mask = "0x0000FFFF"
+            else:
+                raise PalWriterException("Invalid register size for read_pci_config access mechanism: " + str(register.size))
+
+            outfile.write('{result} = (pal_execute_in_32(0xCFC) >> {shift}) & {mask};'.format(
+                result=result,
+                shift=shift,
+                mask=mask,
+            ))
+        self.write_newline(outfile)
+        self.write_newline(outfile)
+
     def __call_memory_write_access_mechanism(self, outfile, register,
                                             access_mechanism, result):
         self.write_newline(outfile)
@@ -257,5 +304,41 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             str(register.size),
             result,
         ))
+        self.write_newline(outfile)
+        self.write_newline(outfile)
+
+    def __call_write_pci_config_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        self.write_newline(outfile)
+        outfile.write('pal_execute_out_32(0xCF8, address);')
+        self.write_newline(outfile)
+        if register.size == 32:
+            outfile.write('pal_execute_out_32(0xCFC, {});'.format(
+                result,
+            ))
+        else:
+            if access_mechanism.offset % 4 == 0:
+                shift = "0"
+            elif access_mechanism.offset % 4 == 1:
+                shift = "1"
+            elif access_mechanism.offset % 4 == 2:
+                shift = "2"
+            elif access_mechanism.offset % 4 == 3:
+                shift = "3"
+            else:
+                raise PalWriterException("Invalid offset for read_pci_config access mechanism: " + str(access_mechanism.offest))
+
+            if register.size == 8:
+                mask = "0x000000FF"
+            elif register.size == 16:
+                mask = "0x0000FFFF"
+            else:
+                raise PalWriterException("Invalid register size for read_pci_config access mechanism: " + str(register.size))
+
+            outfile.write('pal_execute_out_32(0xCFC, (({result} & {mask}) << {shift}) | pal_execute_in_32(0xCFC));'.format(
+                result=result,
+                shift=shift,
+                mask=mask,
+            ))
         self.write_newline(outfile)
         self.write_newline(outfile)

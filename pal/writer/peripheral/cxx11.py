@@ -21,7 +21,8 @@ class Cxx11PeripheralWriter(PeripheralWriter):
 
         for am_key, am_list in reg.access_mechanisms.items():
             for am in am_list:
-                size_type = self._address_size_type(am)
+                if am.name == "read_pci_config" or am.name == "write_pci_config":
+                    size_type = "uint32_t"
 
         outfile.write(view_declaration.format(
             size_type=size_type,

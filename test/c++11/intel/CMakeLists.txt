@@ -11,6 +11,7 @@ set(REGISTER_SOURCES
     eptp.cpp
     guest_interrupt_status.cpp
     facs.cpp
+    pcie_config_space.cpp
     main.cpp
 )
 
@@ -34,6 +35,7 @@ add_custom_command(
         --print_mechanism=printf_utf8
         --file_format=unix
         --acpi=ON
+        --pcie=ON
     COMMAND cmake -E touch ${INTEL_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${INTEL_SYNTAX_OUTPUT_STAMP}
     DEPENDS ${PAL_SRC_FILES}
@@ -71,6 +73,7 @@ add_custom_command(
         --print_mechanism=printf_utf8
         --file_format=unix
         --acpi=ON
+        --pcie=ON
     COMMAND cmake -E touch ${ATT_SYNTAX_OUTPUT_STAMP}
     OUTPUT ${ATT_SYNTAX_OUTPUT_STAMP}
     DEPENDS ${PAL_SRC_FILES}
@@ -108,6 +111,7 @@ add_custom_command(
         --print_mechanism=printf_utf8
         --file_format=unix
         --acpi=ON
+        --pcie=ON
         COMMAND cmake -E touch ${LIBPAL_SYNTAX_OUTPUT_STAMP}
         OUTPUT ${LIBPAL_SYNTAX_OUTPUT_STAMP}
         DEPENDS ${REGISTER_SOURCES}

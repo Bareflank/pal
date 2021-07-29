@@ -163,6 +163,10 @@ c = Configuration("acpi", False)
 c.description = "EXPERIMENTAL: Set to True to generate accessors for ACPI"
 config.add_configuration(c)
 
+c = Configuration("pcie", False)
+c.description = "EXPERIMENTAL: Set to True to generate accessors for PCIe"
+config.add_configuration(c)
+
 # -----------------------------------------------------------------------------
 # Paths
 # -----------------------------------------------------------------------------
