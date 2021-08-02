@@ -1,92 +1,167 @@
 ![PAL](https://github.com/Bareflank/pal/raw/gh-pages/PAL-logo.png)
 
-Are you working on a bare-metal software project for Intel or ARM?
+The Bareflank PAL (**P**rocessor/**P**eripheral **A**bstraction **L**ayer) project
+provides developers and researchers of systems (operating systems,
+hypervisors, platform firmware) with a software API for manipulating low-level
+system state (instructions and registers) within a CPU. The project also provides
+APIs for register-level interfaces (memory-mapped, I/O mapped) for peripheral
+devices and system data structures.
 
-Are you sick of hunting through a 6000 page .pdf file to find basic facts about the contents of a system register?
+The PAL project consists of:
 
-Do you hate reading and writing code that ```sets |= (bitfields && like) << this;```? (and accidentally using logical AND instead of bitwise AND in the process?)
+* A [database](data) (yaml files) that describes facts (normally documented by .pdf
+manuals) about how a CPU (e.g. Intel, AMD, ARMv8), peripheral (e.g. PCIe device)
+or data structure (e.g. ACPI table) is structured and accessed.
+* [Code generators](pal) (C, C++, Rust) that create a library of accessor functions
+(a software API) for manipulating the information described by the database.
+* [Support libraries](libpal) and [shims](devpal) (e.g. drivers) that enable generated accessor
+functions to integrate and run in numerous execution contexts (e.g. inline
+assembly code, or forwarded from an application to a driver via an IOCTL)
+* Build system interfaces that provide integration with a variety of compilers,
+languages, and toolchains
+* [Examples](example) that demonstrate how to use PAL's generated APIs in each supported
+programming language
 
-Is your software so tightly coupled to your CPU that unit testing seems impossible?
+The PAL project enables a variety of different use cases:
 
-## You could use a PAL!
+* Control (read/write/execute) and view (print) the contents of hardware devices in a bare-metal software project
+* Research, audit, test, or control privileged system state from an unprivileged application (much like [Chipsec](https://github.com/chipsec/chipsec) or [RWEverything](http://rweverything.com/))
+* Build test harnesses, mock devices, or hardware emulators
 
-The Bareflank **P**rocessor **A**bstraction **L**ayer transforms facts about your CPU into a software support library. This lets you access and manipulate the low-level details of your hardware through a convinient software API. Supose you are working on a C++ project for the Intel platform, and compiling/assembling with a GNU toolchain:
+## A Brief Example
 
-0. Install Python > 3.6, and then ```pip3 install lxml dataclasses colorama pyyaml```
+To demonstrate what PAL is all about, let's implement a small program
+that uses PALs generated APIs for the Intel platform in 3 different languages
+(C, C++, Rust).  The program defines a single function that performs the
+following tasks: 
 
-1. Generate a PAL for your project:
+* Read the value of the IA32_FEATURE_CONTROL MSR by name
+* Read the value of the IA32_TSC MSR using its address, and the x86 RDMSR instruction
+* Enable paging by setting the PG bit (bit 31) in control register CR0
+* Print the value of CPUID leaf 0x1, output register EAX
 
-```
-git clone https://github.com/bareflank/pal.git
-./pal/pal.py --arch=intel_x64 --language=c++11 --access_mechanism=gas_att
-cp -r pal/output </path/to/your/project>
-```
+### C
 
-2. Profit!
-
-```
-#include "pal/control_register/cr0.h"
+```c
 #include "pal/msr/ia32_feature_control.h"
+#include "pal/msr/ia32_tsc.h"
+#include "pal/control_register/cr0.h"
 #include "pal/cpuid/leaf_01_eax.h"
 
-void pal_test(void)
+void pal_example(void)
 {
-    pal::cr0::pg::enable();                      // <-- Enable paging in CR0
-    auto msr = pal::ia32_feature_control::get(); // <-- Read the current value of an MSR
-    pal::leaf_01_eax::dump();                    // <-- Print the value of a CPUID leaf
+    uint64_t msr1 = pal_get_ia32_feature_control();
+    uint64_t msr2 = pal_execute_rdmsr(PAL_IA32_TSC_ADDRESS);
+    pal_enable_cr0_pg();
+    pal_print_leaf_01_eax();
 }
-
 ```
 
-3. Reuse the code above *in userspace* for your unit tests:
+### C++
+
+```c++
+#include "pal/msr/ia32_feature_control.h"
+#include "pal/msr/ia32_tsc.h"
+#include "pal/control_register/cr0.h"
+#include "pal/cpuid/leaf_01_eax.h"
+
+void pal_example(void)
+{
+    auto msr1 = pal::ia32_feature_control::get();
+    auto msr2 = pal::execute_rdmsr(pal::ia32_tsc::ADDRESS);
+    pal::cr0::pg::enable();
+    pal::leaf_01_eax::print();
+}
+```
+
+### Rust
+
+```rust
+use pal;
+
+pub fn pal_example() {
+    let msr1 = pal::msr::ia32_feature_control::get();
+    let msr2 = pal::instruction::execute_rdmsr(pal::msr::ia32_tsc::ADDRESS);
+    pal::control_register::cr0::pg::enable();
+    pal::cpuid::leaf_01_eax::print();
+}
+```
+
+For more examples that show how to use PAL with different CPU architectures and peripheral devices, check out the project's [example](example) and [test](test) directories.
+
+## Dependencies
+
+Build-time dependencies will vary depending on your host system, target language, build system, and compiler toolchain. The following provides a good starting point for using most of PAL's features:
+
+### Ubuntu
+
+For running the code generator:
+```
+sudo apt-get install python3 python3-pip
+pip3 install lxml dataclasses colorama pyyaml
+```
+
+For building support libraries and shims:
+```
+sudo apt-get install cmake cmake-curses-gui build-essential linux-headers-$(uname -r)
+```
+
+### Windows
+
+TODO
+
+## Building and Integrating
+
+There are numerous build interfaces to configure, generate, and build PAL APIs for use with your project. Depending on the needs of your target language, compiler toolchain and execution environment, you may need to use one or more of the following build interfaces.
+
+### CMake (C/C++)
+
+CMake provides the easiest way to integrate all of PAL's features with C and C++ projects. The CMake build interface works by specifying a configuration input that describes what PAL should generate code for (fomatted as `-DPAL_<ARCHITECTURE>_<EXCECUTION_STATE>_<SOURCE_ENVIRONMENT>_<TARGET_ENVIRONMENT>=ON`). Cmake then runs the code generator and builds any necessary support libraries and shims for that configuration. Example (run from the project's top directory):
 
 ```
-./pal/pal.py --arch=intel_x64 --language=c++11 --access_mechanism=test
-```
-
-4. Explore other built-in configuration options:
-
-```
-./pal/pal --help
-```
-
-## Are you using CMake?
-
-PAL has first class CMake support:
-
-```
-git clone https://github.com/bareflank/pal.git
 mkdir build && cd build
-cmake ../pal -DPAL_TARGET_ARCH=armv8a -DPAL_ACCESS_MECHANISM=gas_aarch64
+cmake .. -DPAL_INTEL_64BIT_SYSTEMV_GNUATT=ON
 make
 ```
 
-If you would like to build PAL using CMake on Windows, install the 
-[ninja](https://github.com/ninja-build/ninja/releases)
-build tool first.
+To explore all available configuration opions for the CMake build interface, run the following from your CMake build directory:
+```
+ccmake .
+```
 
-## Does PAL generate *everything* from the \<insert_vendor_name\> manual?
-Not yet, but it does support a whole lot. Is the project missing something that you need? Help us add it! There are a few different ways you can contribute new defintions to the project:
+### Cargo (Rust, experimental)
 
-1) Author and contribute a .yml file to the [project's data directory](data). You can copy an exisitng definition as a starting point. One .yml file == one register defintion.
+Cargo provides the easiest way to integrate all of PAL's features with Rust projects. The Cargo build interface works by specifying a crate feature that describes what PAL should generate code for (fomatted as `<architecture>_<execution_state>_<source_environment>_<target_environment`). Cargo then runs the PAL code generator and builds any necessary support libraries and shims for that configuration. Example (place this into your project's Cargo.toml):
+```toml
+[dependencies.pal]
+git = "ssh://git@ssh.github.com/bareflank/pal.git"
+features = ["intel_64bit_linux_ioctl"]
+```
 
-2) Contribute a new [parser](pal/parser) for another existing source of information. For example, PAL can generate ARMv8-A register definitons from [ARM's offical machine readable spec](https://developer.arm.com/architectures/cpu-architecture/a-profile/exploration-tools).
+To explore all available configuration opions for the Cargo build interface, see the `[features]` section of PAL's [Cargo.toml](Cargo.toml) file
 
-3) PAL can generate the project's built in .yml files *for you*, if you can provide a way to parse an existing source of information into a [PAL model](pal/model).
+### Code Generator
 
+If you want to generate code from the project's database that does not require any support libraries (e.g. C/C++ code with inline assembly), you can run the code generator directly. Example:
 
-## Current status and scope
+```
+./pal/pal.py --arch=intel_x64 --language=c --access_mechanism=gas_att
+```
 
-This project is primarily being developed as a support library for the [Bareflank Hypervisor SDK](https://github.com/bareflank/hypervisor), but we hope that other projects will benefit as well. Scope is currently limited to:
+To explore all available configuration opions for the code generator:
 
-1. System registers of a CPU.
-2. Intel x86_64
-3. ARMv8-A
-4. C and C++
+```
+./pal/pal/py --help
+```
 
-The project's future wish-list currently consists of support for:
+## Project status and scope
 
-1. Instructions of a CPU
-2. Registers of peripheral devices (e.g. IOMMU, PCIe, etc)
-3. Additional microarchitectures
-4. Additional programming languages
+TODO: Need to make a grid/table that shows support for many different arch/language/runtime scenarios:
+
+## Is the project missing something you need?
+
+Contributions, enhancements and feature requests to the project are welcome. In addition to the backlog in project's issue tracker, the project will always be seeking support for:
+
+* Additional database entries. Is the project missing a defintion for something you need? Help us add it!
+* Database auditing. Did you find a mistake in a database entry? Help us fix it!
+* Database maintenance. Do you work for an orginization that designs or publishes the information described in our database? Get in touch to help us maintain the data over time!
