@@ -62,7 +62,7 @@ string (REPLACE ".c" ".o" OBJECT_FILES "${SOURCE_FILES_STRING}")
 
 set(EXTRA_CFLAGS_LIST
     "-D__kernel__"
-    "-I${CMAKE_SOURCE_DIR}/devpal/include"
+    "-I${PAL_SOURCE_ROOT_DIR}/devpal/include"
 )
 string (REPLACE ";" " " EXTRA_CFLAGS "${EXTRA_CFLAGS_LIST}")
 
