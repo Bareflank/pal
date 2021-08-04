@@ -1,6 +1,6 @@
 add_library(pal_intel_64bit_linux_ioctl)
 target_include_directories(pal_intel_64bit_linux_ioctl PRIVATE
-    ${CMAKE_SOURCE_DIR}/devpal/include
+    ${PAL_SOURCE_ROOT_DIR}/devpal/include
 )
 
 target_sources(pal_intel_64bit_linux_ioctl PRIVATE
