@@ -12,5 +12,9 @@ pal_execute_vmcall_xen :
     mov r10, r8
     mov r8, r9
     pop r9
+    push rcx
+    push r11
     vmcall
+    pop r11
+    pop rcx
     ret

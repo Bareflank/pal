@@ -37,7 +37,7 @@ long handle_devpal_ioctl_vmcall_xen(struct vmcall_xen_operands * user_ops)
         : [aout] "=r"(rax_out)
         : [rax] "r"(rax_in), [rdi] "r"(rdi_in), [rsi] "r"(rsi_in), [rdx] "r"(rdx_in),
           [r10] "r"(r10_in), [r8] "r"(r8_in), [r9] "r"(r9_in)
-        : "rax", "rbx", "rcx", "rdx", "rsi"
+        : "rax", "rcx", "rdx", "rdi", "rsi", "r8", "r9", "r10", "r11"
     );
 
     kern_ops.out.rax = rax_out;
