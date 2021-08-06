@@ -8,7 +8,7 @@ add_custom_command(
         -o ${CMAKE_INSTALL_PREFIX}
         --execution_state=armv8a_aarch32
         --language=c
-        --access_mechanism=gas_aarch32
+        --access_mechanism=gnu_inline
         --print_mechanism=printf_utf8
         --file_format=unix
     COMMAND cmake -E touch ${PROJECT_OUTPUT_STAMP}

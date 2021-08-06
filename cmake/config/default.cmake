@@ -54,14 +54,8 @@ option(
 )
 
 option(
-    PAL_INTEL_64BIT_SYSTEMV_GNUATT
-    "Enable pal for Intel (64-bit) from the systemv ABI to GNU inline assemler (AT&T syntax)"
-    OFF
-)
-
-option(
-    PAL_INTEL_64BIT_SYSTEMV_GNUINTEL
-    "Enable pal for Intel (64-bit) from the systemv ABI to GNU inline assemler (Intel syntax)"
+    PAL_INTEL_64BIT_SYSTEMV_GNUINLINE
+    "Enable pal for Intel (64-bit) from the SystemV ABI to GNU inline Assemler"
     OFF
 )
 

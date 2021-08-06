@@ -6,14 +6,12 @@ from pal.writer.register.rust.register_writer import RustRegisterWriter
 from pal.writer.register.yaml import YamlRegisterWriter
 from pal.writer.register.none import NoneRegisterWriter
 
-from pal.writer.access_mechanism.gas_x86_64_intel_syntax import \
-    GasX86_64IntelSyntaxAccessMechanismWriter
-from pal.writer.access_mechanism.gas_x86_64_att_syntax import \
-    GasX86_64AttSyntaxAccessMechanismWriter
-from pal.writer.access_mechanism.gas_aarch64 import \
-    GasAarch64AccessMechanismWriter
-from pal.writer.access_mechanism.gas_aarch32 import \
-    GasAarch32AccessMechanismWriter
+from pal.writer.access_mechanism.gnu_inline_x64 import \
+    GnuInlineX64AccessMechanismWriter
+from pal.writer.access_mechanism.gnu_inline_aarch64 import \
+    GnuInlineAarch64AccessMechanismWriter
+from pal.writer.access_mechanism.gnu_inline_aarch32 import \
+    GnuInlineAarch32AccessMechanismWriter
 from pal.writer.access_mechanism.libpal import \
     LibpalAccessMechanismWriter
 from pal.writer.access_mechanism.rust_libpal import \
@@ -59,10 +57,7 @@ language_options = [
 ]
 
 access_mechanism_options = [
-    "gas_intel",
-    "gas_att",
-    "gas_aarch64",
-    "gas_aarch32",
+    "gnu_inline",
     "libpal",
     "test",
     "yaml",
@@ -84,14 +79,12 @@ file_format_options = {
 
 
 def get_access_mechanism_writer(config):
-    if config.execution_state == "intel_64bit" and config.access_mechanism == "gas_intel":
-        return GasX86_64IntelSyntaxAccessMechanismWriter
-    elif config.execution_state == "intel_64bit" and config.access_mechanism == "gas_att":
-        return GasX86_64AttSyntaxAccessMechanismWriter
-    elif config.execution_state == "armv8a_aarch64" and config.access_mechanism == "gas_aarch64":
-        return GasAarch64AccessMechanismWriter
-    elif config.execution_state == "armv8a_aarch32" and config.access_mechanism == "gas_aarch32":
-        return GasAarch32AccessMechanismWriter
+    if config.execution_state == "intel_64bit" and config.access_mechanism == "gnu_inline":
+        return GnuInlineX64AccessMechanismWriter
+    elif config.execution_state == "armv8a_aarch64" and config.access_mechanism == "gnu_inline":
+        return GnuInlineAarch64AccessMechanismWriter
+    elif config.execution_state == "armv8a_aarch32" and config.access_mechanism == "gnu_inline":
+        return GnuInlineAarch32AccessMechanismWriter
     elif config.access_mechanism == "test" and config.language == "c++11":
         return CxxTestAccessMechanismWriter
     elif config.access_mechanism == "test" and config.language == "c":

@@ -109,7 +109,7 @@ config  = PalConfig()
 # -----------------------------------------------------------------------------
 
 c = Configuration("execution_state", "intel_64bit")
-c.description = "The target architecture"
+c.description = "The target architecture + execution state"
 c.options = ["armv8a_aarch64", "armv8a_aarch32", "intel_64bit", "amd_64bit"]
 config.add_configuration(c)
 
@@ -118,10 +118,9 @@ c.description = "The target programming language"
 c.options = ["c", "c++11", "rust", "yaml", "none"]
 config.add_configuration(c)
 
-c = Configuration("access_mechanism", "gas_att")
+c = Configuration("access_mechanism", "gnu_inline")
 c.description = "The target access mechanism type"
-c.options = ["gas_att", "gas_intel", "gas_aarch64", "gas_aarch32", "test",
-             "libpal", "yaml", "none"]
+c.options = ["gnu_inline", "libpal", "test", "yaml", "none"]
 config.add_configuration(c)
 
 c = Configuration("print_mechanism", "printf_utf8")
