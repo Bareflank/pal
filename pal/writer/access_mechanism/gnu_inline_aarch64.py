@@ -4,7 +4,7 @@ from pal.writer.access_mechanism.access_mechanism \
     import AccessMechanismWriter
 
 
-class GasAarch64AccessMechanismWriter(AccessMechanismWriter):
+class GnuInlineAarch64AccessMechanismWriter(AccessMechanismWriter):
 
     def declare_access_mechanism_dependencies(self, outfile, register,
                                        access_mechanism):

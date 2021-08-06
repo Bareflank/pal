@@ -31,7 +31,7 @@ add_custom_command(
         -o ${CMAKE_INSTALL_PREFIX}/intel_asm
         --execution_state=intel_64bit
         --language=c++11
-        --access_mechanism=gas_intel
+        --access_mechanism=gnu_inline
         --print_mechanism=printf_utf8
         --file_format=unix
         --acpi=ON
@@ -69,7 +69,7 @@ add_custom_command(
         -o ${CMAKE_INSTALL_PREFIX}/att_asm
         --execution_state=intel_64bit
         --language=c++11
-        --access_mechanism=gas_att
+        --access_mechanism=gnu_inline
         --print_mechanism=printf_utf8
         --file_format=unix
         --acpi=ON
