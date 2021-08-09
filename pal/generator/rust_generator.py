@@ -92,7 +92,7 @@ class RustGenerator(AbstractGenerator):
                 self.writer.declare_fieldset_printers(outfile, reg, fieldset)
 
     def _generate_instruction(self, outfile, inst):
-        self.writer.declare_instruction_dependencies(outfile, inst)
+        self.writer.declare_instruction_dependencies(outfile, inst, self.config)
         self.writer.declare_instruction_accessor(outfile, inst)
         self.writer.write_newline(outfile)
 

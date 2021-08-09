@@ -120,7 +120,7 @@ CMake provides the easiest way to integrate all of PAL's features with C and C++
 
 ```
 mkdir build && cd build
-cmake .. -DPAL_INTEL_64BIT_SYSTEMV_GNUATT=ON
+cmake .. -DPAL_INTEL_64BIT_SYSTEMV_GNUINLINE=ON
 make
 ```
 
@@ -145,7 +145,7 @@ To explore all available configuration opions for the Cargo build interface, see
 If you want to generate code from the project's database that does not require any support libraries (e.g. C/C++ code with inline assembly), you can run the code generator directly. Example:
 
 ```
-./pal/pal.py --arch=intel_x64 --language=c --access_mechanism=gas_att
+./pal/pal.py --language=c --execution_state=intel_x64 --access_mechanism=gnu_inline
 ```
 
 To explore all available configuration opions for the code generator:

@@ -7,7 +7,7 @@ from typing import TextIO
 
 class LibpalCxx11InstructionWriter(InstructionWriter):
 
-    def declare_instruction_dependencies(self, outfile, instruction):
+    def declare_instruction_dependencies(self, outfile, instruction, config):
         self.__declare_header_includes(outfile, instruction)
         self.__declare_libpal_function_prototypes(outfile, instruction)
 
