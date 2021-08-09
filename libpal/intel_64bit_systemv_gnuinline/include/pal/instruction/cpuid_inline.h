@@ -30,10 +30,10 @@ inline pal_cpuid_return_values pal_execute_cpuid_inline(uint32_t leaf, uint32_t 
         "mov {%%ecx, %[c] | %[c], ecx};"
         "mov {%%edx, %[d] | %[d], edx};"
         : [a] "=r"(eax_out), [b] "=r"(ebx_out), [c] "=r"(ecx_out), [d] "=r"(edx_out)
-        : 
+        : [leaf] "r"(leaf), [subleaf] "r"(subleaf)
         : "eax", "ebx", "ecx", "edx"
     );
-    return pal_cpuid_return_values{eax_out, ebx_out, ecx_out, edx_out};
+    return (pal_cpuid_return_values){.eax=eax_out, .ebx=ebx_out, .ecx=ecx_out, .edx=edx_out};
 }
 
 #ifdef __cplusplus

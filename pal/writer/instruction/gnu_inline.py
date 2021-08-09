@@ -1,10 +1,11 @@
 from pal.writer.instruction.instruction import InstructionWriter
 from pal.model.instruction import Instruction
+import pal.gadget
 
 from typing import TextIO
 
 
-class LibpalCInstructionWriter(InstructionWriter):
+class GnuInlineInstructionWriter(InstructionWriter):
 
     def declare_instruction_dependencies(self, outfile, instruction, config):
         if config.stdint_header:
@@ -13,23 +14,34 @@ class LibpalCInstructionWriter(InstructionWriter):
             outfile.write("#include <stdint.h>")
         self.write_newline(outfile)
 
+        outfile.write('#include "{name}_inline.h"'.format(
+            name=instruction.name.lower()
+        ))
+        self.write_newline(outfile)
+
     def declare_instruction_accessor(self, outfile, instruction):
         self._declare_accessor_comment(outfile, instruction)
 
         for execution_context in instruction.execution_contexts:
-            if len(execution_context.logical_outputs) > 1:
-                self._declare_return_data_structure(outfile, instruction,
-                                                    execution_context)
-
-            accessor = "{rtype} pal_execute_{inst_name}{ec_name}({args});".format(
-                rtype=self._get_accessor_return_type(instruction, execution_context),
+            gadget = self.gadgets["pal.c.function_definition"]
+            gadget.name = "pal_execute_{inst_name}{ec_name}".format(
                 inst_name=instruction.name.lower(),
                 ec_name="_" + execution_context.execution_state.lower() if len(instruction.execution_contexts) > 1 else "",
-                args=self._get_accessor_args(instruction, execution_context)
             )
+            gadget.return_type = self._get_accessor_return_type(instruction, execution_context)
+            gadget.args = self._get_accessor_gadget_args(instruction, execution_context)
 
-            outfile.write(accessor)
-            self.write_newline(outfile)
+
+            self._declare_instruction_accessor_details(outfile, instruction, execution_context)
+
+    @pal.gadget.c.function_definition
+    def _declare_instruction_accessor_details(self, outfile, instruction, execution_context):
+        outfile.write("{ret}pal_execute_{inst_name}{ec_name}_inline({args});".format(
+            ret="return " if execution_context.logical_outputs else "",
+            inst_name=instruction.name.lower(),
+            ec_name="_" + execution_context.execution_state.lower() if len(instruction.execution_contexts) > 1 else "",
+            args=self._get_accessor_args(instruction, execution_context)
+        ))
 
 
     def _declare_accessor_comment(self, outfile, instruction):
@@ -40,27 +52,6 @@ class LibpalCInstructionWriter(InstructionWriter):
         )
         self.declare_comment(outfile, comment_text, 79)
 
-
-    def _declare_return_data_structure(self, outfile, instruction, execution_context):
-        struct_name = self._get_return_struct_name(instruction, execution_context)
-        struct_declaration = "typedef struct {name} {{".format(
-            name=struct_name
-        )
-        outfile.write(struct_declaration)
-        self.write_newline(outfile)
-
-        for logical_output in execution_context.logical_outputs:
-            struct_member = "{c_type} {member_name};".format(
-                c_type=self._get_c_type_from_logical_operand(logical_output),
-                member_name=logical_output.name.lower()
-            )
-            self.write_indent(outfile)
-            outfile.write(struct_member)
-            self.write_newline(outfile)
-
-        outfile.write("}} {name};".format(name=struct_name))
-        self.write_newline(outfile, count=2)
-
     def _get_accessor_return_type(self, instruction, execution_context):
         if len(execution_context.logical_outputs) > 1:
             return self._get_return_struct_name(instruction, execution_context)
@@ -69,18 +60,24 @@ class LibpalCInstructionWriter(InstructionWriter):
         else:
             return "void"
 
+    def _get_accessor_gadget_args(self, instruction, execution_context):
+        args = []
+
+        for idx, logical_input in enumerate(execution_context.logical_inputs):
+            arg_type = self._get_c_type_from_logical_operand(logical_input)
+            arg_name = logical_input.name.lower()
+            args.append((arg_type, arg_name))
+
+        return args
+
     def _get_accessor_args(self, instruction, execution_context):
-        if not execution_context.logical_inputs:
-            return "void"
-        else:
-            args = ""
-            for idx, logical_input in enumerate(execution_context.logical_inputs):
-                next_arg = "{arg_type} {arg_name}{comma}".format(
-                    arg_type=self._get_c_type_from_logical_operand(logical_input),
-                    arg_name=logical_input.name.lower(),
-                    comma="" if idx == len(execution_context.logical_inputs) - 1 else ", "
-                )
-                args = args + next_arg
+        args = ""
+        for idx, logical_input in enumerate(execution_context.logical_inputs):
+            next_arg = "{arg_name}{comma}".format(
+                arg_name=logical_input.name.lower(),
+                comma="" if idx == len(execution_context.logical_inputs) - 1 else ", "
+            )
+            args = args + next_arg
 
         return args
 

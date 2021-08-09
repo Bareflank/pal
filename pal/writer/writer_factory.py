@@ -39,6 +39,7 @@ from pal.writer.comment.rust import RustCommentWriter
 from pal.writer.comment.yaml import YamlCommentWriter
 from pal.writer.comment.none import NoneCommentWriter
 
+from pal.writer.instruction.gnu_inline import GnuInlineInstructionWriter
 from pal.writer.instruction.libpal_c import LibpalCInstructionWriter
 from pal.writer.instruction.libpal_cxx11 import LibpalCxx11InstructionWriter
 from pal.writer.instruction.libpal_rust import LibpalRustInstructionWriter
@@ -115,10 +116,14 @@ def get_register_writer(config):
 
 
 def get_instruction_writer(config):
-    if config.language == "c":
+    if config.language == "c" and config.access_mechanism == "libpal":
         return LibpalCInstructionWriter
-    elif config.language == "c++11":
+    elif config.language == "c" and config.access_mechanism == "gnu_inline":
+        return GnuInlineInstructionWriter
+    elif config.language == "c++11" and config.access_mechanism == "libpal":
         return LibpalCxx11InstructionWriter
+    elif config.language == "c++11" and config.access_mechanism == "gnu_inline":
+        return GnuInlineInstructionWriter
     elif config.language == "rust":
         return LibpalRustInstructionWriter
     else:

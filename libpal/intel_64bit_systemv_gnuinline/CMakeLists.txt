@@ -4,16 +4,34 @@ set_target_properties(pal_intel_64bit_systemv_gnuinline PROPERTIES LINKER_LANGUA
 
 target_include_directories(pal_intel_64bit_systemv_gnuinline PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/include/pal/instruction
 )
 
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/pal/instruction)
 target_sources(pal_intel_64bit_systemv_gnuinline PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/pal/instruction/cpuid_inline.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/pal/instruction/rdmsr_inline.h
+    ${SRC_DIR}/cpuid_inline.h
+    ${SRC_DIR}/rdmsr_inline.h
+    ${SRC_DIR}/read_cr0_inline.h
+    ${SRC_DIR}/read_cr3_inline.h
+    ${SRC_DIR}/write_cr0_inline.h
+    ${SRC_DIR}/write_cr3_inline.h
+    ${SRC_DIR}/wrmsr_inline.h
 )
 
-add_custom_command(
-    TARGET pal_intel_64bit_systemv_gnuinline
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_LIST_DIR}/include
-        ${CMAKE_CURRENT_BINARY_DIR}/include
-)
+if(PAL_C)
+    add_custom_command(
+        TARGET pal_intel_64bit_systemv_gnuinline
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_LIST_DIR}/include
+            ${CMAKE_BINARY_DIR}/c/intel_64bit_systemv_gnuinline/include
+    )
+endif()
+
+if(PAL_C++11)
+    add_custom_command(
+        TARGET pal_intel_64bit_systemv_gnuinline
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_LIST_DIR}/include
+            ${CMAKE_BINARY_DIR}/c++11/intel_64bit_systemv_gnuinline/include
+    )
+endif()

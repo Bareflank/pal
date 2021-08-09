@@ -18,8 +18,10 @@ set(REGISTER_SOURCES
 set(INSTRUCTION_SOURCES
     cpuid.c
     rdmsr.c
+    read_cr0.c
     read_cr3.c
     write_cr3.c
+    wrmsr.c
 )
 
 # -----------------------------------------------------------------------------
@@ -45,12 +47,16 @@ add_custom_target(test_generate_intel_intel_asm ALL DEPENDS ${INTEL_SYNTAX_OUTPU
 
 add_executable(test_compile_intel_intel_asm
     ${REGISTER_SOURCES}
+    ${INSTRUCTION_SOURCES}
 )
 
 target_include_directories(test_compile_intel_intel_asm
     PRIVATE
         ${CMAKE_INSTALL_PREFIX}/intel_asm/include
 )
+
+add_subdirectory(${PAL_SOURCE_DIR}/libpal/intel_64bit_systemv_gnuinline ${CMAKE_CURRENT_BINARY_DIR}/libpal/intel_64bit_systemv_gnuinline)
+target_link_libraries(test_compile_intel_intel_asm pal_intel_64bit_systemv_gnuinline)
 
 target_compile_options(test_compile_intel_intel_asm
     PRIVATE
@@ -82,12 +88,15 @@ add_custom_target(test_generate_intel_att_asm ALL DEPENDS ${ATT_SYNTAX_OUTPUT_ST
 
 add_executable(test_compile_intel_att_asm
     ${REGISTER_SOURCES}
+    ${INSTRUCTION_SOURCES}
 )
 
 target_include_directories(test_compile_intel_att_asm
     PRIVATE
         ${CMAKE_INSTALL_PREFIX}/att_asm/include
 )
+
+target_link_libraries(test_compile_intel_att_asm pal_intel_64bit_systemv_gnuinline)
 
 target_compile_options(test_compile_intel_att_asm
     PRIVATE

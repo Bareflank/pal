@@ -116,7 +116,7 @@ class CxxHeaderGenerator(AbstractGenerator):
     @pal.gadget.license
     @pal.gadget.include_guard
     def _generate_instruction(self, outfile, inst):
-        self.writer.declare_instruction_dependencies(outfile, inst)
+        self.writer.declare_instruction_dependencies(outfile, inst, self.config)
         self.writer.write_newline(outfile)
         self._generate_instruction_namespace(outfile, inst)
 

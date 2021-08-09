@@ -12,11 +12,11 @@ inline uint64_t pal_execute_rdmsr_inline(uint32_t address)
 {
     uint64_t value;
     __asm__ __volatile__(
-        "mov {%[a], %%rcx | rcx, %[a]};"
+        "mov {%q[a], %%rcx | rcx, %q[a]};"
         "rdmsr;"
         "shl {$32, %%rdx | rdx, 32};"
         "or {%%rdx, %%rax | rax, rdx};"
-        "mov {%%rax, %[v] | %[v], rax};"
+        "mov {%%rax, %q[v] | %q[v], rax};"
         : [v] "=r"(value)
         : [a] "r"(address)
         : "rax", "rcx", "rdx"

@@ -7,7 +7,7 @@ from typing import TextIO
 
 class LibpalRustInstructionWriter(InstructionWriter):
 
-    def declare_instruction_dependencies(self, outfile, instruction):
+    def declare_instruction_dependencies(self, outfile, instruction, config):
         ctypes = set([])
         for ec in instruction.execution_contexts:
             for logical_input in ec.logical_inputs:

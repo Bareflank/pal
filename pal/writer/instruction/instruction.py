@@ -2,12 +2,13 @@ import abc
 from typing import TextIO
 
 from pal.model.instruction import Instruction
+from pal.config import PalConfig
 
 class InstructionWriter(abc.ABC):
 
     @abc.abstractmethod
     def declare_instruction_dependencies(self, outfile: TextIO,
-                                     instruction: Instruction) -> None:
+                                     instruction: Instruction, config: PalConfig) -> None:
         pass
 
     @abc.abstractmethod
