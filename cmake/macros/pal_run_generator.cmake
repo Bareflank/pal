@@ -41,10 +41,6 @@ function(pal_run_generator)
         list(APPEND GENERATE_CMD --enable_printers=false --print_mechanism=none)
     endif()
 
-    if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-        list(APPEND GENERATE_CMD --file_format=windows)
-    endif()
-
     if(PAL_QUIET_CMAKE)
         list(APPEND GENERATE_CMD --log_level="error")
     endif()
