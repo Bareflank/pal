@@ -29,8 +29,8 @@ long handle_devpal_ioctl_vmcall_kvm(struct vmcall_kvm_operands * user_ops)
         "vmcall;"
         "mov %%rax, %[aout];"
         : [aout] "=r"(rax_out)
-        : [rax] "r"(rax_in), [rbx] "r"(rbx_in), [rcx] "r"(rcx_in), [rdx] "r"(rdx_in),
-          [rsi] "r"(rsi_in)
+        : [rax] "g"(rax_in), [rbx] "g"(rbx_in), [rcx] "g"(rcx_in), [rdx] "g"(rdx_in),
+          [rsi] "g"(rsi_in)
         : "rax", "rbx", "rcx", "rdx", "rsi"
     );
 
