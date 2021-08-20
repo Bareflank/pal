@@ -1,6 +1,7 @@
 #include <ntddk.h>
 #include <wdf.h>
-#include "pal/instruction/vmcall.h"
+
+void pal_execute_vmcall(void);
 
 void handle_devpal_ioctl_vmcall(
     _In_ WDFREQUEST Request,

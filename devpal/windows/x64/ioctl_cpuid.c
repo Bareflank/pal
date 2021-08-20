@@ -1,7 +1,15 @@
 #include <ntddk.h>
 #include <wdf.h>
 #include "devpal_abi_x64.h"
-#include "pal/instruction/cpuid.h"
+
+typedef struct pal_cpuid_return_values {
+	UINT32 eax;
+	UINT32 ebx;
+	UINT32 ecx;
+	UINT32 edx;
+} pal_cpuid_return_values;
+
+pal_cpuid_return_values pal_execute_cpuid(UINT32 leaf, UINT32 subleaf);
 
 void handle_devpal_ioctl_cpuid(
     _In_ WDFREQUEST Request,

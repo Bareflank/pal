@@ -1,37 +1,36 @@
 #include <ntddk.h>
 #include <wdf.h>
-#include "devpal_abi_x64_intel.h"
-#include "pal/instruction/vmcall_kvm.h"
+#include "devpal_abi_generic.h"
 
-void handle_devpal_ioctl_vmcall_kvm(
+void handle_devpal_ioctl_read_mem16(
     _In_ WDFREQUEST Request,
     _In_ size_t OutputBufferLength,
     _In_ size_t InputBufferLength
 )
 {
     NTSTATUS status;
-    struct vmcall_kvm_operands* operands_in;
-    struct vmcall_kvm_operands* operands_out;
+    struct read_mem16_operands* operands_in;
+    struct read_mem16_operands* operands_out;
     size_t in_buffer_size = 0;
     size_t out_buffer_size = 0;
 
     status = WdfRequestRetrieveInputBuffer(Request, InputBufferLength, &operands_in, &in_buffer_size);
-    if (!NT_SUCCESS(status) || in_buffer_size < sizeof(struct vmcall_kvm_operands)) {
+    if (!NT_SUCCESS(status) || in_buffer_size < sizeof(struct read_mem16_operands)) {
         WdfRequestComplete(Request, STATUS_ACCESS_DENIED);
         return;
     }
 
     status = WdfRequestRetrieveOutputBuffer(Request, OutputBufferLength, &operands_out, &out_buffer_size);
-    if (!NT_SUCCESS(status) || out_buffer_size < sizeof(struct vmcall_kvm_operands)) {
+    if (!NT_SUCCESS(status) || out_buffer_size < sizeof(struct read_mem16_operands)) {
         WdfRequestComplete(Request, STATUS_ACCESS_DENIED);
         return;
     }
 
     WdfRequestSetInformation(Request, out_buffer_size);
     RtlSecureZeroMemory(operands_out, out_buffer_size);
-    RtlCopyMemory(operands_out, operands_in, sizeof(struct vmcall_kvm_operands));
+    RtlCopyMemory(operands_out, operands_in, sizeof(struct read_mem16_operands));
 
-    operands_out->out.rax = pal_execute_vmcall_kvm(operands_in->in.rax, operands_in->in.rbx, operands_in->in.rcx, operands_in->in.rdx, operands_in->in.rsi);
+    operands_out->out.value = *(PUINT16)(operands_in->in.address);
 
     WdfRequestComplete(Request, STATUS_SUCCESS);
 }
