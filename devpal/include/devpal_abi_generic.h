@@ -3,6 +3,12 @@
 
 #ifdef __kernel__
 #include <linux/types.h>
+#elif _KERNEL_MODE
+#include <ntddk.h>
+typedef UINT8 uint8_t;
+typedef UINT16 uint16_t;
+typedef UINT32 uint32_t;
+typedef UINT64 uint64_t;
 #else
 #include <stdint.h>
 #endif

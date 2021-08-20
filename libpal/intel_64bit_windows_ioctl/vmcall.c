@@ -11,7 +11,6 @@ void pal_execute_vmcall(void)
     HANDLE device_handle;
     BOOL ioctl_success;
     DWORD ioctl_bytes_out;
-    struct vmcall_operands vmcall_ops = { 0 };
 
     device_handle = get_devpal_handle();
     if (INVALID_HANDLE_VALUE == device_handle) {
@@ -20,7 +19,7 @@ void pal_execute_vmcall(void)
     }
 
     ioctl_success = DeviceIoControl(device_handle, DEVPAL_EXECUTE_VMCALL,
-        &vmcall_ops, sizeof(struct vmcall_operands), &vmcall_ops, sizeof(struct vmcall_operands),
+        NULL, 0, NULL, 0,
         &ioctl_bytes_out, NULL);
 
     if (!ioctl_success) {

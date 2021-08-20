@@ -16,7 +16,7 @@ uint16_t pal_execute_in_16(uint32_t address)
     device_handle = get_devpal_handle();
     if (INVALID_HANDLE_VALUE == device_handle) {
         printf("Failed to open handle to the devpal device, error: %d\n", GetLastError());
-        return 0xFFFFFFFF;
+        return 0xFFFF;
     }
 
     in_16_ops.in.address = address;
@@ -27,7 +27,7 @@ uint16_t pal_execute_in_16(uint32_t address)
 
     if (!ioctl_success) {
         printf("Failed to execute ioctl to devpal device, error: %d\n", GetLastError());
-        return 0xFFFFFFFF;
+        return 0xFFFF;
     }
 
     CloseHandle(device_handle);
