@@ -2,6 +2,13 @@
 output
 build
 devpal/linux/Makefile
+devpal/windows/visual_studio/.vs
+devpal/windows/visual_studio/x64
+devpal/windows/visual_studio/x86
+devpal/windows/visual_studio/ARM
+devpal/windows/visual_studio/ARM64
+devpal/windows/visual_studio/Debug
+devpal/windows/visual_studio/Release
 target
 Cargo.lock
 *.swp

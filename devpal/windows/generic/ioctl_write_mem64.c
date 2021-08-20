@@ -1,7 +1,6 @@
 #include <ntddk.h>
 #include <wdf.h>
 #include "devpal_abi_generic.h"
-#include "pal/instruction/write_mem64.h"
 
 void handle_devpal_ioctl_write_mem64(
     _In_ WDFREQUEST Request,
