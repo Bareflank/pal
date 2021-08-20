@@ -3,6 +3,12 @@
 
 #ifdef __kernel__
 #include <linux/types.h>
+#elif _KERNEL_MODE
+#include <ntddk.h>
+typedef UINT8 uint8_t;
+typedef UINT16 uint16_t;
+typedef UINT32 uint32_t;
+typedef UINT64 uint64_t;
 #else
 #include <stdint.h>
 #endif
@@ -28,6 +34,10 @@
 #define DEVPAL_EXECUTE_XGETBV 0xFF000012
 #define DEVPAL_EXECUTE_OUT_32 0xFF000013
 #define DEVPAL_EXECUTE_WRMSR 0xFF000014
+#define DEVPAL_EXECUTE_IN_8 0xFF000015
+#define DEVPAL_EXECUTE_IN_16 0xFF000016
+#define DEVPAL_EXECUTE_OUT_8 0xFF000017
+#define DEVPAL_EXECUTE_OUT_16 0xFF000018
 
 // ----------------------------------------------------------------------------
 struct cpuid_inputs {
@@ -47,6 +57,32 @@ struct cpuid_operands {
     struct cpuid_outputs out;
 };
 // ----------------------------------------------------------------------------
+struct in_8_inputs {
+    uint16_t address;
+};
+
+struct in_8_outputs {
+    uint8_t value;
+};
+
+struct in_8_operands {
+    struct in_8_inputs in;
+    struct in_8_outputs out;
+};
+// ----------------------------------------------------------------------------
+struct in_16_inputs {
+    uint16_t address;
+};
+
+struct in_16_outputs {
+    uint16_t value;
+};
+
+struct in_16_operands {
+    struct in_16_inputs in;
+    struct in_16_outputs out;
+};
+// ----------------------------------------------------------------------------
 struct in_32_inputs {
     uint16_t address;
 };
@@ -58,6 +94,24 @@ struct in_32_outputs {
 struct in_32_operands {
     struct in_32_inputs in;
     struct in_32_outputs out;
+};
+// ----------------------------------------------------------------------------
+struct out_8_inputs {
+    uint16_t address;
+    uint8_t value;
+};
+
+struct out_8_operands {
+    struct out_8_inputs in;
+};
+// ----------------------------------------------------------------------------
+struct out_16_inputs {
+    uint16_t address;
+    uint16_t value;
+};
+
+struct out_16_operands {
+    struct out_16_inputs in;
 };
 // ----------------------------------------------------------------------------
 struct out_32_inputs {

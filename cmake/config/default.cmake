@@ -78,6 +78,12 @@ option(
 )
 
 option(
+    PAL_INTEL_64BIT_WINDOWS_IOCTL
+    "Enable pal for Intel (64-bit) from a Windows application to a Windows driver via an IOCTL"
+    OFF
+)
+
+option(
     PAL_ACPI
     "Enable pal for ACPI tables"
     OFF

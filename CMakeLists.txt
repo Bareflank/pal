@@ -160,6 +160,34 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL)
     endif()
 endif()
 
+if(PAL_INTEL_64BIT_WINDOWS_IOCTL)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_intel_64bit_windows_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/intel_64bit_windows_ioctl
+            LANGUAGE c
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_intel_64bit_windows_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/intel_64bit_windows_ioctl
+            LANGUAGE c++11
+            EXECUTION_STATE intel_64bit
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    add_subdirectory(libpal/intel_64bit_windows_ioctl)
+
+    if(PAL_DRIVER)
+        add_subdirectory(devpal/windows)
+    endif()
+endif()
+
 set(CMAKE_INSTALL_MESSAGE NEVER)
 install(
     DIRECTORY ${CMAKE_BINARY_DIR}
