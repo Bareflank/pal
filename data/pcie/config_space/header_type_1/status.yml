@@ -1,0 +1,227 @@
+- name: status
+  long_name: "Status Register"
+  purpose: |
+       "
+       Functions may not need to implement all bits, depending on the feature
+       set supported by the Function.
+       "
+  size: 16
+  arch: generic
+  component: pcie_config_space_header_type_1
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x6
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x6
+
+  fieldsets:
+      - name: v5.0
+        condition: "Fieldset valid on version 5.0 of the PCIe specification"
+        size: 16
+
+        fields:
+            - name: "Immediate Readiness"
+              long_name: "Immediate Readiness"
+              description: |
+                  "
+                  This optional bit, when Set, indicates the Function is
+                  guaranteed to be ready to successfully complete valid
+                  Configuration Requests at any time. It is permitted for this
+                  indication to be based on implementation-specific knowledge
+                  of how long it takes the host to become ready to issue
+                  Configuration Requests.  When this bit is Set, for accesses
+                  to this Function, software is exempt from all requirements to
+                  delay configuration accesses following any type of reset,
+                  including but not limited to the timing requirements defined
+                  in Section 6.6 .
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+
+            - name: "RsvdZ"
+              long_name: "RsvdZ"
+              lsb: 1
+              msb: 2
+              reserved0: True
+
+            - name: "Interrupt Status"
+              long_name: "Interrupt Status"
+              description: |
+                  "
+                  When Set, indicates that an INTx emulation interrupt is
+                  pending internally in the Function. Note that INTx emulation
+                  interrupts forwarded by Functions with a Type 1 Configuration
+                  Space Header from the secondary side are not reflected in
+                  this bit.  Setting the Interrupt Disable bit has no effect on
+                  the state of this bit.  Functions that do not generate INTx
+                  interrupts are permitted to hardwire this bit to 0b. Default
+                  value of this bit is 0b.
+                  "
+              lsb: 3
+              msb: 3
+              readable: True
+
+            - name: "Capabilities List"
+              long_name: "Capabilities List"
+              description: |
+                  "
+                  Indicates the presence of an Extended Capability list item.
+                  Since all PCI Express device Functions are required to
+                  implement the PCI Express Capability structure, this bit must
+                  be hardwired to 1b.
+                  "
+              lsb: 4
+              msb: 4
+              readable: True
+
+            - name: "66 MHz Capable"
+              long_name: "66 MHz Capable"
+              description: |
+                  "
+                  This bit was orginally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b.
+                  "
+              lsb: 5
+              msb: 5
+              readable: True
+
+            - name: "RsvdZ"
+              long_name: "RsvdZ"
+              lsb: 6
+              msb: 6
+              reserved0: True
+
+            - name: "Fast Back-to-Back Transactions Capable"
+              long_name: "Fast Back-to-Back Transactions Capable"
+              description: |
+                  "
+                  This bit was originally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b.
+                  "
+              lsb: 7
+              msb: 7
+              readable: True
+
+            - name: "Master Data Parity Error"
+              long_name: "Master Data Parity Error"
+              description: |
+                  "
+                  This bit is Set by a Function with a Type 0 Configuration
+                  Space Header if the Parity Error Response bit in the Command
+                  Register is 1b and either of the following two conditions
+                  occurs: • Function receives a Poisoned Completion • Function
+                  transmits a Poisoned Request This bit is Set by a Function
+                  with a Type 1 Configuration Space Header if the Parity Error
+                  Response bit in the Command Register is 1b and either of the
+                  following two conditions occurs: • Port receives a Poisoned
+                  Completion going Downstream • Port transmits a Poisoned
+                  Request Upstream If the Parity Error Response bit is 0b, this
+                  bit is never Set. Default value of this bit is 0b.
+                  "
+              lsb: 8
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: "DEVSEL Timing"
+              long_name: "DEVSEL Timing"
+              description: |
+                  "
+                  This field was originally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b.
+                  "
+              lsb: 9
+              msb: 10
+              readable: True
+
+            - name: "Signaled Target Abort"
+              long_name: "Signaled Target Abort"
+              description: |
+                  "
+                  This bit is Set when a Function completes a Posted or
+                  Non-Posted Request as a Completer Abort error. This applies
+                  to a Function with a Type 1 Configuration Space Header when
+                  the Completer Abort was generated by its Primary Side.
+                  Functions with a Type 0 Configuration Space Header that do
+                  not signal Completer Abort are permitted to hardwire this bit
+                  to 0b.  Default value of this bit is 0b.
+                  "
+              lsb: 11
+              msb: 11
+              readable: True
+              writable: True
+
+            - name: "Received Target Abort"
+              long_name: "Received Target Abort"
+              description: |
+                  "
+                  This bit is Set when a Requester receives a Completion with
+                  Completer Abort Completion Status. On a Function with a Type
+                  1 Configuration Space Header, the bit is Set when the
+                  Completer Abort is received by its Primary Side.  Functions
+                  with a Type 0 Configuration Space Header that do not make
+                  Non-Posted Requests on their own behalf are permitted to
+                  hardwire this bit to 0b.  Default value of this bit is 0b.
+                  "
+              lsb: 12
+              msb: 12
+              readable: True
+              writable: True
+
+            - name: "Received Master Abort"
+              long_name: "Received Master Abort"
+              description: |
+                  "
+                  This bit is Set when a Requester receives a Completion with
+                  Unsupported Request Completion Status. On a Function with a
+                  Type 1 Configuration Space Header, the bit is Set when the
+                  Unsupported Request is received by its Primary Side.
+                  Functions with a Type 0 Configuration Space Header that do
+                  not make Non-Posted Requests on their own behalf are
+                  permitted to hardwire this bit to 0b.  Default value of this
+                  bit is 0b.
+                  "
+              lsb: 13
+              msb: 13
+              readable: True
+              writable: True
+
+            - name: "Signaled System Error"
+              long_name: "Signaled System Error"
+              description: |
+                  "
+                  This bit is Set when a Function sends an ERR_FATAL or
+                  ERR_NONFATAL Message, and the SERR# Enable bit in the Command
+                  Register is 1b.  Functions with a Type 0 Configuration Space
+                  Header that do not send ERR_FATAL or ERR_NONFATAL Messages
+                  are permitted to hardwire this bit to 0b.  Default value of
+                  this bit is 0b.
+                  "
+              lsb: 14
+              msb: 14
+              readable: True
+              writable: True
+
+            - name: "Detected Parity Error"
+              long_name: "Detected Parity Error"
+              description: |
+                  "
+                  This bit is Set by a Function whenever it receives a Poisoned
+                  TLP, regardless of the state the Parity Error Response bit in
+                  the Command Register. On a Function with a Type 1
+                  Configuration Space Header, the bit is Set when the Poisoned
+                  TLP is received by its Primary Side.  Default value of this
+                  bit is 0b.
+                  "
+              lsb: 15
+              msb: 15
+              readable: True
+              writable: True

@@ -1,0 +1,24 @@
+- name: interrupt_line
+  long_name: "Interrupt Line Register"
+  purpose: |
+       "
+       The Interrupt Line register communicates interrupt line routing
+       information. The register is read/write and must be implemented by any
+       Function that uses an interrupt pin (see following description). Values
+       in this register are programmed by system software and are system
+       architecture specific. The Function itself does not use this value;
+       rather the value in this register is used by device drivers and
+       operating systems.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_1
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x3C
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x3C

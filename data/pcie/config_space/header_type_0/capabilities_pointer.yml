@@ -1,0 +1,27 @@
+- name: capabilities_pointer
+  long_name: "Capabilities Pointer Register"
+  purpose: |
+       "
+       This register is used to point to a linked list of capabilities
+       implemented by this Function. Since all PCI Express Functions are
+       required to implement both the PCI Power Management Capability and the
+       PCI Express Capability structure, these structures must be included
+       somewhere in the linked list; this register may point to either of these
+       Capability Structures or to an optional Capability Structure implemented
+       by the Function. The bottom two bits are Reserved and must be set to
+       00b. Software must mask these bits off before using this register as a
+       pointer in Configuration Space to the first entry of a linked list of
+       new capabilities.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x34
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x34

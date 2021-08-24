@@ -1,0 +1,80 @@
+- name: bist
+  long_name: "BIST Register"
+  purpose: |
+       "
+       This register is used for control and status of BIST. Functions that do
+       not support BIST must hardwire the register to 00h. A Function whose
+       BIST is invoked must not prevent normal operation of the PCI Express
+       Link. Table 7-7 describes the bits in the register and Figure 7-9 shows
+       the register layout.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0xF
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0xF
+
+  fieldsets:
+      - name: v5.0
+        condition: "Fieldset valid on version 5.0 of the PCIe specification"
+        size: 8
+
+        fields:
+            - name: "Completion Code"
+              long_name: "Completion Code"
+              description: |
+                  "
+                  This field encodes the status of the most recent test. A
+                  value of 0000b means that the Function has passed its test.
+                  Non-zero values mean the Function failed. Function-specific
+                  failure codes can be encoded in the non-zero values.  This
+                  field’s value is only meaningful when BIST Capable is Set and
+                  Start BIST is Clear. Default value of this field is 0000b.
+                  This field must be hardwired to 0000b if BIST Capable is
+                  Clear.
+                  "
+              lsb: 0
+              msb: 3
+              readable: True
+
+            - name: "RsvdP"
+              long_name: "RsvdP"
+              lsb: 4
+              msb: 5
+              reserved0: True
+              preserved: True
+
+            - name: "Start BIST"
+              long_name: "Start BIST"
+              description: |
+                  "
+                  If BIST Capable is Set, Set this bit to invoke BIST. The
+                  Function resets the bit when BIST is complete. Software is
+                  permitted to fail the device if this bit is not Clear (BIST
+                  is not complete) 2 seconds after it had been Set.  Writing
+                  this bit to 0b has no effect.  This bit must be hardwired to
+                  0b if BIST Capable is Clear.
+                  "
+              lsb: 6
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: "BIST Capable"
+              long_name: "BIST Capable"
+              description: |
+                  "
+                  When Set, this bit indicates that the Function supports BIST.
+                  When Clear, the Function does not support BIST.
+                  "
+              lsb: 7
+              msb: 7
+              readable: True
+              writable: True

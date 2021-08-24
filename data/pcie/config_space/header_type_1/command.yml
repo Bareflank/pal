@@ -1,0 +1,237 @@
+- name: command
+  long_name: "Command Register"
+  purpose: |
+       "
+       Individual bits in the Command Register may or may not be implemented
+       depending on the feature set supported by the Function. For PCI Express
+       to PCI/PCI-X Bridges, refer to the [PCIe-to-PCI-PCI-X-Bridge] for
+       requirements for this register.
+       "
+  size: 16
+  arch: generic
+  component: pcie_config_space_header_type_1
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x4
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x4
+
+  fieldsets:
+      - name: v5.0
+        condition: "Fieldset valid on version 5.0 of the PCIe specification"
+        size: 16
+
+        fields:
+            - name: "I/O Space Enable"
+              long_name: "I/O Space Enable"
+              description: |
+                  "
+                  Controls a Function's response to I/O Space accesses. When
+                  this bit is Clear, all received I/O accesses are caused to be
+                  handled as Unsupported Requests. When this bit is Set, the
+                  Function is enabled to decode the address and further process
+                  I/O Space accesses. For a Function with a Type 1
+                  Configuration Space Header, this bit controls the response to
+                  I/O Space accesses received on its Primary Side.  Default
+                  value of this bit is 0b.  This bit is permitted to be
+                  hardwired to 0b if a Function does not support I/O Space
+                  accesses.
+                  "
+              lsb: 0
+              msb: 0
+              readable: True
+              writable: True
+
+            - name: "Memory Space Enable"
+              long_name: "Memory Space Enable"
+              description: |
+                  "
+                  Controls a Function's response to Memory Space accesses. When
+                  this bit is Clear, all received Memory Space accesses are
+                  caused to be handled as Unsupported Requests. When this bit
+                  is Set, the Function is enabled to decode the address and
+                  further process Memory Space accesses. For a Function with a
+                  Type 1 Configuration Space Header, this bit controls the
+                  response to Memory Space accesses received on its Primary
+                  Side.  Default value of this bit is 0b.  This bit is
+                  permitted to be hardwired to 0b if a Function does not
+                  support Memory Space accesses.
+                  "
+              lsb: 1
+              msb: 1
+              readable: True
+              writable: True
+
+            - name: "Bus Master Enable"
+              long_name: "Bus Master Enable"
+              description: |
+                  "
+                  Controls the ability of a Function to issue Memory and I/O
+                  Read/Write Requests, and the ability of a Port to forward
+                  Memory and I/O Read/Write Requests in the Upstream direction
+                  • Functions with a Type 0 Configuration Space Header: When
+                  this bit is Set, the Function is allowed to issue Memory or
+                  I/O Requests.  When this bit is Clear, the Function is not
+                  allowed to issue any Memory or I/O Requests.  Note that as
+                  MSI/MSI-X interrupt Messages are in-band memory writes,
+                  setting the Bus Master Enable bit to 0b disables MSI/MSI-X
+                  interrupt Messages as well.  Requests other than Memory or
+                  I/O Requests are not controlled by this bit.  Default value
+                  of this bit is 0b.  This bit is hardwired to 0b if a Function
+                  does not generate Memory or I/O Requests. • Functions with a
+                  Type 1 Configurations Space Header: This bit controls
+                  forwarding of Memory or I/O Requests by a Port in the
+                  Upstream direction. When this bit is 0b, Memory and I/O
+                  Requests received at a Root Port or the Downstream side of a
+                  Switch Port must be handled as Unsupported Requests (UR), and
+                  for Non-Posted Requests a Completion with UR Completion
+                  Status must be returned. This bit does not affect forwarding
+                  of Completions in either the Upstream or Downstream
+                  direction.  The forwarding of Requests other than Memory or
+                  I/O Requests is not controlled by this bit. Default value of
+                  this bit is 0b.
+                  "
+              lsb: 2
+              msb: 2
+              readable: True
+              writable: True
+
+            - name: "Special Cycle Enable"
+              long_name: "Special Cycle Enable"
+              description: |
+                  "
+                  This bit was orginally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b
+                  "
+              lsb: 3
+              msb: 3
+              readable: True
+
+            - name: "Memory Write and Invalidate"
+              long_name: "Memory Write and Invalidate"
+              description: |
+                  "
+                  This bit was originally described in the [PCI] and the
+                  [PCI-to-PCI-Bridge]. Its functionality does not apply to PCI
+                  Express and the bit must be hardwired to 0b. For PCI Express
+                  to PCI/PCI-X Bridges, refer to the [PCIe-to-PCI-PCI-X-Bridge]
+                  for requirements for this register.
+                  "
+              lsb: 4
+              msb: 4
+              readable: True
+
+            - name: "VGA Palette Snoop"
+              long_name: "VGA Palette Snoop"
+              description: |
+                  "
+                  This bit was orginally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b
+                  "
+              lsb: 5
+              msb: 5
+              readable: True
+
+            - name: "Parity Error Response"
+              long_name: "Parity Error Response"
+              description: |
+                  "
+                  See Section 7.5.1.1.14. This bit controls the logging of
+                  poisoned TLPs in the Master Data Parity Error bit in the
+                  Status Register.  An RCiEP that is not associated with a Root
+                  Complex Event Collector is permitted to hardwire this bit to
+                  0b.  Default value of this bit is 0b.
+                  "
+              lsb: 6
+              msb: 6
+              readable: True
+              writable: True
+
+            - name: "IDSEL Stepping/Wait Cycle Control"
+              long_name: "IDSEL Stepping/Wait Cycle Control"
+              description: |
+                  "
+                  This bit was orginally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b
+                  "
+              lsb: 7
+              msb: 7
+              readable: True
+
+            - name: "SERR# Enable"
+              long_name: "SERR# Enable"
+              description: |
+                  "
+                  When Set, this bit enables reporting upstream of Non-fatal
+                  and Fatal errors detected by the Function. Note that errors
+                  are reported if enabled either through this bit or through
+                  the PCI Express specific bits in the Device Control Register
+                  (see Section 7.5.3.4 ).  In addition, for Functions with Type
+                  1 Configuration Space Headers, this bit controls transmission
+                  by the primary interface of ERR_NONFATAL and ERR_FATAL error
+                  Messages forwarded from the secondary interface. This bit
+                  does not affect the transmission of forwarded ERR_COR
+                  messages.  An RCiEP that is not associated with a Root
+                  Complex Event Collector is permitted to hardwire this bit to
+                  0b.  Default value of this bit is 0b.
+                  "
+              lsb: 8
+              msb: 8
+              readable: True
+              writable: True
+
+            - name: "Fast Back-to-Back Transactions Enable"
+              long_name: "Fast Back-to-Back Transactions Enable"
+              description: |
+                  "
+                  This bit was orginally described in the [PCI]. Its
+                  functionality does not apply to PCI Express and the bit must
+                  be hardwired to 0b
+                  "
+              lsb: 9
+              msb: 9
+              readable: True
+
+            - name: "Interrupt Disable"
+              long_name: "Interrupt Disable"
+              description: |
+                  "
+                  Functions are prevented from asserting INTx interrupts.  Any
+                  INTx emulation interrupts already asserted by the Function
+                  must be deasserted when this bit is Set.  As described in
+                  Section 2.2.8.1 , INTx interrupts use virtual wires that
+                  must, if asserted, be deasserted using the appropriate
+                  Deassert_INTx message(s) when this bit is Set.  Only the INTx
+                  virtual wire interrupt(s) associated with the Function(s) for
+                  which this bit is Set are affected.  For Functions with a
+                  Type 0 Configuration Space Header that generate INTx
+                  interrupts, this bit is required. For Functions with a Type 0
+                  Configuration Space Header that do not generate INTx
+                  interrupts, this bit is optional. If not implemented, this
+                  bit must be hardwired to 0b.  For Functions with a Type 1
+                  Configuration Space Header that generate INTx interrupts on
+                  their own behalf, this bit is required. This bit has no
+                  effect on interrupts forwarded from the secondary side.  For
+                  Functions with a Type 1 Configuration Space Header that do
+                  not generate INTx interrupts on their own behalf this bit is
+                  optional. If not implemented, this bit must be hardwired to
+                  0b.  Default value of this bit is 0b.
+                  "
+              lsb: 10
+              msb: 10
+              readable: True
+              writable: True
+
+            - name: "RsvdP"
+              long_name: "RsvdP"
+              lsb: 11
+              msb: 15
+              reserved0: True
+              preserved: True
