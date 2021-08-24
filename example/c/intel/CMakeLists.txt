@@ -19,3 +19,9 @@ target_link_libraries(c_basic_usage c_example_dependencies)
 
 add_executable(c_hypercall hypercall.c)
 target_link_libraries(c_hypercall c_example_dependencies)
+
+add_executable(c_acpi acpi.c)
+target_link_libraries(c_acpi c_example_dependencies)
+
+add_executable(c_pcie pcie.c)
+target_link_libraries(c_pcie c_example_dependencies)
