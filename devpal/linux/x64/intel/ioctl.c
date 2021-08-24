@@ -10,7 +10,11 @@
 
 // x86 Generic
 long handle_devpal_ioctl_cpuid(struct cpuid_operands * user_ops);
+long handle_devpal_ioctl_in_8(struct in_8_operands * user_ops);
+long handle_devpal_ioctl_in_16(struct in_16_operands * user_ops);
 long handle_devpal_ioctl_in_32(struct in_32_operands * user_ops);
+long handle_devpal_ioctl_out_8(struct out_8_operands * user_ops);
+long handle_devpal_ioctl_out_16(struct out_16_operands * user_ops);
 long handle_devpal_ioctl_out_32(struct out_32_operands * user_ops);
 long handle_devpal_ioctl_rdmsr(struct rdmsr_operands * user_ops);
 long handle_devpal_ioctl_rdtsc(struct rdtsc_operands * user_ops);
@@ -22,7 +26,7 @@ long handle_devpal_ioctl_read_cr8(struct read_cr8_operands * user_ops);
 long handle_devpal_ioctl_wrmsr(struct wrmsr_operands * user_ops);
 
 // Intel Specific
-long handle_devpal_ioctl_vmcall(struct vmcall_operands * user_ops);
+long handle_devpal_ioctl_vmcall(void);
 long handle_devpal_ioctl_vmcall_kvm(struct vmcall_kvm_operands * user_ops);
 long handle_devpal_ioctl_vmcall_xen(struct vmcall_xen_operands * user_ops);
 
@@ -33,8 +37,20 @@ long handle_devpal_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
         case DEVPAL_EXECUTE_CPUID:
             return handle_devpal_ioctl_cpuid((struct cpuid_operands *)arg);
 
+        case DEVPAL_EXECUTE_IN_8:
+            return handle_devpal_ioctl_in_8((struct in_8_operands *)arg);
+
+        case DEVPAL_EXECUTE_IN_16:
+            return handle_devpal_ioctl_in_16((struct in_16_operands *)arg);
+
         case DEVPAL_EXECUTE_IN_32:
             return handle_devpal_ioctl_in_32((struct in_32_operands *)arg);
+
+        case DEVPAL_EXECUTE_OUT_8:
+            return handle_devpal_ioctl_out_8((struct out_8_operands *)arg);
+
+        case DEVPAL_EXECUTE_OUT_16:
+            return handle_devpal_ioctl_out_16((struct out_16_operands *)arg);
 
         case DEVPAL_EXECUTE_OUT_32:
             return handle_devpal_ioctl_out_32((struct out_32_operands *)arg);
@@ -61,7 +77,7 @@ long handle_devpal_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
             return handle_devpal_ioctl_read_cr8((struct read_cr8_operands *)arg);
 
         case DEVPAL_EXECUTE_VMCALL:
-            return handle_devpal_ioctl_vmcall((struct vmcall_operands *)arg);
+            return handle_devpal_ioctl_vmcall();
 
         case DEVPAL_EXECUTE_VMCALL_KVM:
             return handle_devpal_ioctl_vmcall_kvm((struct vmcall_kvm_operands *)arg);
