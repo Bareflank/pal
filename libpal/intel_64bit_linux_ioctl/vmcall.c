@@ -11,7 +11,6 @@ void pal_execute_vmcall(void)
 {
     int file_desc;
     int status;
-    struct vmcall_operands vmcall_ops;
 
     file_desc = open(DEVICE_FILE_NAME, 0);
     if (file_desc < 0) {
@@ -19,7 +18,7 @@ void pal_execute_vmcall(void)
         return;
     }
 
-    if(ioctl(file_desc, DEVPAL_EXECUTE_VMCALL, &vmcall_ops)) {
+    if(ioctl(file_desc, DEVPAL_EXECUTE_VMCALL)) {
         printf("[libpal] vmcall ioctl failed\n");
         return;
     }

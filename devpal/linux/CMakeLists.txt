@@ -26,7 +26,11 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL OR PAL_AMD_64BIT_LINUX_IOCTL)
     add_subdirectory(x64)
     list(APPEND SOURCE_FILES
         x64/cpuid.c
+        x64/in_8.c
+        x64/in_16.c
         x64/in_32.c
+        x64/out_8.c
+        x64/out_16.c
         x64/out_32.c
         x64/rdmsr.c
         x64/rdtsc.c
@@ -63,8 +67,9 @@ string (REPLACE ".c" ".o" OBJECT_FILES "${SOURCE_FILES_STRING}")
 set(EXTRA_CFLAGS_LIST
     "-D__kernel__"
     "-I${PAL_SOURCE_ROOT_DIR}/devpal/include"
+    "-I${PAL_SOURCE_ROOT_DIR}/libpal/intel_64bit_systemv_gnuinline/include"
 )
-string (REPLACE ";" " " EXTRA_CFLAGS "${EXTRA_CFLAGS_LIST}")
+string(REPLACE ";" " " EXTRA_CFLAGS "${EXTRA_CFLAGS_LIST}")
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/Makefile.in ${CMAKE_CURRENT_LIST_DIR}/Makefile)
 
