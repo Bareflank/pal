@@ -1,0 +1,69 @@
+- name: class_code
+  long_name: "Class Code Register"
+  purpose: |
+       "
+       The Class Code Register is read-only and is used to identify the generic
+       operation of the Function and, in some cases, a specific register level
+       programming interface. The register layout is shown in Figure 7-7 and
+       described in Table 7-5 . Encodings for base class, sub-class, and
+       programming interface are provided in the [PCI-Code-and-ID]. All
+       unspecified encodings are Reserved.
+       "
+  size: 24
+  arch: generic
+  component: pcie_config_space_header_type_1
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x9
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x9
+
+  fieldsets:
+      - name: v5.0
+        condition: "Fieldset valid on version 5.0 of the PCIe specification"
+        size: 24
+
+        fields:
+            - name: "Programming Interface"
+              long_name: "Programming Interface"
+              description: |
+                  "
+                  This field identifies a specific register-level programming
+                  interface (if any) so that device independent software can
+                  interact with the Function.  Encodings for this field are
+                  provided in the [PCI-Code-and-ID]. All unspecified encodings
+                  are Reserved.
+                  "
+              lsb: 0
+              msb: 7
+              readable: True
+
+            - name: "Sub-Class Code"
+              long_name: "Sub-Class Code"
+              description: |
+                  "
+                  Specifies a base class sub-class, which identifies more
+                  specifically the operation of the Function. Encodings for
+                  sub-class are provided in the [PCI-Code-and-ID]. All
+                  unspecified encodings are Reserved.
+                  "
+              lsb: 8
+              msb: 15
+              readable: True
+
+            - name: "Base Class Code"
+              long_name: "Base Class Code"
+              description: |
+                  "
+                  A code that broadly classifies the type of operation the
+                  Function performs.  Encodings for base class, are provided in
+                  the [PCI-Code-and-ID]. All unspecified encodings are
+                  Reserved.
+                  "
+              lsb: 16
+              msb: 23
+              readable: True

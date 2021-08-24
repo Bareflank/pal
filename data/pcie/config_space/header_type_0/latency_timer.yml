@@ -1,0 +1,21 @@
+- name: latency_timer
+  long_name: "Latency Timer Register"
+  purpose: |
+       "
+       This register is also referred to as Primary Latency Timer for Type 1
+       Configuration Space Header Functions. The Latency Timer was originally
+       described in the [PCI] and the [PCI-to-PCI-Bridge]. Its functionality
+       does not apply to PCI Express. This register must be hardwired to 00h.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0xD
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0xD

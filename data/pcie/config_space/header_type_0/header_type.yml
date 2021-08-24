@@ -1,0 +1,59 @@
+- name: header_type
+  long_name: "Header Type Register"
+  purpose: |
+       "
+       This register identifies the layout of the second part of the predefined
+       header (beginning at byte 10h in Configuration Space) and also whether
+       or not the Device might contain multiple Functions. The register layout
+       is shown in Figure 7-8 and Table 7-6 describes the bits in the register.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0xE
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0xE
+
+  fieldsets:
+      - name: v5.0
+        condition: "Fieldset valid on version 5.0 of the PCIe specification"
+        size: 8
+
+        fields:
+            - name: "Header Layout"
+              long_name: "Header Layout"
+              description: |
+                  "
+                  This field identifies the layout of the second part of the
+                  predefined header.  For Functions that implement a Type 0
+                  Configuration Space Header the encoding 000 0000b must be
+                  used.  For Functions that implement a Type 1 Configuration
+                  Space Header the encoding 000 0001b must be used.
+                  "
+              lsb: 0
+              msb: 6
+              readable: True
+
+            - name: "Multi-Function Device"
+              long_name: "Multi-Function Device"
+              description: |
+                  "
+                  When Set, indicates that the Device may contain multiple
+                  Functions, but not necessarily. Software is permitted to
+                  probe for Functions other than Function 0. When Clear,
+                  software must not probe for Functions other than Function 0
+                  unless explicitly indicated by another mechanism, such as an
+                  ARI or SR-IOV Extended Capability structure. Except where
+                  stated otherwise, it is recommended that this bit be Set if
+                  there are multiple Functions, and Clear if there is only one
+                  Function.
+                  "
+              lsb: 7
+              msb: 7
+              readable: True

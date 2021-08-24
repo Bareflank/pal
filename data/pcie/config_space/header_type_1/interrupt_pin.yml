@@ -1,0 +1,33 @@
+- name: interrupt_pin
+  long_name: "Interrupt Pin Register"
+  purpose: |
+       "
+       The Interrupt Pin register is a read-only register that identifies the
+       legacy interrupt Message(s) the Function uses (see Section 6.1 for
+       further details). Valid values are 01h, 02h, 03h, and 04h that map to
+       legacy interrupt Messages for INTA, INTB, INTC, and INTD respectively. A
+       value of 00h indicates that the Function uses no legacy interrupt
+       Message(s). The values 05h through FFh are Reserved.  PCI Express
+       defines one legacy interrupt Message for a single Function device and up
+       to four legacy interrupt Messages for a Multi-Function Device. For a
+       single Function device, only INTA may be used.  Any Function on a
+       Multi-Function Device can use any of the INTx Messages. If a device
+       implements a single legacy interrupt Message, it must be INTA; if it
+       implements two legacy interrupt Messages, they must be INTA and INTB;
+       and so forth. For a Multi-Function Device, all Functions may use the
+       same INTx Message or each may have its own (up to a maximum of four
+       Functions) or any combination thereof. A single Function can never
+       generate an interrupt request on more than one INTx Message.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_1
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x3D
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x3D

@@ -1,0 +1,25 @@
+- name: cache_line_size
+  long_name: "Cache Line Size Register"
+  purpose: |
+       "
+       The Cache Line Size register is programmed by the system firmware or the
+       operating system to system cache line size. However, note that legacy
+       PCI-compatible software may not always be able to program this register
+       correctly especially in the case of Hot-Plug devices. This read-write
+       register is implemented for legacy compatibility purposes but has no
+       effect on any PCI Express device behavior. For PCI Express to PCI/PCI-X
+       Bridges, refer to the [PCIe-to-PCI-PCI-X-Bridge] for requirements for
+       this register. The default value of this register is 00h.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_0
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0xC
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0xC

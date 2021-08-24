@@ -1,0 +1,24 @@
+- name: revision_id
+  long_name: "Revision ID Register"
+  purpose: |
+       "
+       The Revision ID Register is HwInit and the value in this register
+       specifies a Function specific revision identifier. The value is chosen
+       by the vendor. Zero is an acceptable value. The Device ID, in
+       conjunction with the Vendor ID and Revision ID, are used as one
+       mechanism for software to determine which driver should be loaded. The
+       vendor must ensure that the chosen values do not result in the use of an
+       incompatible device driver.
+       "
+  size: 8
+  arch: generic
+  component: pcie_config_space_header_type_1
+
+  access_mechanisms:
+      - name: read_pci_config
+        is_read: True
+        offset: 0x8
+
+      - name: write_pci_config
+        is_write: True
+        offset: 0x8
