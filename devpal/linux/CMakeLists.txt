@@ -56,6 +56,7 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL)
     list(APPEND SOURCE_FILES
         x64/intel/ioctl.c
         x64/intel/vmcall.c
+        x64/intel/vmcall_hyperv.c
         x64/intel/vmcall_kvm.c
         x64/intel/vmcall_xen.c
     )

@@ -54,6 +54,7 @@ target_sources(pal_intel_64bit_systemv_nasm PRIVATE
     sgdt.asm
     sidt.asm
     vmcall.asm
+    vmcall_hyperv.asm
     vmcall_kvm.asm
     vmcall_xen.asm
     vmclear.asm

@@ -16,18 +16,16 @@ typedef UINT64 uint64_t;
 #define DEVPAL_EXECUTE_VMCALL 0xFE000000
 #define DEVPAL_EXECUTE_VMCALL_KVM 0xFE000001
 #define DEVPAL_EXECUTE_VMCALL_XEN 0xFE000002
+#define DEVPAL_EXECUTE_VMCALL_HYPERV 0xFE000003
 
 // ----------------------------------------------------------------------------
 struct vmcall_hyperv_inputs {
-    uint64_t rax;
-    uint64_t rbx;
     uint64_t rcx;
     uint64_t rdx;
-    uint64_t rsi;
 };
 
 struct vmcall_hyperv_outputs {
-    uint64_t rax;
+    uint64_t r8;
 };
 
 struct vmcall_hyperv_operands {

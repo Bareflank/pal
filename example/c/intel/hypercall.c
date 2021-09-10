@@ -1,6 +1,7 @@
 #include "pal/instruction/vmcall.h"
-#include "pal/instruction/vmcall_xen.h"
+#include "pal/instruction/vmcall_hyperv.h"
 #include "pal/instruction/vmcall_kvm.h"
+#include "pal/instruction/vmcall_xen.h"
 
 int main(void)
 {
@@ -24,5 +25,9 @@ int main(void)
     arg3 = 0;               // rdx
     arg4 = 0;               // rsi
     result = pal_execute_vmcall_kvm(index, arg1, arg2, arg3, arg4);
-}
 
+    // Hyper-V hypercall ABI using the Intel VMCALL instruction:
+    index = 0x8001;         // HvExtCallQueryCapabilities
+    arg1 = 0;
+    result = pal_execute_vmcall_hyperv(index, arg1);
+}
