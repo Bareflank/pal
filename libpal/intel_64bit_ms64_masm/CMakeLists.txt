@@ -10,6 +10,10 @@ target_sources(pal_x64_64bit_none_ms64 PRIVATE
     read_cr3.asm
     read_cr4.asm
     read_cr8.asm
+    vmcall.asm
+    vmcall_hyperv.asm
+    vmcall_kvm.asm
+    vmcall_xen.asm
     vmread.asm
     vmwrite.asm
     write_cr0.asm

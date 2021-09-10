@@ -1,0 +1,34 @@
+- name: vmcall_hyperv
+  long_name: "Call to VMM using registers in the Hyper-V hypercall ABI"
+  purpose: |
+      "
+      Execute the vmcall instruction using registers in the Hyper-V x64
+      types 1 (memory based) and type 2 (register based) hypercall ABIs
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: rcx
+              long_name: "hypercall input value"
+              type: uint64
+
+            - name: rdx
+              long_name: "input parameter"
+              type: uint64
+
+        logical_outputs:
+            - name: r8
+              long_name: "output parameter"
+              type: uint64
+
+        register_operands:
+            - name: rcx
+              input: true
+
+            - name: rdx
+              input: true
+
+            - name: r8
+              output: true

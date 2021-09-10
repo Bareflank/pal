@@ -207,6 +207,7 @@
     <ClCompile Include="..\x64\ioctl_cpuid.c" />
     <ClCompile Include="..\x64\intel\ioctl.c" />
     <ClCompile Include="..\x64\intel\ioctl_vmcall.c" />
+    <ClCompile Include="..\x64\intel\ioctl_vmcall_hyperv.c" />
     <ClCompile Include="..\x64\intel\ioctl_vmcall_kvm.c" />
     <ClCompile Include="..\x64\intel\ioctl_vmcall_xen.c" />
     <ClCompile Include="..\x64\ioctl_in_16.c" />
@@ -233,6 +234,7 @@
     <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\read_cr4.asm" />
     <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\read_cr8.asm" />
     <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\vmcall.asm" />
+    <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\vmcall_hyperv.asm" />
     <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\vmcall_kvm.asm" />
     <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\vmcall_xen.asm" />
     <MASM Include="..\..\..\libpal\intel_64bit_ms64_masm\vmread.asm" />

@@ -51,6 +51,7 @@ target_sources(pal_intel_64bit_windows_ioctl PRIVATE
     # sgdt.c
     # sidt.c
     vmcall.c
+    vmcall_hyperv.c
     vmcall_kvm.c
     vmcall_xen.c
     # vmclear.c
