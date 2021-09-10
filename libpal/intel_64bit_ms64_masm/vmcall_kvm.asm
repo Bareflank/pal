@@ -5,7 +5,7 @@
 ; vmcall clobbers: rax (TODO: other registers may be clobbered if specifically documented)
 pal_execute_vmcall_kvm proc
     ; collect fifth and higher arguments from the stack
-    pop rsi;
+    pop r10;
     
     ; save callee-preserved (non-volatile) registers
     push rbx;
@@ -15,6 +15,7 @@ pal_execute_vmcall_kvm proc
     mov rbx, rdx;
     mov rcx, r8;
     mov rdx, r9;
+    mov rsi, r10;
 
     vmcall;
 
