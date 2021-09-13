@@ -8,9 +8,9 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # bsr.c
     # clflush.c
     cpuid.c
-    # in_16.c
+    in_16.c
     in_32.c
-    # in_8.c
+    in_8.c
     # invd.c
     # invept.c
     # invept_checked.c
@@ -20,9 +20,9 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # lgdt.c
     # lidt.c
     # mfence.c
-    # out_16.c
+    out_16.c
     out_32.c
-    # out_8.c
+    out_8.c
     # pause.c
     # popcnt.c
     rdmsr.c
