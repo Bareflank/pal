@@ -3,26 +3,18 @@ name = "pal"
 version = "0.1.0"
 authors = ["Jared Wright <awsjared@amazon.com>"]
 edition = "2018"
+build = "cargo/build.rs"
 
 [lib]
-path = "build/src/lib.rs"
+path = "cargo/lib.rs"
 
 [dependencies]
 cty = "0.2.1"
 term = "0.7.0"
 
-[features]
-# Target execution state
-intel_64bit = []
-armv8a_aarch64 = []
-armv8a_aarch32 = []
-
-# Target ABI for libpal
-armv8a-aarch64-none-aapcs64 = []
-armv8a-aarch64-linux-devpal = []
-x64-64bit-linux-devpal = []
-x64-64bit-none-ms64 = []
-x64-64bit-none-systemv = []
-
 [build-dependencies]
 pkg-config = "0.3.16"
+
+[features]
+intel_64bit_linux_ioctl = []
+intel_64bit_systemv_nasm = []
