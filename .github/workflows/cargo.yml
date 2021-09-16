@@ -1,0 +1,32 @@
+name: Cargo
+
+on: [push, pull_request]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install latest nightly
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+        components: rustfmt, clippy
+
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y nasm build-essential g++-arm-linux-gnueabihf g++-aarch64-linux-gnu
+        sudo apt-get install -y python3 linux-headers-$(uname -r) 
+        sudo pip3 install lxml colorama dataclasses pyyaml
+
+    - name: Build
+      shell: bash
+      run: cargo build --manifest-path test/rust/intel/Cargo.toml
