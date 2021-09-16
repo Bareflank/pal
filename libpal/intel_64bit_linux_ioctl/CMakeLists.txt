@@ -60,11 +60,11 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # vmptrld_checked.c
     # vmptrst.c
     # vmptrst_checked.c
-    # vmread.c
+    vmread.c
     # vmread_checked.c
     # vmread.c
     # vmread_checked.c
-    # vmwrite.c
+    vmwrite.c
     # vmwrite_checked.c
     # vmxoff.c
     # vmxoff_checked.c
@@ -73,9 +73,11 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # vmxon.c
     # vmxon_checked.c
     # wbinvd.c
-    # write_cr3.c
-    # write_cr4.c
-    # write_cr8.c
+    write_cr0.c
+    write_cr2.c
+    write_cr3.c
+    write_cr4.c
+    write_cr8.c
     # write_cs.c
     # write_dr7.c
     # write_ds.c
@@ -91,6 +93,6 @@ target_sources(pal_intel_64bit_linux_ioctl PRIVATE
     # write_ss.c
     # write_tr.c
     wrmsr.c
-    # xgetbv.c
-    # xsetbv.c
+    xgetbv.c
+    xsetbv.c
 )

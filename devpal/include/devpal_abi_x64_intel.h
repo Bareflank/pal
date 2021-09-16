@@ -17,6 +17,8 @@ typedef UINT64 uint64_t;
 #define DEVPAL_EXECUTE_VMCALL_KVM 0xFE000001
 #define DEVPAL_EXECUTE_VMCALL_XEN 0xFE000002
 #define DEVPAL_EXECUTE_VMCALL_HYPERV 0xFE000003
+#define DEVPAL_EXECUTE_VMREAD 0xFE000004
+#define DEVPAL_EXECUTE_VMWRITE 0xFE000005
 
 // ----------------------------------------------------------------------------
 struct vmcall_hyperv_inputs {
@@ -68,5 +70,27 @@ struct vmcall_xen_operands {
     struct vmcall_xen_inputs in;
     struct vmcall_xen_outputs out;
 };
+// ----------------------------------------------------------------------------
+struct vmread_inputs {
+    uint64_t encoding;
+};
 
+struct vmread_outputs {
+    uint64_t value;
+};
+
+struct vmread_operands {
+    struct vmread_inputs in;
+    struct vmread_outputs out;
+};
+// ----------------------------------------------------------------------------
+struct vmwrite_inputs {
+    uint32_t encoding;
+    uint64_t value;
+};
+
+struct vmwrite_operands {
+    struct vmwrite_inputs in;
+};
+// ----------------------------------------------------------------------------
 #endif
