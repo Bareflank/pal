@@ -69,7 +69,9 @@ class RustGenerator(AbstractGenerator):
     def _generate_register(self, outfile, reg):
 
         self.writer.declare_register_dependencies(outfile, reg, self.config)
-        self.writer.declare_print_mechanism_dependencies(outfile, reg)
+
+        if self.config.enable_printers == True:
+            self.writer.declare_print_mechanism_dependencies(outfile, reg)
 
         for am_key, am_list in reg.access_mechanisms.items():
             for am in am_list:
@@ -86,9 +88,10 @@ class RustGenerator(AbstractGenerator):
 
             for field in fieldset.fields:
                 self.writer.declare_field_accessors(outfile, reg, field)
-                self.writer.declare_field_printers(outfile, reg, field)
+                if self.config.enable_printers == True:
+                    self.writer.declare_field_printers(outfile, reg, field)
 
-            if reg.is_readable():
+            if reg.is_readable() and self.config.enable_printers == True:
                 self.writer.declare_fieldset_printers(outfile, reg, fieldset)
 
     def _generate_instruction(self, outfile, inst):
@@ -140,14 +143,9 @@ class RustGenerator(AbstractGenerator):
         logger.info("Updating lib.rs: " + str(libfile_path))
 
         with open(libfile_path, "w") as libfile:
-            #  libfile.write("pub mod pal {")
-            #  self.writer.write_newline(libfile)
-
             for child in [f.path for f in os.scandir(libfile_dir)]:
                 logger.info("child: " + str(child))
                 modname = os.path.splitext(os.path.basename(child))[0]
                 if not modname == "lib":
                     libfile.write("pub mod " + modname + ";")
                     self.writer.write_newline(libfile)
-
-            #  libfile.write("}")
