@@ -31,13 +31,19 @@ typedef UINT64 uint64_t;
 #define DEVPAL_EXECUTE_READ_LDTR 0xFF00000F
 #define DEVPAL_EXECUTE_READ_SS 0xFF000010
 #define DEVPAL_EXECUTE_READ_TR 0xFF000011
-#define DEVPAL_EXECUTE_XGETBV 0xFF000012
 #define DEVPAL_EXECUTE_OUT_32 0xFF000013
 #define DEVPAL_EXECUTE_WRMSR 0xFF000014
 #define DEVPAL_EXECUTE_IN_8 0xFF000015
 #define DEVPAL_EXECUTE_IN_16 0xFF000016
 #define DEVPAL_EXECUTE_OUT_8 0xFF000017
 #define DEVPAL_EXECUTE_OUT_16 0xFF000018
+#define DEVPAL_EXECUTE_WRITE_CR0 0xFF00019
+#define DEVPAL_EXECUTE_WRITE_CR2 0xFF000020
+#define DEVPAL_EXECUTE_WRITE_CR3 0xFF000021
+#define DEVPAL_EXECUTE_WRITE_CR4 0xFF000022
+#define DEVPAL_EXECUTE_WRITE_CR8 0xFF000023
+#define DEVPAL_EXECUTE_XGETBV 0xFF000024
+#define DEVPAL_EXECUTE_XSETBV 0xFF000025
 
 // ----------------------------------------------------------------------------
 struct cpuid_inputs {
@@ -184,6 +190,46 @@ struct read_cr8_operands {
     struct read_cr8_outputs out;
 };
 // ----------------------------------------------------------------------------
+struct write_cr0_inputs {
+    uint64_t value;
+};
+
+struct write_cr0_operands {
+    struct write_cr0_inputs in;
+};
+// ----------------------------------------------------------------------------
+struct write_cr2_inputs {
+    uint64_t value;
+};
+
+struct write_cr2_operands {
+    struct write_cr2_inputs in;
+};
+// ----------------------------------------------------------------------------
+struct write_cr3_inputs {
+    uint64_t value;
+};
+
+struct write_cr3_operands {
+    struct write_cr3_inputs in;
+};
+// ----------------------------------------------------------------------------
+struct write_cr4_inputs {
+    uint64_t value;
+};
+
+struct write_cr4_operands {
+    struct write_cr4_inputs in;
+};
+// ----------------------------------------------------------------------------
+struct write_cr8_inputs {
+    uint64_t value;
+};
+
+struct write_cr8_operands {
+    struct write_cr8_inputs in;
+};
+// ----------------------------------------------------------------------------
 struct wrmsr_inputs {
     uint32_t address;
     uint64_t value;
@@ -191,6 +237,28 @@ struct wrmsr_inputs {
 
 struct wrmsr_operands {
     struct wrmsr_inputs in;
+};
+// ----------------------------------------------------------------------------
+struct xgetbv_inputs {
+    uint32_t xcr;
+};
+
+struct xgetbv_outputs {
+    uint64_t value;
+};
+
+struct xgetbv_operands {
+    struct xgetbv_inputs in;
+    struct xgetbv_outputs out;
+};
+// ----------------------------------------------------------------------------
+struct xsetbv_inputs {
+    uint32_t xcr;
+    uint64_t value;
+};
+
+struct xsetbv_operands {
+    struct xsetbv_inputs in;
 };
 // ----------------------------------------------------------------------------
 
