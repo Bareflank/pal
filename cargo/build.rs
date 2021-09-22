@@ -24,7 +24,7 @@ fn generate_language_bindings() {
     }
 
     // TODO: Add support for print functions in a no_std environment
-    if cfg!(feature = "intel_64bit_systemv_nasm") {
+    if cfg!(not(feature = "enable_printers")) {
         args.push("--enable_printers=off");
     }
 
