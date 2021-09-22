@@ -15,6 +15,12 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake/init_project.cmake)
 
 set(PYTHONPATH ${CMAKE_CURRENT_LIST_DIR})
 
+# check if the environment has these python modules
+pal_find_python_module(lxml)
+pal_find_python_module(dataclasses)
+pal_find_python_module(colorama)
+pal_find_python_module(yaml)
+
 if(PAL_ARMV8A_AARCH32_AAPCS_GNU)
     if(PAL_C)
         pal_run_generator(
@@ -204,5 +210,8 @@ endif()
 
 if(NOT PAL_QUIET_CMAKE)
     pal_print_banner()
+endif()
+
+if (NOT PAL_QUIET_CMAKE AND NOT PYTHON_MODULES_MISSING)
     pal_print_usage()
 endif()
