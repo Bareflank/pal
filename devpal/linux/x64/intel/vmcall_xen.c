@@ -6,7 +6,9 @@ long handle_devpal_ioctl_vmcall_xen(struct vmcall_xen_operands * user_ops)
 {
 
     struct vmcall_xen_operands kern_ops = {0};
-    copy_from_user(&kern_ops, user_ops, sizeof(struct vmcall_xen_operands));
+    if (copy_from_user(&kern_ops, user_ops, sizeof(struct vmcall_xen_operands)))
+        return -1;
+
 
     kern_ops.out.rax = pal_execute_vmcall_xen_inline(
             kern_ops.in.rax,
@@ -18,7 +20,9 @@ long handle_devpal_ioctl_vmcall_xen(struct vmcall_xen_operands * user_ops)
             kern_ops.in.r9
         );
 
-    copy_to_user(user_ops, &kern_ops, sizeof(struct vmcall_xen_operands));
+    if (copy_to_user(user_ops, &kern_ops, sizeof(struct vmcall_xen_operands)))
+        return -1;
+
 
     return 0;
 }

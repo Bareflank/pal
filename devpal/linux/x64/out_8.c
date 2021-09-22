@@ -5,7 +5,9 @@
 long handle_devpal_ioctl_out_8(struct out_8_operands * user_ops)
 {
     struct out_8_operands kern_ops = {0};
-    copy_from_user(&kern_ops, user_ops, sizeof(struct in_8_operands));
+    if (copy_from_user(&kern_ops, user_ops, sizeof(struct in_8_operands)))
+        return -1;
+
 
     pal_execute_out_8_inline(kern_ops.in.address, kern_ops.in.value);
 
