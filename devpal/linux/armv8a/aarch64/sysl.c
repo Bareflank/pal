@@ -10,7 +10,9 @@ long handle_devpal_ioctl_sysl(struct sysl_operands * user_ops)
     uint64_t value = 0;
     struct sysl_operands kern_ops = {0};
 
-    copy_from_user(&kern_ops, user_ops, sizeof(struct sysl_operands));
+    if (copy_from_user(&kern_ops, user_ops, sizeof(struct sysl_operands)))
+        return -1;
+
     op1 = kern_ops.in.op1;
     crn = kern_ops.in.crn;
     crm = kern_ops.in.crm;
@@ -30,7 +32,9 @@ long handle_devpal_ioctl_sysl(struct sysl_operands * user_ops)
     // );
 
     kern_ops.out.value = value;
-    copy_to_user(user_ops, &kern_ops, sizeof(struct sysl_operands));
+    if (copy_to_user(user_ops, &kern_ops, sizeof(struct sysl_operands)))
+        return -1;
+
 
     return 0;
 }

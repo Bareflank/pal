@@ -5,9 +5,13 @@ long handle_devpal_ioctl_read_mem64(struct read_mem64_operands * user_ops)
 {
     struct read_mem64_operands kern_ops = {0};
 
-    copy_from_user(&kern_ops, user_ops, sizeof(struct read_mem64_operands));
+    if (copy_from_user(&kern_ops, user_ops, sizeof(struct read_mem64_operands)))
+        return -1;
+
     kern_ops.out.value = *((uint64_t *)kern_ops.in.address);
-    copy_to_user(user_ops, &kern_ops, sizeof(struct read_mem64_operands));
+    if (copy_to_user(user_ops, &kern_ops, sizeof(struct read_mem64_operands)))
+        return -1;
+
 
     return 0;
 }

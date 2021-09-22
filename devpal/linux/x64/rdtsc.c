@@ -7,7 +7,9 @@ long handle_devpal_ioctl_rdtsc(struct rdtsc_operands * user_ops)
     struct rdtsc_operands kern_ops = {0};
 
     kern_ops.out.value = pal_execute_rdtsc_inline();
-    copy_to_user(user_ops, &kern_ops, sizeof(struct rdtsc_operands));
+    if (copy_to_user(user_ops, &kern_ops, sizeof(struct rdtsc_operands)))
+        return -1;
+
 
     return 0;
 }
