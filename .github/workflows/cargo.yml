@@ -34,3 +34,7 @@ jobs:
     - name: Build (no_std)
       shell: bash
       run: cargo build --manifest-path test/rust/intel/Cargo.toml --no-default-features --features nasm
+
+    - name: Build (example)
+      shell: bash
+      run: cargo build --manifest-path example/rust/intel/Cargo.toml
