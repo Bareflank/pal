@@ -16,9 +16,12 @@ pub fn test_xcr0_compile()
     pal::control_register::xcr0::sse_is_disabled();
     pal::control_register::xcr0::sse_is_disabled_in_value(value);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     // Printers
     pal::control_register::xcr0::print();
     pal::control_register::xcr0::print_from_value(value);
     pal::control_register::xcr0::print_sse();
     pal::control_register::xcr0::print_sse_from_value(value);
+    }
 }

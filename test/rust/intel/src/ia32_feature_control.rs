@@ -20,6 +20,8 @@ pub fn test_ia32_feature_control_compile()
     pal::msr::ia32_feature_control::set_senter_local_function_enable(0x0);
     pal::msr::ia32_feature_control::set_senter_local_function_enable_in_value(0x0, &mut value);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     // Printers
     pal::msr::ia32_feature_control::print();
     pal::msr::ia32_feature_control::print_from_value(value);
@@ -27,4 +29,5 @@ pub fn test_ia32_feature_control_compile()
     pal::msr::ia32_feature_control::print_enable_vmx_inside_smx_from_value(value);
     pal::msr::ia32_feature_control::print_senter_local_function_enable();
     pal::msr::ia32_feature_control::print_senter_local_function_enable_from_value(value);
+    }
 }

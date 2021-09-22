@@ -20,6 +20,8 @@ pub fn test_eptp_compile()
     pal::vmcs::eptp::set_ept_pml4_table(0x0);
     pal::vmcs::eptp::set_ept_pml4_table_in_value(0x0, &mut value);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     // Printers
     pal::vmcs::eptp::print();
     pal::vmcs::eptp::print_from_value(value);
@@ -27,4 +29,5 @@ pub fn test_eptp_compile()
     pal::vmcs::eptp::print_bit_6_from_value(value);
     pal::vmcs::eptp::print_ept_pml4_table();
     pal::vmcs::eptp::print_ept_pml4_table_from_value(value);
+    }
 }
