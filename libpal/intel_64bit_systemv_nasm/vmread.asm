@@ -5,5 +5,5 @@ section .text
 
 global pal_execute_vmread 
 pal_execute_vmread :
-    vmread [rsi], rdi
+    vmread rax, rdi
     ret
