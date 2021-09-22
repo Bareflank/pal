@@ -6,4 +6,9 @@ edition = "2018"
 
 [dependencies.pal]
 path = "../../../"
-features = ["intel_64bit_linux_ioctl"]
+default-features = false
+
+[features]
+default = ["std"]
+std = ["pal/std", "pal/intel_64bit_linux_ioctl"]
+nasm = ["pal/intel_64bit_systemv_nasm"]

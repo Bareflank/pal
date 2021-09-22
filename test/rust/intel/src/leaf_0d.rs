@@ -14,10 +14,13 @@ pub fn test_leaf_0d_compile()
     pal::cpuid::leaf_0d_eax::get_subleaf_0_mpx_state_at_index(1);
     pal::cpuid::leaf_0d_eax::get_subleaf_0_mpx_state_from_value(eax);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     pal::cpuid::leaf_0d_eax::print_subleaf_0_at_index(1);
     pal::cpuid::leaf_0d_eax::print_subleaf_0_from_value(eax);
     pal::cpuid::leaf_0d_eax::print_subleaf_0_sse_state_at_index(1);
     pal::cpuid::leaf_0d_eax::print_subleaf_0_sse_state_from_value(eax);
     pal::cpuid::leaf_0d_eax::print_subleaf_0_mpx_state_at_index(1);
     pal::cpuid::leaf_0d_eax::print_subleaf_0_mpx_state_from_value(eax);
+    }
 }

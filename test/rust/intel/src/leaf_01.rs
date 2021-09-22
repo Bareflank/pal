@@ -10,8 +10,11 @@ pub fn test_leaf_01_compile()
     let _value = pal::cpuid::leaf_01_eax::get_model();
     let _value2 = pal::cpuid::leaf_01_eax::get_model_from_value(eax);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     pal::cpuid::leaf_01_eax::print();
     pal::cpuid::leaf_01_eax::print_from_value(eax);
     pal::cpuid::leaf_01_eax::print_model();
     pal::cpuid::leaf_01_eax::print_model_from_value(eax);
+    }
 }

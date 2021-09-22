@@ -14,10 +14,13 @@ pub fn test_leaf_04_compile()
     pal::cpuid::leaf_04_eax::get_cache_type_at_index(1);
     pal::cpuid::leaf_04_eax::get_cache_type_from_value(eax);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     pal::cpuid::leaf_04_eax::print_at_index(1);
     pal::cpuid::leaf_04_eax::print_from_value(eax);
     pal::cpuid::leaf_04_eax::print_self_initializing_cache_level_at_index(1);
     pal::cpuid::leaf_04_eax::print_self_initializing_cache_level_from_value(eax);
     pal::cpuid::leaf_04_eax::print_cache_type_at_index(1);
     pal::cpuid::leaf_04_eax::print_cache_type_from_value(eax);
+    }
 }

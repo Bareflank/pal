@@ -20,6 +20,8 @@ pub fn test_cr3_compile()
     pal::control_register::cr3::set_page_directory_base(0x0);
     pal::control_register::cr3::set_page_directory_base_in_value(0x0, &mut value);
 
+    #[cfg(feature = "pal/enable_printers")]
+    {
     // Printers
     pal::control_register::cr3::print();
     pal::control_register::cr3::print_from_value(value);
@@ -27,4 +29,5 @@ pub fn test_cr3_compile()
     pal::control_register::cr3::print_pcd_from_value(value);
     pal::control_register::cr3::print_page_directory_base();
     pal::control_register::cr3::print_page_directory_base_from_value(value);
+    }
 }
