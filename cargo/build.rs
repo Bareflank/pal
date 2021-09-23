@@ -28,15 +28,12 @@ fn generate_language_bindings() {
         args.push("--enable_printers=off");
     }
 
-    let output = Command::new("./pal.py")
+    let status = Command::new("./pal.py")
             .args(args)
-            .output()
+            .status()
             .expect("failed to spawn pal.py");
 
-    assert!(output.status.success());
-
-    let output_text = String::from_utf8(output.stdout).unwrap();
-    println!("{}", output_text);
+    assert!(status.success());
 }
 
 fn build_libpal() {
@@ -79,26 +76,20 @@ fn configure_cmake(cmake_build_dir: &str) {
         args.push("-DPAL_INTEL_64BIT_SYSTEMV_NASM=ON");
     }
 
-    let output = Command::new("cmake")
+    let status = Command::new("cmake")
             .args(args)
-            .output()
+            .status()
             .expect("failed to spawn cmake configure");
 
-    assert!(output.status.success());
-
-    let output_text = String::from_utf8(output.stdout).unwrap();
-    println!("{}", output_text);
+    assert!(status.success());
 }
 
 fn run_cmake(cmake_build_dir: &str) {
-    let output = Command::new("cmake")
+    let status = Command::new("cmake")
             .arg("--build")
             .arg(cmake_build_dir)
-            .output()
+            .status()
             .expect("failed to spawn cmake build");
 
-    assert!(output.status.success());
-
-    let output_text = String::from_utf8(output.stdout).unwrap();
-    println!("{}", output_text);
+    assert!(status.success());
 }
