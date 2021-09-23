@@ -83,6 +83,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = "bool"
         gadget.args = []
         gadget.name = self._bitfield_is_enabled_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Returns whether "{friendly_name}" is currently enabled.'
+        )
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -111,6 +114,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = "bool"
         gadget.args = [(size_type, "value")]
         gadget.name = self._bitfield_is_enabled_in_value_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Returns whether "{friendly_name}" is enabled in the given register value.'
+        )
 
         self._declare_bitfield_is_enabled_in_val_details(outfile, register, field)
 
@@ -129,6 +135,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = "bool"
         gadget.args = []
         gadget.name = self._bitfield_is_disabled_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Returns whether "{friendly_name}" is currently disabled.'
+        )
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -157,6 +166,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = "bool"
         gadget.args = [(size_type, "value")]
         gadget.name = self._bitfield_is_disabled_in_value_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Returns whether "{friendly_name}" is disabled in the given register value.'
+        )
 
         self._declare_bitfield_is_disabled_in_value_details(outfile, register, field)
 
@@ -173,6 +185,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = None
         gadget.args = []
         gadget.name = self._bitfield_enable_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Enables "{friendly_name}".'
+        )
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -203,6 +218,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = None
         gadget.args = [(size_type, "value")]
         gadget.name = self._bitfield_enable_in_value_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Enables "{friendly_name}" in the given register value, returning the new value.'
+        )
 
         self._declare_bitfield_enable_in_value_details(outfile, register, field)
 
@@ -218,6 +236,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = None
         gadget.args = []
         gadget.name = self._bitfield_disable_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Disables "{friendly_name}".'
+        )
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -248,6 +269,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = None
         gadget.args = [(size_type, "value")]
         gadget.name = self._bitfield_disable_in_value_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Disables "{friendly_name}" in the given register value, returning the new value.'
+        )
 
         self._declare_bitfield_disable_in_value_details(outfile, register, field)
 
@@ -265,6 +289,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = size_type
         gadget.args = []
         gadget.name = self._field_read_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Returns the current value of "{friendly_name}".'
+        )
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -294,6 +321,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = size_type
         gadget.args = [(size_type, "value")]
         gadget.name = self._field_read_from_value_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Returns the value of "{friendly_name}" in the given register value.'
+        )
 
         self._declare_get_field_from_value_details(outfile, register, field)
 
@@ -314,6 +344,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = None
         gadget.args = [(size_type, "value")]
         gadget.name = self._field_write_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Sets the value of "{friendly_name}".'
+        )
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -357,6 +390,9 @@ class RustFieldAccessorWriter():
         gadget.return_type = None
         gadget.args = [(size_type, "field_value"), (mutable_size_type, "register_value")]
         gadget.name = self._field_write_in_value_function_name(register, field)
+        gadget.documentation = self._field_documentation(register, field,
+            'Sets the value of "{friendly_name}" in the given register value, returning the new value.'
+        )
 
         self._declare_set_field_in_value_details(outfile, register, field)
 

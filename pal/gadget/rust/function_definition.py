@@ -18,6 +18,9 @@ class properties(GadgetProperties):
         field(default_factory= lambda: [])
     """ List of argmuent type/name tuples for the generated function """
 
+    documentation: dict = None
+    """ Documentation for the generated function """
+
     return_type: str = None
     """ Return type for the generated function """
 
@@ -36,12 +39,19 @@ def function_definition(decorated):
         properties.name = "my_function"
         properties.return_type = "u64"
         properties.args = [("u64", "arg1")]
+        properties.documentation = {
+            'summary': 'Short summary of the function.',
+            'details': 'And here are the details',
+        }
 
         @function_definition
         function(generator, outfile, ...):
             outfile.write("contents inside function body")
 
     Generates:
+        /// Short summary of the function.
+        ///
+        /// And here are the details.
         pub fn my_function(arg1: u64) -> u64 {
             contents inside function body
         }
@@ -50,7 +60,9 @@ def function_definition(decorated):
         properties = generator.gadgets["pal.rust.function_definition"]
         writer = generator.get_writer()
 
-        writer.write_indent(outfile, count=properties.indent)
+        if properties.documentation:
+            doc = properties.documentation
+            writer.declare_item_documentation(outfile, doc["summary"], 75, details=doc["details"])
 
         if properties.pub == True:
             outfile.write("pub ")
