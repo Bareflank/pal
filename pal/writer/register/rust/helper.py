@@ -78,6 +78,14 @@ class RustHelperWriter():
             at_index="_at_index" if register.is_indexed else ""
         )
 
+    def _register_documentation(self, register, summary):
+        doc = {
+            "summary": summary.format(friendly_name=str(register.long_name)),
+            "details": register.purpose,
+        }
+
+        return doc
+
     def _bitfield_enable_function_name(self, register, field):
         return "enable_{field_name}{at_index}".format(
             field_name=field.name.lower(),
@@ -154,6 +162,14 @@ class RustHelperWriter():
         return "print_{field_name}_from_value".format(
             field_name=field.name.lower()
         )
+
+    def _field_documentation(self, register, field, summary):
+        doc = {
+            "summary": summary.format(friendly_name=str(field.long_name)),
+            "details": field.description,
+        }
+
+        return doc
 
     def _fieldset_print_function_name(self, register, fieldset):
         return "print{fieldset_name}{at_index}".format(
