@@ -12,6 +12,7 @@ import pal.model.intel.access_mechanism
 from yaml import load, dump
 from yaml import CLoader as Loader, CDumper as Dumper
 
+import re
 
 class PalModelParser(AbstractParser):
     def parse_file(self, path):
@@ -55,7 +56,7 @@ class PalModelParser(AbstractParser):
         if "long_name" in yml:
             register.long_name = self._strip_string(yml["long_name"])
         if "purpose" in yml:
-            register.purpose = self._strip_string(yml["purpose"])
+            register.purpose = self._reflow_text(yml["purpose"])
         if "arch" in yml:
             register.arch = self._strip_string(yml["arch"])
         if "is_internal" in yml:
@@ -280,7 +281,7 @@ class PalModelParser(AbstractParser):
                 if "long_name" in field_yml:
                     field.long_name = self._strip_string(field_yml["long_name"])
                 if "description" in field_yml:
-                    field.description = self._strip_string(field_yml["description"])
+                    field.description = self._reflow_text(field_yml["description"])
                 if "readable" in field_yml:
                     field.readable = field_yml["readable"]
                 if "writable" in field_yml:
@@ -301,6 +302,10 @@ class PalModelParser(AbstractParser):
                 fs.fields.append(field)
 
             register.fieldsets.append(fs)
+
+    def _reflow_text(self, text):
+        text = re.sub(r"\r?\n\s*", " ", text.strip())
+        return re.sub(r"^\"\s*|\s*\"$", "", text)
 
     def _strip_string(self, string):
         if string.startswith("\""):
