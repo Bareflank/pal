@@ -67,6 +67,7 @@ class RustGenerator(AbstractGenerator):
             raise PalGeneratorException(msg)
 
     def _generate_register(self, outfile, reg):
+        self._generate_register_documentation(outfile, reg)
 
         self.writer.declare_register_dependencies(outfile, reg, self.config)
 
@@ -79,7 +80,6 @@ class RustGenerator(AbstractGenerator):
 
         self.writer.write_newline(outfile)
 
-        self._generate_register_comment(outfile, reg)
         self.writer.declare_register_accessors(outfile, reg)
 
         for idx, fieldset in enumerate(reg.fieldsets):
@@ -99,14 +99,10 @@ class RustGenerator(AbstractGenerator):
         self.writer.declare_instruction_accessor(outfile, inst)
         self.writer.write_newline(outfile)
 
-    def _generate_register_comment(self, outfile, reg):
-        comment = "{name} ({long_name}){separator}{purpose}".format(
-            name=str(reg.name),
-            long_name=str(reg.long_name),
-            separator=" - " if reg.purpose else "",
-            purpose=str(reg.purpose)
-        )
-        self.writer.declare_comment(outfile, comment, 75)
+    def _generate_register_documentation(self, outfile, reg):
+        summary = str(reg.long_name) + "."
+
+        self.writer.declare_file_documentation(outfile, summary, 75, details=str(reg.purpose))
 
     def __update_module_files(self, outpath):
         modfile_path = os.path.join(outpath, "mod.rs")
