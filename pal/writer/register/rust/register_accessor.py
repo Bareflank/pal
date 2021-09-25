@@ -71,6 +71,7 @@ class RustRegisterAccessorWriter():
         gadget.name = self._register_read_function_name(register)
         gadget.return_type = self._register_size_type(register)
         gadget.args = []
+        gadget.documentation = self._register_documentation(register, "Returns the current value of the register.")
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
@@ -96,6 +97,7 @@ class RustRegisterAccessorWriter():
         gadget.name = self._register_write_function_name(register)
         gadget.return_type = None
         gadget.args = [(size_type, "value")]
+        gadget.documentation = self._register_documentation(register, "Sets the value of the register.")
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))
