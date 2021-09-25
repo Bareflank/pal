@@ -15,3 +15,9 @@ class CMultilineCommentWriter(CommentWriter):
             self.write_newline(outfile)
         outfile.write("*/")
         self.write_newline(outfile)
+
+    def declare_file_documentation(self, outfile, summary, wrap, details=""):
+        pass
+
+    def declare_item_documentation(self, outfile, summary, wrap, details=""):
+        pass

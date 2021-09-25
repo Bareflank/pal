@@ -10,3 +10,9 @@ class YamlCommentWriter(CommentWriter):
         for line in wrapped:
             outfile.write("# " + str(line))
             self.write_newline(outfile)
+
+    def declare_file_documentation(self, outfile, summary, wrap, details=""):
+        pass
+
+    def declare_item_documentation(self, outfile, summary, wrap, details=""):
+        pass
