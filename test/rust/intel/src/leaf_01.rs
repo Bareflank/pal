@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_leaf_01_compile()
+pub unsafe fn test_leaf_01_compile()
 {
     let eax = pal::cpuid::leaf_01_eax::get();
     let _ebx = pal::cpuid::leaf_01_ebx::get();

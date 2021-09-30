@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_ia32_feature_control_compile()
+pub unsafe fn test_ia32_feature_control_compile()
 {
     // Register accessors
     pal::msr::ia32_feature_control::set(0xA55A5AA5A55A5AA5);

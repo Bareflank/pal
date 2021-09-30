@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_cr3_compile()
+pub unsafe fn test_cr3_compile()
 {
     // Register accessors
     pal::control_register::cr3::set(0xA55A5AA5);

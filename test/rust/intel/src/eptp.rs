@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_eptp_compile()
+pub unsafe fn test_eptp_compile()
 {
     // Register accessors
     pal::vmcs::eptp::set(0xA55A5AA5);

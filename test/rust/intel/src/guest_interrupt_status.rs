@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_guest_interrupt_status_compile()
+pub unsafe fn test_guest_interrupt_status_compile()
 {
     // Register accessors
     pal::vmcs::guest_interrupt_status::set(0xA55A);

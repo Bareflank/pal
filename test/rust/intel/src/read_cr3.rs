@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_read_cr3_compile()
+pub unsafe fn test_read_cr3_compile()
 {
     let value = pal::instruction::execute_read_cr3();
 

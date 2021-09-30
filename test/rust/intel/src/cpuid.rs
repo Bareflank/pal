@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_cpuid_compile()
+pub unsafe fn test_cpuid_compile()
 {
     let leaf = 0x1;
     let subleaf = 0x0;

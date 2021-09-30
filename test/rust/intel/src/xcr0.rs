@@ -1,6 +1,6 @@
 use pal;
 
-pub fn test_xcr0_compile()
+pub unsafe fn test_xcr0_compile()
 {
     // Register accessors
     pal::control_register::xcr0::set(0xA55A5AA5);
