@@ -52,7 +52,7 @@ def function_definition(decorated):
         /// Short summary of the function.
         ///
         /// And here are the details.
-        pub fn my_function(arg1: u64) -> u64 {
+        pub unsafe fn my_function(arg1: u64) -> u64 {
             contents inside function body
         }
     """
@@ -67,7 +67,7 @@ def function_definition(decorated):
         if properties.pub == True:
             outfile.write("pub ")
 
-        outfile.write("fn ")
+        outfile.write("unsafe fn ")
         outfile.write(str(properties.name))
 
 
