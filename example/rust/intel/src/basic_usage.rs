@@ -1,6 +1,6 @@
 use pal;
 
-pub fn run_example() {
+pub unsafe fn run_example() {
     // PAL lets you interact with instructions and registers using their name
     // as defined by a reference manual. For example, read the
     // IA32_FEATURE_CONTROL MSR, and then print its value:

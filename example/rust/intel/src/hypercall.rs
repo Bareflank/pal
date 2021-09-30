@@ -1,6 +1,6 @@
 use pal;
 
-pub fn run_example() {
+pub unsafe fn run_example() {
     // Execute the Intel VMCALL instruction with no arguments
     pal::instruction::execute_vmcall();
 
