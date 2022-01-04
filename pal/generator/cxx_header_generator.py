@@ -47,10 +47,10 @@ class CxxHeaderGenerator(AbstractGenerator):
                         peripherals[reg.component].append(reg)
 
             for name, regs in peripherals.items():
-                include_guard = "PAL_" + reg.component.upper() + "_H"
+                include_guard = "PAL_" + regs[0].component.upper() + "_H"
                 self.gadgets["pal.include_guard"].name = include_guard
-                self.gadgets["pal.cxx.namespace"].name = namespace_name
-                outfile_path = os.path.join(outpath, reg.component.lower() + ".h")
+                self.gadgets["pal.cxx.namespace"].name = "pal::" + regs[0].component.lower()
+                outfile_path = os.path.join(outpath, regs[0].component.lower() + ".h")
                 outfile_path = os.path.abspath(outfile_path)
 
                 with open(outfile_path, "w") as outfile:
