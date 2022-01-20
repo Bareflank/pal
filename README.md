@@ -145,7 +145,7 @@ To explore all available configuration opions for the Cargo build interface, see
 If you want to generate code from the project's database that does not require any support libraries (e.g. C/C++ code with inline assembly), you can run the code generator directly. Example:
 
 ```
-./pal/pal.py --language=c --execution_state=intel_x64 --access_mechanism=gnu_inline
+./pal/pal.py --language=c --execution_state=intel_64bit --access_mechanism=gnu_inline
 ```
 
 To explore all available configuration opions for the code generator:
