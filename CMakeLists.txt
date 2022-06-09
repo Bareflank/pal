@@ -93,6 +93,31 @@ if(PAL_ARMV8A_AARCH64_LINUX_IOCTL)
     endif()
 endif()
 
+if(PAL_AMD_64BIT_SYSTEMV_GNUINLINE)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_amd_64bit_systemv_gnuinline
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/amd_64bit_systemv_gnuinline
+            LANGUAGE c
+            EXECUTION_STATE amd_64bit
+            ACCESS_MECHANISM gnu_inline
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_amd_64bit_systemv_gnuinline
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/amd_64bit_systemv_gnuinline
+            LANGUAGE c++11
+            EXECUTION_STATE amd_64bit
+            ACCESS_MECHANISM gnu_inline
+        )
+    endif()
+
+    add_subdirectory(libpal/amd_64bit_systemv_gnuinline)
+    add_dependencies(c_amd_64bit_systemv_gnuinline pal_amd_64bit_systemv_gnuinline) 
+endif()
+
 if(PAL_INTEL_64BIT_SYSTEMV_GNUINLINE)
     if(PAL_C)
         pal_run_generator(
