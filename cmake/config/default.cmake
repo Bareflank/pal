@@ -60,6 +60,12 @@ option(
 )
 
 option(
+    PAL_AMD_64BIT_SYSTEMV_GNUINLINE
+    "Enable pal for AMD (64-bit) from the SystemV ABI to GNU inline Assemler"
+    OFF
+)
+
+option(
     PAL_INTEL_64BIT_SYSTEMV_GNUINLINE
     "Enable pal for Intel (64-bit) from the SystemV ABI to GNU inline Assemler"
     OFF
