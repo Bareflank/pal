@@ -81,7 +81,17 @@ class GnuInlineX64AccessMechanismWriter(AccessMechanismWriter):
 
     def _call_cpuid_access_mechanism(self, outfile, register, access_mechanism,
                                      result):
-        leaf_mnemonic = str(hex(access_mechanism.leaf))
+        if register.arch == "intel":
+            leaf_mnemonic = str(hex(access_mechanism.leaf))
+        elif register.arch == "amd64":
+            leaf_mnemonic = str(hex(access_mechanism.function))
+        else:
+            msg = "CPUID access mechanism not supported for architecture {arch}"
+            msg = msg.format(
+                arch=str(register.arch)
+            )
+            raise PalWriterException(msg)
+
         if register.is_indexed:
             subleaf_mnemonic_att = "%[subleaf]"
             subleaf_mnemonic_intel = "%[subleaf]"

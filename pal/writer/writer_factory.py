@@ -82,6 +82,8 @@ file_format_options = {
 def get_access_mechanism_writer(config):
     if config.execution_state == "intel_64bit" and config.access_mechanism == "gnu_inline":
         return GnuInlineX64AccessMechanismWriter
+    elif config.execution_state == "amd_64bit" and config.access_mechanism == "gnu_inline":
+        return GnuInlineX64AccessMechanismWriter
     elif config.execution_state == "armv8a_aarch64" and config.access_mechanism == "gnu_inline":
         return GnuInlineAarch64AccessMechanismWriter
     elif config.execution_state == "armv8a_aarch32" and config.access_mechanism == "gnu_inline":
