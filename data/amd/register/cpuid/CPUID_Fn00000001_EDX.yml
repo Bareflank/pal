@@ -234,7 +234,7 @@
                   "
 
             - name: SSE2
-              long_name: 
+              long_name: SSE2
               lsb: 26
               msb: 26
               readable: True

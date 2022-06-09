@@ -244,7 +244,7 @@
                   "
 
             - name: RDTSCP
-              long_name: 
+              long_name: RDTSCP
               lsb: 27
               msb: 27
               readable: True

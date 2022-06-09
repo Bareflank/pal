@@ -1,4 +1,4 @@
-- name: CR0
+- name: cr2
   long_name: "Control Register 2"
   purpose: |
     "

@@ -74,7 +74,6 @@
         
 
 
-    fieldsets:
       - name: pcide_disabled
         condition: "Fieldset valid on latest version of the amd architecture cr4.pcide=0"
         size: 64
