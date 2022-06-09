@@ -8,6 +8,8 @@ import pal.model.armv8a
 import pal.model.armv8a.access_mechanism
 import pal.model.intel
 import pal.model.intel.access_mechanism
+import pal.model.amd
+import pal.model.amd.access_mechanism
 
 from yaml import load, dump
 from yaml import CLoader as Loader, CDumper as Dumper
@@ -32,6 +34,8 @@ class PalModelParser(AbstractParser):
                         register = pal.model.intel.register.IntelRegister()
                     elif arch == "armv8a":
                         register = pal.model.armv8a.register.ARMv8ARegister()
+                    elif arch == "amd64":
+                        register = pal.model.amd.register.AmdRegister()
                     elif arch == "generic":
                         register = pal.model.generic.register.GenericRegister()
                     else:
@@ -111,10 +115,17 @@ class PalModelParser(AbstractParser):
                 am.destination_mnemonic = am_yml["destination_mnemonic"]
                 register.access_mechanisms["mov_write"].append(am)
 
-            elif am_yml["name"] == "cpuid":
+            elif am_yml["name"] == "cpuid" and yml["arch"] == "intel":
                 am = pal.model.intel.access_mechanism.CPUID()
                 am.name = am_yml["name"]
                 am.leaf = am_yml["leaf"]
+                am.output = am_yml["output"]
+                register.access_mechanisms["cpuid"].append(am)
+
+            elif am_yml["name"] == "cpuid" and yml["arch"] == "amd64":
+                am = pal.model.amd.access_mechanism.CPUID()
+                am.name = am_yml["name"]
+                am.function = am_yml["function"]
                 am.output = am_yml["output"]
                 register.access_mechanisms["cpuid"].append(am)
 
