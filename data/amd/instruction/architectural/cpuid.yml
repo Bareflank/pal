@@ -1,0 +1,63 @@
+- name: cpuid
+  long_name: "Processor Identification"
+  purpose: |
+      "
+      Provides information about the processor and its capabilities through a
+      number of different functions. Software should load the number of the
+      CPUID function to execute into the EAX register before executing the
+      CPUID instruction. The processor returns information in the EAX, EBX,
+      ECX, and EDX registers; the contents and format of these registers depend
+      on the function.  The architecture supports CPUID information about
+      standard functions and extended functions. The standard functions have
+      numbers in the 0000_xxxxh series (for example, standard function 1). To
+      determine the largest standard function number that a processor supports,
+      execute CPUID function 0.  The extended functions have numbers in the
+      8000_xxxxh series (for example, extended function 8000_0001h). To
+      determine the largest extended function number that a processor supports,
+      execute CPUID extended function 8000_0000h. If the value returned in EAX
+      is greater than 8000_0000h, the processor supports extended functions.
+      Software operating at any privilege level can execute the CPUID
+      instruction to collect this information. In 64-bit mode, this instruction
+      works the same as in legacy mode except that it zero- extends 32-bit
+      register results to 64 bits.  CPUID is a serializing instruction.
+      "
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: eax
+              long_name: "function number"
+              type: uint32
+
+            - name: ecx
+              type: uint32
+
+        logical_outputs:
+            - name: eax
+              type: uint32
+
+            - name: ebx
+              type: uint32
+
+            - name: ecx
+              type: uint32
+
+            - name: edx
+              type: uint32
+
+        register_operands:
+            - name: eax
+              input: true
+              output: true
+
+            - name: ebx
+              output: true
+
+            - name: ecx
+              input: true
+              output: true
+
+            - name: edx
+              output: true
+
