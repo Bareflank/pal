@@ -1,4 +1,5 @@
 from pal.runner.acpi_runner import AcpiRunner
+from pal.runner.amd_64bit_runner import Amd64bitRunner
 from pal.runner.armv8a_aarch32_runner import Armv8aAarch32Runner
 from pal.runner.armv8a_aarch64_runner import Armv8aAarch64Runner
 from pal.runner.armv8a_external_runner import Armv8aExternalRunner
@@ -9,6 +10,9 @@ from pal.runner.yaml_runner import YamlRunner
 
 def make_runners(config):
     runners = []
+
+    if config.execution_state == "amd_64bit":
+        runners.append(Amd64bitRunner(config))
 
     if config.execution_state == "armv8a_aarch32":
         runners.append(Armv8aAarch32Runner(config))
