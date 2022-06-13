@@ -18,10 +18,11 @@ typedef UINT64 uint64_t;
 
 // ----------------------------------------------------------------------------
 struct sys_inputs {
-    uint64_t op1;
-    uint64_t crn;
-    uint64_t crm;
-    uint64_t op2;
+    uint8_t op1;
+    uint8_t crn;
+    uint8_t crm;
+    uint8_t op2;
+    uint64_t value;
 };
 
 struct sys_operands {
@@ -29,10 +30,10 @@ struct sys_operands {
 };
 // ----------------------------------------------------------------------------
 struct sysl_inputs {
-    uint64_t op1;
-    uint64_t crn;
-    uint64_t crm;
-    uint64_t op2;
+    uint8_t op1;
+    uint8_t crn;
+    uint8_t crm;
+    uint8_t op2;
 };
 
 struct sysl_outputs {

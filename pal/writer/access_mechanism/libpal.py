@@ -19,8 +19,12 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'xsetbv': self.__declare_xsetbv_dependencies,
             'read': self.__declare_read_dependencies,
             'write': self.__declare_write_dependencies,
+            'ldr': self.__declare_read_dependencies,
+            'str': self.__declare_write_dependencies,
             'read_pci_config': self.__declare_read_pci_config_dependencies,
             'write_pci_config': self.__declare_write_pci_config_dependencies,
+            'mrs_register': self.__declare_mrs_register_dependencies,
+            'msr_register': self.__declare_msr_register_dependencies,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -38,7 +42,9 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'mov_read': self.__call_mov_read_access_mechanism,
             'xgetbv': self.__call_xgetbv_read_access_mechanism,
             'read': self.__call_memory_read_access_mechanism,
+            'ldr': self.__call_memory_read_access_mechanism,
             'read_pci_config': self.__call_read_pci_config_access_mechanism,
+            'mrs_register': self.__call_mrs_register_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -57,7 +63,9 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
             'vmwrite': self.__call_vmwrite_access_mechanism,
             'xsetbv': self.__call_xsetbv_access_mechansim,
             'write': self.__call_memory_write_access_mechanism,
+            'str': self.__call_memory_write_access_mechanism,
             'write_pci_config': self.__call_write_pci_config_access_mechanism,
+            'msr_register': self.__call_msr_register_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -177,6 +185,20 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def __declare_write_pci_config_dependencies(self, outfile, register,
                                       access_mechanism):
             outfile.write('#include "pal/instruction/out_32.h"')
+            self.write_newline(outfile)
+
+    def __declare_mrs_register_dependencies(self, outfile, register,
+                                      access_mechanism):
+            outfile.write('#include "pal/aarch64/{reg}.h"'.format(
+                reg=register.name.lower()
+            ))
+            self.write_newline(outfile)
+
+    def __declare_msr_register_dependencies(self, outfile, register,
+                                      access_mechanism):
+            outfile.write('#include "pal/aarch64/{reg}.h"'.format(
+                reg=register.name.lower()
+            ))
             self.write_newline(outfile)
 
     def __call_cpuid_access_mechanism(self, outfile, register,
@@ -341,4 +363,26 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
                 mask=mask,
             ))
         self.write_newline(outfile)
+        self.write_newline(outfile)
+
+    def __call_mrs_register_access_mechanism(self, outfile, register,
+                                            access_mechanism, result):
+        outfile.write('{} = pal_execute_sysl({}, {}, {}, {});'.format(
+            result,
+            hex(access_mechanism.op1),
+            hex(access_mechanism.crn),
+            hex(access_mechanism.crm),
+            hex(access_mechanism.op2),
+        ))
+        self.write_newline(outfile)
+
+    def __call_msr_register_access_mechanism(self, outfile, register,
+                                       access_mechanism, value):
+        outfile.write('pal_execute_sys({}, {}, {}, {}, {});'.format(
+            hex(access_mechanism.op1),
+            hex(access_mechanism.crn),
+            hex(access_mechanism.crm),
+            hex(access_mechanism.op2),
+            value
+        ))
         self.write_newline(outfile)

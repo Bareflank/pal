@@ -19,22 +19,13 @@ long handle_devpal_ioctl_sysl(struct sysl_operands * user_ops)
     op2 = kern_ops.in.op2;
 
     // TODO: Implement Me!
-    // Is it possible to do the following?
-    //  - take the fields that make up the encoding for the A64 SYSL instruction
-    //  - calculate the instruction encoding, and write it to memory
-    //  - execute the instruction, using the memory value that just got written
-    //  - return the value that the instruction outputs
-    // __asm__ __volatile__(
-    //     "sysl;"
-    //     : [val] "=r"(value)
-    //     : [op1] "r"(op1), [crn] "r"(crn), [crm] "r"(crm), [op2] "r"(op2)
-    //     :
-    // );
+    //  - take the fields that make up the encoding for the A64 SYS instruction
+    //  - calculate the instruction encoding
+    //  - map the encoding to a function implemented within the driver
 
     kern_ops.out.value = value;
     if (copy_to_user(user_ops, &kern_ops, sizeof(struct sysl_operands)))
         return -1;
-
 
     return 0;
 }
