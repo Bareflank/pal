@@ -24,8 +24,8 @@ pal_find_python_module(yaml)
 if(PAL_ARMV8A_AARCH32_AAPCS_GNU)
     if(PAL_C)
         pal_run_generator(
-            TARGET_NAME c_armv8a_aarch32_aapcs_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch32_aapcs_gnuasm
+            TARGET_NAME c_armv8a_aarch32_aapcs_gnuinline
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch32_aapcs_gnuinline
             LANGUAGE c
             EXECUTION_STATE armv8a_aarch32
             ACCESS_MECHANISM gnu_inline
@@ -34,8 +34,8 @@ if(PAL_ARMV8A_AARCH32_AAPCS_GNU)
 
     if(PAL_C++11)
         pal_run_generator(
-            TARGET_NAME c++11_armv8a_aarch32_aapcs_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch32_aapcs_gnuasm
+            TARGET_NAME c++11_armv8a_aarch32_aapcs_gnuinline
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch32_aapcs_gnuinline
             LANGUAGE c++11
             EXECUTION_STATE armv8a_aarch32
             ACCESS_MECHANISM gnu_inline
@@ -46,8 +46,8 @@ endif()
 if(PAL_ARMV8A_AARCH64_AAPCS64_GNU)
     if(PAL_C)
         pal_run_generator(
-            TARGET_NAME c_armv8a_aarch64_aapcs64_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch64_aapcs64_gnuasm
+            TARGET_NAME c_armv8a_aarch64_aapcs64_gnuinline
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch64_aapcs64_gnuinline
             LANGUAGE c
             EXECUTION_STATE armv8a_aarch64
             ACCESS_MECHANISM gnu_inline
@@ -56,12 +56,40 @@ if(PAL_ARMV8A_AARCH64_AAPCS64_GNU)
 
     if(PAL_C++11)
         pal_run_generator(
-            TARGET_NAME c++11_armv8a_aarch64_aapcs64_gnuasm
-            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch64_aapcs64_gnuasm
+            TARGET_NAME c++11_armv8a_aarch64_aapcs64_gnuinline
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch64_aapcs64_gnuinline
             LANGUAGE c++11
             EXECUTION_STATE armv8a_aarch64
             ACCESS_MECHANISM gnu_inline
         )
+    endif()
+endif()
+
+if(PAL_ARMV8A_AARCH64_LINUX_IOCTL)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_armv8a_aarch64_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/armv8a_aarch64_linux_ioctl
+            LANGUAGE c
+            EXECUTION_STATE armv8a_aarch64
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_armv8a_aarch64_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/armv8a_aarch64_linux_ioctl
+            LANGUAGE c++11
+            EXECUTION_STATE armv8a_aarch64
+            ACCESS_MECHANISM libpal
+        )
+    endif()
+
+    add_subdirectory(libpal/armv8a_aarch64_linux_ioctl)
+
+    if(PAL_DRIVER)
+        add_subdirectory(devpal/linux)
     endif()
 endif()
 

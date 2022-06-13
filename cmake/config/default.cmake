@@ -54,6 +54,12 @@ option(
 )
 
 option(
+    PAL_ARMV8A_AARCH64_LINUX_IOCTL
+    "Enable pal for ARMv8a (aarch64) from a Linux application to a Linux driver via an IOCTL"
+    OFF
+)
+
+option(
     PAL_INTEL_64BIT_SYSTEMV_GNUINLINE
     "Enable pal for Intel (64-bit) from the SystemV ABI to GNU inline Assemler"
     OFF
