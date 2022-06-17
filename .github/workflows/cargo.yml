@@ -35,6 +35,10 @@ jobs:
       shell: bash
       run: cargo build --manifest-path test/rust/intel/Cargo.toml --no-default-features --features nasm
 
-    - name: Build (example)
+    - name: Build (Intel example)
       shell: bash
       run: cargo build --manifest-path example/rust/intel/Cargo.toml
+
+    - name: Build (ARMv8a example)
+      shell: bash
+      run: cargo build --manifest-path example/rust/armv8a/Cargo.toml
