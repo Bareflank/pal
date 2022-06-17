@@ -9,21 +9,28 @@ class RustFieldAccessorWriter():
         if field.msb == field.lsb:
             if register.is_readable():
                 self._declare_bitfield_is_enabled(outfile, register, field)
-                self._declare_bitfield_is_enabled_in_value(outfile, register, field)
                 self._declare_bitfield_is_disabled(outfile, register, field)
-                self._declare_bitfield_is_disabled_in_value(outfile, register, field)
+
+            self._declare_bitfield_is_enabled_in_value(outfile, register, field)
+            self._declare_bitfield_is_disabled_in_value(outfile, register, field)
+
             if register.is_writeable():
                 self._declare_bitfield_enable(outfile, register, field)
-                self._declare_bitfield_enable_in_value(outfile, register, field)
                 self._declare_bitfield_disable(outfile, register, field)
-                self._declare_bitfield_disable_in_value(outfile, register, field)
+
+            self._declare_bitfield_enable_in_value(outfile, register, field)
+            self._declare_bitfield_disable_in_value(outfile, register, field)
+
         else:
             if register.is_readable():
                 self._declare_get_field(outfile, register, field)
-                self._declare_get_field_from_value(outfile, register, field)
+
+            self._declare_get_field_from_value(outfile, register, field)
+
             if register.is_writeable():
                 self._declare_set_field(outfile, register, field)
-                self._declare_set_field_in_value(outfile, register, field)
+
+            self._declare_set_field_in_value(outfile, register, field)
 
     def call_field_get(self, outfile, register, field, destination, register_value):
         if field.msb == field.lsb:
@@ -208,7 +215,10 @@ class RustFieldAccessorWriter():
         )
 
         size_type = self._register_size_type(register)
-        self._declare_variable(outfile, "value", reg_get, size_type=size_type)
+        if register.is_readable():
+            self._declare_variable(outfile, "value", reg_get, size_type=size_type)
+        else:
+            self._declare_variable(outfile, "value", "0", size_type=size_type)
         outfile.write(reg_set)
 
     def _declare_bitfield_enable_in_value(self, outfile, register, field):
@@ -259,7 +269,10 @@ class RustFieldAccessorWriter():
         )
 
         size_type = self._register_size_type(register)
-        self._declare_variable(outfile, "value", reg_get, size_type=size_type)
+        if register.is_readable():
+            self._declare_variable(outfile, "value", reg_get, size_type=size_type)
+        else:
+            self._declare_variable(outfile, "value", "0", size_type=size_type)
         outfile.write(reg_set)
 
     def _declare_bitfield_disable_in_value(self, outfile, register, field):
@@ -374,10 +387,16 @@ class RustFieldAccessorWriter():
         )
 
         size_type = self._register_size_type(register)
-        self._declare_variable(outfile, "register_value", reg_get,
-                               size_type=size_type, mut=True)
-        outfile.write(old_field_removed)
-        self.write_newline(outfile)
+
+        if register.is_readable():
+            self._declare_variable(outfile, "register_value", reg_get,
+                                   size_type=size_type, mut=True)
+            outfile.write(old_field_removed)
+            self.write_newline(outfile)
+        else:
+            self._declare_variable(outfile, "register_value", "0",
+                                   size_type=size_type, mut=True)
+
         outfile.write(new_field_added)
         self.write_newline(outfile)
         outfile.write(reg_set)

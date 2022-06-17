@@ -16,6 +16,9 @@ class RustLibpalAccessMechanismWriter(AccessMechanismWriter):
             'vmread': self.__call_vmread_access_mechanism,
             'mov_read': self.__call_mov_read_access_mechanism,
             'xgetbv': self.__call_xgetbv_read_access_mechanism,
+            'read': self.__call_todo_read_access_mechanism,
+            'ldr': self.__call_todo_read_access_mechanism,
+            'mrs_register': self.__call_todo_read_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -34,6 +37,9 @@ class RustLibpalAccessMechanismWriter(AccessMechanismWriter):
             'wrmsr': self.__call_wrmsr_access_mechanism,
             'vmwrite': self.__call_vmwrite_access_mechanism,
             'xsetbv': self.__call_xsetbv_access_mechansim,
+            'write': self.__call_todo_write_access_mechanism,
+            'str': self.__call_todo_write_access_mechanism,
+            'msr_register': self.__call_todo_write_access_mechanism,
         }
 
         if access_mechanism.name not in access_mechanisms:
@@ -109,4 +115,12 @@ class RustLibpalAccessMechanismWriter(AccessMechanismWriter):
 
     def __call_xsetbv_access_mechansim(self, outfile, register, access_mechanism, value):
         outfile.write('instruction::execute_xsetbv({}, {})'.format(hex(access_mechanism.register),value))
+        self.write_newline(outfile)
+
+    def __call_todo_read_access_mechanism(self, outfile, reigster, access_mechanism):
+        outfile.write("todo!()")
+        self.write_newline(outfile)
+
+    def __call_todo_write_access_mechanism(self, outfile, reigster, access_mechanism, value):
+        outfile.write("todo!()")
         self.write_newline(outfile)

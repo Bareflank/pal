@@ -96,8 +96,14 @@ class RustRegisterAccessorWriter():
         gadget = self.gadgets["pal.rust.function_definition"]
         gadget.name = self._register_write_function_name(register)
         gadget.return_type = None
-        gadget.args = [(size_type, "value")]
         gadget.documentation = self._register_documentation(register, "Sets the value of the register.")
+
+        # TODO: register get/set functions for ARMv8a are still under consturction
+        # Mark arguments with "_" to avoid unused parameter warnings until implemented
+        if register.arch == "armv8a":
+            gadget.args = [(size_type, "_value")]
+        else:
+            gadget.args = [(size_type, "value")]
 
         if register.is_indexed:
             gadget.args.append(("usize", "index"))

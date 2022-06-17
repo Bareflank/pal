@@ -5,11 +5,15 @@ class RustPrinterWriter():
 
     def declare_field_printers(self, outfile, register, field):
         self._declare_field_print_value(outfile, register, field)
-        self._declare_field_print(outfile, register, field)
+
+        if register.is_readable():
+            self._declare_field_print(outfile, register, field)
 
     def declare_fieldset_printers(self, outfile, register, fieldset):
         self._declare_fieldset_print_value(outfile, register, fieldset)
-        self._declare_fieldset_print(outfile, register, fieldset)
+
+        if register.is_readable():
+            self._declare_fieldset_print(outfile, register, fieldset)
 
     # -------------------------------------------------------------------------
     # private
@@ -39,15 +43,15 @@ class RustPrinterWriter():
         gadget = self.gadgets["pal.rust.function_definition"]
         gadget.name = self._fieldset_print_from_value_function_name(register, fieldset)
         gadget.return_type = None
-        gadget.args = [(size_type, "_value")]
+        gadget.args = [(size_type, "value")]
 
         self._declare_fieldset_print_value_details(outfile, register, fieldset)
 
     @pal.gadget.rust.function_definition
     def _declare_fieldset_print_value_details(self, outfile, register, fieldset):
-        self.print_value_as_register(outfile, register, "_value")
+        self.print_value_as_register(outfile, register, "value")
         for field in fieldset.fields:
-            print_field_code = "{function_name}(_value);".format(
+            print_field_code = "{function_name}(value);".format(
                 function_name=self._field_print_from_value_function_name(register, field)
             )
             outfile.write(print_field_code)
