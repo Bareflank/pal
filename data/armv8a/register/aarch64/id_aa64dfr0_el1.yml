@@ -68,7 +68,7 @@
             lsb: 32
             msb: 35
 
-          - name: _DoubleLock
+          - name: DoubleLock
             lsb: 36
             msb: 39
 
