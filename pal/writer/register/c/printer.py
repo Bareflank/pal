@@ -5,11 +5,15 @@ class CPrinterWriter():
 
     def declare_field_printers(self, outfile, register, field):
         self._declare_field_print_value(outfile, register, field)
-        self._declare_field_print(outfile, register, field)
+
+        if register.is_readable():
+            self._declare_field_print(outfile, register, field)
 
     def declare_fieldset_printers(self, outfile, register, fieldset):
         self._declare_fieldset_print_value(outfile, register, fieldset)
-        self._declare_fieldset_print(outfile, register, fieldset)
+
+        if register.is_readable():
+            self._declare_fieldset_print(outfile, register, fieldset)
 
     # -------------------------------------------------------------------------
     # private

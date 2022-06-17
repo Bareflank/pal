@@ -9,21 +9,28 @@ class CFieldAccessorWriter():
         if field.msb == field.lsb:
             if register.is_readable():
                 self._declare_bitfield_is_enabled(outfile, register, field)
-                self._declare_bitfield_is_enabled_in_value(outfile, register, field)
                 self._declare_bitfield_is_disabled(outfile, register, field)
-                self._declare_bitfield_is_disabled_in_value(outfile, register, field)
+
+            self._declare_bitfield_is_enabled_in_value(outfile, register, field)
+            self._declare_bitfield_is_disabled_in_value(outfile, register, field)
+
             if register.is_writeable():
                 self._declare_bitfield_enable(outfile, register, field)
-                self._declare_bitfield_enable_in_value(outfile, register, field)
                 self._declare_bitfield_disable(outfile, register, field)
-                self._declare_bitfield_disable_in_value(outfile, register, field)
+
+            self._declare_bitfield_enable_in_value(outfile, register, field)
+            self._declare_bitfield_disable_in_value(outfile, register, field)
+
         else:
             if register.is_readable():
                 self._declare_get_field(outfile, register, field)
-                self._declare_get_field_from_value(outfile, register, field)
+
+            self._declare_get_field_from_value(outfile, register, field)
+
             if register.is_writeable():
                 self._declare_set_field(outfile, register, field)
-                self._declare_set_field_in_value(outfile, register, field)
+
+            self._declare_set_field_in_value(outfile, register, field)
 
     def call_field_get(self, outfile, register, field, destination,
                        register_value):
@@ -183,7 +190,10 @@ class CFieldAccessorWriter():
 
     @pal.gadget.c.function_definition
     def _declare_bitfield_enable_details(self, outfile, register, field):
-        self.call_register_get(outfile, register, "value")
+        if register.is_readable():
+            self.call_register_get(outfile, register, "value")
+        else:
+            outfile.write("value = 0;")
 
         reg_set = "{reg_set}({view}{index}value | {mask});".format(
             reg_set=self._register_write_function_name(register),
@@ -227,7 +237,10 @@ class CFieldAccessorWriter():
 
     @pal.gadget.c.function_definition
     def _declare_bitfield_disable_details(self, outfile, register, field):
-        self.call_register_get(outfile, register, "value")
+        if register.is_readable():
+            self.call_register_get(outfile, register, "value")
+        else:
+            outfile.write("value = 0;")
 
         reg_set = "{reg_set}({view}{index}value & ~{mask});".format(
             reg_set=self._register_write_function_name(register),
@@ -323,7 +336,10 @@ class CFieldAccessorWriter():
 
     @pal.gadget.c.function_definition
     def _declare_field_set_details(self, outfile, register, field):
-        self.call_register_get(outfile, register, "register_value")
+        if register.is_readable():
+            self.call_register_get(outfile, register, "register_value")
+        else:
+            outfile.write("value = 0;")
 
         old_field_removed = "register_value = register_value & ~{mask};".format(
             mask=self._field_mask_string(register, field),
@@ -340,8 +356,10 @@ class CFieldAccessorWriter():
             index="index, " if register.is_indexed else "",
         )
 
-        outfile.write(old_field_removed)
-        self.write_newline(outfile)
+        if register.is_readable():
+            outfile.write(old_field_removed)
+            self.write_newline(outfile)
+
         outfile.write(new_field_added)
         self.write_newline(outfile)
         outfile.write(reg_set)
