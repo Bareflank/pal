@@ -19,5 +19,6 @@ pkg-config = "0.3.16"
 std = []
 enable_printers = ["term"]
 
+armv8a_aarch64_linux_ioctl = ["std", "enable_printers"]
 intel_64bit_linux_ioctl = ["std", "enable_printers"]
 intel_64bit_systemv_nasm = []

@@ -18,6 +18,11 @@ fn generate_language_bindings() {
         "--print_mechanism=rust_println"
     ];
 
+    if cfg!(feature = "armv8a_aarch64_linux_ioctl") {
+        args.push("--execution_state=armv8a_aarch64");
+        args.push("--access_mechanism=libpal");
+    }
+
     if cfg!(feature = "intel_64bit_systemv_nasm") || cfg!(feature = "intel_64bit_linux_ioctl") {
         args.push("--execution_state=intel_64bit");
         args.push("--access_mechanism=libpal");
@@ -47,6 +52,11 @@ fn build_libpal() {
 fn link_libpal() {
     let out_dir  = env::var_os("OUT_DIR").unwrap();
 
+    if cfg!(feature = "armv8a_aarch64_linux_ioctl") {
+        println!(r"cargo:rustc-link-search={}/libpal/armv8a_aarch64_linux_ioctl/", out_dir.to_str().unwrap());
+        println!("cargo:rustc-link-lib=static=pal_armv8a_aarch64_linux_ioctl");
+    }
+
     if cfg!(feature = "intel_64bit_linux_ioctl") {
         println!(r"cargo:rustc-link-search={}/libpal/intel_64bit_linux_ioctl/", out_dir.to_str().unwrap());
         println!("cargo:rustc-link-lib=static=pal_intel_64bit_linux_ioctl");
@@ -67,6 +77,10 @@ fn configure_cmake(cmake_build_dir: &str) {
         "-DPAL_C=OFF",
         "-DPAL_C++11=OFF"
     ];
+
+    if cfg!(feature = "armv8a_aarch64_linux_ioctl") {
+        args.push("-DPAL_ARMV8A_AARCH64_LINUX_IOCTL=ON");
+    }
 
     if cfg!(feature = "intel_64bit_linux_ioctl") {
         args.push("-DPAL_INTEL_64BIT_LINUX_IOCTL=ON");
