@@ -16,7 +16,7 @@ def make_runners(config):
 
     if config.execution_state == "armv8a_aarch64":
         runners.append(Armv8aAarch64Runner(config))
-        runners.append(Armv8aExternalRunner(config))
+        #  runners.append(Armv8aExternalRunner(config))
 
     if config.execution_state == "intel_64bit":
         runners.append(Intel64bitRunner(config))
