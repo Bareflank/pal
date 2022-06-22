@@ -333,5 +333,135 @@
 
           - name: 0
             lsb: 45
+            msb: 45
+            reserved0: True
+
+          - name: TWEDEn
+            lsb: 45
+            msb: 45
+
+          - name: 0
+            lsb: 46
+            msb: 49
+            reserved0: True
+
+          - name: TWEDEL
+            lsb: 46
+            msb: 49
+
+          - name: 0
+            lsb: 50
+            msb: 50
+            reserved0: True
+
+          - name: TMT0
+            lsb: 50
+            msb: 50
+
+          - name: 0
+            lsb: 51
+            msb: 51
+            reserved0: True
+
+          - name: TMT
+            lsb: 51
+            msb: 51
+
+          - name: 0
+            lsb: 52
+            msb: 52
+            reserved0: True
+
+          - name: TME0
+            lsb: 52
+            msb: 52
+
+          - name: 0
+            lsb: 53
+            msb: 53
+            reserved0: True
+
+          - name: TME
+            lsb: 53
+            msb: 53
+
+          - name: 0
+            lsb: 54
+            msb: 54
+            reserved0: True
+
+          - name: EnASR
+            lsb: 54
+            msb: 54
+
+          - name: 0
+            lsb: 55
+            msb: 55
+            reserved0: True
+
+          - name: EnAS0
+            lsb: 55
+            msb: 55
+
+          - name: 0
+            lsb: 56
+            msb: 56
+            reserved0: True
+
+          - name: EnALS
+            lsb: 56
+            msb: 56
+
+          - name: 0
+            lsb: 57
+            msb: 57
+            reserved0: True
+
+          - name: EPAN
+            lsb: 57
+            msb: 57
+
+          - name: 0
+            lsb: 58
+            msb: 59
+            reserved0: True
+
+          - name: RES0
+            lsb: 58
+            msb: 59
+
+          - name: 0
+            lsb: 60
+            msb: 60
+            reserved0: True
+
+          - name: EnTP2
+            lsb: 60
+            msb: 60
+
+          - name: 0
+            lsb: 61
+            msb: 61
+            reserved0: True
+
+          - name: NMI
+            lsb: 61
+            msb: 61
+
+          - name: 0
+            lsb: 62
+            msb: 62
+            reserved0: True
+
+          - name: SPINTMASK
+            lsb: 62
+            msb: 62
+
+          - name: 0
+            lsb: 63
             msb: 63
             reserved0: True
+
+          - name: TIDCP
+            lsb: 63
+            msb: 63
