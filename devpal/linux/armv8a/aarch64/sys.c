@@ -19,10 +19,13 @@ long handle_devpal_ioctl_sys(struct sys_operands * user_ops)
     op2 = kern_ops.in.op2;
     value = kern_ops.in.value;
 
-    // TODO: Implement Me!
-    //  - take the fields that make up the encoding for the A64 SYS instruction
-    //  - calculate the instruction encoding
-    //  - map the encoding to a function implemented within the driver
+    printk("Here: val= %llx", value);
+
+    // inline assembly for msr
+    __asm__ volatile("msr s3_0_c1_c0_0 , %0"
+                     :
+                     : "r"(value));
+
 
     return 0;
 }
