@@ -69,6 +69,7 @@ set(EXTRA_CFLAGS_LIST
     "-D__kernel__"
     "-I${PAL_SOURCE_ROOT_DIR}/devpal/include"
     "-I${PAL_SOURCE_ROOT_DIR}/libpal/intel_64bit_systemv_gnuinline/include"
+    "-I${PAL_SOURCE_ROOT_DIR}/libpal/armv8a_aarch64_aapcs64_gnuinline/include"
 )
 string(REPLACE ";" " " EXTRA_CFLAGS "${EXTRA_CFLAGS_LIST}")
 
