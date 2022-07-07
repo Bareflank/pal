@@ -7,7 +7,7 @@
 
 #define DEVICE_FILE_NAME "/dev/devpal"
 
-uint64_t pal_execute_sysl(uint8_t op1, uint8_t crn, uint8_t crm, uint8_t op2)
+uint64_t pal_execute_sysl(uint8_t op0, uint8_t op1, uint8_t crn, uint8_t crm, uint8_t op2)
 {
     int file_desc;
     int status;
@@ -19,6 +19,7 @@ uint64_t pal_execute_sysl(uint8_t op1, uint8_t crn, uint8_t crm, uint8_t op2)
         return -1;
     }
 
+    sysl_ops.in.op0 = op0;
     sysl_ops.in.op1 = op1;
     sysl_ops.in.crn = crn;
     sysl_ops.in.crm = crm;

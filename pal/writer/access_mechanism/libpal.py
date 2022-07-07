@@ -367,8 +367,9 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
 
     def __call_mrs_register_access_mechanism(self, outfile, register,
                                             access_mechanism, result):
-        outfile.write('{} = pal_execute_sysl({}, {}, {}, {});'.format(
+        outfile.write('{} = pal_execute_sysl({}, {}, {}, {}, {});'.format(
             result,
+            hex(access_mechanism.op0),
             hex(access_mechanism.op1),
             hex(access_mechanism.crn),
             hex(access_mechanism.crm),
@@ -378,7 +379,8 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
 
     def __call_msr_register_access_mechanism(self, outfile, register,
                                        access_mechanism, value):
-        outfile.write('pal_execute_sys({}, {}, {}, {}, {});'.format(
+        outfile.write('pal_execute_sys({}, {}, {}, {}, {}, {});'.format(
+            hex(access_mechanism.op0),
             hex(access_mechanism.op1),
             hex(access_mechanism.crn),
             hex(access_mechanism.crm),

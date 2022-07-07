@@ -7,7 +7,7 @@
 
 #define DEVICE_FILE_NAME "/dev/devpal"
 
-void pal_execute_sys(uint8_t op1, uint8_t crn, uint8_t crm, uint8_t op2, uint64_t value)
+void pal_execute_sys(uint8_t op0, uint8_t op1, uint8_t crn, uint8_t crm, uint8_t op2, uint64_t value)
 {
     int file_desc;
     int status;
@@ -19,6 +19,7 @@ void pal_execute_sys(uint8_t op1, uint8_t crn, uint8_t crm, uint8_t op2, uint64_
         return;
     }
 
+    sys_ops.in.op0 = op0;
     sys_ops.in.op1 = op1;
     sys_ops.in.crn = crn;
     sys_ops.in.crm = crm;
