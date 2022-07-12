@@ -18,6 +18,7 @@ typedef UINT64 uint64_t;
 
 // ----------------------------------------------------------------------------
 struct sys_inputs {
+    uint8_t op0;
     uint8_t op1;
     uint8_t crn;
     uint8_t crm;
@@ -30,6 +31,7 @@ struct sys_operands {
 };
 // ----------------------------------------------------------------------------
 struct sysl_inputs {
+    uint8_t op0;
     uint8_t op1;
     uint8_t crn;
     uint8_t crm;
