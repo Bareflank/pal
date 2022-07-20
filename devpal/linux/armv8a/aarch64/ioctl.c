@@ -11,6 +11,7 @@
 long handle_devpal_ioctl_sys(struct sys_operands * user_ops);
 long handle_devpal_ioctl_sysl(struct sysl_operands * user_ops);
 long handle_devpal_ioctl_smc(struct smc_operands *user_ops);
+long handle_devpal_ioctl_hvc(struct hvc_operands *user_ops);
 
 long handle_devpal_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
@@ -24,6 +25,9 @@ long handle_devpal_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
         case DEVPAL_EXECUTE_SMC:
             return handle_devpal_ioctl_smc((struct smc_operands *)arg);
+
+        case DEVPAL_EXECUTE_HVC:
+            return handle_devpal_ioctl_hvc((struct hvc_operands *)arg);
 
         default:
             return -EINVAL;
