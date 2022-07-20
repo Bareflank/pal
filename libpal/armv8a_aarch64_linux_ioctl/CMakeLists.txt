@@ -6,4 +6,5 @@ target_include_directories(pal_armv8a_aarch64_linux_ioctl PRIVATE
 target_sources(pal_armv8a_aarch64_linux_ioctl PRIVATE
     sys.c
     sysl.c
+    smc.c
 )
