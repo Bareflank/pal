@@ -3,9 +3,9 @@ from yaml import load, dump
 from yaml import CLoader as Loader, CDumper as Dumper
 
 
-switch_output_file_path = "/home/ubuntu/PAL/pal/devpal/linux/armv8a/aarch64/all_perm_switch.c"
+switch_output_file_path = "" # path to directory to file to be generated
 switch_output_list = []
-asm_output_file_path = "/home/ubuntu/PAL/pal/devpal/linux/armv8a/aarch64/all_perm_asm.c"
+asm_output_file_path = "" # path to directory to file to be generated
 asm_output_list = []
 
 d = {}

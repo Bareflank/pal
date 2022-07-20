@@ -2,12 +2,12 @@ import os, sys
 from yaml import load, dump
 from yaml import CLoader as Loader, CDumper as Dumper
 
-dirpath = "/home/ubuntu/PAL/pal/data/armv8a/register/aarch64"
-mode = 'sys'
+dirpath = "" # path to directory to run in
+mode = 'sys' # SYS ir SYSL
 
-switch_output_file_path = "/home/ubuntu/PAL/pal/devpal/linux/armv8a/aarch64/generated_%s_switch.c" % mode
+switch_output_file_path = "" # path to directory to file to be generated
 switch_output_list = []
-asm_output_file_path = "/home/ubuntu/PAL/pal/devpal/linux/armv8a/aarch64/%s_asm.h" % mode
+asm_output_file_path = "" # path to directory to file to be generated
 asm_output_list = []
 
 d = {}
