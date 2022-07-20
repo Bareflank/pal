@@ -15,6 +15,7 @@ typedef UINT64 uint64_t;
 
 #define DEVPAL_EXECUTE_SYS 0xFD000000
 #define DEVPAL_EXECUTE_SYSL 0xFD000001
+#define DEVPAL_EXECUTE_SMC 0xFD000002
 
 // ----------------------------------------------------------------------------
 struct sys_inputs {
@@ -47,4 +48,54 @@ struct sysl_operands {
     struct sysl_outputs out;
 };
 
+// ----------------------------------------------------------------------------
+struct smc_inputs
+{
+    uint64_t W0;
+    uint64_t X1;
+    uint64_t X2;
+    uint64_t X3;
+    uint64_t X4;
+    uint64_t X5;
+    uint64_t X6;
+    uint64_t X7;
+    uint64_t X8;
+    uint64_t X9;
+    uint64_t X10;
+    uint64_t X11;
+    uint64_t X12;
+    uint64_t X13;
+    uint64_t X14;
+    uint64_t X15;
+    uint64_t X16;
+    uint64_t X17;
+};
+
+struct smc_outputs
+{
+    uint64_t X0;
+    uint64_t X1;
+    uint64_t X2;
+    uint64_t X3;
+    uint64_t X4;
+    uint64_t X5;
+    uint64_t X6;
+    uint64_t X7;
+    uint64_t X8;
+    uint64_t X9;
+    uint64_t X10;
+    uint64_t X11;
+    uint64_t X12;
+    uint64_t X13;
+    uint64_t X14;
+    uint64_t X15;
+    uint64_t X16;
+    uint64_t X17;
+};
+
+struct smc_operands
+{
+    struct smc_inputs in;
+    struct smc_outputs out;
+};
 #endif

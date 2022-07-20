@@ -49,6 +49,7 @@ if(PAL_ARMV8A_AARCH64_LINUX_IOCTL)
         armv8a/aarch64/ioctl.c
         armv8a/aarch64/sys.c
         armv8a/aarch64/sysl.c
+        armv8a/aarch64/smc.c
     )
 endif()
 
