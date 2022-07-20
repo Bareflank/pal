@@ -35,9 +35,6 @@ struct smc_operands pal_execute_smc(struct smc_operands *user_ops)
     smc_ops.in.X12 = (*user_ops).in.X12;
     smc_ops.in.X13 = (*user_ops).in.X13;
     smc_ops.in.X14 = (*user_ops).in.X14;
-    smc_ops.in.X15 = (*user_ops).in.X15;
-    smc_ops.in.X16 = (*user_ops).in.X16;
-    smc_ops.in.X17 = (*user_ops).in.X17;
     
     if (ioctl(file_desc, DEVPAL_EXECUTE_SMC, &smc_ops))
     {

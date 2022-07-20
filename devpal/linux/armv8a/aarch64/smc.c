@@ -29,9 +29,6 @@ long handle_devpal_ioctl_smc(struct smc_operands * user_ops)
     kern_ops.out.X12 = output.out.X12;
     kern_ops.out.X13 = output.out.X13;
     kern_ops.out.X14 = output.out.X14;
-    kern_ops.out.X15 = output.out.X15;
-    kern_ops.out.X16 = output.out.X16;
-    kern_ops.out.X17 = output.out.X17;
 
     if (copy_to_user(user_ops, &kern_ops, sizeof(struct smc_operands)))
         return -1;
