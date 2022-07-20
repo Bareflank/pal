@@ -18,9 +18,6 @@ inline struct smc_operands pal_execute_smc_inline(struct smc_operands * kern_ops
     uint64_t X12 = (*kern_ops).in.X12;
     uint64_t X13 = (*kern_ops).in.X13;
     uint64_t X14 = (*kern_ops).in.X14;
-    uint64_t X15 = (*kern_ops).in.X15;
-    uint64_t X16 = (*kern_ops).in.X16;
-    uint64_t X17 = (*kern_ops).in.X17;
 
     __asm__ volatile(
         "ldr w0, %0\n"
@@ -38,9 +35,6 @@ inline struct smc_operands pal_execute_smc_inline(struct smc_operands * kern_ops
         "ldr x12, %12\n"
         "ldr x13, %13\n"
         "ldr x14, %14\n"
-        // "ldr x15, %15\n"
-        // "ldr x16, %16\n"
-        // "ldr x17, %17\n"
         "smc #0\n"
         "str x0, %0\n"
         "str x1, %1\n"
@@ -57,27 +51,21 @@ inline struct smc_operands pal_execute_smc_inline(struct smc_operands * kern_ops
         "str x12, %12\n"
         "str x13, %13\n"
         "str x14, %14\n"
-        // "str x15, %15\n"
-        // "str x16, %16\n"
-        // "str x17, %17\n"
         : "+m"(X0),
           "+m"(X1),
           "+m"(X2),
           "+m"(X3),
-          "+m"(X4)
-          "+r"(X5),
-          "+r"(X6),
-          "+r"(X7),
-          "+r"(X8),
-          "+r"(X9),
-          "+r"(X10),
-          "+r"(X11),
-          "+r"(X12),
-          "+r"(X13),
-          "+r"(X14),
-        //   "+r"(X15),
-        //   "+r"(X16),
-        //   "+r"(X17)
+          "+m"(X4),
+          "+m"(X5),
+          "+m"(X6),
+          "+m"(X7),
+          "+m"(X8),
+          "+m"(X9),
+          "+m"(X10),
+          "+m"(X11),
+          "+m"(X12),
+          "+m"(X13),
+          "+m"(X14)
         :
         : "w0", "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7",
           "x8", "x9", "x10", "x11", "x12", "x13", "x14", "x15", "x16", "x17");
@@ -97,9 +85,6 @@ inline struct smc_operands pal_execute_smc_inline(struct smc_operands * kern_ops
     (*kern_ops).out.X12 = X12;
     (*kern_ops).out.X13 = X13;
     (*kern_ops).out.X14 = X14;
-    (*kern_ops).out.X15 = X15;
-    (*kern_ops).out.X16 = X16;
-    (*kern_ops).out.X17 = X17;
 
     return (*kern_ops);
 }
