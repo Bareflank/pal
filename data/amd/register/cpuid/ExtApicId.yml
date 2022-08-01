@@ -1,0 +1,38 @@
+- name: ExtApicId
+  long_name: "Extended APIC ID"
+  purpose: |
+    "
+    CPUID_Fn8000001E_EAX [Extended APIC ID] (Core::X86::Cpuid::ExtApicId)
+    
+    Read-only
+
+    If Core::X86::Cpuid::FeatureExtIdEcx[TopologyExtensions] == 0 then CPUID Fn8000001E_E[D,C,B,A]X are reserved.
+    If (Core::X86::Msr::APIC_BAR[ApicEn] == 0) then Core::X86::Cpuid::ExtApicId[ExtendedApicId] is reserved.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x8000001E
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: ExtendedApicId
+              long_name: extended APIC ID
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. See 2.1.8.2.1.3 [ApicId Enumeration Requirements].
+                  Reset: Core::X86::Msr::APIC_BAR[ApicEn] ? Fixed,{00_0000h , Core::X86::Apic::ApicId[ApicId]} :
+                  Fixed,0000_0000h.
+                  "
+          

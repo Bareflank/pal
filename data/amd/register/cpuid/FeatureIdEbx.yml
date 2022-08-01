@@ -1,0 +1,54 @@
+- name: FeatureIdEbx
+  long_name: "LocalApicId, LogicalProcessorCount, CLFlush"
+  purpose: |
+    "
+    CPUID_Fn00000001_EBX [LocalApicId, LogicalProcessorCount, CLFlush] (Core::X86::Cpuid::FeatureIdEbx)
+
+    read-only
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x00000001
+        output: ebx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CLFlush
+              long_name: CLFLUSH size in quadwords
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,08h.
+                  "
+
+            - name: LogicalProcessorCount
+              long_name: logical processor count
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,(Core::X86::Cpuid::SizeId[NC] + 1).
+                  Specifies the number of threads in the processor as Core::X86::Cpuid::SizeId[NC]+1.
+                  "
+
+            - name: LocalApicId
+              long_name: initial local APIC physical ID
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  initial local APIC physical ID
+                  "

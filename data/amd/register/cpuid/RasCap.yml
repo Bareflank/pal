@@ -1,0 +1,68 @@
+- name: RasCap
+  long_name: "RAS Capabilities"
+  purpose: |
+    "
+    CPUID_Fn80000007_EBX [RAS Capabilities] (Core::X86::Cpuid::RasCap)
+    
+    Read-only. Reset: 0000_000Xh.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000007
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: McaOverflowRecov
+              long_name: MCA overflow recovery support
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 0=MCA overflow
+                  conditions require software to shut down the system. 1=MCA overflow conditions (MCi_STATUS[Overflow] ==
+                  1) are not fatal; software may safely ignore such conditions. See 3 [Machine Check Architecture].
+                  "
+            
+            - name: SUCCOR
+              long_name: Software uncorrectable error containment and recovery capability
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: X. The
+                  processor supports software containment of uncorrectable errors through context synchronizing data poisoning
+                  and deferred error interrupts; MSR Core::X86::Msr::McaIntrCfg, MCA_STATUS[Deferred] and
+                  MCA_STATUS[Poison] exist.
+                  "
+            
+            - name: HWA
+              long_name: hardware assert supported
+              lsb: 2
+              msb: 2
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+            
+            - name: ScalableMca
+              long_name: ScalableMca
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 0=Scalable MCA is not supported. 1=Scalable MCA is supported. See
+                  3.2 [Machine Check Architecture Extensions] and MCA_CONFIG[McaX] for the respective bank
+                  "
