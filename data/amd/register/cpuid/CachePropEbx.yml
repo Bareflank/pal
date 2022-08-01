@@ -1,0 +1,189 @@
+- name: CachePropEbx
+  long_name: "Cache Properties"
+  purpose: |
+    "
+    CPUID_Fn8000001D_EBX_x00 [Cache Properties (DC)] (Core::X86::Cpuid::CachePropEbx0)
+    Read-only. Reset: 01C0_003Fh.
+    Core::X86::Cpuid::CachePropEbx0 reports topology information for the DC. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EBX_x01 [Cache Properties (IC)] (Core::X86::Cpuid::CachePropEbx1)
+    Read-only. Reset: 00C0_003Fh.
+    Core::X86::Cpuid::CachePropEbx1 reports topology information for the IC. See Core::X86::Cpuid::CachePropEax0.
+    
+    CPUID_Fn8000001D_EBX_x02 [Cache Properties (L2)] (Core::X86::Cpuid::CachePropEbx2)
+    Read-only. Reset: 01C0_003Fh.
+    Core::X86::Cpuid::CachePropEbx2 reports topology information for the L2. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EBX_x03 [Cache Properties (L3)] (Core::X86::Cpuid::CachePropEbx3)
+    Read-only. Reset: 03C0_003Fh.
+    Core::X86::Cpuid::CachePropEbx3 reports topology information for the L3. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EBX_x04 [Cache Properties Null] (Core::X86::Cpuid::CachePropEbx4)
+    Read-only. Reset: 0000_0000h.
+    Core::X86::Cpuid::CachePropEax4 reports done/null. See Core::X86::Cpuid::CachePropEax0.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x8000001D
+        output: ebx
+
+  fieldsets:
+      - name: index_0
+        condition: "Fieldset valid on index_0 of CPUID_Fn8000001D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheLineSize
+              long_name: cache line size in bytes
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,03Fh. Cache line size in bytes is CacheLineSize + 1.
+                  "
+
+            - name: CachePhysPartitions
+              long_name: cache physical line partitions
+              lsb: 12
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,000h. Cache partitions is 
+                  CachePhysPartitions + 1.
+                  "
+
+            - name: CacheNumWays
+              long_name: cache number of ways
+              lsb: 22
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,007h. Cache number of ways is CacheNumWays + 1.
+                  "
+
+      - name: index_1
+        condition: "Fieldset valid on index_1 of CPUID_Fn8000001D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheLineSize
+              long_name: cache line size in bytes
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,03Fh. Core::X86::Cpuid::CachePropEbx0[CacheLineSize].
+                  "
+
+            - name: CachePhysPartitions
+              long_name: cache physical line partitions
+              lsb: 12
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,000h. Core::X86::Cpuid::CachePropEbx0[CachePhysPartitions].
+                  "
+
+            - name: CacheNumWays
+              long_name: cache number of ways
+              lsb: 22
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,003h. Core::X86::Cpuid::CachePropEbx0[CacheNumWays].
+                  "
+
+      - name: index_2
+        condition: "Fieldset valid on index_2 of CPUID_Fn8000001D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheLineSize
+              long_name: cache line size in bytes
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,03Fh. Core::X86::Cpuid::CachePropEbx0[CacheLineSize].
+                  "
+
+            - name: CachePhysPartitions
+              long_name: cache physical line partitions
+              lsb: 12
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,000h. Core::X86::Cpuid::CachePropEbx0[CachePhysPartitions].
+                  "
+
+            - name: CacheNumWays
+              long_name: cache number of ways
+              lsb: 22
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,003h. Core::X86::Cpuid::CachePropEbx0[CacheNumWays].
+                  "
+
+      - name: index_3
+        condition: "Fieldset valid on index_3 of CPUID_Fn8000001D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheLineSize
+              long_name: cache line size in bytes
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,03Fh. Core::X86::Cpuid::CachePropEbx0[CacheLineSize].
+                  "
+
+            - name: CachePhysPartitions
+              long_name: cache physical line partitions
+              lsb: 12
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,000h. Core::X86::Cpuid::CachePropEbx0[CachePhysPartitions].
+                  "
+
+            - name: CacheNumWays
+              long_name: cache number of ways
+              lsb: 22
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,003h. Core::X86::Cpuid::CachePropEbx0[CacheNumWays].
+                  "
+
+      - name: index_4
+        condition: "Fieldset valid on index_4 of CPUID_Fn8000001D_EBX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: Reserved
+              long_name: reserved
+              lsb: 0
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0000_0000h.
+                  "

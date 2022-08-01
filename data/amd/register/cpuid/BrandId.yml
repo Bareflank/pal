@@ -1,0 +1,32 @@
+- name: BrandId
+  long_name: "BrandId Identifier"
+  purpose: |
+    "
+    CPUID_Fn80000001_EBX [BrandId Identifier] (Core::X86::Cpuid::BrandId)
+    
+    Read-only. Reset: X000_0000h.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000001
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: PkgType
+              long_name: package type
+              lsb: 28
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Xh. Specifies the package type
+                  "

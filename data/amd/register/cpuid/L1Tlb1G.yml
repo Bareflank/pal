@@ -1,0 +1,64 @@
+- name: L1Tlb1G
+  long_name: "L1 TLB 1G Identifiers"
+  purpose: |
+    "
+    CPUID_Fn80000019_EAX [L1 TLB 1G Identifiers] (Core::X86::Cpuid::L1Tlb1G)
+    
+    Read-only
+
+    This function provides first level TLB characteristics for 1GB pages.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000019
+        output: eax
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: L1ITlb1GSize
+              long_name: L1 instruction TLB number of entries for 1 GB pages
+              lsb: 0
+              msb: 11
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+
+            - name: L1ITlb1GAssoc
+              long_name: L1 instruction TLB associativity for 1 GB pages
+              lsb: 12
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: L1DTlb1GSize
+              long_name: L1 data TLB number of entries for 1 GB pages
+              lsb: 16
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,64.
+                  "
+
+            - name: L1DTlb1GAssoc
+              long_name: L2 data TLB associativity for 1 GB pages
+              lsb: 28
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0h. See Core::X86::Cpuid::L2CacheId[L2Assoc].
+                  "

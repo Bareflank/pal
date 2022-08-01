@@ -1,0 +1,64 @@
+- name: ProcNameStr1Ebx
+  long_name: "Processor Name String Identifier (Bytes [23:20])"
+  purpose: |
+    "
+    CPUID_Fn80000003_EBX [Processor Name String Identifier (Bytes [23:20])] (Core::X86::Cpuid::ProcNameStr1Ebx)
+    
+    Read-only
+
+    Is an alias of Core::X86::Msr::ProcNameString_n2.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x80000003
+        output: ebx
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: ProcNameByte20
+              long_name: processor name, byte20
+              lsb: 0
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString4].
+                  "
+            
+            - name: ProcNameByte21
+              long_name: processor name, byte21
+              lsb: 8
+              msb: 15
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString5].
+                  "
+            
+            - name: ProcNameByte22
+              long_name: processor name, byte22
+              lsb: 16
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString6].
+                  "
+            
+            - name: ProcNameByte23
+              long_name: processor name, byte23
+              lsb: 24
+              msb: 31
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Core::X86::Msr::ProcNameString_n0[CpuNameString7].
+                  "

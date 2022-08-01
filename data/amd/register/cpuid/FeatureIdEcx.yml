@@ -1,0 +1,206 @@
+- name: FeatureIdEcx
+  long_name: "Feature Identifiers"
+  purpose: |
+    "
+    CPUID_Fn00000001_ECX [Feature Identifiers] (Core::X86::Cpuid::FeatureIdEcx)
+
+    read-only
+    These values can be over-written by Core::X86::Msr::CPUID_Features.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: false
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x00000001
+        output: ecx
+
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: SSE3
+              long_name: SSE3 extensions
+              lsb: 0
+              msb: 0
+              readable: True
+              description: |
+                  "
+                  read-only. Reset: Fixed,1.
+                  "
+
+            - name: PCLMULQDQ
+              long_name: PCLMULQDQ instruction support
+              lsb: 1
+              msb: 1
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: X.
+                  "
+
+            - name: Monitor
+              long_name: Monitor/Mwait instructions
+              lsb: 3
+              msb: 3
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: !Core::X86::Msr::HWCR[MonMwaitDis].
+                  "
+
+            - name: SSSE3
+              long_name: supplemental SSE3 extensions
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  read-only. Reset: Fixed,1.
+                  "
+
+            - name: FMA
+              long_name: FMA instruction support
+              lsb: 12
+              msb: 12
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: CMPXCHG16B
+              long_name: CMPXCHG16B instruction
+              lsb: 13
+              msb: 13
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: !Core::X86::Msr::HWCR[MonMwaitDis].
+                  "
+
+            - name: PCID
+              long_name: process context identifiers support
+              lsb: 17
+              msb: 17
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+
+            - name: SSE41
+              long_name: SSE4.1 instruction support
+              lsb: 19
+              msb: 19
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: SSE42
+              long_name: SSE4.2 instruction support.
+              lsb: 20
+              msb: 20
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: X2APIC
+              long_name: x2APIC capability
+              lsb: 21
+              msb: 21
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0.
+                  "
+
+            - name: MOVBE
+              long_name: MOVBE instruction support
+              lsb: 22
+              msb: 22
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: POPCNT
+              long_name: POPCNT instruction
+              lsb: 23
+              msb: 23
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: AES
+              long_name: AES instruction support
+              lsb: 25
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Reset: X.
+                  "
+
+            - name: XSAVE
+              long_name: XSAVE (and related) instruction support
+              lsb: 26
+              msb: 26
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Support provided for the
+                  XSAVE, XRSTOR, XSETBV, and XGETBV instructions and the XFEATURE_ENABLED_MASK register.
+                  "
+
+            - name: OSXSAVE
+              long_name: OS enabled support for XGETBV/XSETBV
+              lsb: 27
+              msb: 27
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: X. 1=The OS has enabled support
+                  for XGETBV/XSETBV instructions to query processor extended states.
+                  "
+
+            - name: AVX
+              long_name: AVX instruction support
+              lsb: 28
+              msb: 28
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: F16C
+              long_name: half-precision convert instruction support
+              lsb: 29
+              msb: 29
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "
+
+            - name: RDRAND
+              long_name: RDRAND instruction support
+              lsb: 30
+              msb: 30
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1.
+                  "

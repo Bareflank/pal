@@ -1,0 +1,268 @@
+- name: CachePropEax
+  long_name: "Cache Properties"
+  purpose: |
+    "
+    CPUID_Fn8000001D_EAX_x00 [Cache Properties (DC)] (Core::X86::Cpuid::CachePropEax0)
+    Core::X86::Cpuid::CachePropEax0 reports topology information for the DC.
+    If (Core::X86::Cpuid::FeatureExtIdEcx[TopologyExtensions] == 0) then CPUID Fn8000001D_E[D,C,B,A]X are
+    reserved.
+
+    CPUID_Fn8000001D_EAX_x01 [Cache Properties (IC)] (Core::X86::Cpuid::CachePropEax1)
+    Read-only. Reset: 0XXX_X122h.
+    Core::X86::Cpuid::CachePropEax1 reports topology information for the IC. See Core::X86::Cpuid::CachePropEax0.
+
+    CPUID_Fn8000001D_EAX_x02 [Cache Properties (L2)] (Core::X86::Cpuid::CachePropEax2)
+    Read-only. Reset: 0XXX_X143h.
+    Core::X86::Cpuid::CachePropEax2 reports topology information for the L2. See Core::X86::Cpuid::CachePropEax0.
+    
+    CPUID_Fn8000001D_EAX_x04 [Cache Properties Null] (Core::X86::Cpuid::CachePropEax4)
+    Read-only. Reset: 0000_0000h.
+    Core::X86::Cpuid::CachePropEax4 reports done/null. See Core::X86::Cpuid::CachePropEax0.
+    "
+  size: 32
+  arch: amd64
+  is_indexed: true
+  
+  access_mechanisms:
+      - name: cpuid
+        function: 0x8000001D
+        output: eax
+
+  fieldsets:
+      - name: index_0
+        condition: "Fieldset valid on index_0 of CPUID_Fn8000001D_EAX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheType
+              long_name: cache type
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,01h. Identifies the type of cache.
+                  "
+
+            - name: CacheLevel
+              long_name: cache level
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1h. Identifies the cache level.
+                  "
+
+            - name: SelfInitialization
+              long_name: cache is self-initializing
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. 1=Cache is self initializing; cache does not need software initialization
+                  "
+                  
+            - name: FullyAssociative
+              long_name: fully associative cache
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. 1=Cache is fully associative
+                  "
+
+            - name: NumSharingCache
+              long_name: number of logical processors sharing cache
+              lsb: 14
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXXh. The number of
+                  logical processors sharing this cache is NumSharingCache+1.
+                  "
+
+      - name: index_1
+        condition: "Fieldset valid on index_1 of CPUID_Fn8000001D_EAX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheType
+              long_name: cache type
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,02h. See Core::X86::Cpuid::CachePropEax0[CacheType].
+                  "
+
+            - name: CacheLevel
+              long_name: cache level
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1h. Identifies the cache level. See
+                  Core::X86::Cpuid::CachePropEax0[CacheLevel].
+                  "
+
+            - name: SelfInitialization
+              long_name: cache is self-initializing
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. See Core::X86::Cpuid::CachePropEax0[SelfInitialization].
+                  "
+                  
+            - name: FullyAssociative
+              long_name: fully associative cache
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. See Core::X86::Cpuid::CachePropEax0[FullyAssociative].
+                  "
+
+            - name: NumSharingCache
+              long_name: number of logical processors sharing cache
+              lsb: 14
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXXh. See Core::X86::Cpuid::CachePropEax0[NumSharingCache].
+                  "
+
+      - name: index_2
+        condition: "Fieldset valid on index_2 of CPUID_Fn8000001D_EAX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheType
+              long_name: cache type
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,03h. Core::X86::Cpuid::CachePropEax0[CacheType].
+                  "
+
+            - name: CacheLevel
+              long_name: cache level
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,2h. Identifies the cache level.
+                  Core::X86::Cpuid::CachePropEax0[CacheLevel].
+                  "
+
+            - name: SelfInitialization
+              long_name: cache is self-initializing
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. Core::X86::Cpuid::CachePropEax0[SelfInitialization].
+                  "
+                  
+            - name: FullyAssociative
+              long_name: fully associative cache
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. Core::X86::Cpuid::CachePropEax0[FullyAssociative].
+                  "
+
+            - name: NumSharingCache
+              long_name: number of logical processors sharing cache
+              lsb: 14
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXXh. Core::X86::Cpuid::CachePropEax0[NumSharingCache].
+                  "
+      - name: index_3
+        condition: "Fieldset valid on index_3 of CPUID_Fn8000001D_EAX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheType
+              long_name: cache type
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,03h. Core::X86::Cpuid::CachePropEax0[CacheType].
+                  "
+
+            - name: CacheLevel
+              long_name: cache level
+              lsb: 5
+              msb: 7
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,3h. Identifies the cache level.
+                  Core::X86::Cpuid::CachePropEax0[CacheLevel].
+                  "
+
+            - name: SelfInitialization
+              long_name: cache is self-initializing
+              lsb: 8
+              msb: 8
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,1. Core::X86::Cpuid::CachePropEax0[SelfInitialization].
+                  "
+                  
+            - name: FullyAssociative
+              long_name: fully associative cache
+              lsb: 9
+              msb: 9
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,0. Core::X86::Cpuid::CachePropEax0[FullyAssociative].
+                  "
+
+            - name: NumSharingCache
+              long_name: number of logical processors sharing cache
+              lsb: 14
+              msb: 25
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: XXXh. The number of logical processors sharing this cache is NumSharingCache+1.
+                  "
+
+      - name: index_4
+        condition: "Fieldset valid on index_4 of CPUID_Fn8000001D_EAX of the AMD architecture"
+        size: 32
+
+        fields:
+            - name: CacheType
+              long_name: cache type
+              lsb: 0
+              msb: 4
+              readable: True
+              description: |
+                  "
+                  Read-only. Reset: Fixed,00h. Core::X86::Cpuid::CachePropEax0[CacheType].
+                  "
