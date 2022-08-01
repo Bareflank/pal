@@ -1,0 +1,38 @@
+- name: SMMAddr
+  long_name: "SMM TSeg Base Address"
+  purpose: |
+       "
+        MSRC001_0112 [SMM TSeg Base Address] (Core::X86::Msr::SMMAddr) 
+        
+        See 2.1.8.1 [System Management Mode (SMM)] and 2.1.3.3.1 [Memory Access to the Physical Address Space]. See 
+        Core::X86::Msr::SMMMask for more information about the ASeg and TSeg address ranges. 
+        Each CPU access, directed at CPUAddr, is determined to be in the TSeg range if the following is true: 
+        CPUAddr[47:17] & TSegMask[47:17] == TSegBase[47:17] & TSegMask[47:17]. 
+        For example, if TSeg spans 256 KB and starts at the 1 MB address. The Core::X86::Msr::SMMAddr[TSegBase[47:17]] 
+        would be set to 0010_0000h and the Core::X86::Msr::SMMMask[TSegMask[47:17]] to FFFC_0000h (with zeros filling 
+        in for bits[16:0]). This results in a TSeg range from 0010_0000 to 0013_FFFFh.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010112
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010112
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TSegBase
+              long_name: "TSeg address range base"
+              lsb: 17
+              msb: 47
+              readable: True 
+              writable: True

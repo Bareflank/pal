@@ -1,0 +1,130 @@
+- name: IBS_FETCH_CTL
+  long_name: "IBS Fetch Control"
+  purpose: |
+       "
+        MSRC001_1030 [IBS Fetch Control] (Core::X86::Msr::IBS_FETCH_CTL)
+
+        The IBS fetch sampling engine is described as follows: 
+        • The periodic fetch counter is an internal 20-bit counter: 
+        • The periodic fetch counter [19:4] is set to IbsFetchCnt[19:4] and the periodic fetch counter [3:0] is set 
+        according to IbsRandEn when IbsFetchEn is changed from 0 to 1. 
+        • It increments for every fetch cycle that completes when IbsFetchEn == 1 and IbsFetchVal == 0. 
+        • The periodic fetch counter is undefined when IbsFetchEn == 0 or IbsFetchVal == 1. 
+        • When IbsFetchCnt[19:4] is read it returns the current value of the periodic fetch counter [19:4]. 
+        • When the periodic fetch counter reaches {IbsFetchMaxCnt[19:4],0h} and the selected instruction fetch 
+        completes or is aborted: 
+        • IbsFetchVal is set to 1. 
+        • Drivers can't assume that IbsFetchCnt[19:4] is 0 when IbsFetchVal == 1. 
+        • The status of the operation is written to the IBS fetch registers (this register, 
+        Core::X86::Msr::IBS_FETCH_LINADDR and Core::X86::Msr::IBS_FETCH_PHYSADDR). 
+        • An interrupt is generated as specified by Core::X86::Msr::IBS_CTL. The interrupt service routine associated 
+        with this interrupt is responsible for saving the performance information stored in IBS execution registers.
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011030
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011030 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IbsFetchMaxCnt
+              long_name: "IbsFetchMaxCnt[19:4]"
+              lsb: 0
+              msb: 15
+              readable: True 
+              writable: True
+
+            - name: IbsFetchCnt
+              long_name: "IbsFetchCnt[19:4]"
+              lsb: 16
+              msb: 31
+              readable: True 
+              writable: True
+
+            - name: IbsFetchLat
+              long_name: "IbsFetchLat"
+              lsb: 32
+              msb: 47
+              readable: True 
+              writable: False
+
+            - name: IbsFetchEn
+              long_name: "instruction fetch enable"
+              lsb: 48
+              msb: 48
+              readable: True 
+              writable: True
+
+            - name: IbsFetchVal
+              long_name: "instruction fetch valid"
+              lsb: 49
+              msb: 49
+              readable: True 
+              writable: False
+
+            - name: IbsFetchComp
+              long_name: "instruction fetch complete"
+              lsb: 50
+              msb: 50
+              readable: True 
+              writable: False
+
+            - name: IbsIcMiss
+              long_name: "instruction cache miss"
+              lsb: 51
+              msb: 51
+              readable: True 
+              writable: False
+
+            - name: IbsPhyAddrValid
+              long_name: "instruction fetch physical address valid"
+              lsb: 52
+              msb: 52
+              readable: True 
+              writable: False
+
+            - name: IbsL1TlbPgSz
+              long_name: "instruction cache L1TLB page size"
+              lsb: 53
+              msb: 54
+              readable: True 
+              writable: False
+
+            - name: IbsL1TlbMiss
+              long_name: "instruction cache L1TLB miss"
+              lsb: 55
+              msb: 55
+              readable: True 
+              writable: False
+
+            - name: IbsL2TlbMiss
+              long_name: "instruction cache L2TLB miss"
+              lsb: 56
+              msb: 56
+              readable: True 
+              writable: False
+
+            - name: IbsRandEn
+              long_name: "random instruction fetch tagging enable"
+              lsb: 57
+              msb: 57
+              readable: True 
+              writable: True
+
+            - name: IbsL2TlbMiss
+              long_name: "L2 cache miss for the sampled fetch"
+              lsb: 58
+              msb: 58
+              readable: True 
+              writable: False

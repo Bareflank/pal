@@ -1,0 +1,47 @@
+- name: STAR
+  long_name: "SYSCALL Target Address"
+  purpose: |
+       "
+        MSRC000_0081 [SYSCALL Target Address] (Core::X86::Msr::STAR)
+
+        This register holds the target address used by the SYSCALL instruction and the code and stack segment selector bases 
+        used by the SYSCALL and SYSRET instructions.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0000081
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0000081 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: Target
+              long_name: "SYSCALL target address"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: True
+
+            - name: SysCallSel
+              long_name: "SYSCALL CS and SS"
+              lsb: 32
+              msb: 47
+              readable: True 
+              writable: True
+
+            - name: SysRetSel
+              long_name: "SYSRET CS and SS"
+              lsb: 48
+              msb: 63
+              readable: True 
+              writable: True

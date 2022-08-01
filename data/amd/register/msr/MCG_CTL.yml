@@ -1,0 +1,36 @@
+- name: MCG_CTL
+  long_name: "Global Machine Check Exception Reporting Control"
+  purpose: |
+       "
+        MSR0000_017B [Global Machine Check Exception Reporting Control] (Core::X86::Msr::MCG_CTL)
+
+        This register controls enablement of the individual error reporting banks; see 3 [Machine Check Architecture]. When a 
+        machine check register bank is not enabled in MCG_CTL, errors for that bank are not logged or reported, and actions 
+        enabled through the MCA are not taken; each MCi_CTL register identifies which errors are still corrected when 
+        MCG_CTL[i] is disabled.
+        "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x017B
+
+      - name: wrmsr
+        is_write: True
+        address: 0x017B
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: MCnEn
+              long_name: "MCnEn"
+              lsb: 0
+              msb: 22
+              readable: True 
+              writable: True
+

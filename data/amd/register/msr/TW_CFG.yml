@@ -1,0 +1,30 @@
+- name: TW_CFG
+  long_name: "Table Walker Configuration"
+  purpose: |
+       "
+        MSRC001_1023 [Table Walker Configuration] (Core::X86::Msr::TW_CFG)
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011023
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011023 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TwCfgCombineCr0Cd
+              long_name: "combine CR0_CD for both threads of a core"
+              lsb: 49
+              msb: 49
+              readable: True 
+              writable: True

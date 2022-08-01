@@ -1,0 +1,34 @@
+- name: GS_BASE
+  long_name: "GS Base"
+  purpose: |
+       "
+        MSRC000_0101 [GS Base] (Core::X86::Msr::GS_BASE)
+        
+        Read-write. Reset: 0000_0000_0000_0000h. This register provides access 
+        to the expanded 64-bit GS segment base. The address stored in this register must  
+        be in canonical form (if not canonical, a #GP fault fill occurs).
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0000101
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0000101 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: GSBase
+              long_name: "expanded GS segment base"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True

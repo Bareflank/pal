@@ -1,0 +1,51 @@
+- name: SmiTrigIoCycle
+  long_name: "SMI Trigger IO Cycle"
+  purpose: |
+       "
+        MSRC001_0056 [SMI Trigger IO Cycle] (Core::X86::Msr::SmiTrigIoCycle)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010056
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010056 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IoPortAddress
+              long_name: "IoPortAddress"
+              lsb: 0
+              msb: 15
+              readable: True 
+              writable: True
+
+            - name: IoData
+              long_name: "IoData"
+              lsb: 16
+              msb: 23
+              readable: True 
+              writable: True
+
+            - name: IoCycleEn
+              long_name: "IO cycle enable"
+              lsb: 25
+              msb: 25
+              readable: True 
+              writable: True
+              
+            - name: IoRd
+              long_name: "IO Read"
+              lsb: 26
+              msb: 26
+              readable: True 
+              writable: True

@@ -1,0 +1,30 @@
+- name: CORE_ENERGY_STAT
+  long_name: "Core Energy Status"
+  purpose: |
+       "
+        MSRC001_029A [Core Energy Status] (Core::X86::Msr::CORE_ENERGY_STAT)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC001029A
+
+      - name: wrmsr
+        is_write: False
+        address: 0xC001029A
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TotalEnergyConsumed
+              long_name: "TotalEnergyConsumed"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: False

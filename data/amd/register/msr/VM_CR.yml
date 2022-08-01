@@ -1,0 +1,44 @@
+- name: VM_CR
+  long_name: "Virtual Machine Control"
+  purpose: |
+       "
+       MSRC001_0114 [Virtual Machine Control] (Core::X86::Msr::VM_CR)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010114
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010114
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: InterceptInit
+              long_name: "intercept INIT"
+              lsb: 1
+              msb: 1
+              readable: True 
+              writable: True
+
+            - name: Lock
+              long_name: "SVM lock"
+              lsb: 3
+              msb: 3
+              readable: True 
+              writable: False
+
+            - name: SvmeDisable
+              long_name: "SVME disable"
+              lsb: 4
+              msb: 4
+              readable: True 
+              writable: True

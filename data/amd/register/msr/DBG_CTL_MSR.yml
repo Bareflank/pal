@@ -1,0 +1,44 @@
+- name: DBG_CTL_MSR
+  long_name: "Debug Control"
+  purpose: |
+        "
+        MSR0000_01D9 [Debug Control] (Core::X86::Msr::DBG_CTL_MSR)
+        "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x01D9
+
+      - name: wrmsr
+        is_write: True
+        address: 0x01D9
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: LBR
+              long_name: "LBR"
+              lsb: 0
+              msb: 0
+              readable: True 
+              writable: True
+
+            - name: BTF
+              long_name: "BTF"
+              lsb: 1
+              msb: 1
+              readable: True 
+              writable: True
+
+            - name: PB
+              long_name: "performance monitor pin control"
+              lsb: 2
+              msb: 5
+              readable: True 
+              writable: True

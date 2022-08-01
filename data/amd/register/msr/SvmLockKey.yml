@@ -1,0 +1,30 @@
+- name: SvmLockKey
+  long_name: "SVM Lock Key"
+  purpose: |
+       "
+        MSRC001_0118 [SVM Lock Key] (Core::X86::Msr::SvmLockKey)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010118
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010118
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: SvmLockKey
+              long_name: "SVM Lock Key"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True

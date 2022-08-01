@@ -1,0 +1,37 @@
+- name: IBS_CTL
+  long_name: "IBS Control"
+  purpose: |
+       "
+        MSRC001_103A [IBS Control] (Core::X86::Msr::IBS_CTL)
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC001103A
+
+      - name: wrmsr
+        is_write: False
+        address: 0xC001103A 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: LvtOffset
+              long_name: "LvtOffset"
+              lsb: 0
+              msb: 3
+              readable: True 
+              writable: False
+
+            - name: LvtOffsetVal
+              long_name: "local vector table offset valid"
+              lsb: 8
+              msb: 8
+              readable: True 
+              writable: False

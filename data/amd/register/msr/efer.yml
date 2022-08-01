@@ -1,187 +1,74 @@
-- name: efer
-  long_name: "extended-feature-enable register"
+- name: EFER
+  long_name: "Extended Feature Enable"
   purpose: |
-    "
-     The extended-feature-enable register (EFER) contains control bits that enable additional processor 
-     features not controlled by the legacy control registers. The EFER is a model-specific register (MSR) 
-     with an address of C000_0080h (see Section 3.2 “Model-Specific Registers (MSRs),” on page 58 for 
-     more information on MSRs). It can be read and written only by privileged software. Figure 3-8 on 
-     page 56 shows the format of the EFER register.
-    "
+       "
+        MSRC000_0080 [Extended Feature Enable] (Core::X86::Msr::EFER)
+       "
   size: 64
   arch: amd64
-  
-  access_mechanisms:
-      - name: mov_read
-        source_mnemonic: efer
 
-      - name: mov_write
-        destination_mnemonic: efer
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0000080
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0000080 
 
   fieldsets:
       - name: latest
-        condition: "Fieldset valid on latest version of the amd architecture"
+        condition: "Fieldset valid on latest version of the AMD architecture"
         size: 64
 
         fields:
-            - name: sce 
-              long_name: "System-Call Extension"
+            - name: SYSCALL
+              long_name: "system call extension enable"
               lsb: 0
               msb: 0
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 0, read/write. Setting this bit to 1 enables the SYSCALL and 
-                  SYSRET instructions. Application software can use these instructions for low-latency system calls 
-                  and returns in a non-segmented (flat) address space. See Section 6.1 “Fast System Call and Return,” 
-                  on page 158 for additional information.
-                  "
+              readable: True 
+              writable: True
 
-            - name: reserved
-              long_name: "Reserved"
-              lsb: 1
-              msb: 7
-              preserved: True
-
-            - name: lme 
-              long_name: "Long Mode Enable"
+            - name: LME
+              long_name: "long mode enable"
               lsb: 8
               msb: 8
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 8, read/write. Setting this bit to 1 enables the processor to activate 
-                  long mode. Long mode is not activated until software enables paging some time later. When paging is 
-                  enabled after LME is set to 1, the processor sets the EFER.LMA bit to 1, indicating that long mode is 
-                  not only enabled but also active. See Chapter 14, “Processor Initialization and Long Mode 
-                  Activation,” for more information on activating long mode.
-                  "
+              readable: True 
+              writable: True
 
-            - name: reserved
-              long_name: "Reserved"
-              lsb: 9
-              msb: 9
-              preserved: True
-
-            - name: lma 
-              long_name: "Long Mode Active"
+            - name: LMA
+              long_name: "long mode active"
               lsb: 10
               msb: 10
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 10, read/write. This bit indicates that long mode is active. The 
-                  processor sets LMA to 1 when both long mode and paging have been enabled by system software. See 
-                  Chapter 14, “Processor Initialization and Long Mode Activation,” for more information on activating 
-                  long mode. 
-                  
-                  When LMA=1, the processor is running either in compatibility mode or 64-bit mode, depending on the 
-                  value of the L bit in a code-segment descriptor, as shown in Figure 1-6 on page 12. 
-                  When LMA=0, the processor is running in legacy mode. In this mode, the processor behaves like a 
-                  standard 32-bit x86 processor, with none of the new 64-bit features enabled. When writing the EFER 
-                  register the value of this bit must be preserved. Software must read the EFER register to determine the 
-                  value of LMA, change any other bits as required and then write the EFER register. An attempt to write 
-                  a value that differs from the state determined by hardware results in a #GP fault.
-                  "
-            
-            - name: nxe 
-              long_name: "No-Execute Enable"
+              readable: True 
+              writable: False
+
+            - name: NXE
+              long_name: "no-execute page enable"
               lsb: 11
               msb: 11
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 11, read/write. Setting this bit to 1 enables the no-execute page- 
-                  protection feature. The feature is disabled when this bit is cleared to 0. See Section “No Execute (NX) 
-                  Bit,” on page 143 for more information. 
-                  Before setting NXE, system software should verify the processor supports the feature by examining 
-                  the feature flag CPUID Fn8000_0001_EDX[NX]. See Section 3.3 “Processor Feature Identification,” 
-                  on page 64 for information on using the CPUID instruction.
-                  "
+              readable: True 
+              writable: True
 
-            - name: svme
-              long_name: "Secure Virtual Machine Enable"
+            - name: SVME
+              long_name: "secure virtual machine (SVM) enable"
               lsb: 12
               msb: 12
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 12, read/write. Enables the SVM extensions. 
-                  When this bit is zero, the SVM instructions cause #UD exceptions. EFER.SVME defaults to a reset 
-                  value of zero. The effect of turning off EFER.SVME while a guest is running is undefined; therefore, 
-                  the VMM should always prevent guests from writing EFER. SVM extensions can be disabled by 
-                  setting VM_CR.SVME_DISABLE. For more information, see descriptions of LOCK and 
-                  SMVE_DISABLE bits in Section 15.30.1 “VM_CR MSR (C001_0114h),” on page 534
-                  "
+              readable: True 
+              writable: True
 
-            - name: lmsle
-              long_name: "Long Mode Segment Limit Enable"
+            - name: LMSLE
+              long_name: "long mode segment limit enable"
               lsb: 13
               msb: 13
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 13, read/write. Setting this bit to 1 enables 
-                  certain limit checks in 64-bit mode. See Section 4.12.2 “Data Limit Checks in 64-bit Mode,” on 
-                  page 116, for more information on these limit checks.
-                  "
+              readable: True 
+              writable: True
 
-            - name: ffxsr
-              long_name: "Fast FXSAVE/FXRSTOR"
+            - name: FFXSE
+              long_name: "fast FXSAVE/FRSTOR enable"
               lsb: 14
               msb: 14
-              readable: true
-              writable: true
-              description: |
-                  "
-                  Bit 14, read/write. Setting this bit to 1 enables the FXSAVE 
-                  and FXRSTOR instructions to execute faster in 64-bit mode at CPL 0. This is accomplished by not 
-                  saving or restoring the XMM registers (XMM0-XMM15). The FFXSR bit has no effect when the 
-                  FXSAVE/FXRSTOR instructions are executed in non 64-bit mode, or when CPL > 0. The FFXSR bit 
-                  does not affect the save/restore of the legacy x87 floating-point state, or the save/restore of MXCSR. 
-                  
-                  Before setting FFXSR, system software should verify whether this feature is supported by examining 
-                  the feature flag CPUID Fn8000_0001_EDX[FFXSR]. See Section 3.3 “Processor Feature 
-                  Identification,” on page 64 for information on using the CPUID instruction.
-                  "
+              readable: True 
+              writable: True
 
-            - name: TCE
-              long_name: "Translation Cache Extension"
-              lsb: 15
-              msb: 15
-              readable: true
-              writable: true
-              description: |
-                  " 
-                  Bit 15, read/write. Setting this bit to 1 changes how the 
-                  INVLPG, INVLPGB, and INVPCID instructions operate on TLB entries. When this bit is 0, these 
-                  instructions remove the target PTE from the TLB as well as all upper-level table entries that are cached 
-                  in the TLB, whether or not they are associated with the target PTE. When this bit is set, these 
-                  instructions will remove the target PTE and only those upper-level entries that lead to the target PTE in 
-                  the page table hierarchy, leaving unrelated upper-level entries intact. This may provide a performance 
-                  benefit. 
-                  
-                  Page table management software must be written in a way that takes this behavior into account. 
-                  Software that was written for a processor that does not cache upper-level table entries may result in  
-                  stale entries being incorrectly used for translations when TCE is enabled. Software that is compatible 
-                  with TCE mode will operate in either mode. 
-                  
-                  For software using INVLPGB to broadcast TLB invalidations, the invalidations are controlled by the 
-                  EFER.TCE value on the processor executing the INVLPGB instruction. 
-                  
-                  Before setting TCE, system software should verify that this feature is supported by examining the 
-                  feature flag CPUID Fn8000_0001_ECX[TCE]. See Section 3.3 “Processor Feature Identification,” on 
-                  page 64 for information on using the CPUID instruction.
-                  "
-
-            - name: reserved
-              long_name: "Reserved"
-              lsb: 16
-              msb: 63
-              preserved: True
+              

@@ -1,0 +1,30 @@
+- name: IBS_FETCH_LINADDR
+  long_name: "IBS Fetch Linear Address"
+  purpose: |
+       "
+        MSRC001_1031 [IBS Fetch Linear Address] (Core::X86::Msr::IBS_FETCH_LINADDR)
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011031
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011031 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IbsFetchLinAd
+              long_name: "instruction fetch physical address"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True
