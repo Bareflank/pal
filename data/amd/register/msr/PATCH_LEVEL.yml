@@ -1,0 +1,34 @@
+- name: PATCH_LEVEL
+  long_name: "Patch Level"
+  purpose: |
+       "
+        MSR0000_008B [Patch Level] (Core::X86::Msr::PATCH_LEVEL)
+
+        Read,Error-on-write,Volatile. Reset: 0000_0000h. This returns an identification number for the 
+        microcode patch that has been loaded. If no patch has been loaded, this returns 0.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x008B
+
+      - name: wrmsr
+        is_write: False
+        address: 0x008B
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: PatchLevel
+              long_name: "PatchLevel"
+              lsb: 0
+              msb: 31
+              readable: True 
+              writable: False
+

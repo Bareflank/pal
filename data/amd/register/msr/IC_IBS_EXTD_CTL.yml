@@ -1,0 +1,32 @@
+- name: IC_IBS_EXTD_CTL
+  long_name: "IBS Fetch Control Extended"
+  purpose: |
+       "
+        MSRC001_103C [IBS Fetch Control Extended] (Core::X86::Msr::IC_IBS_EXTD_CTL)
+
+        Support for this register indicated by Core::X86::Cpuid::IbsIdEax[IbsFetchCtlExtd].
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC001103C
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC001103C 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IbsItlbRefillLat
+              long_name: "ITLB Refill Latency for the sampled fetch, if there is a reload"
+              lsb: 0
+              msb: 15
+              readable: True 
+              writable: False

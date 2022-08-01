@@ -1,0 +1,30 @@
+- name: TOM2
+  long_name: "Top Of Memory 2"
+  purpose: |
+       "
+        MSRC001_001D [Top Of Memory 2] (Core::X86::Msr::TOM2)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC001001D
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC001001D 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TOM
+              long_name: "second top of memory"
+              lsb: 23
+              msb: 47
+              readable: True 
+              writable: True

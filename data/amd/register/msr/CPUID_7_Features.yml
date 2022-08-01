@@ -1,0 +1,97 @@
+- name: CPUID_7_Features
+  long_name: "CPUID Features for CPUID Fn00000007_E[A,B]X"
+  purpose: |
+       "
+        MSRC001_1002 [CPUID Features for CPUID Fn00000007_E[A,B]X] (Core::X86::Msr::CPUID_7_Features)
+
+        Core::X86::Msr::CPUID_7_Features[63:32] provides control over values read from 
+        Core::X86::Cpuid::StructExtFeatIdEax0; Core::X86::Msr::CPUID_7_Features[31:0] provides control over values read 
+        from Core::X86::Cpuid::StructExtFeatIdEbx0.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011002
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011002
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: FSGSBASE
+              long_name: "FSGSBASE"
+              lsb: 0
+              msb: 0
+              readable: True 
+              writable: True
+
+            - name: BMII
+              long_name: "BMII"
+              lsb: 2
+              msb: 2
+              readable: True 
+              writable: True
+
+            - name: AVX2
+              long_name: "AVX2"
+              lsb: 5
+              msb: 5
+              readable: True 
+              writable: True
+
+            - name: SMEP
+              long_name: "SMEP"
+              lsb: 7
+              msb: 7
+              readable: True 
+              writable: True
+
+            - name: BMI2
+              long_name: "BMI2"
+              lsb: 8
+              msb: 8
+              readable: True 
+              writable: True
+
+            - name: RDSEED
+              long_name: "RDSEED"
+              lsb: 18
+              msb: 18
+              readable: True 
+              writable: True
+
+            - name: ADX
+              long_name: "ADX"
+              lsb: 19
+              msb: 19
+              readable: True 
+              writable: True
+
+            - name: SMAP
+              long_name: "SMAP"
+              lsb: 20
+              msb: 20
+              readable: True 
+              writable: True
+
+            - name: CLFSHOPT
+              long_name: "BMI2CLFSHOPT"
+              lsb: 23
+              msb: 23
+              readable: True 
+              writable: True
+
+            - name: SHA
+              long_name: "SHA"
+              lsb: 29
+              msb: 29
+              readable: True 
+              writable: True

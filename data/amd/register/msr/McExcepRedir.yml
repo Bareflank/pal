@@ -1,0 +1,48 @@
+- name: McExcepRedir
+  long_name: "Machine Check Exception Redirection"
+  purpose: |
+       "
+        MSRC001_0022 [Machine Check Exception Redirection] (Core::X86::Msr::McExcepRedir)
+
+        This register can be used to redirect machine check exceptions (MCEs) to SMIs or vectored interrupts. If both
+        RedirSmiEn and RedirVecEn are set, then undefined behavior results.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010022
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010022 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: RedirVector
+              long_name: "RedirVector"
+              lsb: 0
+              msb: 7
+              readable: True 
+              writable: True
+
+            - name: RedirVecEn
+              long_name: "RedirVecEn"
+              lsb: 8
+              msb: 8
+              readable: True 
+              writable: True
+
+            - name: RedirSmiEn
+              long_name: "RedirSmiEn"
+              lsb: 9
+              msb: 9
+              readable: True 
+              writable: True
+              

@@ -1,0 +1,44 @@
+- name: CpuWdtCfg
+  long_name: "CPU Watchdog Timer"
+  purpose: |
+        "
+        MSRC001_0074 [CPU Watchdog Timer] (Core::X86::Msr::CpuWdtCfg)
+        "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0010074
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0010074
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: CpuWdtEn
+              long_name: "CPU watchdog timer enable"
+              lsb: 0
+              msb: 0
+              readable: True 
+              writable: True
+
+            - name: CpuDfsIdCpuWdtTimeBase
+              long_name: "CPU watchdog timer time base"
+              lsb: 1
+              msb: 2
+              readable: True 
+              writable: True
+
+            - name: CpuWdtCountSel
+              long_name: "CPU watchdog timer count select"
+              lsb: 3
+              msb: 6
+              readable: True 
+              writable: True

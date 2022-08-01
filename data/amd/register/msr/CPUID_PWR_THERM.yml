@@ -1,0 +1,32 @@
+- name: CPUID_PWR_THERM
+  long_name: "Thermal and Power Management CPUID Features"
+  purpose: |
+       "
+        MSRC001_1003 [Thermal and Power Management CPUID Features] (Core::X86::Msr::CPUID_PWR_THERM)
+        Core::X86::Msr::CPUID_PWR_THERM provides control over values read from 
+        Core::X86::Cpuid::ThermalPwrMgmtEcx.
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011003
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011003
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: EffFreq
+              long_name: "EffFreq"
+              lsb: 0
+              msb: 0
+              readable: True 
+              writable: True

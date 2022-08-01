@@ -1,0 +1,46 @@
+- name: APIC_BAR
+  long_name: "APIC Base Address"
+  purpose: |
+       "
+        MSR0000_001B [APIC Base Address] (Core::X86::Msr::APIC_BAR)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x001B
+
+      - name: wrmsr
+        is_write: True
+        address: 0x001B 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: BSC
+              long_name: "boot strap core"
+              lsb: 8
+              msb: 8
+              readable: True 
+              writable: True
+
+            - name: ApicEn
+              long_name: "APIC enable"
+              lsb: 11
+              msb: 11
+              readable: True 
+              writable: True
+
+            
+            - name: ApicBar
+              long_name: "APIC APIC base address register"
+              lsb: 12
+              msb: 47
+              readable: True 
+              writable: True
+

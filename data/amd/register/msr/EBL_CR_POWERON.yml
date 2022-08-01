@@ -1,0 +1,31 @@
+- name: EBL_CR_POWERON
+  long_name: "Cluster ID"
+  purpose: |
+       "
+        MSR0000_002A [Cluster ID] (Core::X86::Msr::EBL_CR_POWERON)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x002A
+
+      - name: wrmsr
+        is_write: True
+        address: 0x002A 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: ClusterID
+              long_name: "ClusterID"
+              lsb: 16
+              msb: 17
+              readable: True 
+              writable: False
+

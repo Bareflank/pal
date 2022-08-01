@@ -1,0 +1,37 @@
+- name: TSC
+  long_name: "Time Stamp Counter"
+  purpose: |
+       "
+       MSR0000_0010 [Time Stamp Counter] (Core::X86::Msr::TSC)
+       
+       The TSC uses a common reference for all sockets, cores and threads. 
+
+       TSC: time stamp counter. Read-write,Volatile. Reset: 0000_0000_0000_0000h. The TSC increments at the P0 
+       frequency. The TSC counts at the same rate in all P-states, all C states, S0, or S1. A read of this MSR in guest 
+       mode is affected by Core::X86::Msr::TscRateMsr. The value (TSC/TSCRatio) is the TSC P0 frequency based 
+       value (as if TSCRatio == 1.0) when (TSCRatio != 1.0)
+       "
+  size: 64
+  arch: amd64
+
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0x10
+
+      - name: wrmsr
+        is_write: True
+        address: 0x10
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: TSC
+              long_name: "time stamp counter"
+              lsb: 0
+              msb: 63
+              readable: True 
+              writable: True

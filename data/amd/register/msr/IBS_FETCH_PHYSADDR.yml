@@ -1,0 +1,30 @@
+- name: IBS_FETCH_PHYSADDR
+  long_name: "IBS Fetch Physical Address"
+  purpose: |
+       "
+        MSRC001_1032 [IBS Fetch Physical Address] (Core::X86::Msr::IBS_FETCH_PHYSADDR)
+       "
+  size: 64
+  arch: amd64
+  
+  access_mechanisms:
+      - name: rdmsr
+        is_read: True
+        address: 0xC0011032
+
+      - name: wrmsr
+        is_write: True
+        address: 0xC0011032 
+
+  fieldsets:
+      - name: latest
+        condition: "Fieldset valid on latest version of the AMD architecture"
+        size: 64
+
+        fields:
+            - name: IbsFetchPhysAd
+              long_name: "instruction fetch physical address"
+              lsb: 0
+              msb: 47
+              readable: True 
+              writable: True
