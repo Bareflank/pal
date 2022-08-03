@@ -15,22 +15,22 @@ typedef struct pal_cpuid_return_values {
 #ifndef __cplusplus
 static
 #endif
-inline pal_cpuid_return_values pal_execute_cpuid_inline(uint32_t eax, uint32_t ecx)
+inline pal_cpuid_return_values pal_execute_cpuid_inline(uint32_t leaf, uint32_t subleaf)
 {
     uint32_t eax_out;
     uint32_t ebx_out;
     uint32_t ecx_out;
     uint32_t edx_out;
     __asm__ __volatile__(
-        "mov {%[eax], %%eax | eax, %[eax]};"
-        "mov {%[ecx], %%ecx | ecx, %[ecx]};"
+        "mov {%[leaf], %%eax | eax, %[leaf]};"
+        "mov {%[subleaf], %%ecx | ecx, %[subleaf]};"
         "cpuid;"
         "mov {%%eax, %[a] | %[a], eax};"
         "mov {%%ebx, %[b] | %[b], ebx};"
         "mov {%%ecx, %[c] | %[c], ecx};"
         "mov {%%edx, %[d] | %[d], edx};"
         : [a] "=r"(eax_out), [b] "=r"(ebx_out), [c] "=r"(ecx_out), [d] "=r"(edx_out)
-        : [eax] "r"(eax), [ecx] "r"(ecx)
+        : [leaf] "r"(leaf), [subleaf] "r"(subleaf)
         : "eax", "ebx", "ecx", "edx"
     );
     return (pal_cpuid_return_values){.eax=eax_out, .ebx=ebx_out, .ecx=ecx_out, .edx=edx_out};
