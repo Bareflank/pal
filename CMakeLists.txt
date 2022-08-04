@@ -126,7 +126,7 @@ if(PAL_AMD_64BIT_LINUX_IOCTL)
             OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/amd_64bit_linux_ioctl
             LANGUAGE c
             EXECUTION_STATE amd_64bit
-            ACCESS_MECHANISM gnu_inline
+            ACCESS_MECHANISM libpal
         )
     endif()
 
@@ -136,7 +136,7 @@ if(PAL_AMD_64BIT_LINUX_IOCTL)
             OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/amd_64bit_linux_ioctl
             LANGUAGE c++11
             EXECUTION_STATE amd_64bit
-            ACCESS_MECHANISM gnu_inline
+            ACCESS_MECHANISM libpal
         )
     endif()
 

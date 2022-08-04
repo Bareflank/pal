@@ -204,7 +204,12 @@ class LibpalAccessMechanismWriter(AccessMechanismWriter):
     def __call_cpuid_access_mechanism(self, outfile, register,
                                       access_mechanism, result):
 
-        cpuid_args = [str(access_mechanism.leaf), '0']
+        if register.arch == "intel":
+            cpuid_args = [str(access_mechanism.leaf), '0']
+        elif register.arch == "amd64":
+            cpuid_args = [str(access_mechanism.function), '0']
+        else:
+            raise PalWriterException("CPUID access mechanism not supported for architecture {arch}".format(arch=register.arch))
 
         if register.is_indexed:
             cpuid_args[1] = 'index'
