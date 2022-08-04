@@ -62,6 +62,10 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL)
         x64/intel/vmcall_kvm.c
         x64/intel/vmcall_xen.c
     )
+elseif(PAL_AMD_64BIT_LINUX_IOCTL)
+    list(APPEND SOURCE_FILES
+        x64/amd/ioctl.c
+    )
 endif()
 
 string (REPLACE ";" " " SOURCE_FILES_STRING "${SOURCE_FILES}")
