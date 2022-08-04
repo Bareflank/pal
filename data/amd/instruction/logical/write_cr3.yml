@@ -1,0 +1,9 @@
+- name: write_cr3
+  long_name: "Write to Control Register 3"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: value
+              type: uint64
