@@ -6,6 +6,7 @@ if(PAL_C)
 endif()
 
 if(PAL_C++11)
+    set (CMAKE_CXX_STANDARD 11)
     enable_language(CXX)
 endif()
 
@@ -116,6 +117,34 @@ if(PAL_AMD_64BIT_SYSTEMV_GNUINLINE)
 
     add_subdirectory(libpal/amd_64bit_systemv_gnuinline)
     add_dependencies(c_amd_64bit_systemv_gnuinline pal_amd_64bit_systemv_gnuinline) 
+endif()
+
+if(PAL_AMD_64BIT_LINUX_IOCTL)
+    if(PAL_C)
+        pal_run_generator(
+            TARGET_NAME c_amd_64bit_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c/amd_64bit_linux_ioctl
+            LANGUAGE c
+            EXECUTION_STATE amd_64bit
+            ACCESS_MECHANISM gnu_inline
+        )
+    endif()
+
+    if(PAL_C++11)
+        pal_run_generator(
+            TARGET_NAME c++11_amd_64bit_linux_ioctl
+            OUTPUT_DIR ${CMAKE_BINARY_DIR}/c++11/amd_64bit_linux_ioctl
+            LANGUAGE c++11
+            EXECUTION_STATE amd_64bit
+            ACCESS_MECHANISM gnu_inline
+        )
+    endif()
+
+    add_subdirectory(libpal/amd_64bit_linux_ioctl)
+
+    if(PAL_DRIVER)
+        add_subdirectory(devpal/linux)
+    endif()
 endif()
 
 if(PAL_INTEL_64BIT_SYSTEMV_GNUINLINE)

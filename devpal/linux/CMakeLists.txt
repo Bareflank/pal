@@ -68,6 +68,12 @@ elseif(PAL_AMD_64BIT_LINUX_IOCTL)
     )
 endif()
 
+if(PAL_AMD_64BIT_LINUX_IOCTL)
+    list(APPEND SOURCE_FILES
+        x64/amd/ioctl.c
+    )
+endif()
+
 string (REPLACE ";" " " SOURCE_FILES_STRING "${SOURCE_FILES}")
 string (REPLACE ".c" ".o" OBJECT_FILES "${SOURCE_FILES_STRING}")
 

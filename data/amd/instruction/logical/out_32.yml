@@ -1,0 +1,12 @@
+- name: out_32
+  long_name: "Ouput 32 Bits to Port"
+
+  execution_contexts:
+      - execution_state: 64bit
+
+        logical_inputs:
+            - name: address
+              type: uint16
+
+            - name: value
+              type: uint32

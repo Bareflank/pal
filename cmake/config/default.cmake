@@ -66,6 +66,12 @@ option(
 )
 
 option(
+    PAL_AMD_64BIT_LINUX_IOCTL
+    "Enable pal for AMD (64-bit) from a Linux application to a Linux driver via an IOCTL"
+    OFF
+)
+
+option(
     PAL_INTEL_64BIT_SYSTEMV_GNUINLINE
     "Enable pal for Intel (64-bit) from the SystemV ABI to GNU inline Assemler"
     OFF
