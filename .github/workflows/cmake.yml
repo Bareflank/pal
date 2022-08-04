@@ -27,7 +27,20 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DPAL_TEST=ON -DPAL_EXAMPLE=ON -DPAL_C=ON -DPAL_C++11=ON -DPAL_DRIVER=ON -DPAL_INTEL_64BIT_LINUX_IOCTL=ON -DPAL_INTEL_64BIT_SYSTEMV_GNUINLINE=ON -DPAL_INTEL_64BIT_SYSTEMV_NASM=ON -DPAL_PCIE=ON -DPAL_ACPI=ON
+      run: >
+        cmake $GITHUB_WORKSPACE
+        -DPAL_TEST=ON
+        -DPAL_EXAMPLE=ON
+        -DPAL_C=ON
+        -DPAL_C++11=ON
+        -DPAL_DRIVER=ON
+        -DPAL_AMD_64BIT_LINUX_IOCTL=ON
+        -DPAL_AMD_64BIT_SYSTEMV_GNUINLINE=ON
+        -DPAL_INTEL_64BIT_LINUX_IOCTL=ON
+        -DPAL_INTEL_64BIT_SYSTEMV_GNUINLINE=ON
+        -DPAL_INTEL_64BIT_SYSTEMV_NASM=ON
+        -DPAL_PCIE=ON
+        -DPAL_ACPI=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build

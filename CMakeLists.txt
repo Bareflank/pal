@@ -88,10 +88,6 @@ if(PAL_ARMV8A_AARCH64_LINUX_IOCTL)
     endif()
 
     add_subdirectory(libpal/armv8a_aarch64_linux_ioctl)
-
-    if(PAL_DRIVER)
-        add_subdirectory(devpal/linux)
-    endif()
 endif()
 
 if(PAL_AMD_64BIT_SYSTEMV_GNUINLINE)
@@ -141,10 +137,6 @@ if(PAL_AMD_64BIT_LINUX_IOCTL)
     endif()
 
     add_subdirectory(libpal/amd_64bit_linux_ioctl)
-
-    if(PAL_DRIVER)
-        add_subdirectory(devpal/linux)
-    endif()
 endif()
 
 if(PAL_INTEL_64BIT_SYSTEMV_GNUINLINE)
@@ -242,10 +234,6 @@ if(PAL_INTEL_64BIT_LINUX_IOCTL)
     endif()
 
     add_subdirectory(libpal/intel_64bit_linux_ioctl)
-
-    if(PAL_DRIVER)
-        add_subdirectory(devpal/linux)
-    endif()
 endif()
 
 if(PAL_INTEL_64BIT_WINDOWS_IOCTL)
@@ -270,10 +258,6 @@ if(PAL_INTEL_64BIT_WINDOWS_IOCTL)
     endif()
 
     add_subdirectory(libpal/intel_64bit_windows_ioctl)
-
-    if(PAL_DRIVER)
-        add_subdirectory(devpal/windows)
-    endif()
 endif()
 
 set(CMAKE_INSTALL_MESSAGE NEVER)
@@ -288,6 +272,10 @@ endif()
 
 if(PAL_EXAMPLE)
     add_subdirectory(example)
+endif()
+
+if(PAL_DRIVER)
+    add_subdirectory(devpal)
 endif()
 
 if(NOT PAL_QUIET_CMAKE)
