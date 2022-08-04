@@ -39,6 +39,16 @@ class Cxx11RegisterAccessorWriter():
             self._declare_hex_integer_constant(outfile, "address", addr)
             self.write_newline(outfile)
 
+        if register.access_mechanisms.get("cpuid"):
+            if register.arch == "intel":
+                addr = register.access_mechanisms["cpuid"][0].leaf
+                self._declare_hex_integer_constant(outfile, "leaf", addr)
+                self.write_newline(outfile)
+            elif register.arch == "amd64":
+                addr = register.access_mechanisms["cpuid"][0].function
+                self._declare_hex_integer_constant(outfile, "function", addr)
+                self.write_newline(outfile)
+
         if register.access_mechanisms.get("ldr"):
             offset = register.access_mechanisms["ldr"][0].offset
             self._declare_hex_integer_constant(outfile, "offset", offset)
